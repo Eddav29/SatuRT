@@ -6,7 +6,7 @@
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
                     <a href="{{ route('home') }}">
-                        <div class="w-28 md:w-40 flex">
+                        <div class="w-28 md:w-38 flex">
                             <x-application-logo class="w-auto h-auto text-gray-800 " />
                         </div>
                     </a>
@@ -33,27 +33,27 @@
 </nav>
 
 <!-- Mobile Navigation -->
-<div class="fixed z-20 bottom-0 left-0 w-screen bg-white md:hidden select-none">
+<div class="fixed z-20 bottom-0 left-0 w-screen bg-white md:hidden select-none rounded-tl-2xl rounded-tr-2xl">
     <div class="grid grid-cols-3 gap-y-5">
 
         <div
-            class="py-4 flex justify-center  font-semibold leading-8 hover:bg-orange-400">
-            <x-nav-link :active="request()->routeIs('home')" :href="route('home')" icon="fa-solid fa-shop">
+            class="py-2 flex justify-center text-gray-900  font-semibold leading-8 hover:bg-orange-400">
+            <x-nav-link :active="request()->routeIs('home')" :href="route('home')" svgIcon="heroicon-o-home" iconStyle="h-8 w-8">
                 {{ __('Home') }}
             </x-nav-link>
         </div>
 
 
         <div
-            class="py-4 flex justify-center  font-semibold leading-8 hover:bg-orange-400">
-            <x-nav-link :active="request()->routeIs('berita')" :href="route('berita')" icon="fa-solid fa-shop">
+            class="py-2 flex justify-center text-gray-900  font-semibold leading-8 hover:bg-orange-400">
+            <x-nav-link :active="request()->routeIs('berita')" :href="route('berita')" svgIcon="heroicon-o-newspaper" iconStyle="h-8 w-8">
                 {{ __('Berita') }}
             </x-nav-link>
         </div>
 
         <div
-            class="py-4 flex justify-center  font-semibold leading-8 hover:bg-orange-400">
-            <x-nav-link :active="request()->routeIs('usaha')" :href="route('usaha')" icon="fa-solid fa-shop">
+            class="py-2 flex justify-center text-gray-900  font-semibold leading-8 hover:bg-orange-400">
+            <x-nav-link :active="request()->routeIs('usaha')" :href="route('usaha')" svgIcon="heroicon-o-shopping-bag" iconStyle="h-8 w-8">
                 {{ __('Usaha') }}
             </x-nav-link>
         </div>
