@@ -18,7 +18,7 @@
                 pengambilan
                 keputusan, memperkuat
                 partisipasi warga, dan menciptakan lingkungan yang lebih terorganisir dan berdaya.</p>
-            <a class="inline-block w-fit rounded bg-green-light text-navy-night px-8 py-3 text-sm font-medium transition hover:scale-105 hover:shadow-xl focus:outline-none focus:ring"
+            <a class="inline-block w-fit rounded-xl bg-green-light text-navy-night px-8 py-3 text-sm font-medium transition hover:scale-105 hover:shadow-xl focus:outline-none focus:ring"
                 href="#">
                 Mulai Jelajah
             </a>
