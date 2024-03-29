@@ -24,7 +24,7 @@
                 </x-nav-link>
             </div>
             <div class="flex items-center">
-                <x-nav-button theme="light" :href="route('home')">
+                <x-nav-button theme="light" :href="route('login')">
                     {{ __('Login') }}
                 </x-nav-button>
             </div>
