@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\ProfileController;
+use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Support\Facades\Route;
 
 /*
