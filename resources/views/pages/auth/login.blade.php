@@ -29,6 +29,7 @@
             <x-input-label for="username" :value="__('Username')" required="true" />
             <x-text-input id="username" class="block mt-1 w-full" type="text" name="username" placeholder="350*************" :value="old('username')" required autofocus autocomplete="username" />
             <x-input-error :messages="$errors->get('username')" class="mt-2" />
+
         </div>
 
         <div class="mt-4">
