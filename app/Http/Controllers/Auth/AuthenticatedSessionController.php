@@ -30,7 +30,11 @@ class AuthenticatedSessionController extends Controller
             'username.exists' => 'The username does not exist'
         ]);
         if ($validator->fails()) {
-            throw new \Illuminate\Validation\ValidationException($validator);
+            if ($request->is('api/*')) {
+                throw new \Illuminate\Validation\ValidationException($validator);
+            }
+
+            return back()->withErrors($validator)->withInput()->with('error', 'Username or password is incorrect');
         }
 
         $credentials = $request->only('username', 'password');

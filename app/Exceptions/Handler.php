@@ -43,7 +43,7 @@ class Handler extends ExceptionHandler
             } else if ($exception instanceof AuthenticationException) {
                 return response()->json(['code' => 401, 'message' => $exception->getMessage(), 'timestamp' => now()], 401);
             } else if ($exception instanceof ValidationException) {
-                return response()->json(['code' => 400, 'message' => $exception->getMessage(), 'timestamp' => now(), 'errors' => $exception->errors()], 400);
+                return response()->json(['code' => 400, 'message' => 'Bad Request', 'timestamp' => now(), 'errors' => $exception->errors()], 400);
             } else {
                 return response()->json(['code' => 500, 'message' => 'Internal Server Error', 'timestamp' => now()], 500);
             }

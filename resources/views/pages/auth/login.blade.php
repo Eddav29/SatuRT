@@ -1,14 +1,14 @@
 <x-auth-layout>
     @if (session('error'))
         <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-            <strong class="font-bold">Terjadi Kesalahan!</strong>
-            <span class="block sm:inline">{{ session('error') }}</span>
+            <h1 class="font-bold">Terjadi Kesalahan!</h1>
+            <p class="block sm:inline">{{ session('error') }}</p>
         </div>
 
     @elseif (session('success'))
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-            <strong class="font-bold">Berhasil!</strong>
-            <span class="block sm:inline">{{ session('success') }}</span>
+            <h1 class="font-bold">Berhasil!</h1>
+            <p class="block sm:inline">{{ session('success') }}</p>
         </div>
     @endif
     <form method="POST" action="{{ route('login') }}" >
@@ -28,6 +28,7 @@
         <div class="mt-8">
             <x-input-label for="username" :value="__('Username')" required="true" />
             <x-text-input id="username" class="block mt-1 w-full" type="text" name="username" placeholder="350*************" :value="old('username')" required autofocus autocomplete="username" />
+            <x-input-error :messages="$errors->get('username')" class="mt-2" />
 
         </div>
 
@@ -39,7 +40,6 @@
                             name="password"
                             placeholder="********"
                             required autocomplete="current-password" />
-
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
