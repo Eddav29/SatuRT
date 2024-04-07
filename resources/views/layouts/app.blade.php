@@ -22,7 +22,6 @@
 
         <!-- Page Content -->
         <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
-
             <!-- Page Heading -->
             @if (isset($breadcrumb))
                 <header class="p-6 lg:px-14 lg:py-8 sticky top-0 z-[999] flex w-full bg-soft-snow max-lg:drop-shadow">
@@ -64,7 +63,7 @@
                                     <x-nav-button>
                                         {{ __('Profil') }}
                                     </x-nav-button>
-                                    <x-nav-button :class="'text-red-500'">
+                                    <x-nav-button :class="'text-red-500'" :href="route('logout')">
                                         {{ __('Logout') }}
                                     </x-nav-button>
                                 </div>
