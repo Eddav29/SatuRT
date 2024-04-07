@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\KartuKeluarga;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,6 +17,16 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RoleSeeder::class,
             UserSeeder::class,
+            KartuKeluargaSeeder::class,
+            PendudukSeeder::class,
+            KeuanganSeeder::class,
+            DetailKeuanganSeeder::class,
+            StatusSeeder::class,
+            PengajuanSeeder::class,
+            PelaporanSeeder::class,
+            PersuratanSeeder::class,
+            UMKMSeeder::class,
+            InformasiSeeder::class,
         ]);
     }
 }
