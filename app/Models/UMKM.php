@@ -71,4 +71,15 @@ class UMKM extends Model
             'Nonaktif'
         ];
     }
+
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['jenis_umkm'] ?? false, function ($query, $jenis) {
+            $query->where('jenis_umkm', $jenis == 'Semua' ? '!=' : '=', $jenis);
+        });
+
+        $query->when($filters['status'] ?? false, function ($query, $status) {
+            $query->where('status', '==', $status);
+        });
+    }
 }

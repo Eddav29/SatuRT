@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\BusinessCOntroller;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Support\Facades\Route;
@@ -17,17 +20,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('pages.landing-page.home.index');
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('berita', function () {
-    return view('pages.landing-page.berita.index');
-})->name('berita');
+Route::get('berita', [NewsController::class, 'index'])->name('berita');
+Route::post('berita', [NewsController::class, 'index'])->name('berita');
+Route::get('berita/{id}', [NewsController::class, 'show'])->name('berita-detail');
 
-Route::get('usaha', function () {
-    return view('pages.landing-page.usaha.index');
-})->name('usaha');
+Route::get('usaha', [BusinessCOntroller::class, 'index'])->name('usaha');
+Route::get('usaha/{id}', [BusinessCOntroller::class, 'show'])->name('usaha-detail');
 
 
 Route::get('/dashboard', function () {
@@ -41,4 +41,4 @@ Route::middleware('auth')->group(function () {
 });
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
