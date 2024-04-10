@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\KartuKeluarga;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,7 +20,7 @@ class PendudukFactory extends Factory
     {
         return [
             'kartu_keluarga_id' => KartuKeluarga::pluck('kartu_keluarga_id')->random(),
-            'user_id' => \App\Models\User::pluck('user_id')->random(),
+            'user_id' => User::pluck('user_id')->random(),
             'nik' => $this->faker->unique()->numerify('################'),
             'nama' => $this->faker->name(),
             'jenis_kelamin' => $this->faker->randomElement(['L', 'P']),

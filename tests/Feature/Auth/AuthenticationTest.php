@@ -67,7 +67,26 @@ class AuthenticationTest extends TestCase
         ]);
     }
 
-    public function test_users_can_not_authenticate_with_invalid_password(): void
+    public function test_users_can_not_authenticate_with_invalid_password() : void
+    {
+        $role = Role::factory()->create([
+            'role_name' => 'admin'
+        ]);
+        $user = User::factory()->create([
+            'role_id' => $role->role_id
+        ]);
+
+        $response = $this->post('/login', [
+            'username' => $user->username,
+            'password' => 'wrong-password',
+        ]);
+
+        $response->assertStatus(302);
+        $this->assertGuest();
+
+    }
+
+    public function test_users_api_can_not_authenticate_with_invalid_password(): void
     {
         $role = Role::factory()->create([
             'role_name' => 'admin'
@@ -142,7 +161,7 @@ class AuthenticationTest extends TestCase
             'role_id' => $role->role_id
         ]);
 
-        $response = $this->actingAs($user)->post('/logout');
+        $response = $this->actingAs($user)->get('/logout');
 
         $this->assertGuest();
         $response->assertRedirect('/');
