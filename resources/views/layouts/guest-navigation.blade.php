@@ -55,7 +55,7 @@
 
 <!-- Mobile Navigation -->
 <div
-    class="fixed z-20 bottom-0 left-0 w-screen bg-soft-snow md:hidden select-none rounded-tl-2xl rounded-tr-2xl shadow-[2px_3px_18.8px_0px_rgba(11,18,21,0.3)]">
+    class="fixed z-[99999999] bottom-0 left-0 w-screen bg-soft-snow md:hidden select-none rounded-tl-2xl rounded-tr-2xl shadow-[2px_3px_18.8px_0px_rgba(11,18,21,0.3)]">
     <div class="grid grid-cols-3 gap-y-5">
 
         <div class="py-2 flex justify-center font-semibold leading-8 hover:text-azure-blue">

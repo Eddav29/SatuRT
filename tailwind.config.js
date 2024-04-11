@@ -15,6 +15,7 @@ export default {
                 poppins: ["Poppins", ...defaultTheme.fontFamily.sans],
             },
             colors: {
+                "white-snow": "#FFFAFA",
                 "soft-snow": "#F2F1F4",
                 "green-light": "#AFFF49",
                 "azure-blue": "#3384FF",

@@ -3,9 +3,12 @@
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\BusinessCOntroller;
+use App\Http\Controllers\BusinessController;
+use App\Http\Controllers\LeaderController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ResidentController;
+use App\Http\Controllers\ResidentReportController;
 use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Support\Facades\Route;
 
@@ -20,20 +23,23 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/* Guest */
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('berita', [NewsController::class, 'index'])->name('berita');
 Route::post('berita', [NewsController::class, 'index'])->name('berita');
 Route::get('berita/{id}', [NewsController::class, 'show'])->name('berita-detail');
 
-Route::get('usaha', [BusinessCOntroller::class, 'index'])->name('usaha');
-Route::get('usaha/{id}', [BusinessCOntroller::class, 'show'])->name('usaha-detail');
+Route::get('usaha', [BusinessController::class, 'index'])->name('usaha');
+Route::get('usaha/{id}', [BusinessController::class, 'show'])->name('usaha-detail');
 
+/* RT */
+Route::get('/dashboard', [LeaderController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::get('/dashboard', function () {
-    return view('pages.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+/* Warga */
+Route::get('/warga/dashboard', [ResidentController::class, 'index'])->middleware(['auth', 'verified'])->name('warga.dashboard');
 
+/* Guest and User */
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
