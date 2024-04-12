@@ -37,11 +37,14 @@ Route::get('usaha/{id}', [BusinessController::class, 'show'])->name('usaha-detai
 
 /* RT */
 Route::get('/dashboard', [LeaderController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/pelaporan', [LeaderController::class, 'pelaporan'])->middleware(['auth', 'verified'])->name('pelaporan');
 
 /* Warga */
 Route::get('/warga/dashboard', [ResidentController::class, 'index'])->middleware(['auth', 'verified'])->name('warga.dashboard');
 
 /* Guest and User */
+Route::get('/biodata', [ProfileController::class, 'index'])->name('biodata');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

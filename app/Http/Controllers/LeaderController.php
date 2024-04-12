@@ -68,9 +68,9 @@ class LeaderController extends Controller
     public function getMonthlyFinanceReport(): array
     {
         $results = DB::select("
-        SELECT jenis_keuangan, MONTH(created_at) as month, SUM(nominal) as nominal 
-        FROM detail_keuangan 
-        WHERE jenis_keuangan IN ('Pemasukan', 'Pengeluaran') AND YEAR(created_at) = YEAR(NOW()) 
+        SELECT jenis_keuangan, MONTH(created_at) as month, SUM(nominal) as nominal
+        FROM detail_keuangan
+        WHERE jenis_keuangan IN ('Pemasukan', 'Pengeluaran') AND YEAR(created_at) = YEAR(NOW())
         GROUP BY jenis_keuangan, MONTH(created_at)");
 
         $monthly = [];
@@ -95,6 +95,9 @@ class LeaderController extends Controller
         return $monthly;
     }
 
+    public function pelaporan(){
+        return view('pages.ketua-rt.pelaporan.index');
+    }
     public function getListOfResidentReports(): Collection
     {
         return Pelaporan::with(['pengajuan', 'pengajuan.penduduk'])->get();
