@@ -4,11 +4,13 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BusinessController;
+use App\Http\Controllers\FamilyCardController;
 use App\Http\Controllers\LeaderController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResidentController;
 use App\Http\Controllers\ResidentReportController;
+use App\Models\KartuKeluarga;
 use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Support\Facades\Route;
 
@@ -49,5 +51,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::resource('data-keluarga', FamilyCardController::class)->names([
+    'index' => 'family-card.index',
+    'create' => 'family-card.create',
+    'store' => 'family-card.store',
+    'show' => 'family-card.show',
+    'edit' => 'family-card.edit',
+    'update' => 'family-card.update',
+    'destroy' => 'family-card.destroy'
+])->middleware('auth');
 
 require __DIR__ . '/auth.php';

@@ -1,4 +1,4 @@
-@props(['active', 'svgIcon', 'iconStyle'])
+@props(['active', 'svgIcon', 'iconStyle' => 'w-6 h-6'])
 
 @php
     $classes =
@@ -14,7 +14,6 @@
 <a draggable="false"
     {{ $attributes->merge(['class' => 'inline-flex items-center px-1 pt-1 select-none text-md font-medium leading-5 max-md:hover:text-azure-blue hover:scale-105' . $classes]) }}>
     @if (isset($svgIcon))
-        {{-- <{{$svgIcon}}/> --}}
         {{ svg($svgIcon, $iconStyle) }}
     @endif
     {{ $slot }}

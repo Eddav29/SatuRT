@@ -39,12 +39,10 @@ class AuthenticatedSessionController extends Controller
 
         $credentials = $request->only('username', 'password');
 
-        if (!Auth::attempt($credentials)) {
-            throw new AuthenticationException('Invalid credentials');
-        }
-
-
         if ($request->is('api/*')) {
+            if (!Auth::attempt($credentials)) {
+                throw new AuthenticationException('Invalid credentials');
+            }
             $user = User::where('username', $request->username)->first();
 
             if (!$user) {
@@ -55,7 +53,9 @@ class AuthenticatedSessionController extends Controller
                 'message' => 'Login success',
                 'timestamp' => now(),
                 'data' => [
-                    'token' => $user->createToken('auth_token')->plainTextToken
+                    'token' => $user->createToken('auth_token', [
+                        'role: ' . $user->role,
+                    ])->plainTextToken
                 ]
             ], 200);
         }
@@ -65,6 +65,8 @@ class AuthenticatedSessionController extends Controller
 
             return redirect()->intended('dashboard')->with('success', 'Login success');
         }
+
+        return back()->with('error', 'Username or password is incorrect');
     }
 
     public function destroy(Request $request): JsonResponse | RedirectResponse
@@ -77,9 +79,10 @@ class AuthenticatedSessionController extends Controller
                 'timestamp' => now()
             ], 205);
         }
-        // web
         Auth::guard('web')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
 
-        return response()->redirectToRoute('home')->with('success', 'Logout success');
+        return response()->redirectTo('/')->with('success', 'Logout success');
     }
 }
