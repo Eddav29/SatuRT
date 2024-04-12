@@ -23,7 +23,7 @@ class PendudukFactory extends Factory
             'user_id' => User::pluck('user_id')->random(),
             'nik' => $this->faker->unique()->numerify('################'),
             'nama' => $this->faker->name(),
-            'jenis_kelamin' => $this->faker->randomElement(['L', 'P']),
+            'jenis_kelamin' => $this->faker->randomElement(['Laki-laki', 'Perempuan']),
             'pekerjaan' => $this->faker->jobTitle(),
             'golongan_darah' => $this->faker->randomElement(['A', 'B', 'AB', 'O']),
             'agama' => $this->faker->randomElement(['Islam', 'Kristen', 'Katolik', 'Hindu', 'Budha', 'Konghucu', 'Lainnya']),

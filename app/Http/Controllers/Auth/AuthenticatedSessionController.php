@@ -53,7 +53,9 @@ class AuthenticatedSessionController extends Controller
                 'message' => 'Login success',
                 'timestamp' => now(),
                 'data' => [
-                    'token' => $user->createToken('auth_token')->plainTextToken
+                    'token' => $user->createToken('auth_token', [
+                        'role: ' . $user->role,
+                    ])->plainTextToken
                 ]
             ], 200);
         }

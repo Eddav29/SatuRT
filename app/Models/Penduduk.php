@@ -100,4 +100,9 @@ class Penduduk extends Model
         return ['Domisili', 'Non Domisili'];
     }
 
+    public static function getListJenisKelamin()
+    {
+        return ['Laki-laki', 'Perempuan'];
+    }
+
 }
