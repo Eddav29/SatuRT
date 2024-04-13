@@ -4,6 +4,8 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BusinessController;
+use App\Http\Controllers\FileUploadController;
+use App\Http\Controllers\InformationController;
 use App\Http\Controllers\FamilyCardController;
 use App\Http\Controllers\LeaderController;
 use App\Http\Controllers\NewsController;
@@ -37,6 +39,17 @@ Route::get('usaha/{id}', [BusinessController::class, 'show'])->name('usaha-detai
 
 /* RT */
 Route::get('/dashboard', [LeaderController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::resource('informasi', InformationController::class)->middleware(['auth', 'verified'])->names([
+    'index' => 'informasi.index',
+    'show' => 'informasi.show',
+    'create' => 'informasi.create',
+    'store' => 'informasi.store',
+    'edit' => 'informasi.edit',
+    'update' => 'informasi.update',
+    'destroy' => 'informasi.destroy',
+]);
+Route::post('/file-upload', [InformationController::class, 'upload'])->name('file.upload');
+Route::get('/file-download/{filename}', [InformationController::class, 'download'])->name('file.download');
 Route::get('/pelaporan', [LeaderController::class, 'pelaporan'])->middleware(['auth', 'verified'])->name('pelaporan');
 
 /* Warga */

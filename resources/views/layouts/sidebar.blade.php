@@ -67,7 +67,10 @@
                     </x-nav-menu>
                 </div>
                 <div>
-                    <x-nav-menu svgIcon="heroicon-o-microphone" iconStyle="h-8 w-8">
+                    <x-nav-menu svgIcon="heroicon-o-microphone" :href="route('informasi.index')" :active="request()->routeIs('informasi.index') ||
+                        request()->routeIs('informasi.show') ||
+                        request()->routeIs('informasi.edit') ||
+                        request()->routeIs('informasi.create')" iconStyle="h-8 w-8">
                         Informasi
                     </x-nav-menu>
                 </div>

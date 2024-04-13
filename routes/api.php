@@ -8,6 +8,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\FamilyCardController;
 use App\Http\Controllers\FinanceReportController;
+use App\Http\Controllers\InformationController;
 use App\Http\Controllers\ResidentReportController;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -38,6 +39,7 @@ Route::prefix('v1')->group(function () {
     });
 
     Route::get('data-keluarga-list', [FamilyCardController::class, 'list'])->middleware('api');
+    Route::get('informasi-list', [InformationController::class, 'list'])->middleware('api');
 })->middleware('api');
 
 Route::get('/pengumuman/{id}', [AnnouncementController::class, 'getAnnouncement'])->middleware('api');
