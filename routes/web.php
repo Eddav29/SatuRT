@@ -29,6 +29,9 @@ Route::get('usaha', function () {
     return view('pages.landing-page.usaha.index');
 })->name('usaha');
 
+Route::get('keuangan', function () {
+    return view('pages.keuangan.index');
+})->name('keuangan');
 
 Route::get('/dashboard', function () {
     return view('pages.dashboard');

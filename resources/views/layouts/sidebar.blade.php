@@ -27,7 +27,7 @@
                     </x-nav-menu>
                 </div>
                 <div>
-                    <x-nav-menu svgIcon="heroicon-o-banknotes" iconStyle="h-8 w-8">
+                    <x-nav-menu :href="route('keuangan')" :active="request()->routeIs('keuangan')" svgIcon="heroicon-o-banknotes" iconStyle="h-8 w-8">
                         Keuangan
                     </x-nav-menu>
                 </div>
