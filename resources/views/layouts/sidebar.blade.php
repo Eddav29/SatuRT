@@ -52,7 +52,7 @@
                     </div>
                 </div>
                 <div>
-                    <x-nav-menu svgIcon="heroicon-o-building-storefront" iconStyle="h-8 w-8">
+                    <x-nav-menu :href="route('umkm.index')" :active="request()->routeIs('umkm.index') || request()->routeIs('umkm.create') || request()->routeIs('umkm.edit') || request()->routeIs('umkm.show')" svgIcon="heroicon-o-building-storefront" iconStyle="h-8 w-8">
                         UMKM
                     </x-nav-menu>
                 </div>

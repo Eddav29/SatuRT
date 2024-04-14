@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BusinessController;
+use App\Http\Controllers\BusinessUserController;
 use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\FamilyCardController;
@@ -60,6 +61,17 @@ Route::resource('pelaporan', ResidentReportController::class)->middleware(['auth
     'update' => 'pelaporan.update',
     'destroy' => 'pelaporan.destroy',
 ]);
+
+Route::resource('umkm', BusinessUserController::class)->middleware(['auth', 'verified'])->names([
+    'index' => 'umkm.index',
+    'show' => 'umkm.show',
+    'create' => 'umkm.create',
+    'store' => 'umkm.store',
+    'edit' => 'umkm.edit',
+    'update' => 'umkm.update',
+    'destroy' => 'umkm.destroy',
+]);
+
 
 /* Warga */
 Route::get('/warga/dashboard', [ResidentController::class, 'index'])->middleware(['auth', 'verified'])->name('warga.dashboard');

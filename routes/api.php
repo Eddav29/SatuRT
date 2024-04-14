@@ -6,6 +6,7 @@ use App\Http\Controllers\Auth\EmailRegistrationController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\BusinessUserController;
 use App\Http\Controllers\FamilyCardController;
 use App\Http\Controllers\FinanceReportController;
 use App\Http\Controllers\InformationController;
@@ -40,6 +41,7 @@ Route::prefix('v1')->group(function () {
 
     Route::get('data-keluarga-list', [FamilyCardController::class, 'list'])->middleware('api');
     Route::get('informasi-list', [InformationController::class, 'list'])->middleware('api');
+    Route::get('umkm-list', [BusinessUserController::class, 'list'])->middleware('api');
     Route::get('pelaporan-list', [ResidentReportController::class, 'list'])->middleware('api');
 })->middleware('api');
 
