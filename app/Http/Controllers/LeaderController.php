@@ -95,9 +95,6 @@ class LeaderController extends Controller
         return $monthly;
     }
 
-    public function pelaporan(){
-        return view('pages.ketua-rt.pelaporan.index');
-    }
     public function getListOfResidentReports(): Collection
     {
         return Pelaporan::with(['pengajuan', 'pengajuan.penduduk'])->get();

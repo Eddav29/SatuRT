@@ -75,7 +75,10 @@
                     </x-nav-menu>
                 </div>
                 <div>
-                    <x-nav-menu :href="route('pelaporan')" :active="request()->routeIs('pelaporan')" svgIcon="heroicon-o-megaphone" iconStyle="h-8 w-8">
+                    <x-nav-menu svgIcon="heroicon-o-megaphone" iconStyle="h-8 w-8" :href="route('pelaporan.index')" :active="request()->routeIs('pelaporan.index') ||
+                        request()->routeIs('pelaporan.show') ||
+                        request()->routeIs('pelaporan.edit') ||
+                        request()->routeIs('pelaporan.create')">
                         Laporan Warga
                     </x-nav-menu>
                 </div>

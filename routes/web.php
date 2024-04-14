@@ -50,7 +50,16 @@ Route::resource('informasi', InformationController::class)->middleware(['auth', 
 ]);
 Route::post('/file-upload', [InformationController::class, 'upload'])->name('file.upload');
 Route::get('/file-download/{filename}', [InformationController::class, 'download'])->name('file.download');
-Route::get('/pelaporan', [LeaderController::class, 'pelaporan'])->middleware(['auth', 'verified'])->name('pelaporan');
+
+Route::resource('pelaporan', ResidentReportController::class)->middleware(['auth', 'verified'])->names([
+    'index' => 'pelaporan.index',
+    'show' => 'pelaporan.show',
+    'create' => 'pelaporan.create',
+    'store' => 'pelaporan.store',
+    'edit' => 'pelaporan.edit',
+    'update' => 'pelaporan.update',
+    'destroy' => 'pelaporan.destroy',
+]);
 
 /* Warga */
 Route::get('/warga/dashboard', [ResidentController::class, 'index'])->middleware(['auth', 'verified'])->name('warga.dashboard');
