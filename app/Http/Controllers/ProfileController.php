@@ -23,6 +23,18 @@ class ProfileController extends Controller
         return response()->view('pages.profile.index');
     }
 
+    public function completeDataForm(): Response
+    {
+        // $users = User::find($id);
+        return response()->view('pages.profile.complete-data');
+    }
+
+    public function changePasswordForm(): Response
+    {
+        // $users = User::find($id);
+        return response()->view('pages.profile.change-password');
+    }
+
     // public function edit(string $id): Response
     // {
     //     $breadcrumb = [

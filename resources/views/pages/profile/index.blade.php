@@ -31,6 +31,111 @@
 
             {{-- Form --}}
             <section>
+
+                <div class="mx-3 my-4 flex flex-nowrap font-bold">
+                    <div class="w-1/2" >
+                        <div>NIK</div>
+                        <div class="font-normal my-2">24242424242242</div>
+                    </div>
+                    <div class="w-1/2" >
+                        <div>Nama</div>
+                        <div class="font-normal my-2">Eddo Dava</div>
+                    </div>
+                </div>
+
+                <div class="mx-3 my-6 flex flex-nowrap font-bold">
+                    <div class="w-1/2" >
+                        <div>Tempat Lahir</div>
+                        <div class="font-normal my-2">Malang</div>
+                    </div>
+                    <div class="w-1/2" >
+                        <div>Tanggal Lahir</div>
+                        <div class="font-normal my-2">19 Februari 2023</div>
+                    </div>
+                </div>
+
+                <div class="mx-3 my-6 flex flex-nowrap font-bold">
+                    <div class="w-1/2" >
+                        <div>Jenis Kelamin</div>
+                        <div class="font-normal my-2">Laki-Laki</div>
+                    </div>
+                    <div class="w-1/2" >
+                        <div>Pekerjaan</div>
+                        <div class="font-normal my-2">Wirausaha</div>
+                    </div>
+                </div>
+
+                <div class="mx-3 my-6 flex flex-nowrap font-bold">
+                    <div class="w-1/2" >
+                        <div>Status Hubungan Dalam Keluarga</div>
+                        <div class="font-normal my-2">Kepala Keluarga</div>
+                    </div>
+                    <div class="w-1/2" >
+                        <div>Status Perkawinan</div>
+                        <div class="font-normal my-2">Sudah Kawin</div>
+                    </div>
+                </div>
+
+                <div class="mx-3 my-6 flex flex-nowrap font-bold">
+                    <div class="w-1/2" >
+                        <div>Kota</div>
+                        <div class="font-normal my-2">Malang</div>
+                    </div>
+                    <div class="w-1/2" >
+                        <div>Kecamatan</div>
+                        <div class="font-normal my-2">Lowokwaru</div>
+                    </div>
+                </div>
+
+                <div class="mx-3 my-6 flex flex-nowrap font-bold">
+                    <div class="w-1/2" >
+                        <div>Desa/Kelurahan</div>
+                        <div class="font-normal my-2">Jatimulyo</div>
+                    </div>
+                    <div class="w-1/2 flex flex-nowrap" >
+                        <div class="w-1/2" >
+                            <div>RT</div>
+                            <div class="font-normal my-2">003</div>
+                        </div>
+                        <div class="w-1/2" >
+                            <div>RW</div>
+                            <div class="font-normal my-2">001</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mx-3 my-6 flex flex-nowrap font-bold">
+                    <div class="w-1/2" >
+                        <div>Pendidikan Terakhir</div>
+                        <div class="font-normal my-2">Sekolah Menengah Kejuruan</div>
+                    </div>
+                    <div class="w-1/2" >
+                        <div>Golongan Darah</div>
+                        <div class="font-normal my-2">C</div>
+                    </div>
+                </div>
+
+                <div class="mx-3 my-6 flex flex-nowrap font-bold">
+                    <div class="w-1/2" >
+                        <div>Agama</div>
+                        <div class="font-normal my-2">Islam</div>
+                    </div>
+                    <div class="w-1/2" >
+                        <div>Status Penduduk</div>
+                        <div class="font-normal my-2">Domisili</div>
+                    </div>
+                </div>
+
+                <div class="mx-3 my-6 font-bold">
+                    <div>Foto KTP</div>
+                    <img src="" alt="Foto KTP">
+                </div>
+            </section>
+
+            <section style="text-align: center">
+                <a href="{{ route('profile.complete-data') }}" class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded mt-4">
+                    Lengkapi Data
+                </a>
             </section>
             {{-- End Form --}}
         </div>

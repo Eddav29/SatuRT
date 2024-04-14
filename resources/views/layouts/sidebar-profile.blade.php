@@ -26,14 +26,14 @@
 
 
                 <div>
-                    <x-nav-menu svgIcon="heroicon-o-identification"
-                        iconStyle="h-8 w-8">
+                    <x-nav-menu svgIcon="heroicon-o-identification" iconStyle="h-8 w-8" :href="route('profile')" :active="request()->routeIs('profile') ||
+                        request()->routeIs('profile.complete-data')">
                         Biodata
                     </x-nav-menu>
                 </div>
 
                 <div>
-                    <x-nav-menu svgIcon="heroicon-o-key" iconStyle="h-8 w-8">
+                    <x-nav-menu svgIcon="heroicon-o-key" iconStyle="h-8 w-8" :href="route('profile.change-password')" :active="request()->routeIs('profile.change-password')">
                         Ubah Kata Sandi
                     </x-nav-menu>
                 </div>
