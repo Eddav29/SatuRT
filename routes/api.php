@@ -40,6 +40,7 @@ Route::prefix('v1')->group(function () {
 
     Route::get('data-keluarga-list', [FamilyCardController::class, 'list'])->middleware('api');
     Route::get('informasi-list', [InformationController::class, 'list'])->middleware('api');
+    Route::get('pelaporan-list', [ResidentReportController::class, 'list'])->middleware('api');
 })->middleware('api');
 
 Route::get('/pengumuman/{id}', [AnnouncementController::class, 'getAnnouncement'])->middleware('api');

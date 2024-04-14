@@ -5,7 +5,7 @@ namespace App\View\Components;
 use Illuminate\View\Component;
 use Illuminate\View\View;
 
-class AppLayout extends Component
+class ProfileLayout extends Component
 {
     /**
      * Get the view / contents that represents the component.

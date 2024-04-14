@@ -70,7 +70,7 @@
                             </div>
                             <div class="absolute right-14 p-2" :class="profile ? 'block' : 'hidden'">
                                 <div class="flex flex-col overflow-hidden rounded-lg ">
-                                    <x-nav-button :href="route('biodata')" :active="request()->routeIs('biodata')">
+                                    <x-nav-button :href="route('profile')">
                                         {{ __('Profil') }}
                                     </x-nav-button>
                                     <x-nav-button :class="'text-red-500'" :href="route('logout')">

@@ -1,79 +1,40 @@
 <aside
     class="absolute left-0 top-0 z-[9999] flex h-screen w-80 flex-col overflow-y-hidden bg-soft-snow duration-300 ease-linear lg:static lg:translate-x-0 border border-l px-8"
     :class="sidebar ? 'translate-x-0' : '-translate-x-full'" @click.outside="sidebar = false">
-    <div class="flex justify-center items-center gap-x-5 w-full py-10">
-        <div class="shrink-0">
-            <div>
-                <x-application-logo class="w-auto h-auto text-navy-night " />
-            </div>
-        </div>
-        <div class="w-10 h-10 lg:hidden">
-            <button class="w-10 h-10" @click.stop="sidebar = !sidebar">
-                @svg('heroicon-c-bars-3-center-left')
-            </button>
-        </div>
-    </div>
 
     {{-- Main Menu --}}
     <div class="overflow-y-auto pt-10 lg:pt-24 no-scrollbar">
-        <h1 class="text-navy-night/35 ">MAIN MENU</h1>
+        <h1 class="text-navy-night/35 ">Profile</h1>
+
 
         <div x-data="{ selected: '' }" class="py-5">
             <nav>
-                <div>
-                    <x-nav-menu :href="route('dashboard')" :active="request()->routeIs('dashboard')" svgIcon="heroicon-o-squares-2x2"
-                        iconStyle="h-8 w-8">
-                        Dashboard
-                    </x-nav-menu>
-                </div>
-                <div>
-                    <x-nav-menu svgIcon="heroicon-o-banknotes" iconStyle="h-8 w-8">
-                        Keuangan
-                    </x-nav-menu>
-                </div>
-                <div @click.prevent="selected = selected === 'Penduduk' ? '' : 'Penduduk'">
-                    <x-nav-menu svgIcon="heroicon-o-user-group" iconStyle="h-8 w-8">
-                        Data Penduduk
-                        <div class="w-5 h-5 ml-10" :class="selected === 'Penduduk' ? 'rotate-180' : ''">
-                            <x-heroicon-o-chevron-down />
+
+                <div x-data="{ profile: false }" class="cursor-pointer flex items-center my-3">
+                    <div @click.stop="profile = !profile" class="h-14 w-14 rounded-full overflow-hidden">
+                        <img class="h-full w-full object-cover" src="{{ asset('assets/images/milad-fakurian-PGdW_bHDbpI-unsplash.jpg') }}" alt="">
+                    </div>
+                    <div class="ml-4 flex flex-col justify-between h-full">
+                        <div class="flex-grow">
+                            <div class="text-sm">Hallo</div>
                         </div>
-                    </x-nav-menu>
-                </div>
-                <div :class="selected === 'Penduduk' ? 'block' : 'hidden'">
-                    <div class="pl-11 py-1">
-                        <x-nav-menu>
-                            Data Penduduk
-                        </x-nav-menu>
-                    </div>
-                    <div class="pl-11 py-1">
-                        <x-nav-menu>
-                            Data Akun
-                        </x-nav-menu>
+                        <div>
+                            <div class="text-sm font-bold">{{ Auth::user()->name ?? '' }}</div>
+                        </div>
                     </div>
                 </div>
+
+
                 <div>
-                    <x-nav-menu svgIcon="heroicon-o-building-storefront" iconStyle="h-8 w-8">
-                        UMKM
+                    <x-nav-menu svgIcon="heroicon-o-identification"
+                        iconStyle="h-8 w-8">
+                        Biodata
                     </x-nav-menu>
                 </div>
+
                 <div>
-                    <x-nav-menu svgIcon="heroicon-o-document-text" iconStyle="h-8 w-8">
-                        Permohonan Surat
-                    </x-nav-menu>
-                </div>
-                <div>
-                    <x-nav-menu svgIcon="heroicon-o-scale" iconStyle="h-8 w-8">
-                        Pendukung Keputusan
-                    </x-nav-menu>
-                </div>
-                <div>
-                    <x-nav-menu svgIcon="heroicon-o-microphone" iconStyle="h-8 w-8">
-                        Informasi
-                    </x-nav-menu>
-                </div>
-                <div>
-                    <x-nav-menu svgIcon="heroicon-o-megaphone" iconStyle="h-8 w-8">
-                        Laporan Warga
+                    <x-nav-menu svgIcon="heroicon-o-key" iconStyle="h-8 w-8">
+                        Ubah Kata Sandi
                     </x-nav-menu>
                 </div>
 

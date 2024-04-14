@@ -65,7 +65,13 @@ Route::resource('pelaporan', ResidentReportController::class)->middleware(['auth
 Route::get('/warga/dashboard', [ResidentController::class, 'index'])->middleware(['auth', 'verified'])->name('warga.dashboard');
 
 /* Guest and User */
-Route::get('/biodata', [ProfileController::class, 'index'])->name('biodata');
+Route::prefix('profile')->middleware(['auth', 'verified'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+    Route::get('/change-password', [ProfileController::class, 'changePasswordForm'])->name('profile.change-password');
+    Route::post('/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password.post');
+    Route::get('/complete-data', [ProfileController::class, 'completeDataForm'])->name('profile.complete-data');
+    Route::post('/complete-data', [ProfileController::class, 'completeData'])->name('profile.complete-data.post');
+});
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
