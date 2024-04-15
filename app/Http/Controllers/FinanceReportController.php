@@ -9,6 +9,9 @@ use Illuminate\Http\Request;
 
 class FinanceReportController extends Controller
 {
+    public function index(){
+        return view('pages.keuangan.index');
+    }
     public function financeReport(string $id): FinanceReportResource
     {
         $financeReport = DetailKeuangan::with(['keuangan'])->find($id);

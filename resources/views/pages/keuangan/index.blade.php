@@ -78,6 +78,6 @@
           </form>
         </div>
       </div>
-    </div>
+    </div>w
     {{-- Content End --}}
 </x-app-layout>

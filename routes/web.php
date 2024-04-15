@@ -10,9 +10,11 @@ use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResidentController;
 use App\Http\Controllers\ResidentReportController;
+use App\Http\Controllers\FinanceReportController;
 use App\Models\KartuKeluarga;
 use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -38,6 +40,7 @@ Route::get('usaha/{id}', [BusinessController::class, 'show'])->name('usaha-detai
 /* RT */
 Route::get('/dashboard', [LeaderController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
 Route::get('/pelaporan', [LeaderController::class, 'pelaporan'])->middleware(['auth', 'verified'])->name('pelaporan');
+Route::get('/keuangan', [FinanceReportController::class, 'index'])->name('keuangan');
 
 /* Warga */
 Route::get('/warga/dashboard', [ResidentController::class, 'index'])->middleware(['auth', 'verified'])->name('warga.dashboard');
