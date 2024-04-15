@@ -2,7 +2,15 @@
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\BusinessController;
+use App\Http\Controllers\FamilyCardController;
+use App\Http\Controllers\LeaderController;
+use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ResidentController;
+use App\Http\Controllers\ResidentReportController;
+use App\Models\KartuKeluarga;
 use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Support\Facades\Route;
 
@@ -17,25 +25,25 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('pages.landing-page.home.index');
-})->name('home');
+/* Guest */
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::get('berita', function () {
-    return view('pages.landing-page.berita.index');
-})->name('berita');
+Route::get('berita', [NewsController::class, 'index'])->name('berita');
+Route::post('berita', [NewsController::class, 'index'])->name('berita');
+Route::get('berita/{id}', [NewsController::class, 'show'])->name('berita-detail');
 
-Route::get('usaha', function () {
-    return view('pages.landing-page.usaha.index');
-})->name('usaha');
+Route::get('usaha', [BusinessController::class, 'index'])->name('usaha');
+Route::get('usaha/{id}', [BusinessController::class, 'show'])->name('usaha-detail');
 
-Route::get('keuangan', function () {
-    return view('pages.keuangan.index');
-})->name('keuangan');
+/* RT */
+Route::get('/dashboard', [LeaderController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/pelaporan', [LeaderController::class, 'pelaporan'])->middleware(['auth', 'verified'])->name('pelaporan');
 
-Route::get('/dashboard', function () {
-    return view('pages.dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+/* Warga */
+Route::get('/warga/dashboard', [ResidentController::class, 'index'])->middleware(['auth', 'verified'])->name('warga.dashboard');
+
+/* Guest and User */
+Route::get('/biodata', [ProfileController::class, 'index'])->name('biodata');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -43,5 +51,14 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::resource('data-keluarga', FamilyCardController::class)->names([
+    'index' => 'family-card.index',
+    'create' => 'family-card.create',
+    'store' => 'family-card.store',
+    'show' => 'family-card.show',
+    'edit' => 'family-card.edit',
+    'update' => 'family-card.update',
+    'destroy' => 'family-card.destroy'
+])->middleware('auth');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

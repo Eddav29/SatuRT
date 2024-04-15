@@ -41,7 +41,7 @@
                 </div>
                 <div :class="selected === 'Penduduk' ? 'block' : 'hidden'">
                     <div class="pl-11 py-1">
-                        <x-nav-menu>
+                        <x-nav-menu :href="url('data-keluarga')" :active="request()->routeIs('data-keluarga')">
                             Data Penduduk
                         </x-nav-menu>
                     </div>
@@ -72,7 +72,7 @@
                     </x-nav-menu>
                 </div>
                 <div>
-                    <x-nav-menu svgIcon="heroicon-o-megaphone" iconStyle="h-8 w-8">
+                    <x-nav-menu :href="route('pelaporan')" :active="request()->routeIs('pelaporan')" svgIcon="heroicon-o-megaphone" iconStyle="h-8 w-8">
                         Laporan Warga
                     </x-nav-menu>
                 </div>

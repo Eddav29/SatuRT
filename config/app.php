@@ -70,7 +70,7 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
+    'timezone' => 'Asia/Jakarta',
 
     /*
     |--------------------------------------------------------------------------
@@ -163,6 +163,10 @@ return [
         /*
          * Application Service Providers...
          */
+        App\Providers\BusinessServiceProvider::class,
+        App\Providers\NewsServiceProvider::class,
+        App\Providers\CRUDServiceProvider::class,
+        App\Providers\HomeServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,

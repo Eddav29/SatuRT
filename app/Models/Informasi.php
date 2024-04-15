@@ -59,4 +59,15 @@ class Informasi extends Model
         ];
     }
 
+    public function scopeFilter($query, array $filters)
+    {
+        $query->when($filters['search'] ?? false, function ($query, $search) {
+            $query->where('judul_informasi', 'like', '%' . $search . '%');
+        });
+
+        $query->when($filters['jfsi'] ?? false, function ($query, $jfsi) {
+            $query->where('jenis_informasi', '!=', 'Pengumuman')
+                ->where('jenis_informasi', $jfsi == 'Semua' ? '!=' : '=', $jfsi);
+        });
+    }
 }
