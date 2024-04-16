@@ -69,6 +69,7 @@
                         'style' => [
                             'text-align' => 'left',
                         ],
+
                     ],
                     [
                         'label' => 'Tanggal',
@@ -79,8 +80,8 @@
                     ],
                 ]" :aksi="[
                     'detail' => true,
-                    'edit' => true,
-                    'hapus' => true,
+                    'edit' => false,
+                    'hapus' => false,
                 ]">
                 </x-datatables>
             </section>
