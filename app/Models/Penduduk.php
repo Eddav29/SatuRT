@@ -12,7 +12,7 @@ class Penduduk extends Model
     use HasFactory, SoftDeletes;
 
     protected $table = 'penduduk';
-    protected $primaryKey = 'pendudu_id';
+    protected $primaryKey = 'penduduk_id';
     protected $keyType = 'string';
     public $incrementing = false;
 

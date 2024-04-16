@@ -22,7 +22,7 @@
         <section>
             <a href="{{ route('berita-detail', $newInformation->informasi_id) }}" class="group">
                 <div class="relative h-72 lg:h-[85vh]">
-                    <img src="https://source.unsplash.com/random/?market" alt=""
+                    <img src="{{ 'storage/information_images/' . $newInformation->thumbnail_url ?? '' }}" alt=""
                         class="rounded-xl w-full h-full object-cover">
                     <div
                         class="absolute bottom-14 left-3 lg:bottom-20 z-10 rounded-full text-[1rem]/[1.618rem] text-soft-snow px-6 py-3 bg-navy-night/50 backdrop-blur-3xl flex gap-3">
@@ -82,8 +82,8 @@
                             <a href="{{ route('berita-detail', $information->informasi_id) }}"
                                 class="lg:row-span-2 lg:col-span-2">
                                 <div class="relative h-72 lg:h-[46rem]">
-                                    <img src="https://source.unsplash.com/random/?market" alt=""
-                                        class="rounded-xl w-full h-full object-cover">
+                                    <img src="{{ 'storage/information_images/' . $information->thumbnail_url ?? '' }}"
+                                        alt="" class="rounded-xl w-full h-full object-cover">
                                     <div
                                         class="absolute bottom-3 left-3 z-10 rounded-full text-[1rem]/[1.618rem] text-soft-snow px-6 py-3 bg-navy-night/50 backdrop-blur-3xl flex gap-3">
                                         <x-heroicon-o-calendar-days class="w-6 h-6" />
@@ -112,8 +112,8 @@
                         @else
                             <a href="{{ route('berita-detail', $information->informasi_id) }}" class="lg:h-full">
                                 <div class="relative h-72 lg:h-52">
-                                    <img src="https://source.unsplash.com/random/?market" alt=""
-                                        class="rounded-xl w-full h-full object-cover">
+                                    <img src="{{ 'storage/information_images/' . $information->thumbnail_url ?? '' }}"
+                                        alt="" class="rounded-xl w-full h-full object-cover">
                                     <div
                                         class="absolute bottom-3 left-3 z-10 rounded-full text-[1rem]/[1.618rem] text-soft-snow px-6 py-3 bg-navy-night/50 backdrop-blur-3xl flex gap-3">
                                         <x-heroicon-o-calendar-days class="w-6 h-6" />

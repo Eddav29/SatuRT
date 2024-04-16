@@ -25,7 +25,7 @@
         @endforeach
 
         <li>
-            <a href="{{ route($lastUrl) }}" class="block transition hover:text-gray-700"> {{ $lastList }} </a>
+            <a class="block transition hover:text-gray-700"> {{ $lastList }} </a>
         </li>
     </ol>
 </nav>
