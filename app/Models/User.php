@@ -70,6 +70,6 @@ class User extends Authenticatable
 
     public function penduduk()
     {
-        return $this->hasMany(Penduduk::class, 'user_id', 'user_id');
+        return $this->hasOne(Penduduk::class, 'user_id', 'user_id');
     }
 }

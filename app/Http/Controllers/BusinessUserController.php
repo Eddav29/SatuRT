@@ -23,7 +23,7 @@ class BusinessUserController extends Controller
             'breadcrumb' => $breadcrumb
         ]);
     }
-    
+
     public function list(): JsonResponse
     {
         try {
@@ -49,8 +49,8 @@ class BusinessUserController extends Controller
     }
 
     public function create(){
-        $penduduk = Penduduk::all(); 
-    
+        $penduduk = Penduduk::all();
+
         $breadcrumb = [
             'list' => ['Home', 'UMKM', 'Tambah UMKM'],
             'url' => ['home', 'umkm.index','umkm.create'],
@@ -93,7 +93,7 @@ class BusinessUserController extends Controller
 
         return redirect('umkm.index')->with('success', 'Data UMKM berhasil ditambah');
 
-        
+
     }
 
     public function show(string $id){
@@ -102,7 +102,7 @@ class BusinessUserController extends Controller
 
         $breadcrumb = [
             'list' => ['Home', 'UMKM', 'Detail UMKM'],
-            'url' => ['home', 'umkm.index','umkm.show'],
+            'url' => ['home', 'umkm.index',['umkm.show', $id]],
         ];
         return response()->view('pages.umkm.show', [
             'breadcrumb' => $breadcrumb, 'penduduk'=>$penduduk, 'umkm'=>$umkm
@@ -139,8 +139,8 @@ class BusinessUserController extends Controller
         }
 
         try{
-            UMKM::destroy($id); 
-            
+            UMKM::destroy($id);
+
             return redirect()->route('umkm.index')->with('success', 'Data UMKM berhasil dihapus');
         }catch(\Illuminate\Database\QueryException $e){
             return redirect()->route('umkm.index')->with('errror', 'Data UMKM gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');

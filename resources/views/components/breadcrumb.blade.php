@@ -10,7 +10,13 @@
 
         @foreach ($list as $key => $value)
             <li>
-                <a href="{{ route($url[$key]) }}" class="block transition hover:text-gray-700">
+                <a href="
+                @if (is_array($url[$key]))
+                    {{ route($url[$key][0], $url[$key][1]) }}
+                @else
+                    {{ route($url[$key]) }}
+                @endif
+                " class="block transition hover:text-gray-700">
                     <span> {{ $value }} </span>
                 </a>
             </li>
@@ -25,7 +31,13 @@
         @endforeach
 
         <li>
-            <a class="block transition hover:text-gray-700"> {{ $lastList }} </a>
+            <a href="
+            @if (is_array($lastUrl))
+                {{ route($lastUrl[0], $lastUrl[1]) }}
+            @else
+                {{ route($lastUrl) }}
+            @endif
+            " class="block transition hover:text-gray-700"> {{ $lastList }} </a>
         </li>
     </ol>
 </nav>

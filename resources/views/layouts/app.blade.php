@@ -28,6 +28,7 @@
 
 <body class="font-poppins antialiased bg-soft-snow">
     <div x-data="{ sidebar: false }" class="h-screen flex overflow-hidden">
+        <x-notification />
         @include('layouts.sidebar')
 
         <!-- Page Content -->
@@ -47,7 +48,7 @@
                             </div>
                             <div class="absolute right-11 p-2" :class="profile ? 'block' : 'hidden'">
                                 <div class="flex flex-col overflow-hidden rounded-lg ">
-                                    <x-nav-button>
+                                    <x-nav-button :href="route('profile')">
                                         {{ __('Profil') }}
                                     </x-nav-button>
                                     <x-nav-button :class="'text-red-500'">
@@ -106,6 +107,11 @@
     {{-- End Loading --}}
 
     @stack('scripts')
+    <script>
+        @if(session()->has('message'))
+            pushNotification('{{ session('message')['type'] }}', '{{ session('message')['message'] }}')
+        @endif
+    </script>
 </body>
 
 </html>

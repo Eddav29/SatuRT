@@ -38,6 +38,11 @@
                     </x-nav-menu>
                 </div>
 
+                <div>
+                    <x-nav-menu svgIcon="heroicon-o-arrow-uturn-left" iconStyle="h-8 w-8" href="#" onclick="history.back()">
+                        Kembali
+                    </x-nav-menu>
+                </div>
             </nav>
         </div>
     </div>
