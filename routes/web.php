@@ -61,11 +61,7 @@ Route::get('/file-download/{filename}', [InformationController::class, 'download
 Route::resource('pelaporan', ResidentReportController::class)->middleware(['auth', 'verified'])->names([
     'index' => 'pelaporan.index',
     'show' => 'pelaporan.show',
-    'create' => 'pelaporan.create',
-    'store' => 'pelaporan.store',
-    'edit' => 'pelaporan.edit',
     'update' => 'pelaporan.update',
-    'destroy' => 'pelaporan.destroy',
 ]);
 
 Route::resource('umkm', BusinessUserController::class)->middleware(['auth', 'verified'])->names([
@@ -77,6 +73,7 @@ Route::resource('umkm', BusinessUserController::class)->middleware(['auth', 'ver
     'update' => 'umkm.update',
     'destroy' => 'umkm.destroy',
 ]);
+
 Route::resource('keuangan', FinanceReportController::class)->middleware(['auth', 'verified'])->names([
     'index' => 'keuangan.index',
     'show' => 'keuangan.show',
