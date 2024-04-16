@@ -45,11 +45,42 @@
 
             {{-- Table --}}
             <section>
-                <x-datatables url="pelaporan" :primaryKey="'pelaporan_id'" :columns="[
-                    ['label' => 'Pelapor', 'key' => 'pengajuan.penduduk.nama'],
-                    ['label' => 'Status', 'key' => 'pengajuan.status.nama'],
-                    ['label' => 'Jenis Laporan', 'key' => 'jenis_laporan'],
-                    ['label' => 'Tanggal', 'key' => 'pengajuan.accepted_at'],
+                <x-datatables
+                id="pelaporan"
+                url="/pelaporan"
+                :columns="[
+                    [
+                        'label' => 'Pelapor',
+                        'key' => 'pelapor',
+                        'style' => [
+                            'text-align' => 'left',
+                        ],
+                    ],
+                    [
+                        'label' => 'Status',
+                        'key' => 'status',
+                        'style' => [
+                            'text-align' => 'center',
+                        ],
+                    ],
+                    [
+                        'label' => 'Jenis Laporan',
+                        'key' => 'jenis_pelaporan',
+                        'style' => [
+                            'text-align' => 'left',
+                        ],
+                    ],
+                    [
+                        'label' => 'Tanggal',
+                        'key' => 'tanggal',
+                        'style' => [
+                            'text-align' => 'center',
+                        ],
+                    ],
+                ]" :aksi="[
+                    'detail' => true,
+                    'edit' => true,
+                    'hapus' => true,
                 ]">
                 </x-datatables>
             </section>

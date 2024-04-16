@@ -20,7 +20,7 @@ class PendudukFactory extends Factory
     {
         return [
             'kartu_keluarga_id' => KartuKeluarga::pluck('kartu_keluarga_id')->random(),
-            'user_id' => User::pluck('user_id')->random(),
+            'user_id' => null,
             'nik' => $this->faker->unique()->numerify('################'),
             'nama' => $this->faker->name(),
             'jenis_kelamin' => $this->faker->randomElement(['Laki-laki', 'Perempuan']),

@@ -44,12 +44,12 @@
                 </div>
                 <div :class="selected === 'Penduduk' ? 'block' : 'hidden'">
                     <div class="pl-11 py-1">
-                        <x-nav-menu :href="url('data-keluarga')" :active="request()->routeIs('data-keluarga')">
+                        <x-nav-menu :href="url('data-penduduk/keluarga')" :active="request()->is('data-penduduk/*')">
                             Data Penduduk
                         </x-nav-menu>
                     </div>
                     <div class="pl-11 py-1">
-                        <x-nav-menu>
+                        <x-nav-menu :href="url('data-akun/penduduk')" :active="request()->is('data-akun/*')">
                             Data Akun
                         </x-nav-menu>
                     </div>
