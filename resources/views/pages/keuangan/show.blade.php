@@ -16,7 +16,7 @@
             {{-- Forms Keuangan --}}
             <section>
 
-                <div class="mx-3 my-4 flex flex-nowrap font-bold">
+                <div class="mx-3 my-4 flex  max-lg:flex-col flex-nowrap font-bold">
                     <div class="w-1/2" >
                         <div>Judul Catatan</div>
                         <div class="font-normal my-2">{{$detailKeuangan->judul}}</div>
@@ -27,7 +27,7 @@
                     </div>
                 </div>
 
-                <div class="mx-3 my-6 flex flex-nowrap font-bold">
+                <div class="mx-3 my-6 flex  max-lg:flex-col flex-nowrap font-bold">
                     <div class="w-1/2" >
                         <div>Jenis Catatan</div>
                         <div class="font-normal my-2">{{$detailKeuangan->jenis_keuangan}}</div>
@@ -38,7 +38,7 @@
                     </div>
                 </div>
 
-                <div class="mx-3 my-6 flex flex-nowrap font-bold">
+                <div class="mx-3 my-6 flex max-lg:flex-col flex-nowrap font-bold">
                     <div class="w-1/2" >
                         <div>Saldo Sebelum</div>
                         <div class="font-normal my-2">{{$detailKeuangan->keuangan->total_keuangan}}</div>
@@ -49,7 +49,7 @@
                     </div>
                 </div>
 
-                <div class="mx-3 my-6 flex flex-nowrap font-bold">
+                <div class="mx-3 my-6 flex max-lg:flex-col flex-nowrap font-bold">
                     <div class="w-1/2" >
                         <div>Dibuat Pada</div>
                         <div class="font-normal my-2">{{$detailKeuangan->created_at}}</div>
@@ -60,10 +60,10 @@
                     </div>
                 </div>
 
-                <div class="mx-3 my-6 font-normal my-2">
+                <div class="mx-3 my-6 font-bold my-2">
                     <div>
                         <div>Keterangan</div>
-                        <textarea class="w-full h-48 p-2.5 rounded border border-neutral-900 border-opacity-30 justify-start items-start gap-2.5 inline-flex">{{$detailKeuangan->keterangan}}</textarea>
+                        <textarea class="w-full h-48 p-2.5 rounded border border-neutral-900 border-opacity-30 justify-start items-start gap-2.5 inline-flex font-normal">{{$detailKeuangan->keterangan}}</textarea>
                     </div>
                 </div>
             </section>  
