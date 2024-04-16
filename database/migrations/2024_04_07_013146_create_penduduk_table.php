@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('penduduk', function (Blueprint $table) {
             $table->uuid('penduduk_id')->primary();
             $table->uuid('kartu_keluarga_id')->index();
-            $table->uuid('user_id')->index();
+            $table->uuid('user_id')->index()->nullable();
             $table->char('nik', 16)->unique();
             $table->string('nama');
             $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);

@@ -3,18 +3,17 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use App\Services\Authentication\AuthService;
+use App\Services\Notification\NotificationPusher;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\View\View;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use \Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
 
 class AuthenticatedSessionController extends Controller
 {
+
 
     public function create(): View
     {
@@ -23,66 +22,56 @@ class AuthenticatedSessionController extends Controller
 
     public function store(Request $request): JsonResponse | RedirectResponse
     {
-        $validator = Validator::make($request->only('username', 'password'), [
-            'username' => 'required|string|exists:users,username',
-            'password' => 'required|string'
-        ], [
-            'username.exists' => 'The username does not exist'
-        ]);
-        if ($validator->fails()) {
-            if ($request->is('api/*')) {
-                throw new \Illuminate\Validation\ValidationException($validator);
+        try {
+            NotificationPusher::success('Login success');
+            $token = AuthService::login($request->username, $request->password);
+
+            if ($request->is('api/*') || $request->wantsJson()) {
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'Login success',
+                    'timestamp' => now(),
+                    'data' => [
+                        'token' => $token
+                    ]
+                ], 200);
             }
 
-            return back()->withErrors($validator)->withInput()->with('error', 'Username or password is incorrect');
-        }
+            NotificationPusher::success('Login success');
+            return redirect()->intended('dashboard');
 
-        $credentials = $request->only('username', 'password');
-
-        if ($request->is('api/*')) {
-            if (!Auth::attempt($credentials)) {
-                throw new AuthenticationException('Invalid credentials');
+        } catch (\Exception  $e) {
+            if ($request->is('api/*') || $request->wantsJson()) {
+                throw new AuthenticationException($e->getMessage());
             }
-            $user = User::where('username', $request->username)->first();
-
-            if (!$user) {
-                throw new ModelNotFoundException('User not found');
-            }
-            return response()->json([
-                'code' => 200,
-                'message' => 'Login success',
-                'timestamp' => now(),
-                'data' => [
-                    'token' => $user->createToken('auth_token', [
-                        'role: ' . $user->role,
-                    ])->plainTextToken
-                ]
-            ], 200);
+            NotificationPusher::error($e->getMessage());
+            return back()->withInput();
         }
-
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-
-            return redirect()->intended('dashboard')->with('success', 'Login success');
-        }
-
-        return back()->with('error', 'Username or password is incorrect');
     }
 
     public function destroy(Request $request): JsonResponse | RedirectResponse
     {
-        if ($request->is('api/*')) {
-            $request->user()->currentAccessToken()->delete();
-            return response()->json([
-                'code' => 205,
-                'message' => 'Logout success',
-                'timestamp' => now()
-            ], 205);
+        try {
+            $repsonse = AuthService::logout($request);
+            if (!$repsonse) {
+                throw new AuthenticationException('Logout failed');
+            }
+            if ($request->is('api/*') || $request->wantsJson()) {
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'Logout success',
+                    'timestamp' => now()
+                ], 200);
+            }
+            NotificationPusher::success('Logout success');
+            return response()->redirectTo('/');
+        } catch (\Exception $e) {
+            if ($request->is('api/*') || $request->wantsJson()) {
+                throw new AuthenticationException($e->getMessage());
+            }
+            NotificationPusher::error($e->getMessage());
+            return back();
         }
-        Auth::guard('web')->logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
 
-        return response()->redirectTo('/')->with('success', 'Logout success');
     }
 }
