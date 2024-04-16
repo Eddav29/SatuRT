@@ -6,6 +6,8 @@ use App\Http\Controllers\Auth\EmailRegistrationController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\CitizenAccountController;
+use App\Http\Controllers\CitizenController;
 use App\Http\Controllers\BusinessUserController;
 use App\Http\Controllers\FamilyCardController;
 use App\Http\Controllers\FinanceReportController;
@@ -39,10 +41,17 @@ Route::prefix('v1')->group(function () {
         // Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])->name('email.verification');
     });
 
-    Route::get('data-keluarga-list', [FamilyCardController::class, 'list'])->middleware('api');
-    Route::get('informasi-list', [InformationController::class, 'list'])->middleware('api');
-    Route::get('umkm-list', [BusinessUserController::class, 'list'])->middleware('api');
-    Route::get('pelaporan-list', [ResidentReportController::class, 'list'])->middleware('api');
+
+    Route::get('data-penduduk/keluarga', [FamilyCardController::class, 'list']);
+    Route::get('data-penduduk/keluarga/{id}/anggota', [CitizenController::class, 'list']);
+    Route::get('data-akun/penduduk', [CitizenAccountController::class, 'list']);
+
+    Route::get('informasi', [InformationController::class, 'list'])->middleware('api');
+    Route::get('umkm', [BusinessUserController::class, 'list'])->middleware('api');
+    Route::get('pelaporan', [ResidentReportController::class, 'list'])->middleware('api');
+
+    Route::get('keuangan-list', [FinanceReportController::class, 'list'])->middleware('api');
+
 })->middleware('api');
 
 Route::get('/pengumuman/{id}', [AnnouncementController::class, 'getAnnouncement'])->middleware('api');

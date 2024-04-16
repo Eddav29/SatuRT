@@ -43,6 +43,12 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
+        'storage_ktp' => [
+            'driver' => 'local',
+            'root' => storage_path('app/storage_ktp'),
+            'url' => env('APP_URL').'/storage/ktp',
+            'visibility' => 'private',
+        ],
 
         's3' => [
             'driver' => 's3',

@@ -26,7 +26,8 @@
 </head>
 
 <body class="font-sans text-gray-900 antialiased">
-    <div class="min-h-screen flex flex-col justify-center items-center pt-6 sm:pt-0 bg-gray-100">
+    <x-notification />
+    <div class="relative min-h-screen flex flex-col justify-center items-center pt-6 sm:pt-0 bg-gray-100">
         <div
             class="w-full max-w-80 sm:max-w-sm mt-6 px-8 py-10 bg-white shadow-md overflow-hidden rounded-lg">
             {{ $slot }}
@@ -34,4 +35,9 @@
     </div>
 </body>
 @stack('scripts')
+<script>
+    @if(session()->has('message'))
+        pushNotification('{{ session('message')['type'] }}', '{{ session('message')['message'] }}')
+    @endif
+</script>
 </html>

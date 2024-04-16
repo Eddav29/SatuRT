@@ -3,7 +3,7 @@
         <x-breadcrumb :list="$breadcrumb['list']" :url="$breadcrumb['url']" />
     </x-slot>
 
-    <div class="px-8">         
+    <div class="px-8">
         <div class="rounded-lg bg-white px-6 py-0 overflow-hidden">
             @if (session('success'))
                 <div role="alert" class="rounded border-s-4 border-green-500 bg-white p-4">
@@ -44,14 +44,61 @@
 
             {{-- Table --}}
             <section>
-                <x-datatables url="umkm" :primaryKey="'umkm_id'" :columns="[
-                    ['label' => 'NIK', 'key' => 'nik'],
-                    ['label' => 'Pemilik', 'key' => 'nama'],
-                    ['label' => 'Nama Usaha', 'key' => 'nama_umkm'],
-                    ['label' => 'Jenis Usaha', 'key' => 'jenis_umkm'],
-                    ['label' => 'Status', 'key' => 'status'],
-                    ['label' => 'Dibuat Pada', 'key' => 'created_at'],
-                    ['label' => 'Terakhir Diubah', 'key' => 'updated_at'],
+                <x-datatables id="umkm_id" url="/umkm" :columns="[
+                    [
+                        'label' => 'NIK',
+                        'key' => 'nik',
+                        'style' => [
+                            'text-align' => 'left',
+                        ],
+                    ],
+                    [
+                        'label' => 'Pemilik',
+                        'key' => 'nama',
+                        'style' => [
+                            'text-align' => 'left',
+                        ],
+                    ],
+                    [
+                        'label' => 'Nama Usaha',
+                        'key' => 'nama_umkm',
+                        'style' => [
+                            'text-align' => 'left',
+                        ],
+                    ],
+                    [
+                        'label' => 'Jenis Usaha',
+                        'key' => 'jenis_umkm',
+                        'style' => [
+                            'text-align' => 'center',
+                        ],
+                    ],
+                    [
+                        'label' => 'Status',
+                        'key' => 'status',
+                        'style' => [
+                            'text-align' => 'center',
+                        ],
+                        
+                    ],
+                    [
+                        'label' => 'Dibuat Pada',
+                        'key' => 'created_at',
+                        'style' => [
+                            'text-align' => 'center',
+                        ],
+                    ],
+                    [
+                        'label' => 'Terakhir Diubah',
+                        'key' => 'updated_at',
+                        'style' => [
+                            'text-align' => 'center',
+                        ],
+                    ],
+                ]" :aksi="[
+                    'detail' => true,
+                    'edit' => true,
+                    'hapus' => true,
                 ]">
                 </x-datatables>
             </section>

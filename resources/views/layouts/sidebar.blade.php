@@ -27,7 +27,10 @@
                     </x-nav-menu>
                 </div>
                 <div>
-                    <x-nav-menu svgIcon="heroicon-o-banknotes" iconStyle="h-8 w-8">
+                    <x-nav-menu svgIcon="heroicon-o-banknotes" :href="route('keuangan.index')" :active="request()->routeIs('keuangan.index') ||
+                        request()->routeIs('keuangan.show') ||
+                        request()->routeIs('keuangan.edit') ||
+                        request()->routeIs('keuangan.create')" iconStyle="h-8 w-8">
                         Keuangan
                     </x-nav-menu>
                 </div>
@@ -41,12 +44,12 @@
                 </div>
                 <div :class="selected === 'Penduduk' ? 'block' : 'hidden'">
                     <div class="pl-11 py-1">
-                        <x-nav-menu :href="url('data-keluarga')" :active="request()->routeIs('data-keluarga')">
+                        <x-nav-menu :href="url('data-penduduk/keluarga')" :active="request()->is('data-penduduk/*')">
                             Data Penduduk
                         </x-nav-menu>
                     </div>
                     <div class="pl-11 py-1">
-                        <x-nav-menu>
+                        <x-nav-menu :href="url('data-akun/penduduk')" :active="request()->is('data-akun/*')">
                             Data Akun
                         </x-nav-menu>
                     </div>
