@@ -16,10 +16,12 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ResidentController;
 use App\Http\Controllers\ResidentReportController;
 use App\Http\Controllers\StorageController;
+use App\Http\Controllers\FinanceReportController;
 use App\Models\KartuKeluarga;
 use App\Models\User;
 use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -75,7 +77,15 @@ Route::resource('umkm', BusinessUserController::class)->middleware(['auth', 'ver
     'update' => 'umkm.update',
     'destroy' => 'umkm.destroy',
 ]);
-
+Route::resource('keuangan', FinanceReportController::class)->middleware(['auth', 'verified'])->names([
+    'index' => 'keuangan.index',
+    'show' => 'keuangan.show',
+    'create' => 'keuangam.create',
+    'store' => 'keuangan.store',
+    'edit' => 'keuangan.edit',
+    'update' => 'keuangan.update',
+    'destroy' => 'keuangan.destroy',
+]);
 
 /* Warga */
 Route::get('/warga/dashboard', [ResidentController::class, 'index'])->middleware(['auth', 'verified'])->name('warga.dashboard');
