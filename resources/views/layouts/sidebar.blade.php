@@ -27,7 +27,10 @@
                     </x-nav-menu>
                 </div>
                 <div>
-                    <x-nav-menu svgIcon="heroicon-o-banknotes" iconStyle="h-8 w-8">
+                    <x-nav-menu svgIcon="heroicon-o-banknotes" :href="route('keuangan.index')" :active="request()->routeIs('keuangan.index') ||
+                        request()->routeIs('keuangan.show') ||
+                        request()->routeIs('keuangan.edit') ||
+                        request()->routeIs('keuangan.create')" iconStyle="h-8 w-8">
                         Keuangan
                     </x-nav-menu>
                 </div>

@@ -43,6 +43,7 @@ Route::prefix('v1')->group(function () {
     Route::get('informasi-list', [InformationController::class, 'list'])->middleware('api');
     Route::get('umkm-list', [BusinessUserController::class, 'list'])->middleware('api');
     Route::get('pelaporan-list', [ResidentReportController::class, 'list'])->middleware('api');
+    Route::get('keuangan-list', [FinanceReportController::class, 'list'])->middleware('api');
 })->middleware('api');
 
 Route::get('/pengumuman/{id}', [AnnouncementController::class, 'getAnnouncement'])->middleware('api');
