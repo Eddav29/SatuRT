@@ -11,7 +11,7 @@
                 <div class="flex flex-col px-5 py-7 gap-y-5  bg-blue-300 rounded-xl text-navy-night">
                     <div>
                         <div class="bg-blue-gray rounded-full p-2 w-12 h-12 flex justify-center items-center">
-                            <img src="{{ asset('assets/images/penduduk_blue_icon.svg') }}" alt="">
+                            <img src="{{ asset('assets/images/keuangan_blue_icon.svg') }}" alt="">
                         </div>
                     </div>
                     <div>
@@ -22,7 +22,7 @@
                 <div class="flex flex-col px-5 py-7 gap-y-5 bg-red-300 rounded-xl">
                     <div>
                         <div class="bg-blue-gray rounded-full p-2 w-12 h-12 flex justify-center items-center">
-                            <img src="{{ asset('assets/images/dokumen_blue_icon.svg') }}" alt="">
+                            <img src="{{ asset('assets/images/keuangan_blue_icon.svg') }}" alt="">
                         </div>
                     </div>
                     <div>
@@ -33,7 +33,7 @@
                 <div class="flex flex-col px-5 py-7 gap-y-5 bg-green-200 rounded-xl">
                     <div>
                         <div class="bg-blue-gray rounded-full p-2 w-12 h-12 flex justify-center items-center">
-                            <img src="{{ asset('assets/images/keluarga_icon.svg') }}" alt="">
+                            <img src="{{ asset('assets/images/keuangan_blue_icon.svg') }}" alt="">
                         </div>
                     </div>
                     <div>
@@ -101,13 +101,6 @@
                         ],
                     ],
                     [
-                        'label' => 'Asal keuangan',
-                        'key' => 'asal_keuangan',
-                        'style' => [
-                            'text-align' => 'left',
-                        ],
-                    ],
-                    [
                         'label' => 'Nominal',
                         'key' => 'nominal',
                         'style' => [
@@ -119,13 +112,6 @@
                         'key' => 'tanggal',
                         'style' => [
                             'text-align' => 'center',
-                        ],
-                    ],
-                    [
-                        'label' => 'Keterangan',
-                        'key' => 'keterangan',
-                        'style' => [
-                            'text-align' => 'left',
                         ],
                     ],
                     [
