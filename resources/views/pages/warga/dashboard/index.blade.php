@@ -239,17 +239,21 @@
             });
 
             function fetchAnnouncement(id) {
+                document.getElementById('loading').classList.replace('hidden', 'flex')
                 fetch(`/api/pengumuman/${id}`)
                     .then(res => res.json())
                     .then(data => {
+                        document.getElementById('loading').classList.replace('flex', 'hidden')
                         document.getElementById('announcement-modal').innerHTML = announcementModal(data);
                     })
-            }
-
-            function fetchFinanceReport(id) {
-                fetch(`/api/laporan-keuangan/${id}`)
+                }
+                
+                function fetchFinanceReport(id) {
+                    document.getElementById('loading').classList.replace('hidden', 'flex')
+                    fetch(`/api/laporan-keuangan/${id}`)
                     .then(res => res.json())
                     .then(data => {
+                        document.getElementById('loading').classList.replace('flex', 'hidden')
                         document.getElementById('finance-report-modal').innerHTML = financeReportModal(data);
                     })
             }

@@ -1,5 +1,5 @@
 @props([
-    'id' => '{{$id}}',
+    'id' => '{{ $id }}',
     'url',
     'columns',
     'pageLength' => 10,
@@ -115,7 +115,7 @@
                                 data-id="">Ya</button>
                             <button type="submit" @click.prevent="isOpen = false"
                                 class="bg-white text-black border border-gray-300 px-4 py-2 rounded-md md:text-md text-sm"
-                                onclick="setHapusId_{{$id}}('{{$id}}')">Tidak</button>
+                                onclick="setHapusId_{{ $id }}('{{ $id }}')">Tidak</button>
                         </div>
                     </div>
                 </div>
@@ -186,15 +186,6 @@
                                             style +=
                                                 '{{ implode(';',array_map(function ($key, $value) {return $key . ': ' . $value;},array_keys($column['style']),$column['style'])) }}';
                                         @endif
-                                        @if (isset($column['customDataStyle']))
-                                            @foreach ($column['customDataStyle'] as $customStyle)
-                                                if (data {{ $customStyle['condition'] }}) {
-                                                    style +=
-                                                        '{{ implode(';',array_map(function ($key, $value) {return $key . ': ' . $value;},array_keys($customStyle['style']),$customStyle['style'])) }}';
-                                                }
-                                            @endforeach
-                                        @endif
-
                                         return '<div style="' + style + '">' + data + '</div>';
                                     @else
                                         return data;
@@ -252,7 +243,7 @@
                             </div>
                             `;
                             search.querySelector('input').addEventListener('input', function() {
-                                $('#{{$id}}').DataTable().search(this.value).draw();
+                                $('#{{ $id }}').DataTable().search(this.value).draw();
                             });
                             return search;
                         },
@@ -301,11 +292,11 @@
                 $('div button[x-dt-filter-label]').on('click', function() {
                     const filterValue = $(this).attr('x-dt-filter-label');
                     const filterColumn = $(this).attr('x-dt-filter-column');
-                    filterData_{{$id}}(filterValue, filterColumn);
+                    filterData_{{ $id }}(filterValue, filterColumn);
                 });
 
-                window['filterData_{{$id}}'] = function(value, column = null) {
-                    let table = $('#{{$id}}').DataTable();
+                window['filterData_{{ $id }}'] = function(value, column = null) {
+                    let table = $('#{{ $id }}').DataTable();
 
                     if (column) {
                         table.column(column).search(value).draw();

@@ -21,6 +21,9 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    {{-- Styles --}}
+    @stack('styles')
 </head>
 
 <body class="font-poppins antialiased bg-soft-snow">
@@ -68,7 +71,7 @@
                             </div>
                             <div class="absolute right-14 p-2" :class="profile ? 'block' : 'hidden'">
                                 <div class="flex flex-col overflow-hidden rounded-lg ">
-                                    <x-nav-button :href="route('biodata')" :active="request()->routeIs('biodata')">
+                                    <x-nav-button :href="route('profile')">
                                         {{ __('Profil') }}
                                     </x-nav-button>
                                     <x-nav-button :class="'text-red-500'" :href="route('logout')">
@@ -90,6 +93,18 @@
             @include('layouts.footer')
         </div>
     </div>
+
+    {{-- Loading --}}
+    <div id="loading"
+        class="hidden fixed top-0 left-0 z-[9999999] h-screen w-screen items-center justify-center bg-soft-snow/30 backdrop-blur-sm">
+        <div class="flex justify-center items-center gap-x-3 bg-blue-gray py-3 px-7 rounded-lg">
+            <div class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                role="status">
+            </div>
+            <h1>Loading...</h1>
+        </div>
+    </div>
+    {{-- End Loading --}}
 
     @stack('scripts')
     <script>

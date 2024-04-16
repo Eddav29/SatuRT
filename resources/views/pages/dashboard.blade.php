@@ -258,19 +258,22 @@
             });
 
             function fetchResidentReport(id) {
+                document.getElementById('loading').classList.replace('hidden', 'flex')
                 fetch(`/api/pelaporan/${id}`)
                     .then(response => response.json())
                     .then(data => {
-                        // console.log(data)
+                        document.getElementById('loading').classList.replace('flex', 'hidden')
                         document.getElementById('resident-report-modal').innerHTML = residentReportModal(data);
                     });
             }
 
 
             function fetchAnnouncement(id) {
+                document.getElementById('loading').classList.replace('hidden', 'flex')
                 fetch(`/api/pengumuman/${id}`)
                     .then(response => response.json())
                     .then(data => {
+                        document.getElementById('loading').classList.replace('flex', 'hidden')
                         document.getElementById('announcement-modal').innerHTML = announcementModal(data.data.title,
                             data.data.created_by, data.data.created_at, data.data.description);
                     });
@@ -291,7 +294,7 @@
                         <div class="flex flex-col gap-y-2 md:grid md:grid-cols-2 md:grid-rows-1">
                             <div class="text-sm/5">
                                 <h6 class="font-medium">Pelapor: </h6>
-                                <h5>${data.data.created_by}}</h5>
+                                <h5>${data.data.created_by}</h5>
                             </div>
                             <div class="text-sm/5">
                                 <h6 class="font-medium">Dibuat pada: </h6>
