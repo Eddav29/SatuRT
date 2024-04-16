@@ -17,6 +17,7 @@ use App\Http\Controllers\ResidentController;
 use App\Http\Controllers\ResidentReportController;
 use App\Http\Controllers\StorageController;
 use App\Http\Controllers\FinanceReportController;
+use App\Http\Controllers\DocumentRequestController;
 use App\Models\KartuKeluarga;
 use App\Models\User;
 use Illuminate\Auth\Events\Authenticated;
@@ -82,6 +83,11 @@ Route::resource('keuangan', FinanceReportController::class)->middleware(['auth',
     'edit' => 'keuangan.edit',
     'update' => 'keuangan.update',
     'destroy' => 'keuangan.destroy',
+]);
+
+Route::resource('persuratan', DocumentRequestController::class)->middleware(['auth', 'verified'])->names([
+    'index' => 'persuratan.index',
+    'show' => 'persuratan.show',
 ]);
 
 /* Warga */

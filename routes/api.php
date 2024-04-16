@@ -13,6 +13,7 @@ use App\Http\Controllers\FamilyCardController;
 use App\Http\Controllers\FinanceReportController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\ResidentReportController;
+use App\Http\Controllers\DocumentRequestController;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -51,7 +52,7 @@ Route::prefix('v1')->group(function () {
     Route::get('pelaporan', [ResidentReportController::class, 'list'])->middleware('api');
 
     Route::get('keuangan', [FinanceReportController::class, 'list'])->middleware('api');
-
+    Route::get('persuratan', [DocumentRequestController::class, 'list'])->middleware('api');
 })->middleware('api');
 
 Route::get('/pengumuman/{id}', [AnnouncementController::class, 'getAnnouncement'])->middleware('api');
