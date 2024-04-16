@@ -50,7 +50,7 @@ Route::prefix('v1')->group(function () {
     Route::get('umkm', [BusinessUserController::class, 'list'])->middleware('api');
     Route::get('pelaporan', [ResidentReportController::class, 'list'])->middleware('api');
 
-    Route::get('keuangan-list', [FinanceReportController::class, 'list'])->middleware('api');
+    Route::get('keuangan', [FinanceReportController::class, 'list'])->middleware('api');
 
 })->middleware('api');
 

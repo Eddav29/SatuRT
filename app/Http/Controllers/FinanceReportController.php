@@ -12,7 +12,7 @@ use Illuminate\Http\Response;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
-
+use Illuminate\Support\Facades\Storage;
 
 class FinanceReportController extends Controller
 {
@@ -51,42 +51,42 @@ class FinanceReportController extends Controller
         ]);
     }
     public function list(): JsonResponse
-{
-    try {
-        $data = DetailKeuangan::all()->map(function ($keuangan) {
-            return [
-                'keuangan_id' => $keuangan->keuangan_id,
-                'judul' => $keuangan->judul,
-                'jenis_keuangan' => $keuangan->jenis_keuangan,
-                'asal_keuangan' => $keuangan->asal_keuangan,
-                'nominal' => $keuangan->nominal,
-                'keterangan' => $keuangan->keterangan,
-                'created_at' => Carbon::parse($keuangan->created_at)->format('d-m-Y'),
-                'updated_at' => Carbon::parse($keuangan->updated_at)->format('d-m-Y'),
-            ];
-        });
+    {
+        try {
+            $data = DetailKeuangan::all()->map(function ($keuangan) {
+                return [
+                    'keuangan_id' => $keuangan->keuangan_id,
+                    'judul' => $keuangan->judul,
+                    'jenis_keuangan' => $keuangan->jenis_keuangan,
+                    'asal_keuangan' => $keuangan->asal_keuangan,
+                    'nominal' => $keuangan->nominal,
+                    'keterangan' => $keuangan->keterangan,
+                    'created_at' => Carbon::parse($keuangan->created_at)->format('d-m-Y'),
+                    'updated_at' => Carbon::parse($keuangan->updated_at)->format('d-m-Y'),
+                ];
+            });
 
-        // Hitung total pemasukan dan pengeluaran
-        $totalPemasukan = $data->sum(function ($item) {
-            return $item['jenis_keuangan'] === 'Pemasukan' ? $item['nominal'] : 0;
-        });
-        $totalPengeluaran = $data->sum(function ($item) {
-            return $item['jenis_keuangan'] === 'Pengeluaran' ? $item['nominal'] : 0;
-        });
+            // Hitung total pemasukan dan pengeluaran
+            $totalPemasukan = $data->sum(function ($item) {
+                return $item['jenis_keuangan'] === 'Pemasukan' ? $item['nominal'] : 0;
+            });
+            $totalPengeluaran = $data->sum(function ($item) {
+                return $item['jenis_keuangan'] === 'Pengeluaran' ? $item['nominal'] : 0;
+            });
 
-        // Hitung total keseluruhan
-        $totalKeseluruhan = $totalPemasukan - $totalPengeluaran;
+            // Hitung total keseluruhan
+            $totalKeseluruhan = $totalPemasukan - $totalPengeluaran;
 
-        return response()->json([
-            'data' => $data,
-            'total_pemasukan' => $totalPemasukan,
-            'total_pengeluaran' => $totalPengeluaran,
-            'total_keseluruhan' => $totalKeseluruhan,
-        ]);
-    } catch (\Throwable $th) {
-        return response()->json(['error' => 'Terjadi kesalahan.'], 500);
+            return response()->json([
+                'data' => $data,
+                'total_pemasukan' => $totalPemasukan,
+                'total_pengeluaran' => $totalPengeluaran,
+                'total_keseluruhan' => $totalKeseluruhan,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'Terjadi kesalahan.'], 500);
+        }
     }
-}
 
 
     public function store(Request $request): RedirectResponse{
@@ -110,7 +110,7 @@ class FinanceReportController extends Controller
     public function show(String $id) : Response {
         $breadcrumb = [
             'list' => ['Home', 'Keuangan', 'Detail Keuangan'],
-            'url' => ['home', 'keuangan.index', 'keuangan.show'],
+            'url' => ['home', 'keuangan.index', ['keuangan.show', $id]],
         ];
         $detailKeuangan = DetailKeuangan::with('keuangan')->find($id);
         $keuangan = Keuangan::with('penduduk')->find($id);
@@ -126,7 +126,7 @@ class FinanceReportController extends Controller
     public function edit(String $id) : Response {
         $breadcrumb = [
             'list' => ['Home', 'Keuangan', 'Edit Keuangan'],
-            'url' => ['home', 'keuangan.index', ''],
+            'url' => ['home', 'keuangan.index', ['keuangan.edit', $id]],
         ];
 
         $detailKeuangan = DetailKeuangan::find($id);
