@@ -1,0 +1,2 @@
+@push('scripts')
+@endpush
