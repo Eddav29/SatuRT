@@ -107,11 +107,6 @@
     {{-- End Loading --}}
 
     @stack('scripts')
-    <script>
-        @if(session()->has('message'))
-            pushNotification('{{ session('message')['type'] }}', '{{ session('message')['message'] }}')
-        @endif
-    </script>
 </body>
 
 </html>

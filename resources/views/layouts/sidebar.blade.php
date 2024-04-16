@@ -14,32 +14,88 @@
         </div>
     </div>
 
-    {{-- Main Menu --}}
-    <div class="overflow-y-auto pt-10 lg:pt-24 no-scrollbar">
-        <h1 class="text-navy-night/35 ">MAIN MENU</h1>
 
-        <div x-data="{ selected: '' }" class="py-5">
-            <nav>
-                <div>
-                    <x-nav-menu :href="route('dashboard')" :active="request()->routeIs('dashboard')" svgIcon="heroicon-o-squares-2x2"
-                        iconStyle="h-8 w-8">
-                        Dashboard
-                    </x-nav-menu>
-                </div>
-                <div>
-                    <x-nav-menu svgIcon="heroicon-o-banknotes" :href="route('keuangan.index')" :active="request()->routeIs('keuangan.index') ||
-                        request()->routeIs('keuangan.show') ||
-                        request()->routeIs('keuangan.edit') ||
-                        request()->routeIs('keuangan.create')" iconStyle="h-8 w-8">
-                        Keuangan
-                    </x-nav-menu>
-                </div>
-                <div @click.prevent="selected = selected === 'Penduduk' ? '' : 'Penduduk'">
-                    <x-nav-menu svgIcon="heroicon-o-user-group" iconStyle="h-8 w-8">
-                        Data Penduduk
-                        <div class="w-5 h-5 ml-10" :class="selected === 'Penduduk' ? 'rotate-180' : ''">
-                            <x-heroicon-o-chevron-down />
+    @if (Auth::check())
+
+        @if (Auth::user()->role->role_name === 'Ketua RT')
+            <div class="overflow-y-auto pt-10 lg:pt-24 no-scrollbar">
+                <h1 class="text-navy-night/35 ">MAIN MENU</h1>
+
+                <div x-data="{ selected: '' }" class="py-5">
+                    <nav>
+                        <div>
+                            <x-nav-menu :href="route('dashboard')" :active="request()->routeIs('dashboard')" svgIcon="heroicon-o-squares-2x2"
+                                iconStyle="h-8 w-8">
+                                Dashboard
+                            </x-nav-menu>
                         </div>
+                        <div>
+                            <x-nav-menu svgIcon="heroicon-o-banknotes" :href="route('keuangan.index')" :active="request()->routeIs('keuangan.index') ||
+                                request()->routeIs('keuangan.show') ||
+                                request()->routeIs('keuangan.edit') ||
+                                request()->routeIs('keuangan.create')"
+                                iconStyle="h-8 w-8">
+                                Keuangan
+                            </x-nav-menu>
+                        </div>
+                        <div @click.prevent="selected = selected === 'Penduduk' ? '' : 'Penduduk'">
+                            <x-nav-menu svgIcon="heroicon-o-user-group" iconStyle="h-8 w-8">
+                                Data Penduduk
+                                <div class="w-5 h-5 ml-10" :class="selected === 'Penduduk' ? 'rotate-180' : ''">
+                                    <x-heroicon-o-chevron-down />
+                                </div>
+                            </x-nav-menu>
+                        </div>
+                        <div :class="selected === 'Penduduk' ? 'block' : 'hidden'">
+                            <div class="pl-11 py-1">
+                                <x-nav-menu :href="url('data-penduduk/keluarga')" :active="request()->is('data-penduduk/*')">
+                                    Data Penduduk
+                                </x-nav-menu>
+                            </div>
+                            <div class="pl-11 py-1">
+                                <x-nav-menu :href="url('data-akun/penduduk')" :active="request()->is('data-akun/*')">
+                                    Data Akun
+                                </x-nav-menu>
+                            </div>
+                        </div>
+                        <div>
+                            <x-nav-menu :href="route('umkm.index')" :active="request()->routeIs('umkm.index') ||
+                                request()->routeIs('umkm.create') ||
+                                request()->routeIs('umkm.edit') ||
+                                request()->routeIs('umkm.show')" svgIcon="heroicon-o-building-storefront"
+                                iconStyle="h-8 w-8">
+                                UMKM
+                            </x-nav-menu>
+                        </div>
+                        <div>
+                            <x-nav-menu svgIcon="heroicon-o-document-text" iconStyle="h-8 w-8">
+                                Permohonan Surat
+                            </x-nav-menu>
+                        </div>
+                        <div>
+                            <x-nav-menu svgIcon="heroicon-o-scale" iconStyle="h-8 w-8">
+                                Pendukung Keputusan
+                            </x-nav-menu>
+                        </div>
+                        <div>
+                            <x-nav-menu svgIcon="heroicon-o-microphone" :href="route('informasi.index')" :active="request()->routeIs('informasi.index') ||
+                                request()->routeIs('informasi.show') ||
+                                request()->routeIs('informasi.edit') ||
+                                request()->routeIs('informasi.create')"
+                                iconStyle="h-8 w-8">
+                                Informasi
+                            </x-nav-menu>
+                        </div>
+                        <div>
+                            <x-nav-menu svgIcon="heroicon-o-megaphone" iconStyle="h-8 w-8" :href="route('pelaporan.index')"
+                                :active="request()->routeIs('pelaporan.index') ||
+                                    request()->routeIs('pelaporan.show') ||
+                                    request()->routeIs('pelaporan.edit') ||
+                                    request()->routeIs('pelaporan.create')">
+                                Laporan Warga
+                            </x-nav-menu>
+                        </div>
+<<<<<<< HEAD
                     </x-nav-menu>
                 </div>
                 <div :class="selected === 'Penduduk' ? 'block' : 'hidden'">
@@ -86,8 +142,56 @@
                         Laporan Warga
                     </x-nav-menu>
                 </div>
+=======
+>>>>>>> 185e500966bd8a0110a7ce18914ad9c4dad992be
 
-            </nav>
-        </div>
-    </div>
+                    </nav>
+                </div>
+            </div>
+        @elseif(Auth::user()->role->role_name === 'Penduduk')
+            <div class="overflow-y-auto pt-10 lg:pt-24 no-scrollbar">
+                <h1 class="text-navy-night/35 ">MAIN MENU</h1>
+                <div class="py-5">
+                    <nav>
+                        <div>
+                            <x-nav-menu :href="route('warga.dashboard')" :active="request()->routeIs('dashboard')" svgIcon="heroicon-o-squares-2x2"
+                                iconStyle="h-8 w-8">
+                                Dashboard
+                            </x-nav-menu>
+                        </div>
+                        <div>
+                            <x-nav-menu svgIcon="heroicon-o-user-group" iconStyle="h-8 w-8">
+                                Data Keluarga
+                            </x-nav-menu>
+                        </div>
+                        <div>
+                            <x-nav-menu :href="route('umkm.index')" :active="request()->routeIs('umkm.index') ||
+                                request()->routeIs('umkm.create') ||
+                                request()->routeIs('umkm.edit') ||
+                                request()->routeIs('umkm.show')" svgIcon="heroicon-o-building-storefront"
+                                iconStyle="h-8 w-8">
+                                UMKM
+                            </x-nav-menu>
+                        </div>
+                        <div>
+                            <x-nav-menu svgIcon="heroicon-o-document-text" iconStyle="h-8 w-8">
+                                Permohonan Surat
+                            </x-nav-menu>
+                        </div>
+                        <div>
+                            <x-nav-menu svgIcon="heroicon-o-megaphone" iconStyle="h-8 w-8" :href="route('pelaporan.index')"
+                                :active="request()->routeIs('pelaporan.index') ||
+                                    request()->routeIs('pelaporan.show') ||
+                                    request()->routeIs('pelaporan.edit') ||
+                                    request()->routeIs('pelaporan.create')">
+                                LAPOR!
+                            </x-nav-menu>
+                        </div>
+
+                    </nav>
+                </div>
+            </div>
+        @endif
+    @endif
+    {{-- Main Menu --}}
 </aside>
