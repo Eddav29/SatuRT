@@ -18,85 +18,26 @@
     ],
 ])
 
-@push('styles')
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.3/css/dataTables.dataTables.css" />
+<x-styles.datatables />
 
-    <style>
-        div .dt-layout-row {
-            display: flex !important;
-            justify-content: space-between;
-            align-items: center;
-        }
+<div x-data="{ isOpen: false }">
+    <div class="overflow-hidden">
+        <div class="overflow-auto">
+            <table id="{{ $id }}" class="display max-md:min-w-[75rem] w-max overflow-auto">
+                <thead class="bg-blue-gray w-max">
+                    <tr>
+                        @foreach ($columns as $column)
+                            <th class="w-max">{{ $column['label'] }}</th>
+                        @endforeach
+                        @if ($aksi['detail'] || $aksi['edit'] || $aksi['hapus'])
+                            <th>Aksi</th>
+                        @endif
+                    </tr>
+                </thead>
+            </table>
+        </div>
+    </div>
 
-        table.dataTable thead th {
-            text-align: center;
-        }
-
-        .dt-layout-table .dt-layout-cell {
-            width: 100%;
-        }
-
-        .paging_full_numbers {
-            border: 1px solid #E5E7EB;
-            border-radius: 0.375rem;
-        }
-
-        .dt-paging .dt-paging-button {
-            background-color: white !important;
-            color: black;
-            padding: 5px 10px;
-            cursor: pointer;
-            margin: 0 !important;
-        }
-
-        .dt-paging .dt-paging-button .first {
-            border-top-left-radius: 0.375rem !important;
-            border-bottom-left-radius: 0.375rem !important;
-        }
-
-        .dt-paging .dt-paging-button .last {
-            border-top-right-radius: 0.375rem !important;
-            border-bottom-right-radius: 0.375rem !important;
-        }
-
-        div.dt-container .dt-paging .dt-paging-button.current {
-            background-color: rgb(59 130 246 / 1) !important;
-            border: none;
-            color: white !important;
-        }
-
-        div.dt-container .dt-paging .dt-paging-button.current:hover {
-            background-color: # !important;
-            border: none;
-            color: white !important;
-        }
-
-        /* Hover effect for pagination buttons */
-        .dt-paging .dt-paging-button:hover {
-            background-color: #E8F1FF !important;
-            color: black !important;
-            /* Set background color on hover */
-        }
-
-        section div.dt-container .dt-paging .dt-paging-button.disabled:hover {
-            color: black !important;
-        }
-    </style>
-@endpush
-
-<div class="mt-8 overflow-x-auto" x-data="{ isOpen: false }">
-    <table id="{{ $id }}" class="display" style="width: 100%;">
-        <thead style="background-color: #E8F1FF">
-            <tr>
-                @foreach ($columns as $column)
-                    <th>{{ $column['label'] }}</th>
-                @endforeach
-                @if ($aksi['detail'] || $aksi['edit'] || $aksi['hapus'])
-                    <th>Aksi</th>
-                @endif
-            </tr>
-        </thead>
-    </table>
     <div class="modal-screen fixed w-full top-0 right-0 bottom-0 left-0 z-[9999] bg-black bg-opacity-35 " x-cloak
         x-show="isOpen">
         <div
@@ -104,10 +45,10 @@
             <div class="modal">
                 <div class="modal-content space-y-4">
                     <div class="modal-header">
-                        <h2 class="font-bold md:text-xl text-md">Hapus Data Keluarga</h2>
+                        <h2 class="font-bold md:text-xl text-md">Hapus Data</h2>
                     </div>
                     <div class="modal-body">
-                        <p class="md:text-md text-xs">Apakah Anda yakin ingin menghapus data keluarga ini?</p>
+                        <p class="md:text-md text-xs">Apakah Anda yakin ingin menghapus data ini?</p>
                         <div class="flex justify-end mt-8 space-x-4">
                             <button type="submit" @click.prevent="isOpen = false"
                                 class="bg-blue-500 text-white px-4 py-2 rounded-md md:text-md text-sm"
@@ -199,7 +140,7 @@
                                 let id = {!! json_encode($id) !!}
                                 @if (!empty($aksi))
                                     let aksi =
-                                        '<div class="flex justify-center space-x-2">'; // Open a flex container
+                                        '<div class="flex justify-start space-x-2">'; // Open a flex container
 
                                     @if ($aksi['detail'])
                                         aksi +=
@@ -224,8 +165,9 @@
                     layout: {
                         top2Start: function() {
                             let toolbar = document.createElement('div');
+                            toolbar.classList.add('w-fit');
                             toolbar.innerHTML = `
-                                <button class="inline-flex items-center bg-blue-500 text-white px-4 py-2 rounded-xl" type="button">
+                                <button class="inline-flex w-full items-center bg-blue-500 text-white p-4 rounded-lg" type="button">
                                     <x-heroicon-o-plus class="w-6 h-6"/> <span class="ml-2">Tambah Data</span>
                                 </button>
                             `;
@@ -236,10 +178,13 @@
                         },
                         top2End: function() {
                             let search = document.createElement('div');
+                            search.classList.add('w-full', 'my-3');
                             search.innerHTML = `
-                            <div class="inline-flex items-center border border-gray-300 rounded-xl px-4">
-                                <x-heroicon-o-magnifying-glass class="w-6 h-6" />
-                                <input type="text" class="border-none focus:ring-0" placeholder="Search...">
+                            <div class="relative items-center border border-gray-300 rounded-lg">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                                    <x-heroicon-o-magnifying-glass class="w-6 h-6" />
+                                    </div>
+                                <input type="text" class="px-12 py-4 placeholder:text-gray-300 border-none bg-transparent w-full focus:ring-0" placeholder="Search...">
                             </div>
                             `;
                             search.querySelector('input').addEventListener('input', function() {
@@ -250,9 +195,9 @@
                         topStart: '',
                         topEnd: function() {
                             let toolbar = document.createElement('div');
-                            toolbar.classList.add('dropdown');
+                            toolbar.classList.add('dropdown', 'mb-6');
                             toolbar.innerHTML = `
-                                <button class="inline-flex bg-white border px-6 py-2 rounded-xl" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button class="inline-flex bg-white border px-6 py-2 rounded-lg" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <x-heroicon-o-adjustments-vertical class="w-6 h-6"/> <span class="ml-2">Filters</span>
                                 </button>
                                 <div class="hidden absolute right-0 top-[120%] bg-white border border-gray-300 rounded-xl z-10" aria-labelledby="dropdownMenuButton">

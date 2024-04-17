@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class InformationController extends Controller
@@ -63,7 +64,6 @@ class InformationController extends Controller
         ]);
 
         try {
-
             if ($request->file('thumbnail_url')) {
                 if ($validated['jenis_informasi'] == 'Pengumuman') {
                     $fileName = $request->file('thumbnail_url')->getClientOriginalName();
@@ -79,8 +79,7 @@ class InformationController extends Controller
 
             return redirect()->route('informasi.index')->with(['success' => 'Informasi baru ditambahkan']);
         } catch (\Throwable $th) {
-            dd($th);
-            return redirect()->route('informasi.create')->with(['error' => 'Informasi gagal ditambahkan']);
+            return redirect()->route('informasi.index')->with(['error' => 'Informasi gagal ditambahkan']);
         }
     }
 
@@ -111,11 +110,19 @@ class InformationController extends Controller
 
         $breadcrumb = [
             'list' => ['Home', 'Informasi', 'Detail Informasi'],
-            'url' => ['home', 'informasi.index', 'informasi.show'],
+            'url' => ['home', 'informasi.index', 'informasi.index'],
         ];
+
         return response()->view('pages.information.show', [
             'information' => $information,
-            'breadcrumb' => $breadcrumb
+            'breadcrumb' => $breadcrumb,
+            'toolbar_id' => $id,
+            'active' => 'detail',
+            'toolbar_route' => [
+                'detail' => route('informasi.show', ['informasi' => $id]),
+                'edit' => route('informasi.edit', ['informasi' => $id]),
+                'hapus' => route('informasi.destroy', ['informasi' => $id]),
+            ]
         ]);
     }
 
@@ -126,14 +133,21 @@ class InformationController extends Controller
     {
         $breadcrumb = [
             'list' => ['Home', 'Informasi', 'Edit Informasi'],
-            'url' => ['home', 'informasi.index', ''],
+            'url' => ['home', 'informasi.index', 'informasi.index'],
         ];
 
         $information = Informasi::find($id);
 
         return response()->view('pages.information.edit', [
             'breadcrumb' => $breadcrumb,
-            'information' => $information
+            'information' => $information,
+            'toolbar_id' => $id,
+            'active' => 'edit',
+            'toolbar_route' => [
+                'detail' => route('informasi.show', ['informasi' => $id]),
+                'edit' => route('informasi.edit', ['informasi' => $id]),
+                'hapus' => route('informasi.destroy', ['informasi' => $id]),
+            ]
         ]);
     }
 
@@ -186,17 +200,34 @@ class InformationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id): RedirectResponse
+    public function destroy(string $id): JsonResponse
     {
-        $information = Informasi::find($id);
-
         try {
-            Storage::delete($information->thumbnail_url);
-            $information->delete();
+            $user = Auth::user();
+            $information = Informasi::find($id);
 
-            return redirect()->route('informasi.index')->with('success', 'Informasi berhasil dihapus');
-        } catch (\Throwable $th) {
-            return redirect()->route('informasi.index')->with('error', 'Gagal menghapus informasi');
+            if ($information && $information->user_id === $user->id) {
+                $information->delete();
+
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'Data berhasil dihapus',
+                    'timestamp' => now(),
+                    'redirect' => route('informasi.index')
+                ]);
+            } else {
+                return response()->json([
+                    'code' => 403,
+                    'message' => 'Anda tidak memiliki akses untuk menghapus data ini',
+                    'timestamp' => now()
+                ]);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'code' => 500,
+                'message' => $e->getMessage(),
+                'timestamp' => now()
+            ]);
         }
     }
 

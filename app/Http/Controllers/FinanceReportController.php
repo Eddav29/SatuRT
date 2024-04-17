@@ -75,7 +75,7 @@ class FinanceReportController extends Controller
             });
 
             // Hitung total keseluruhan
-            $totalKeseluruhan = $totalPemasukan - $totalPengeluaran;
+            $totalKeseluruhan = Keuangan::orderBy('tanggal', 'desc')->first()->total_keuangan;
 
             return response()->json([
                 'data' => $data,
@@ -89,25 +89,27 @@ class FinanceReportController extends Controller
     }
 
 
-    public function store(Request $request): RedirectResponse{
+    public function store(Request $request): RedirectResponse
+    {
         $validated = $request->validate([
-            'keuangan_id' => ['required' , 'exists:keuangan,keuangan_id'],
-            'judul_keuangan' =>'required',
-            'jenis_keuangan' =>'required',
-            'asal_keuangan' =>'required|string',
-            'nominal' =>'required|integer',
-            
-        ],[
+            'keuangan_id' => ['required', 'exists:keuangan,keuangan_id'],
+            'judul_keuangan' => 'required',
+            'jenis_keuangan' => 'required',
+            'asal_keuangan' => 'required|string',
+            'nominal' => 'required|integer',
+
+        ], [
             'keuangan_id.required' => 'ID keuangan harus diisi.',
             'judul_keuangan.required' => 'Judul keuangan harus diisi.',
             'jenis_keuangan.required' => 'Jenis keuangan harus diisi.',
             'asal_keuangan.required' => 'Asal keuangan harus diisi.',
             'nominal.required' => 'Nominal harus diisi.',
-            
+
         ]);
     }
 
-    public function show(String $id) : Response {
+    public function show(string $id): Response
+    {
         $breadcrumb = [
             'list' => ['Home', 'Keuangan', 'Detail Keuangan'],
             'url' => ['home', 'keuangan.index', ['keuangan.show', $id]],
@@ -117,13 +119,21 @@ class FinanceReportController extends Controller
         $penduduk = Penduduk::all();
         return response()->view('pages.keuangan.show', [
             'breadcrumb' => $breadcrumb,
-            'keuangan' =>$keuangan,
-            'detailKeuangan' =>  $detailKeuangan,
-            'penduduk' => $penduduk
+            'keuangan' => $keuangan,
+            'detailKeuangan' => $detailKeuangan,
+            'penduduk' => $penduduk,
+            'toolbar_id' => $id,
+            'active' => 'detail',
+            'toolbar_route' => [
+                'detail' => route('keuangan.show', ['keuangan' => $id]),
+                'edit' => route('keuangan.edit', ['keuangan' => $id]),
+                'hapus' => route('keuangan.destroy', ['keuangan' => $id]),
+            ]
         ]);
     }
 
-    public function edit(String $id) : Response {
+    public function edit(string $id): Response
+    {
         $breadcrumb = [
             'list' => ['Home', 'Keuangan', 'Edit Keuangan'],
             'url' => ['home', 'keuangan.index', ['keuangan.edit', $id]],
@@ -133,17 +143,37 @@ class FinanceReportController extends Controller
 
         return response()->view('pages.keuangan.edit', [
             'breadcrumb' => $breadcrumb,
-            'detailKeuangan' => $detailKeuangan
+            'detailKeuangan' => $detailKeuangan,
+            'toolbar_id' => $id,
+            'active' => 'edit',
+            'toolbar_route' => [
+                'detail' => route('keuangan.show', ['keuangan' => $id]),
+                'edit' => route('keuangan.edit', ['keuangan' => $id]),
+                'hapus' => route('keuangan.destroy', ['keuangan' => $id]),
+            ]
         ]);
     }
 
-    public function update(Request $request, String $id) : RedirectResponse {
+    public function update(Request $request, string $id): RedirectResponse
+    {
 
     }
 
-    public function destroy(String $id) : RedirectResponse {
+    public function destroy(string $id): RedirectResponse
+    {
 
     }
 
+    public function financeReport(string $id): FinanceReportResource
+    {
+        $financeReport = DetailKeuangan::with(['keuangan'])->find($id);
 
+        if (!$financeReport) {
+            throw new HttpResponseException(response()->json([
+                'message' => 'Data not found',
+            ])->setStatusCode(404));
+        }
+
+        return new FinanceReportResource($financeReport);
+    }
 }

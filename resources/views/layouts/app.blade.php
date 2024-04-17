@@ -60,7 +60,7 @@
                     </div>
                     <div class="max-lg:hidden flex justify-between items-center w-full">
                         <div>
-                            <h1 class="text-5xl">Hallo {{ Auth::user()->name ?? '' }}</h1>
+                            <h1 class="text-5xl">Hallo {{ Auth::user()->penduduk->nama ?? '' }}</h1>
                             {{ $breadcrumb }}
                         </div>
                         <div x-data="{ profile: false }" class="cursor-pointer">

@@ -9,11 +9,13 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 class BusinessUserController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         $penduduk = Penduduk::all();
         $breadcrumb = [
             'list' => ['Home', 'UMKM'],
@@ -27,18 +29,36 @@ class BusinessUserController extends Controller
     public function list(): JsonResponse
     {
         try {
-            $data = UMKM::all()->map(function ($umkm) {
-                return [
-                    'nik' => $umkm->penduduk->nik,
-                    'nama' => $umkm->penduduk->nama,
-                    'umkm_id' => $umkm->umkm_id,
-                    'nama_umkm' => $umkm->nama_umkm,
-                    'status' => $umkm->status,
-                    'jenis_umkm' => $umkm->jenis_umkm,
-                    'created_at' => Carbon::parse($umkm->created_at)->format('d-m-Y'),
-                    'updated_at' => Carbon::parse($umkm->updated_at)->format('d-m-Y'),
-                ];
-            });
+
+            if (Auth::user()->role->role_name === 'Ketua RT') {
+                $data = UMKM::all()->map(function ($umkm) {
+                    return [
+                        'nik' => $umkm->penduduk->nik,
+                        'nama' => $umkm->penduduk->nama,
+                        'umkm_id' => $umkm->umkm_id,
+                        'nama_umkm' => $umkm->nama_umkm,
+                        'status' => $umkm->status,
+                        'jenis_umkm' => $umkm->jenis_umkm,
+                        'created_at' => Carbon::parse($umkm->created_at)->format('d-m-Y'),
+                        'updated_at' => Carbon::parse($umkm->updated_at)->format('d-m-Y'),
+                    ];
+                });
+            } else {
+                $penduduk_id = Auth::user()->penduduk->penduduk_id;
+                $data = UMKM::where('penduduk_id', $penduduk_id)->get()->map(function ($umkm) {
+                    return [
+                        'nik' => $umkm->penduduk->nik,
+                        'nama' => $umkm->penduduk->nama,
+                        'umkm_id' => $umkm->umkm_id,
+                        'nama_umkm' => $umkm->nama_umkm,
+                        'status' => $umkm->status,
+                        'jenis_umkm' => $umkm->jenis_umkm,
+                        'created_at' => Carbon::parse($umkm->created_at)->format('d-m-Y'),
+                        'updated_at' => Carbon::parse($umkm->updated_at)->format('d-m-Y'),
+                    ];
+                });
+            }
+
 
             return response()->json([
                 'data' => $data
@@ -48,47 +68,50 @@ class BusinessUserController extends Controller
         }
     }
 
-    public function create(){
+    public function create()
+    {
         $penduduk = Penduduk::all();
 
         $breadcrumb = [
             'list' => ['Home', 'UMKM', 'Tambah UMKM'],
-            'url' => ['home', 'umkm.index','umkm.create'],
+            'url' => ['home', 'umkm.index', 'umkm.create'],
         ];
         return response()->view('pages.umkm.create', [
-            'breadcrumb' => $breadcrumb, 'penduduk'=>$penduduk
+            'breadcrumb' => $breadcrumb,
+            'penduduk' => $penduduk
         ]);
     }
 
 
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
         $request->validate([
             'umkm_id' => 'required|char|max:36|unique:umkm,umkm_id',
-            'nama_umkm'         => 'required|string|max:255',
-            'jenis_umkm'        => 'required|in:Makanan,Minuman,Pakaian,Peralatan,Jasa,Lainnya',
-            'keterangan'        => 'required|string|max:255',
-            'alamat'            => 'required|string|max:255',
-            'nomor_telepon'     => 'required|string|max:255',
-            'lokasi_url'        => 'required|string|max:255',
-            'thumbnail_url'     => 'required|string|max:255',
-            'status'            => 'required|in:Aktif,Nonaktif',
+            'nama_umkm' => 'required|string|max:255',
+            'jenis_umkm' => 'required|in:Makanan,Minuman,Pakaian,Peralatan,Jasa,Lainnya',
+            'keterangan' => 'required|string|max:255',
+            'alamat' => 'required|string|max:255',
+            'nomor_telepon' => 'required|string|max:255',
+            'lokasi_url' => 'required|string|max:255',
+            'thumbnail_url' => 'required|string|max:255',
+            'status' => 'required|in:Aktif,Nonaktif',
             'license_image_url' => 'required|string|max:255',
-            'penduduk_id'       => 'required|char',
+            'penduduk_id' => 'required|char',
         ]);
 
         UMKM::create([
-            'umkm_id'           => $request->umkm_id,
-            'nama_umkm'         => $request->nama_umkm,
-            'jenis_umkm'        => $request->jenis_umkm,
-            'keterangan'        => $request->keterangan,
-            'alamat'            => $request->alamat,
-            'nomor_telepeon'    => $request->nomor_telepon,
-            'lokasi_url'        => $request->lokasi_url,
-            'thumbnail_url'     => $request->thumbnail_url,
-            'status'            => $request->status,
+            'umkm_id' => $request->umkm_id,
+            'nama_umkm' => $request->nama_umkm,
+            'jenis_umkm' => $request->jenis_umkm,
+            'keterangan' => $request->keterangan,
+            'alamat' => $request->alamat,
+            'nomor_telepeon' => $request->nomor_telepon,
+            'lokasi_url' => $request->lokasi_url,
+            'thumbnail_url' => $request->thumbnail_url,
+            'status' => $request->status,
             'license_image_url' => $request->license_image_url,
-            'penduduk_id'       => $request->penduduk_id
+            'penduduk_id' => $request->penduduk_id
         ]);
 
         return redirect('umkm.index')->with('success', 'Data UMKM berhasil ditambah');
@@ -96,16 +119,26 @@ class BusinessUserController extends Controller
 
     }
 
-    public function show(string $id){
+    public function show(string $id)
+    {
         $umkm = UMKM::with('penduduk')->find($id);
         $penduduk = Penduduk::all();
 
         $breadcrumb = [
             'list' => ['Home', 'UMKM', 'Detail UMKM'],
-            'url' => ['home', 'umkm.index',['umkm.show', $id]],
+            'url' => ['home', 'umkm.index', 'umkm.index'],
         ];
         return response()->view('pages.umkm.show', [
-            'breadcrumb' => $breadcrumb, 'penduduk'=>$penduduk, 'umkm'=>$umkm
+            'breadcrumb' => $breadcrumb,
+            'penduduk' => $penduduk,
+            'umkm' => $umkm,
+            'toolbar_id' => $id,
+            'active' => 'detail',
+            'toolbar_route' => [
+                'detail' => route('umkm.show', ['umkm' => $id]),
+                'edit' => route('umkm.edit', ['umkm' => $id]),
+                'hapus' => route('umkm.destroy', ['umkm' => $id]),
+            ]
         ]);
     }
 
@@ -113,17 +146,26 @@ class BusinessUserController extends Controller
     {
         $breadcrumb = [
             'list' => ['Home', 'UMKM', 'Edit Data UMKM'],
-            'url' => ['home', 'umkm.index', 'umkm.edit'],
+            'url' => ['home', 'umkm.index', 'umkm.index'],
         ];
         $penduduk = Penduduk::all();
         $umkm = UMKM::find($id);
 
         return response()->view('pages.umkm.edit', [
-            'breadcrumb' => $breadcrumb, 'umkm' => $umkm, 'penduduk'=> $penduduk
+            'breadcrumb' => $breadcrumb,
+            'umkm' => $umkm,
+            'penduduk' => $penduduk,
+            'toolbar_id' => $id,
+            'active' => 'edit',
+            'toolbar_route' => [
+                'detail' => route('umkm.show', ['umkm' => $id]),
+                'edit' => route('umkm.edit', ['umkm' => $id]),
+                'hapus' => route('umkm.destroy', ['umkm' => $id]),
+            ]
         ]);
     }
 
-    public function update(Request $request,string $id)
+    public function update(Request $request, string $id)
     {
         $umkm = UMKM::find($id);
 
@@ -132,17 +174,18 @@ class BusinessUserController extends Controller
         ]);
     }
 
-    public function destroy(string $id){
+    public function destroy(string $id)
+    {
         $check = UMKM::find($id);
-        if(!$check){
-            return redirect()->route('umkm.index')->with('error','Data UMKM tidak ditemukan');
+        if (!$check) {
+            return redirect()->route('umkm.index')->with('error', 'Data UMKM tidak ditemukan');
         }
 
-        try{
+        try {
             UMKM::destroy($id);
 
             return redirect()->route('umkm.index')->with('success', 'Data UMKM berhasil dihapus');
-        }catch(\Illuminate\Database\QueryException $e){
+        } catch (\Illuminate\Database\QueryException $e) {
             return redirect()->route('umkm.index')->with('errror', 'Data UMKM gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
         }
     }

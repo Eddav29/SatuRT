@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="p-6 lg:px-12 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col gap-y-5">
-        <x-action-button :href="'informasi'" :id="$information->informasi_id" />
+        <x-toolbar :toolbar_id="$toolbar_id" :active="$active" :toolbar_route="$toolbar_route" /> 
         <div class="p-6 rounded-xl bg-white-snow">
             {{-- Information Details --}}
             <section>

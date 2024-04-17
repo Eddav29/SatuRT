@@ -17,7 +17,8 @@ use Illuminate\Support\Facades\Storage;
 
 class DocumentRequestController extends Controller
 {
-    public function index(): Response{
+    public function index(): Response
+    {
 
         $data = $this->list();
         // Check if data is empty before decoding
@@ -33,7 +34,7 @@ class DocumentRequestController extends Controller
         ];
         return response()->view('pages.persuratan.index', [
             'breadcrumb' => $breadcrumb,
-            'data' => $data['data'] ?? [], 
+            'data' => $data['data'] ?? [],
         ]);
     }
 
@@ -42,12 +43,12 @@ class DocumentRequestController extends Controller
         try {
             $pengajuan = Pengajuan::all();
             $pengajuan->load(
-                ['status','penduduk','acceptedBy']
+                ['status', 'penduduk', 'acceptedBy']
             );
             $persuratan = Persuratan::all();
             // $persuratan = Persuratan::with('pengajuan')->find($id);
             // $pengajuan = Pengajuan::with('penduduk','status')->all();
-            
+
 
             $data = Persuratan::all()->map(function ($persuratan) {
                 return [
@@ -61,32 +62,32 @@ class DocumentRequestController extends Controller
                     'updated_at' => Carbon::parse($persuratan->updated_at)->format('d-m-Y'),
                 ];
             });
-            
+
             return response()->json([
                 'data' => $data,
             ]);
-            
+
         } catch (\Throwable $th) {
             return response()->json(['error' => 'Terjadi kesalahan.'], 500);
         }
     }
 
-    public function show(String $id): Response|JsonResponse
+    public function show(string $id): Response|JsonResponse
     {
-            
-            $persuratan = Persuratan::with('pengajuan')->find($id);
-            
-            $breadcrumb = [
-                'list' => ['Home', 'Permohonan Surat', 'Detail Permohonan Surat'],
-                'url' => ['home', 'persuratan.index', ['persuratan.show', $id]],
-            ];
+
+        $persuratan = Persuratan::with('pengajuan')->find($id);
+
+        $breadcrumb = [
+            'list' => ['Home', 'Permohonan Surat', 'Detail Permohonan Surat'],
+            'url' => ['home', 'persuratan.index', ['persuratan.show', $id]],
+        ];
 
 
 
-            return response()->view('pages.persuratan.show', [
-                'breadcrumb' => $breadcrumb,
-                'persuratan' => $persuratan,    
-            ]);
+        return response()->view('pages.persuratan.show', [
+            'breadcrumb' => $breadcrumb,
+            'persuratan' => $persuratan,
+        ]);
 
     }
 

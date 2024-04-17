@@ -47,12 +47,12 @@ Route::prefix('v1')->group(function () {
     Route::get('data-penduduk/keluarga/{id}/anggota', [CitizenController::class, 'list']);
     Route::get('data-akun/penduduk', [CitizenAccountController::class, 'list']);
 
-    Route::get('informasi', [InformationController::class, 'list'])->middleware('api');
-    Route::get('umkm', [BusinessUserController::class, 'list'])->middleware('api');
-    Route::get('pelaporan', [ResidentReportController::class, 'list'])->middleware('api');
+    Route::get('informasi', [InformationController::class, 'list']);
+    Route::get('umkm', [BusinessUserController::class, 'list']);
+    Route::get('pelaporan', [ResidentReportController::class, 'list']);
 
-    Route::get('keuangan', [FinanceReportController::class, 'list'])->middleware('api');
-    Route::get('persuratan', [DocumentRequestController::class, 'list'])->middleware('api');
+    Route::get('keuangan', [FinanceReportController::class, 'list']);
+    Route::get('persuratan', [DocumentRequestController::class, 'list']);
 })->middleware('api');
 
 Route::get('/pengumuman/{id}', [AnnouncementController::class, 'getAnnouncement'])->middleware('api');

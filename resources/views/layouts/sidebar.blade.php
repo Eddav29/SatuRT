@@ -16,7 +16,6 @@
 
 
     @if (Auth::check())
-
         @if (Auth::user()->role->role_name === 'Ketua RT')
             <div class="overflow-y-auto pt-10 lg:pt-24 no-scrollbar">
                 <h1 class="text-navy-night/35 ">MAIN MENU</h1>
@@ -59,16 +58,14 @@
                             </div>
                         </div>
                         <div>
-                            <x-nav-menu :href="route('umkm.index')" :active="request()->routeIs('umkm.index') ||
-                                request()->routeIs('umkm.create') ||
-                                request()->routeIs('umkm.edit') ||
-                                request()->routeIs('umkm.show')" svgIcon="heroicon-o-building-storefront"
+                            <x-nav-menu :href="route('umkm.index')" :active="request()->is('umkm*')" svgIcon="heroicon-o-building-storefront"
                                 iconStyle="h-8 w-8">
                                 UMKM
                             </x-nav-menu>
                         </div>
                         <div>
-                            <x-nav-menu svgIcon="heroicon-o-document-text" iconStyle="h-8 w-8">
+                            <x-nav-menu :href="route('persuratan.index')" :active="request()->is('persuratan*')" svgIcon="heroicon-o-document-text"
+                                iconStyle="h-8 w-8">
                                 Permohonan Surat
                             </x-nav-menu>
                         </div>
@@ -78,72 +75,17 @@
                             </x-nav-menu>
                         </div>
                         <div>
-                            <x-nav-menu svgIcon="heroicon-o-microphone" :href="route('informasi.index')" :active="request()->routeIs('informasi.index') ||
-                                request()->routeIs('informasi.show') ||
-                                request()->routeIs('informasi.edit') ||
-                                request()->routeIs('informasi.create')"
+                            <x-nav-menu svgIcon="heroicon-o-microphone" :href="route('informasi.index')" :active="request()->is('informasi*')"
                                 iconStyle="h-8 w-8">
                                 Informasi
                             </x-nav-menu>
                         </div>
                         <div>
                             <x-nav-menu svgIcon="heroicon-o-megaphone" iconStyle="h-8 w-8" :href="route('pelaporan.index')"
-                                :active="request()->routeIs('pelaporan.index') ||
-                                    request()->routeIs('pelaporan.show') ||
-                                    request()->routeIs('pelaporan.edit') ||
-                                    request()->routeIs('pelaporan.create')">
+                                :active="request()->is('pelaporan*')">
                                 Laporan Warga
                             </x-nav-menu>
                         </div>
-<<<<<<< HEAD
-                    </x-nav-menu>
-                </div>
-                <div :class="selected === 'Penduduk' ? 'block' : 'hidden'">
-                    <div class="pl-11 py-1">
-                        <x-nav-menu :href="url('data-penduduk/keluarga')" :active="request()->is('data-penduduk/*')">
-                            Data Penduduk
-                        </x-nav-menu>
-                    </div>
-                    <div class="pl-11 py-1">
-                        <x-nav-menu :href="url('data-akun/penduduk')" :active="request()->is('data-akun/*')">
-                            Data Akun
-                        </x-nav-menu>
-                    </div>
-                </div>
-                <div>
-                    <x-nav-menu :href="route('umkm.index')" :active="request()->routeIs('umkm.index') || request()->routeIs('umkm.create') || request()->routeIs('umkm.edit') || request()->routeIs('umkm.show')" svgIcon="heroicon-o-building-storefront" iconStyle="h-8 w-8">
-                        UMKM
-                    </x-nav-menu>
-                </div>
-                <div>
-                    <x-nav-menu svgIcon="heroicon-o-document-text" :href="route('persuratan.index')" :active="request()->routeIs('persuratan.index') ||
-                        request()->routeIs('persuratan.show') " iconStyle="h-8 w-8">
-                        Permohonan Surat
-                    </x-nav-menu>
-                </div>
-                <div>
-                    <x-nav-menu svgIcon="heroicon-o-scale" iconStyle="h-8 w-8">
-                        Pendukung Keputusan
-                    </x-nav-menu>
-                </div>
-                <div>
-                    <x-nav-menu svgIcon="heroicon-o-microphone" :href="route('informasi.index')" :active="request()->routeIs('informasi.index') ||
-                        request()->routeIs('informasi.show') ||
-                        request()->routeIs('informasi.edit') ||
-                        request()->routeIs('informasi.create')" iconStyle="h-8 w-8">
-                        Informasi
-                    </x-nav-menu>
-                </div>
-                <div>
-                    <x-nav-menu svgIcon="heroicon-o-megaphone" iconStyle="h-8 w-8" :href="route('pelaporan.index')" :active="request()->routeIs('pelaporan.index') ||
-                        request()->routeIs('pelaporan.show') ||
-                        request()->routeIs('pelaporan.edit') ||
-                        request()->routeIs('pelaporan.create')">
-                        Laporan Warga
-                    </x-nav-menu>
-                </div>
-=======
->>>>>>> 185e500966bd8a0110a7ce18914ad9c4dad992be
 
                     </nav>
                 </div>
@@ -154,7 +96,7 @@
                 <div class="py-5">
                     <nav>
                         <div>
-                            <x-nav-menu :href="route('warga.dashboard')" :active="request()->routeIs('dashboard')" svgIcon="heroicon-o-squares-2x2"
+                            <x-nav-menu :href="route('dashboard')" :active="request()->routeIs('dashboard')" svgIcon="heroicon-o-squares-2x2"
                                 iconStyle="h-8 w-8">
                                 Dashboard
                             </x-nav-menu>
@@ -168,10 +110,7 @@
                             </x-nav-menu>
                         </div>
                         <div>
-                            <x-nav-menu :href="route('umkm.index')" :active="request()->routeIs('umkm.index') ||
-                                request()->routeIs('umkm.create') ||
-                                request()->routeIs('umkm.edit') ||
-                                request()->routeIs('umkm.show')" svgIcon="heroicon-o-building-storefront"
+                            <x-nav-menu :href="route('umkm.index')" :active="request()->is('umkm*')" svgIcon="heroicon-o-building-storefront"
                                 iconStyle="h-8 w-8">
                                 UMKM
                             </x-nav-menu>
@@ -183,10 +122,7 @@
                         </div>
                         <div>
                             <x-nav-menu svgIcon="heroicon-o-megaphone" iconStyle="h-8 w-8" :href="route('pelaporan.index')"
-                                :active="request()->routeIs('pelaporan.index') ||
-                                    request()->routeIs('pelaporan.show') ||
-                                    request()->routeIs('pelaporan.edit') ||
-                                    request()->routeIs('pelaporan.create')">
+                                :active="request()->is('pelaporan*')">
                                 LAPOR!
                             </x-nav-menu>
                         </div>

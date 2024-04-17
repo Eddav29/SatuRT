@@ -19,24 +19,23 @@
             @endisset
         </div>
 
-        <div class="modal-screen fixed w-full top-0 right-0 bottom-0 left-0 z-[99999] bg-black bg-opacity-35 " x-cloak
-            x-show="isOpen">
-            <div
-                class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[350px] md:max-w-[450px] z-50 py-10 px-12 bg-white rounded-xl">
-                <div class="modal">
-                    <div class="modal-content space-y-4">
-                        <div class="modal-header">
-                            <h2 class="font-bold md:text-xl text-md">Hapus Data Keluarga</h2>
-                        </div>
-                        <div class="modal-body">
-                            <p class="md:text-md text-xs">Apakah Anda yakin ingin menghapus data keluarga ini?</p>
-                            <div class="flex justify-end mt-8 space-x-4">
-                                <button type="submit" @click.prevent="isOpen = false"
-                                    class="bg-blue-500 text-white px-4 py-2 rounded-md md:text-md text-sm"
-                                    id="deleteButton" onclick="hapusData('{{ $toolbar_id }}')">Ya</button>
-                                <button type="submit" @click.prevent="isOpen = false"
-                                    class="bg-white text-black border border-gray-300 px-4 py-2 rounded-md md:text-md text-sm">Tidak</button>
-                            </div>
+    <div class="modal-screen fixed w-full top-0 right-0 bottom-0 left-0 z-[99999] bg-black bg-opacity-35 " x-cloak
+        x-show="isOpen">
+        <div
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[350px] md:max-w-[450px] z-50 py-10 px-12 bg-white rounded-xl">
+            <div class="modal">
+                <div class="modal-content space-y-4">
+                    <div class="modal-header">
+                        <h2 class="font-bold md:text-xl text-md">Hapus Data</h2>
+                    </div>
+                    <div class="modal-body">
+                        <p class="md:text-md text-xs">Apakah Anda yakin ingin menghapus data ini?</p>
+                        <div class="flex justify-end mt-8 space-x-4">
+                            <button type="submit" @click.prevent="isOpen = false"
+                                class="bg-blue-500 text-white px-4 py-2 rounded-md md:text-md text-sm" id="deleteButton"
+                                onclick="hapusData('{{ $toolbar_id }}')">Ya</button>
+                            <button type="submit" @click.prevent="isOpen = false"
+                                class="bg-white text-black border border-gray-300 px-4 py-2 rounded-md md:text-md text-sm">Tidak</button>
                         </div>
                     </div>
                 </div>
