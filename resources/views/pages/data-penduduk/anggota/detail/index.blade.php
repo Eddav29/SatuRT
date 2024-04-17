@@ -3,6 +3,11 @@
         <x-breadcrumb :list="$breadcrumb['list']" :url="$breadcrumb['url']" />
     </x-slot>
     <section class="mx-6 md:mx-14 my-4">
+        <div>
+            <x-toolbar :toolbar_id="$toolbar_id " :active="$active" :toolbar_route="$toolbar_route"/>
+        </div>
+    </section>
+    <section class="mx-6 md:mx-14 my-4">
         <div class="bg-white">
             <div class=" p-6 space-x-4">
                 <div>
