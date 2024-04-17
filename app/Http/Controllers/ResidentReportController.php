@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
-use Illuminate\Http\JsonResponse;
 use App\Http\Resources\ResidentReportResource;
 use App\Models\Pelaporan;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class ResidentReportController extends Controller
 {
@@ -28,15 +29,27 @@ class ResidentReportController extends Controller
         return new ResidentReportResource($residentReport);
     }
 
+    // KETUA RT
     public function index(): Response
     {
-        $breadcrumb = [
-            'list' => ['Home', 'Pelaporan Warga'],
-            'url' => ['home', 'pelaporan.index'],
-        ];
-        return response()->view('pages.resident-report.index', [
-            'breadcrumb' => $breadcrumb,
-        ]);
+        if (Auth::user()->role->role_name == 'Ketua RT') {
+            $breadcrumb = [
+                'list' => ['Home', 'Pelaporan Warga'],
+                'url' => ['home', 'pelaporan.index'],
+            ];
+            return response()->view('pages.resident-report.index', [
+                'breadcrumb' => $breadcrumb,
+            ]);
+        } else {
+            $breadcrumb = [
+                'list' => ['Home', 'LAPOR!'],
+                'url' => ['home', 'pelaporan.index'],
+            ];
+            return response()->view('pages.warga.report.index', [
+                'breadcrumb' => $breadcrumb,
+            ]);
+        }
+
     }
 
     /**
@@ -44,19 +57,36 @@ class ResidentReportController extends Controller
      */
     public function show(string $id)
     {
-        $pelaporan = Pelaporan::with('pengajuan')->find($id);
-        $user = User::all();
+        if (Auth::user()->role->role_name == 'Ketua RT') {
+            $pelaporan = Pelaporan::with('pengajuan')->find($id);
+            $user = User::all();
 
-        $breadcrumb = [
-            'list' => ['Home', 'Pelaporan', 'Detail Pelaporan'],
-            'url' => ['home', 'pelaporan.index', ['pelaporan.show', $id]],
-        ];
+            $breadcrumb = [
+                'list' => ['Home', 'Pelaporan', 'Detail Pelaporan'],
+                'url' => ['home', 'pelaporan.index', ['pelaporan.show', $id]],
+            ];
 
-        return response()->view('pages.resident-report.show', [
-            'pelaporan' => $pelaporan,
-            'user' => $user,
-            'breadcrumb' => $breadcrumb,
-        ]);
+            return response()->view('pages.resident-report.show', [
+                'pelaporan' => $pelaporan,
+                'user' => $user,
+                'breadcrumb' => $breadcrumb,
+            ]);
+        } else {
+            $pelaporan = Pelaporan::with('pengajuan')->find($id);
+            $user = User::all();
+
+            $breadcrumb = [
+                'list' => ['Home', 'LAPOR!', 'Detail Pelaporan'],
+                'url' => ['home', 'pelaporan.index', ['pelaporan.show', $id]],
+            ];
+
+            return response()->view('pages.warga.report.show', [
+                'pelaporan' => $pelaporan,
+                'user' => $user,
+                'breadcrumb' => $breadcrumb,
+            ]);
+        }
+
     }
 
     /**
@@ -123,32 +153,54 @@ class ResidentReportController extends Controller
         }
     }
 
-    public function download(string $fileName)
-    {
-        try {
-            return Storage::download('public/resident-report_images/' . $fileName);
-        } catch (\Throwable $th) {
-            return response()->json(['error' => 'File not found or an error occurred.'], 404);
-        }
-    }
-
     public function list(): JsonResponse
     {
         try {
-            $data = Pelaporan::all()->map(function ($pelaporan) {
-                return [
-                    'pelapor' => $pelaporan->pengajuan->penduduk->nama,
-                    'status' => $pelaporan->pengajuan->status->nama,
-                    'jenis_pelaporan' => $pelaporan->jenis_pelaporan,
-                    'tanggal' => Carbon::parse($pelaporan->pengajuan->accepted_at)->format('d-m-Y'),
-                ];
-            });
 
-            return response()->json([
-                'data' => $data,
-            ]);
+            if (Auth::user()->role->role_name == 'Ketua RT') {
+                $data = Pelaporan::all()->map(function ($pelaporan) {
+                    return [
+                        'pelapor' => $pelaporan->pengajuan->penduduk->nama,
+                        'status' => $pelaporan->pengajuan->status->nama,
+                        'jenis_pelaporan' => $pelaporan->jenis_pelaporan,
+                        'tanggal' => Carbon::parse($pelaporan->pengajuan->accepted_at)->format('d-m-Y'),
+                    ];
+                });
+
+                return response()->json([
+                    'data' => $data,
+                ]);
+            } else {
+                $data = Pelaporan::all()->map(function ($pelaporan) {
+                    return [
+                        'id_laporan' => $pelaporan->id,
+                        'pelapor' => $pelaporan->pengajuan->penduduk->nama,
+                        'jenis_pelaporan' => $pelaporan->jenis_pelaporan,
+                        'tanggal' => Carbon::parse($pelaporan->pengajuan->accepted_at)->format('d-m-Y'),
+                    ];
+                });
+
+                return response()->json([
+                    'data' => $data,
+                ]);
+            }
         } catch (\Throwable $th) {
             return response()->json(['error' => 'An error occurred.'], 500);
         }
     }
+
+    public function create()
+    {
+        $pelaporan = Pelaporan::all();
+
+        $breadcrumb = [
+            'list' => ['Home', 'LAPOR!', 'Tambah Pelaporan'],
+            'url' => ['home', 'lapor.index_warga', 'lapor.create_warga'],
+        ];
+        return response()->view('pages.warga.report.create', [
+            'breadcrumb' => $breadcrumb,
+            'pelaporan' => $pelaporan,
+        ]);
+    }
+
 }

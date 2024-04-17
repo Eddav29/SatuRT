@@ -62,6 +62,10 @@ Route::resource('pelaporan', ResidentReportController::class)->middleware(['auth
     'index' => 'pelaporan.index',
     'show' => 'pelaporan.show',
     'update' => 'pelaporan.update',
+    'create' => 'pelaporan.create',
+    'store' => 'pelaporan.store',
+    'edit' => 'pelaporan.edit',
+    'destroy' => 'pelaporan.destroy',
 ]);
 
 Route::resource('umkm', BusinessUserController::class)->middleware(['auth', 'verified'])->names([
