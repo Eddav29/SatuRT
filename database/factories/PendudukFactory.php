@@ -29,7 +29,7 @@ class PendudukFactory extends Factory
             'agama' => $this->faker->randomElement(['Islam', 'Kristen', 'Katolik', 'Hindu', 'Budha', 'Konghucu', 'Lainnya']),
             'tempat_lahir' => $this->faker->city(),
             'tanggal_lahir' => $this->faker->date(),
-            'status_hubungan_dalam_keluarga' => $this->faker->randomElement(['Kepala Keluarga', 'Istri', 'Anak', 'Cucu', 'Ayah', 'Ibu', 'Saudara', 'Mertua', 'Menantu', 'Cucu Menantu', 'Cicit', 'Keluarga Lain']),
+            'status_hubungan_dalam_keluarga' => $this->faker->randomElement(['Istri', 'Anak', 'Cucu', 'Ayah', 'Ibu', 'Saudara', 'Mertua', 'Menantu', 'Cucu Menantu', 'Cicit', 'Keluarga Lain']),
             'status_perkawinan' => $this->faker->randomElement(['Kawin', 'Belum Kawin', 'Cerai']),
             'pendidikan_terakhir' => $this->faker->randomElement(['SD', 'SMP', 'SMA', 'D3', 'S1', 'S2', 'S3']),
             'foto_ktp' => $this->faker->imageUrl(),
