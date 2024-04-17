@@ -121,9 +121,11 @@ class ResidentReportController extends Controller
         if ($request->file('image_url')) {
             Storage::delete('public/resident-report_images/' . $pelaporan->image_url);
 
-            if ($validated['jenis_pelaporan'] == 'Pengaduan' ||
+            if (
+                $validated['jenis_pelaporan'] == 'Pengaduan' ||
                 $validated['jenis_pelaporan'] == 'Kritik' ||
-                $validated['jenis_pelaporan'] == 'Saran') {
+                $validated['jenis_pelaporan'] == 'Saran'
+            ) {
 
                 $fileName = $request->file('image_url')->getClientOriginalName();
                 $request->file('image_url')->storeAs('resident-report_images', $fileName, 'public');
@@ -178,9 +180,11 @@ class ResidentReportController extends Controller
                     'data' => $data,
                 ]);
             } else {
-                $data = Pelaporan::all()->map(function ($pelaporan) {
+                $data = Pelaporan::whereHas('pengajuan', function ($query) {
+                    $query->where('penduduk_id', auth()->user()->penduduk->penduduk_id);
+                })->with('pengajuan')->get()->map(function ($pelaporan) {
                     return [
-                        'id_laporan' => $pelaporan->id,
+                        'id_laporan' => $pelaporan->pelaporan_id,
                         'pelapor' => $pelaporan->pengajuan->penduduk->nama,
                         'jenis_pelaporan' => $pelaporan->jenis_pelaporan,
                         'tanggal' => Carbon::parse($pelaporan->pengajuan->accepted_at)->format('d-m-Y'),

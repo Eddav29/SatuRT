@@ -51,7 +51,7 @@
                 :columns="[
                     [
                         'label' => 'ID Laporan',
-                        'key' => 'pelapor',
+                        'key' => 'id_laporan',
                         'style' => [
                             'text-align' => 'left',
                         ],
