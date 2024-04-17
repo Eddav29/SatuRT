@@ -5,7 +5,7 @@
 
     <div class="p-6 lg:px-12 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col gap-y-5">
         <x-toolbar :toolbar_id="$toolbar_id" :active="$active" :toolbar_route="$toolbar_route" />
-        <div class="p-6 rounded-xl bg-white-snow">
+        <div class="p-6 rounded-xl bg-white-snow mt-5">
             {{-- Detail Keuangan --}}
             <section>
                 <div class="bg-blue-gray p-5 rounded-md">
@@ -15,16 +15,10 @@
             {{-- Forms Keuangan --}}
             <section>
 
-<<<<<<< Updated upstream
-                <div class="mx-3 my-4 flex  max-lg:flex-row flex-nowrap font-bold">
-                    <div class="w-1/2" >
-                        <div>NIK</div>
-=======
                 <div class="mx-3 my-4 flex  max-lg:flex-col flex-nowrap font-bold">
                     <div class="w-1/2">
                         <div>Judul Catatan</div>
                         <div class="font-normal my-2">{{ $detailKeuangan->judul }}</div>
->>>>>>> Stashed changes
                     </div>
                     <div class="w-1/2">
                         <div>Asal</div>

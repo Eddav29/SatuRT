@@ -69,10 +69,25 @@
                                 Permohonan Surat
                             </x-nav-menu>
                         </div>
-                        <div>
-                            <x-nav-menu svgIcon="heroicon-o-scale" iconStyle="h-8 w-8">
+                        <div @click.prevent="selected = selected === 'Metode' ? '' : 'Metode'">
+                            <x-nav-menu svgIcon="heroicon-o-scale" iconStyle="h-12 w-12">
                                 Pendukung Keputusan
+                                <div class="w-8 h-8 ml-10" :class="selected === 'Metode' ? 'rotate-180' : ''">
+                                    <x-heroicon-o-chevron-down />
+                                </div>
                             </x-nav-menu>
+                        </div>
+                        <div :class="selected === 'Metode' || selected === 'Kelola' || selected === 'Kriteria'  ? 'block' : 'hidden'">
+                            <div class="pl-11 py-1">
+                                <x-nav-menu :href="url('alternatif')" :active="request()->is('alternatif/*')">
+                                    Kelola Kegiatan
+                                </x-nav-menu>
+                            </div>
+                            <div class="pl-11 py-1">
+                                <x-nav-menu :href="url('kriteria')" :active="request()->is('kriteria/*')">
+                                    Kriteria
+                                </x-nav-menu>
+                            </div>                        
                         </div>
                         <div>
                             <x-nav-menu svgIcon="heroicon-o-microphone" :href="route('informasi.index')" :active="request()->is('informasi*')"
@@ -102,8 +117,10 @@
                             </x-nav-menu>
                         </div>
                         <div>
-                            <x-nav-menu svgIcon="heroicon-o-user-group"
-                                iconStyle="h-8 w-8">
+
+                            <x-nav-menu :href="route('data-keluarga.show', [
+                                'keluarga' => Auth::user()->penduduk->kartu_keluarga_id,
+                            ])" svgIcon="heroicon-o-user-group" iconStyle="h-8 w-8">
                                 Data Keluarga
                             </x-nav-menu>
                         </div>

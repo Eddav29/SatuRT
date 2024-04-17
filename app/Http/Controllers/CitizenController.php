@@ -7,20 +7,33 @@ use App\Services\FamilyManagement\CitizenService;
 use App\Services\FamilyManagement\FamilyCardService;
 use App\Services\Notification\NotificationPusher;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
-use Mockery\Matcher\Not;
 
 class CitizenController extends Controller
 {
     public function index($keluargaid)
     {
+
+        $user = Auth::user();
+        $url = $user->role->role_name === 'Ketua RT' ? ['home', 'data-keluarga.index', 'data-keluarga.index', ['data-anggota.show', [
+            'keluargaid' => $user->penduduk->kartu_keluarga_id,
+            'anggotum' => $user->penduduk->penduduk_id
+        ]]] : ['dashboard', ['data-keluarga.show', [
+            'keluargaid' => $user->penduduk->kartu_keluarga_id,
+        ]], ['data-keluarga.show', [
+            'keluargaid' => $user->penduduk->kartu_keluarga_id,
+        ]], ['data-anggota.show', [
+            'keluargaid' => $user->penduduk->kartu_keluarga_id,
+            'anggotum' => $user->penduduk->penduduk_id
+        ]]];
         $breadcrumb = [
             'list' => ['Home', 'Penduduk', 'Data Penduduk', 'Detail Data Penduduk'],
-            'url' => ['home', 'data-keluarga.index', 'data-keluarga.index']
+            'url' => $url
         ];
         return view('pages.data-penduduk.anggota.index', [
             'id' => $keluargaid,
@@ -49,21 +62,46 @@ class CitizenController extends Controller
 
     public function show($keluargaid, $id)
     {
+        $user = Auth::user();
+        $url = $user->role->role_name === 'Ketua RT' ? ['home', 'data-keluarga.index', 'data-keluarga.index', ['data-anggota.show', [
+            'keluargaid' => $keluargaid,
+            'anggotum' => $id
+        ]]] : ['dashboard', ['data-keluarga.show', [
+            'keluarga' => $keluargaid
+        ]], ['data-keluarga.show', [
+            'keluarga' => $keluargaid
+        ]], ['data-anggota.show', [
+            'keluargaid' => $keluargaid,
+            'anggotum' => $id
+        ]]];
         $breadcrumb = [
             'list' => ['Home', 'Penduduk', 'Data Penduduk', 'Detail Data Penduduk'],
-            'url' => ['home', 'data-keluarga.index', 'data-keluarga.index']
+            'url' => $url
         ];
         return view('pages.data-penduduk.anggota.detail.index', [
             'id' => $id,
+            'toolbar_id' => $keluargaid,
+            'active' => 'detail',
+            'toolbar_route' => [
+                'detail' => route('data-anggota.show', ['keluargaid' => $keluargaid, 'anggotum' => $id]),
+                'edit' => route('data-anggota.edit', ['keluargaid' => $keluargaid, 'anggotum' => $id]),
+                'hapus' => route('data-anggota.destroy', ['keluargaid' => $keluargaid, 'anggotum' => $id])
+            ],
             'citizen' => CitizenService::find($id),
             'breadcrumb' => $breadcrumb
         ]);
     }
     public function create($id)
     {
+        $user = Auth::user();
+        $url = $user->role->role_name === 'Ketua RT' ? ['home', 'data-keluarga.index', 'data-keluarga.index', ['data-anggota.create', $id]] : ['dashboard', ['data-keluarga.show', [
+            'keluarga' => $id
+        ]], ['data-keluarga.show', [
+            'keluarga' => $id
+        ]], ['data-anggota.create', $id]];
         $breadcrumb = [
             'list' => ['Home', 'Penduduk', 'Data Penduduk', 'Tambah Data Penduduk'],
-            'url' => ['home', 'data-keluarga.index', 'data-keluarga.index', ['data-anggota.create', $id]]
+            'url' => $url
         ];
 
         $jenis_kelamin = Penduduk::getListJenisKelamin();
@@ -171,12 +209,21 @@ class CitizenController extends Controller
 
     public function edit($keluargaid, $id)
     {
+        $user = Auth::user();
+        $url = $user->role->role_name === 'Ketua RT' ? ['home', 'data-keluarga.index', 'data-keluarga.index', ['data-anggota.show', [
+            'keluargaid' => $keluargaid,
+            'anggotum' => $id
+        ]]] : ['dashboard', ['data-keluarga.show', [
+            'keluarga' => $keluargaid
+        ]], ['data-keluarga.show', [
+            'keluarga' => $keluargaid
+        ]], ['data-anggota.edit', [
+            'keluargaid' => $keluargaid,
+            'anggotum' => $id
+        ]]];
         $breadcrumb = [
             'list' => ['Home', 'Penduduk', 'Data Penduduk', 'Edit Data Penduduk'],
-            'url' => ['home', 'data-keluarga.index', 'data-keluarga.index', ['data-anggota.edit', [
-                'keluargaid' => $keluargaid,
-                'anggotum' => $id
-            ]]]
+            'url' => $url
         ];
 
         $jenis_kelamin = Penduduk::getListJenisKelamin();
@@ -187,7 +234,7 @@ class CitizenController extends Controller
         $golongan_darah = Penduduk::getListGolonganDarah();
         $status_penduduk = Penduduk::getListStatusPenduduk();
         return view('pages.data-penduduk.anggota.edit.index', compact('breadcrumb'))->with([
-            'id' => $id,
+            'id' => $keluargaid,
             'toolbar_id' => $keluargaid,
             'active' => 'edit',
             'toolbar_route' => [
@@ -293,12 +340,28 @@ class CitizenController extends Controller
     public function destroy($keluargaid, $id)
     {
         try {
-            CitizenService::delete($id);
-            return response()->json([
-                'code' => 200,
-                'message' => 'Data berhasil dihapus',
-                'timestamp' => now()
-            ]);
+            $user = Auth::user();
+            $service = CitizenService::find($id);
+
+            if ($service && $service->user_id === $user->id) {
+                // Hapus data jika pengguna memiliki izin
+                $service->delete();
+
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'Data berhasil dihapus',
+                    'timestamp' => now(),
+                    'redirect' => route('data-keluarga.show', [
+                        'keluarga' => $keluargaid
+                    ])
+                ]);
+            } else {
+                return response()->json([
+                    'code' => 403,
+                    'message' => 'Anda tidak memiliki akses untuk menghapus data ini',
+                    'timestamp' => now()
+                ]);
+            }
         } catch (\Exception $e) {
             return response()->json([
                 'code' => 500,
