@@ -20,7 +20,7 @@
                         <div class="flex-1">
                             <strong class="block font-medium text-gray-900">Behasil</strong>
 
-                            <p class="mt-1 text-sm text-gray-700">Data berhasil ditambahkan</p>
+                            <p class="mt-1 text-sm text-gray-700">{{ session('success') }}</p>
                         </div>
                     </div>
                 </div>

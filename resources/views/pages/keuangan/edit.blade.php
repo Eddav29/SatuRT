@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="p-6 lg:px-12 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col gap-y-5">
-        <x-action-button :href="'keuangan'" :id="$detailKeuangan->keuangan_id" />
+        <x-toolbar :toolbar_id="$toolbar_id" :active="$active" :toolbar_route="$toolbar_route" />
         <div class="p-6 rounded-xl bg-white-snow">
             {{-- Header --}}
             <section>
@@ -93,20 +93,20 @@
                                 </option>
                                 <option value="Donasi" @click="selected = 'Donasi'"
                                     x-bind:selected="selected === 'Donasi'">Donasi</option>
-                                    <option value="Iuran Warga" @click="selected = 'Iuran Warga'"
+                                <option value="Iuran Warga" @click="selected = 'Iuran Warga'"
                                     x-bind:selected="selected === 'Iuran Warga'">Iuran Warga</option>
-                                    <option value="Kas Umum" @click="selected = 'Kas Umum'"
+                                <option value="Kas Umum" @click="selected = 'Kas Umum'"
                                     x-bind:selected="selected === 'Kas Umum'">Kas Umum</option>
-                                    <option value="Dana Darurat" @click="selected = 'Dana Darurat'"
+                                <option value="Dana Darurat" @click="selected = 'Dana Darurat'"
                                     x-bind:selected="selected === 'Dana Darurat'">Dana Darurat</option>
-                                    <option value="Lainnya" @click="selected = 'Lainnya'"
+                                <option value="Lainnya" @click="selected = 'Lainnya'"
                                     x-bind:selected="selected === 'Lainnya'">Lainnya</option>
                             </select>
                         </div>
                     </div>
 
-                     {{-- Field Nominal keuangan --}}
-                     <div class="flex flex-col mt-5">
+                    {{-- Field Nominal keuangan --}}
+                    <div class="flex flex-col mt-5">
                         <label for="nominal"
                             class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night w-fit">Nominal</label>
                         @error('nominal')

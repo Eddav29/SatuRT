@@ -26,10 +26,10 @@
             <div class="modal">
                 <div class="modal-content space-y-4">
                     <div class="modal-header">
-                        <h2 class="font-bold md:text-xl text-md">Hapus Data Keluarga</h2>
+                        <h2 class="font-bold md:text-xl text-md">Hapus Data</h2>
                     </div>
                     <div class="modal-body">
-                        <p class="md:text-md text-xs">Apakah Anda yakin ingin menghapus data keluarga ini?</p>
+                        <p class="md:text-md text-xs">Apakah Anda yakin ingin menghapus data ini?</p>
                         <div class="flex justify-end mt-8 space-x-4">
                             <button type="submit" @click.prevent="isOpen = false"
                                 class="bg-blue-500 text-white px-4 py-2 rounded-md md:text-md text-sm" id="deleteButton"
@@ -47,32 +47,31 @@
 @push('scripts')
     <script>
         @isset($toolbar_route['hapus'])
-        function hapusData(id) {
-            fetch(`{{ $toolbar_route['hapus'] }}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
-                    },
-                })
-                .then(response => {
-                    return response.json();
-                })
-                .then(data => {
-                    if (data.code >= 200) {
-                        if (data && data.code >= 200 && data.code < 300) {
-                            pushNotification('success', data.message);
-                        } else {
-                            pushNotification('error', data.message || 'An error occurred');
+            function hapusData(id) {
+                fetch(`{{ $toolbar_route['hapus'] }}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        },
+                    })
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        if (data.code >= 200) {
+                            if (data && data.code >= 200 && data.code < 300) {
+                                pushNotification('success', data.message);
+                            } else {
+                                pushNotification('error', data.message || 'An error occurred');
+                            }
                         }
-                    }
-                })
-                .catch(error => {
-                    console.error(error);
-                    pushNotification('error', error);
-                });
-        }
-
+                    })
+                    .catch(error => {
+                        console.error(error);
+                        pushNotification('error', error);
+                    });
+            }
         @endisset
     </script>
 @endpush

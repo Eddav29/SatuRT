@@ -28,6 +28,11 @@
             border-right: 5px solid transparent;
         }
 
+        table.dataTable thead tr th span.dt-column-title {
+            width: max-content !important;
+            display: inline-block !important;
+        }
+
         div.dt-scroll-body thead tr,
         div.dt-scroll-body tfoot tr {
             height: 0;
@@ -368,26 +373,21 @@
             white-space: nowrap;
         }
 
-        /*
-                                                                                                                                                                                                 * Table styles
-                                                                                                                                                                                                 */
+        /* Table styles */
         table.dataTable {
             width: 100%;
             margin: 0 auto;
             border-spacing: 0;
-            /*
-                                                                                                                                                                                                   * Header and footer styles
-                                                                                                                                                                                                   */
-            /*
-                                                                                                                                                                                                   * Body styles
-                                                                                                                                                                                                   */
         }
 
-        table thead tr th:first-child {
+        /* Header and footer styles*/
+        /* Body styles */
+
+        table.dataTables.display thead tr th:first-child {
             border-top-left-radius: 0.75rem !important;
         }
 
-        table thead tr th:last-child {
+        table.dataTables.display thead tr th:last-child {
             border-top-right-radius: 0.75rem !important;
         }
 
@@ -630,9 +630,7 @@
             padding: 4px;
         }
 
-        /*
-                                                                                                                                                                                                 * Control feature layout
-                                                                                                                                                                                                 */
+        /* Control feature layout */
         div.dt-container {
             position: relative;
             width: 100%;
@@ -667,23 +665,9 @@
             text-align: left;
         }
 
-        /* div.dt-container div.dt-layout-row.dt-layout-table div.dt-layout-cell {
-                                                                                                                            display: block;
-                                                                                                                        } */
-
-        /* div.dt-container div.dt-layout-cell {
-                                                                                                                            display: table-cell;
-                                                                                                                            vertical-align: middle;
-                                                                                                                            padding: 5px 0;
-                                                                                                                        } */
-
-        /* div.dt-container div.dt-layout-cell.dt-full {
-                                                                                                                            text-align: center;
-                                                                                                                        } */
-
-        /* div.dt-container div.dt-layout-cell.dt-start {
-                                                                                                                            text-align: left;
-                                                                                                                        } */
+        div.dt-layout-cell table tbody tr td div {
+            text-align: left !important;
+        }
 
         div.dt-container div.dt-layout-cell.dt-end {
             display: flex;
@@ -718,6 +702,12 @@
 
         div.dt-container select.dt-input {
             padding: 4px;
+        }
+
+        div.dt-container .dt-paging {
+            background-color: #ffffff !important;
+            padding: 0.75rem;
+            border-radius: 0.75rem
         }
 
         div.dt-container .dt-paging .dt-paging-button {
@@ -956,11 +946,8 @@
             }
 
             div.dt-container div.dt-layout-row:first-child {
-                display: grid;
-                grid-template-rows: repeat(2, minmax(0, 1fr));
-                grid-template-columns: 1fr;
-                grid-gap: 1em;
-                padding: 1rem 0;
+                display: flex;
+                flex-direction: column
             }
 
             div.dt-container div.dt-layout-row:last-child {
@@ -974,6 +961,10 @@
             }
 
             div.dt-container div.dt-layout-row div.dt-layout-cell div.dt-start {
+                width: 100% !important;
+            }
+
+            div.dt-container div.dt-layout-row div.dt-layout-cell.dt-end {
                 width: 100% !important;
             }
 
@@ -993,8 +984,8 @@
         }
 
         /*
-                                                                                                                                                                                                 * Overrides for RTL support
-                                                                                                                                                                                                 */
+                                                                                                                                                                                                                             * Overrides for RTL support
+                                                                                                                                                                                                                             */
         *[dir="rtl"] table.dataTable thead th,
         *[dir="rtl"] table.dataTable thead td,
         *[dir="rtl"] table.dataTable tfoot th,

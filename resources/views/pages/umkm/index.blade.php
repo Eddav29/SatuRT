@@ -44,62 +44,53 @@
 
             {{-- Table --}}
             <section>
-                <x-datatables id="umkm_id" url="/umkm" :columns="[
-                    [
-                        'label' => 'NIK',
-                        'key' => 'nik',
-                        'style' => [
-                            'text-align' => 'left',
+                <x-datatables :hasAdd="false"
+                    id="umkm_id" url="/umkm" :columns="[
+                        [
+                            'label' => 'NIK',
+                            'key' => 'nik',
+                            'style' => [
+                                'text-align' => 'left',
+                                'width' => 'max-content',
+                            ],
                         ],
-                    ],
-                    [
-                        'label' => 'Pemilik',
-                        'key' => 'nama',
-                        'style' => [
-                            'text-align' => 'left',
+                        [
+                            'label' => 'Pemilik',
+                            'key' => 'nama',
+                            'style' => [
+                                'text-align' => 'left',
+                                'width' => 'max-content',
+                            ],
                         ],
-                    ],
-                    [
-                        'label' => 'Nama Usaha',
-                        'key' => 'nama_umkm',
-                        'style' => [
-                            'text-align' => 'left',
+                        [
+                            'label' => 'Nama Usaha',
+                            'key' => 'nama_umkm',
+                            'style' => [
+                                'text-align' => 'left',
+                                'width' => 'max-content',
+                            ],
                         ],
-                    ],
-                    [
-                        'label' => 'Jenis Usaha',
-                        'key' => 'jenis_umkm',
-                        'style' => [
-                            'text-align' => 'center',
+                        [
+                            'label' => 'Jenis Usaha',
+                            'key' => 'jenis_umkm',
+                            'style' => [
+                                'text-align' => 'center',
+                                'width' => 'max-content',
+                            ],
                         ],
-                    ],
-                    [
-                        'label' => 'Status',
-                        'key' => 'status',
-                        'style' => [
-                            'text-align' => 'center',
+                        [
+                            'label' => 'Status',
+                            'key' => 'status',
+                            'style' => [
+                                'text-align' => 'center',
+                                'width' => 'max-content',
+                            ],
                         ],
-                        
-                    ],
-                    [
-                        'label' => 'Dibuat Pada',
-                        'key' => 'created_at',
-                        'style' => [
-                            'text-align' => 'center',
-                        ],
-                    ],
-                    [
-                        'label' => 'Terakhir Diubah',
-                        'key' => 'updated_at',
-                        'style' => [
-                            'text-align' => 'center',
-                        ],
-                    ],
-                ]" :aksi="[
-                    'detail' => true,
-                    'edit' => true,
-                    'hapus' => true,
-                ]">
+                    ]" :aksi="[
+                        'detail' => true,
+                        'edit' => true,
+                        'hapus' => true,
+                    ]">
                 </x-datatables>
             </section>
             {{-- End Table --}}
