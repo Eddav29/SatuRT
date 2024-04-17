@@ -5,7 +5,8 @@
 
 
     <div class="p-6 lg:px-14 gap-y-5 mx-auto max-w-screen-2xl md:p-6 2xl:p-10 ">
-        <div class="p-6 rounded-xl bg-white-snow overflow-hidden">
+        <x-toolbar :toolbar_id="$toolbar_id" :active="$active" :toolbar_route="$toolbar_route" />
+        <div class="p-6 mt-3 rounded-xl bg-white-snow overflow-hidden">
             @if (session('success'))
                 <div role="alert" class="rounded border-s-4 border-green-500 bg-white p-4">
                     <div class="flex items-start gap-4">
@@ -45,7 +46,7 @@
 
             {{-- Table --}}
             <section>
-                
+
 
                 <div class="bg-blue-gray p-5 max-lg:mt-5 rounded-md">
                     <h1 class="text-2xl font-semibold">Detail Laporan Warga</h1>

@@ -11,8 +11,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ResidentReportController extends Controller
 {
@@ -84,6 +84,13 @@ class ResidentReportController extends Controller
                 'pelaporan' => $pelaporan,
                 'user' => $user,
                 'breadcrumb' => $breadcrumb,
+                'toolbar_id' => $id,
+                'active' => 'detail',
+                'toolbar_route' => [
+                    'detail' => route('pelaporan.show', ['pelaporan' => $id]),
+                    'edit' => route('pelaporan.edit', ['pelaporan' => $id]),
+                    'hapus' => route('pelaporan.destroy', ['pelaporan' => $id]),
+                ],
             ]);
         }
 
@@ -195,11 +202,33 @@ class ResidentReportController extends Controller
 
         $breadcrumb = [
             'list' => ['Home', 'LAPOR!', 'Tambah Pelaporan'],
-            'url' => ['home', 'lapor.index_warga', 'lapor.create_warga'],
+            'url' => ['home', 'pelaporan.index', 'pelaporan.create'],
         ];
         return response()->view('pages.warga.report.create', [
             'breadcrumb' => $breadcrumb,
             'pelaporan' => $pelaporan,
+        ]);
+    }
+
+    public function edit(string $id): Response
+    {
+        $pelaporan = Pelaporan::all();
+
+        $breadcrumb = [
+            'list' => ['Home', 'LAPOR!', 'Edit Pelaporan'],
+            'url' => ['home', 'pelaporan.index', 'pelaporan.index'],
+        ];
+
+        return response()->view('pages.warga.report.edit', [
+            'breadcrumb' => $breadcrumb,
+            'pelaporan' => $pelaporan,
+            'toolbar_id' => $id,
+            'active' => 'edit',
+            'toolbar_route' => [
+                'detail' => route('pelaporan.show', ['pelaporan' => $id]),
+                'edit' => route('pelaporan.edit', ['pelaporan' => $id]),
+                'hapus' => route('pelaporan.destroy', ['pelaporan' => $id]),
+            ]
         ]);
     }
 
