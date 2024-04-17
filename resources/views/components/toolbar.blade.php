@@ -1,6 +1,7 @@
+@props(['toolbar_id', 'active', 'toolbar_route' => []])
 @if (!empty($toolbar_route))
     <div id="modal-container" x-data="{ isOpen: false }">
-        <div class="p-2 bg-white grid md:grid-flow-col grid-cols-2 w-fit rounded-md">
+        <div class="p-2 bg-white grid grid-cols-3 md:grid-flow-col md:grid-cols-2 w-full md:w-fit rounded-md">
             @isset($toolbar_route['detail'])
                 <a href="{{ $toolbar_route['detail'] }}"
                     class="select-none rounded-md inline-flex justify-center items-center py-3 px-4 w-32 @if ($active == 'detail') bg-[#2563EB1A] @endif text-[#2563EB]"
