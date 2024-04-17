@@ -80,6 +80,13 @@ class CitizenController extends Controller
         ];
         return view('pages.data-penduduk.anggota.detail.index', [
             'id' => $id,
+            'toolbar_id' => $keluargaid,
+            'active' => 'detail',
+            'toolbar_route' => [
+                'detail' => route('data-anggota.show', ['keluargaid' => $keluargaid, 'anggotum' => $id]),
+                'edit' => route('data-anggota.edit', ['keluargaid' => $keluargaid, 'anggotum' => $id]),
+                'hapus' => route('data-anggota.destroy', ['keluargaid' => $keluargaid, 'anggotum' => $id])
+            ],
             'citizen' => CitizenService::find($id),
             'breadcrumb' => $breadcrumb
         ]);
