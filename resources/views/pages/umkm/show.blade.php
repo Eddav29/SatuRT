@@ -6,7 +6,7 @@
     {{-- Content Start --}}
     <div class="p-6 lg:px-12 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col gap-y-5">
         <x-toolbar :toolbar_id="$toolbar_id" :active="$active" :toolbar_route="$toolbar_route" /> 
-        <div class="rounded-lg bg-white px-6 py-0 overflow-hidden">
+        <div class="rounded-lg bg-white px-6 py-0 overflow-hidden mt-5">
             {{-- Information Details --}}
             <section>
                 <div class="py-6">
