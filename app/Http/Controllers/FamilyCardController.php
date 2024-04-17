@@ -10,6 +10,7 @@ use App\Services\Notification\NotificationPusher;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -64,19 +65,26 @@ class FamilyCardController extends Controller
 
     public function show($id)
     {
+        $user = Auth::user();
+        $url = $user->role->role_name === 'Ketua RT' ? ['home', 'data-keluarga.index', 'data-keluarga.index'] : ['dashboard', ['data-keluarga.show', [
+            'keluarga' => $id
+        ]], ['data-keluarga.show', [
+            'keluarga' => $id
+        ]]];
         $breadcrumb = [
             'list' => ['Home', 'Penduduk', 'Data Penduduk', 'Detail Data Keluarga'],
-            'url' => ['home', 'data-keluarga.index', 'data-keluarga.index']
+            'url' => $url
         ];
+        $toolbar_route = $user->role->role_name === 'Ketua RT' ? [
+            'detail' => route('data-keluarga.show', ['keluarga' => $id]),
+            'edit' => route('data-keluarga.edit', ['keluarga' => $id]),
+            'hapus' => route('data-keluarga.destroy', ['keluarga' => $id])
+        ] : [];
         return view('pages.data-penduduk.keluarga.detail.index', [
             'id' => $id,
             'toolbar_id' => $id,
             'active' => 'detail',
-            'toolbar_route' => [
-                'detail' => route('data-keluarga.show', ['keluarga' => $id]),
-                'edit' => route('data-keluarga.edit', ['keluarga' => $id]),
-                'hapus' => route('data-keluarga.destroy', ['keluarga' => $id])
-            ],
+            'toolbar_route' => $toolbar_route,
             'familyCard' => FamilyCardService::find($id),
             'breadcrumb' => $breadcrumb
         ]);
@@ -190,12 +198,17 @@ class FamilyCardController extends Controller
 
     public function edit($id)
     {
+        $user = Auth::user();
+        $url = $user->role->role_name === 'Ketua RT' ? ['home', 'data-keluarga.index', 'data-keluarga.index'] : ['dashboard', ['data-keluarga.show', [
+            'keluarga' => $id
+        ]], ['data-keluarga.show', [
+            'keluarga' => $id
+        ]], ['data-keluarga.edit', [
+            'keluarga' => $id
+        ]]];
         $breadcrumb = [
             'list' => ['Home', 'Penduduk', 'Data Penduduk', 'Edit Data Keluarga'],
-            'url' => ['home', 'data-keluarga.index', 'data-keluarga.index', [
-                'data-keluarga.edit',
-                ['keluarga' => $id]
-            ]]
+            'url' => $url
         ];
         return view('pages.data-penduduk.keluarga.edit.index', [
             'id' => $id,

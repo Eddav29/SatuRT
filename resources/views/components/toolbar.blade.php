@@ -1,23 +1,23 @@
-@props(['toolbar_id', 'active', 'toolbar_route' => []])
-<div id="modal-container" x-data="{ isOpen: false }">
-    <div class="p-2 bg-white grid md:grid-flow-col grid-cols-2 w-fit rounded-md">
-        @isset($toolbar_route['detail'])
-            <a href="{{ $toolbar_route['detail'] }}"
-                class="select-none rounded-md inline-flex justify-center items-center py-3 px-4 w-32 @if ($active == 'detail') bg-[#2563EB1A] @endif text-[#2563EB]"
-                draggable="false"><x-heroicon-o-eye class="w-6 h-6" /> <span class="md:ml-4 ml-2">Detail</span></a>
-        @endisset
-        @isset($toolbar_route['edit'])
-            <a href="{{ $toolbar_route['edit'] }}"
-                class="select-none rounded-md inline-flex justify-center items-center py-3 px-4 w-32 @if ($active == 'edit') bg-[#22C55E1A] @endif text-[#22C55E]"
-                draggable="false"><x-heroicon-o-pencil class="w-6 h-6" /> <span class="md:ml-4 ml-2">Edit</span></a>
-        @endisset
-        @isset($toolbar_route['hapus'])
-            <button
-                class="select-none rounded-md inline-flex justify-center items-center py-3 px-4 w-32 @if ($active == 'hapus') bg-[#EF44441A] @endif text-[#EF4444]"
-                draggable="false" @click.prevent="isOpen = true"><x-heroicon-o-trash class="w-6 h-6" /> <span
-                    class="md:ml-4 ml-2">Hapus</span></button>
-        @endisset
-    </div>
+@if (!empty($toolbar_route))
+    <div id="modal-container" x-data="{ isOpen: false }">
+        <div class="p-2 bg-white grid md:grid-flow-col grid-cols-2 w-fit rounded-md">
+            @isset($toolbar_route['detail'])
+                <a href="{{ $toolbar_route['detail'] }}"
+                    class="select-none rounded-md inline-flex justify-center items-center py-3 px-4 w-32 @if ($active == 'detail') bg-[#2563EB1A] @endif text-[#2563EB]"
+                    draggable="false"><x-heroicon-o-eye class="w-6 h-6" /> <span class="md:ml-4 ml-2">Detail</span></a>
+            @endisset
+            @isset($toolbar_route['edit'])
+                <a href="{{ $toolbar_route['edit'] }}"
+                    class="select-none rounded-md inline-flex justify-center items-center py-3 px-4 w-32 @if ($active == 'edit') bg-[#22C55E1A] @endif text-[#22C55E]"
+                    draggable="false"><x-heroicon-o-pencil class="w-6 h-6" /> <span class="md:ml-4 ml-2">Edit</span></a>
+            @endisset
+            @isset($toolbar_route['hapus'])
+                <button
+                    class="select-none rounded-md inline-flex justify-center items-center py-3 px-4 w-32 @if ($active == 'hapus') bg-[#EF44441A] @endif text-[#EF4444]"
+                    draggable="false" @click.prevent="isOpen = true"><x-heroicon-o-trash class="w-6 h-6" /> <span
+                        class="md:ml-4 ml-2">Hapus</span></button>
+            @endisset
+        </div>
 
     <div class="modal-screen fixed w-full top-0 right-0 bottom-0 left-0 z-[99999] bg-black bg-opacity-35 " x-cloak
         x-show="isOpen">
@@ -42,7 +42,7 @@
             </div>
         </div>
     </div>
-</div>
+@endif
 
 @push('scripts')
     <script>
@@ -62,6 +62,11 @@
                         if (data.code >= 200) {
                             if (data && data.code >= 200 && data.code < 300) {
                                 pushNotification('success', data.message);
+                                if (data?.redirect) {
+                                    setTimeout(() => {
+                                        window.location.href = data.redirect;
+                                    }, 1000);
+                                }
                             } else {
                                 pushNotification('error', data.message || 'An error occurred');
                             }

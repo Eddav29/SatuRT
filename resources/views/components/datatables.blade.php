@@ -8,7 +8,7 @@
         'edit' => false,
         'hapus' => false,
     ],
-    'hasFilter' => true,
+    'hasFilter' => false,
     'filter' => [
         [
             'label' => '',

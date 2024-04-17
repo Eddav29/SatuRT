@@ -105,40 +105,44 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('data-penduduk/keluarga', FamilyCardController::class)
-    ->names([
-        'index' => 'data-keluarga.index',
-        'create' => 'data-keluarga.create',
-        'store' => 'data-keluarga.store',
-        'show' => 'data-keluarga.show',
-        'edit' => 'data-keluarga.edit',
-        'update' => 'data-keluarga.update',
-        'destroy' => 'data-keluarga.destroy'
-    ])
-    ->middleware('auth');
+->names([
+    'index' => 'data-keluarga.index',
+    'create' => 'data-keluarga.create',
+    'store' => 'data-keluarga.store',
+    'edit' => 'data-keluarga.edit',
+    'update' => 'data-keluarga.update',
+    'destroy' => 'data-keluarga.destroy'
+])
+->middleware([
+    'auth',
+    'checkRole:Ketua RT',
+])->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+
+Route::get('data-penduduk/keluarga/{keluarga}', [FamilyCardController::class, 'show'])->name('data-keluarga.show')->middleware(['auth', 'checkRole:Ketua RT,Penduduk']);
 
 Route::resource('data-penduduk/keluarga/{keluargaid}/anggota', CitizenController::class)
-    ->names([
-        'index' => 'data-anggota.index',
-        'create' => 'data-anggota.create',
-        'store' => 'data-anggota.store',
-        'show' => 'data-anggota.show',
-        'edit' => 'data-anggota.edit',
-        'update' => 'data-anggota.update',
-        'destroy' => 'data-anggota.destroy'
-    ])
-    ->middleware('auth');
+->names([
+    'index' => 'data-anggota.index',
+    'create' => 'data-anggota.create',
+    'store' => 'data-anggota.store',
+    'show' => 'data-anggota.show',
+    'edit' => 'data-anggota.edit',
+    'update' => 'data-anggota.update',
+    'destroy' => 'data-anggota.destroy'
+])
+->middleware(['auth', 'checkRole:Ketua RT,Penduduk']);
 
 Route::resource('data-akun/penduduk', CitizenAccountController::class)
-    ->names([
-        'index' => 'data-akun.index',
-        'create' => 'data-akun.create',
-        'store' => 'data-akun.store',
-        'show' => 'data-akun.show',
-        'edit' => 'data-akun.edit',
-        'update' => 'data-akun.update',
-        'destroy' => 'data-akun.destroy'
-    ])
-    ->middleware('auth');
+->names([
+    'index' => 'data-akun.index',
+    'create' => 'data-akun.create',
+    'store' => 'data-akun.store',
+    'show' => 'data-akun.show',
+    'edit' => 'data-akun.edit',
+    'update' => 'data-akun.update',
+    'destroy' => 'data-akun.destroy'
+])
+->middleware(['auth', 'checkRole:Ketua RT']);
 
 require __DIR__ . '/auth.php';
 
