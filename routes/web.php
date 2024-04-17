@@ -20,7 +20,8 @@ use App\Http\Controllers\DocumentRequestController;
 use App\Models\User;
 use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\CriteriaController;
+use App\Http\Controllers\AlternativeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -88,6 +89,24 @@ Route::resource('persuratan', DocumentRequestController::class)->middleware(['au
     'index' => 'persuratan.index',
     'show' => 'persuratan.show',
 ]);
+
+Route::resource('alternatif', AlternativeController::class)
+->names([
+    'index' => 'spk.index',
+    'create' => 'spk.create',
+    'store' => 'spk.store',
+    'show' => 'spk.show',
+    'edit' => 'spk.edit',
+    'update' => 'spk.update',
+    'destroy' => 'spk.destroy'
+])
+->middleware('auth');
+
+Route::resource('kriteria', CriteriaController::class)
+->names([
+    'index' => 'spk.kriteria.index',
+])
+->middleware('auth');
 
 /* Guest and User */
 Route::prefix('profile')->middleware(['auth', 'verified'])->group(function () {

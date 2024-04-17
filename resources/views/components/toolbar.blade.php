@@ -1,4 +1,5 @@
 @props(['toolbar_id', 'active', 'toolbar_route' => []])
+
 @if (!empty($toolbar_route))
     <div id="modal-container" x-data="{ isOpen: false }">
         <div class="p-2 bg-white grid grid-cols-3 md:grid-flow-col md:grid-cols-2 w-full md:w-fit rounded-md">

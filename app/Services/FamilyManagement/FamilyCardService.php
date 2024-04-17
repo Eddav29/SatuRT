@@ -70,7 +70,6 @@ class FamilyCardService implements CRUDServiceInterface, DatatablesInterface
     {
         $penduduk = Penduduk::with(['kartuKeluarga'])
         ->where('status_hubungan_dalam_keluarga', 'Kepala Keluarga')
-        ->distinct('kartu_keluarga_id')
         ->get();
         $penduduk->map(function ($item) {
             $item->penduduk_count = Penduduk::where('kartu_keluarga_id', $item->kartu_keluarga_id)->count();

@@ -79,7 +79,10 @@ class FamilyCardController extends Controller
             'detail' => route('data-keluarga.show', ['keluarga' => $id]),
             'edit' => route('data-keluarga.edit', ['keluarga' => $id]),
             'hapus' => route('data-keluarga.destroy', ['keluarga' => $id])
-        ] : [];
+        ] : [
+            'detail' => route('data-keluarga.show', ['keluarga' => $id]),
+            'hapus' => route('data-keluarga.destroy', ['keluarga' => $id])
+        ];
         return view('pages.data-penduduk.keluarga.detail.index', [
             'id' => $id,
             'toolbar_id' => $id,
