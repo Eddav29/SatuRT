@@ -107,12 +107,16 @@ Route::resource('data-penduduk/keluarga', FamilyCardController::class)
     'index' => 'data-keluarga.index',
     'create' => 'data-keluarga.create',
     'store' => 'data-keluarga.store',
-    'show' => 'data-keluarga.show',
     'edit' => 'data-keluarga.edit',
     'update' => 'data-keluarga.update',
     'destroy' => 'data-keluarga.destroy'
 ])
-->middleware('auth');
+->middleware([
+    'auth',
+    'checkRole:Ketua RT',
+])->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+
+Route::get('data-penduduk/keluarga/{keluarga}', [FamilyCardController::class, 'show'])->name('data-keluarga.show')->middleware(['auth', 'checkRole:Ketua RT,Penduduk']);
 
 Route::resource('data-penduduk/keluarga/{keluargaid}/anggota', CitizenController::class)
 ->names([
@@ -124,7 +128,7 @@ Route::resource('data-penduduk/keluarga/{keluargaid}/anggota', CitizenController
     'update' => 'data-anggota.update',
     'destroy' => 'data-anggota.destroy'
 ])
-->middleware('auth');
+->middleware(['auth', 'checkRole:Ketua RT,Penduduk']);
 
 Route::resource('data-akun/penduduk', CitizenAccountController::class)
 ->names([
@@ -136,7 +140,7 @@ Route::resource('data-akun/penduduk', CitizenAccountController::class)
     'update' => 'data-akun.update',
     'destroy' => 'data-akun.destroy'
 ])
-->middleware('auth');
+->middleware(['auth', 'checkRole:Ketua RT']);
 
 require __DIR__ . '/auth.php';
 

@@ -21,7 +21,9 @@
 
             <div class="flex justify-start mt-8 space-x-4">
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">Simpan</button>
-                <a href="{{route('data-keluarga.index')}}" draggable="false" class="select-none bg-white text-black border border-gray-300 px-4 py-2 rounded-md">Kembali</a>
+                <a href="{{route('data-keluarga.show', [
+                    'keluarga' => $id
+                ])}}" draggable="false" class="select-none bg-white text-black border border-gray-300 px-4 py-2 rounded-md">Kembali</a>
             </div>
         </form>
     </section>

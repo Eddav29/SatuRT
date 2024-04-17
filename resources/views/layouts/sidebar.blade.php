@@ -111,7 +111,10 @@
                             </x-nav-menu>
                         </div>
                         <div>
-                            <x-nav-menu svgIcon="heroicon-o-user-group" iconStyle="h-8 w-8">
+
+                            <x-nav-menu :href="route('data-keluarga.show', [
+                                'keluarga' => Auth::user()->penduduk->kartu_keluarga_id,
+                            ])" svgIcon="heroicon-o-user-group" iconStyle="h-8 w-8">
                                 Data Keluarga
                             </x-nav-menu>
                         </div>
