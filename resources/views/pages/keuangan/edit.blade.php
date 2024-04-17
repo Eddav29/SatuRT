@@ -49,7 +49,7 @@
                             <small class="text-red-500 text-xs py-3">{{ $message }}</small>
                         @enderror
                         <input type="text" placeholder="Judul keuangan" name="judul_keuangan" id="judul"
-                            value="{{ $detailKeuangan->judul_keuangan }}"
+                            value="{{ $detailKeuangan->judul }}"
                             class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
                     </div>
 
