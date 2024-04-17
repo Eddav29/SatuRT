@@ -38,7 +38,7 @@ class DashboardController extends Controller
                 'listOfResidentReport' => $listOfResidentReport
             ]);
         } else {
-            $familyMemberCount = $this->getTotalFamilyMembers();
+            $familyMemberCount = $this->getTotalFamilyMembers(Auth::user()->penduduk->kartu_keluarga_id);
             $incomeThisMonth = $this->getIncomeInThisMonth();
             $expenseThisMonth = $this->getExpenseInThisMonth();
             $detailFinance = $this->getFinanceTranpanceReport();
@@ -120,7 +120,7 @@ class DashboardController extends Controller
         return Pelaporan::with(['pengajuan', 'pengajuan.penduduk'])->get();
     }
 
-    public function getTotalFamilyMembers(string $kk_number = '762ff3c6-2dcf-4735-a45a-64c8860abaf7'): int
+    public function getTotalFamilyMembers(string $kk_number): int
     {
         $count = Penduduk::where('kartu_keluarga_id', $kk_number)->count();
 
