@@ -46,54 +46,75 @@
 
             {{-- Table --}}
             <section>
-
-
-                <div class="bg-blue-gray p-5 max-lg:mt-5 rounded-md">
-                    <h1 class="text-2xl font-semibold">Detail Laporan Warga</h1>
+                <div class="bg-blue-gray p-5 rounded-md">
+                    <h1 class="font-bold md:text-2xl text-xl">Detail Permohonan Surat</h1>
                 </div>
-
-                <div class="mx-3 my-10 flex">
-                    <div class="lg:w-2/12 font-semibold">Pelapor</div>
-                    <div>: Eddo</div>
-                </div>
-
-                <div class="mx-3 my-10 flex">
-                    <div class="lg:w-2/12 font-semibold">NIK</div>
-                    <div>: 121353516267</div>
-                </div>
-
-                <div class="mx-3 my-10 flex">
-                    <div class="lg:w-2/12 font-semibold">Jenis Laporan</div>
-                    <div>: Kritik</div>
-                </div>
-
-                <div class="mx-3 my-10 flex">
-                    <div class="lg:w-2/12 font-semibold">Tanggal</div>
-                    <div>: 01-01-1999</div>
-                </div>
-
-                <div class="mx-3 my-10">
-                    <div class="font-semibold max-lg:hidden">Isi dan Lampiran</div>
-
-                    <div class="flex max-lg:flex-col lg:justify-between gap-3">
-                        {{-- Isi Laporan --}}
-                        <div class="font-semibold lg:hidden">Isi Laporan</div>
-                        <textarea for="lisence_image_url" class="flex flex-col max-lg:max-w-full lg:w-4/6 h-64 border-2 border-gray-300 rounded-lg bg-white"
-                            disabled>
-                            {{-- ISI Pelaporan nanti ndek sini --}}
-                        </textarea>
-
-                        {{-- Gambar --}}
-                        <div class="font-semibold lg:hidden">Lampiran</div>
-                        <label class="max-lg:max-w-full lg:w-2/6 h-64 border-2 border-gray-300 rounded-lg bg-white flex flex-col items-center justify-center">
-                            <img class="mt-2" src="" alt="Laporan Warga">
-                        </label>
+            </section>
+            {{-- Forms Permhonan Surat --}}
+            <section>
+                <form
+                    class="p-6 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col md:grid md:grid-cols-1 md:auto-rows-auto gap-y-5">
+                    <div class="md:grid md:grid-cols-4">
+                        <h5 class="font-semibold">Pelapor</h5>
+                        <p class="md:col-span-3">Eddo</p>
                     </div>
-                </div>
+                    <div class="md:grid md:grid-cols-4">
+                        <h5 class="font-semibold">Jenis Laporan</h5>
+                        <p class="md:col-span-3">Kritik</p>
+                    </div>
+                    <div class="md:grid md:grid-cols-4">
+                        <h5 class="font-semibold">Tanggal</h5>
+                        <p class="md:col-span-3">12-12-2022</p>
+                    </div>
+                    <div class="lg:grid lg:grid-cols-5 lg:gap-3">
+                        <div class="lg:col-span-3">
+                            <h5 class="font-semibold">Laporan</h5>
+                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Unde obcaecati rem eligendi
+                                rerum ad sunt vel nesciunt error ut, voluptatem et esse debitis dolorum perspiciatis.
+                                Aliquid tempore assumenda fuga facilis ullam quisquam vero, nihil at magnam corrupti,
+                                neque a consequuntur, laudantium tenetur quo voluptatum earum nostrum numquam? Atque
+                                quidem reprehenderit ad? Doloremque repudiandae quis asperiores sapiente aut minus
+                                nostrum quo hic quibusdam optio? Sed laborum amet beatae itaque tempora quibusdam
+                                voluptatum. Sint a qui, officiis facilis vitae quibusdam ipsa rerum? Ea illo dicta quas
+                                accusantium amet ad! Laudantium debitis necessitatibus nihil laborum praesentium libero
+                                quam laboriosam accusantium dicta ipsum! Aut.</p>
+                        </div>
+                        <div class="max-lg:mt-5 lg:col-span-2">
+                            <h5 class="font-semibold">Lampiran</h5>
+                            <div x-data="{ openImage: false }">
+                                <img @click="openImage = !openImage"
+                                    src="{{ asset('assets/images/milad-fakurian-PGdW_bHDbpI-unsplash.jpg') }}"
+                                    alt="" class="rounded-xl max-h-[30rem] w-full object-cover"
+                                    draggable="false">
+                                <div x-show="openImage"
+                                    class="fixed z-[999999999] top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
+                                    <img @click="openImage = false" x-show="openImage"
+                                        @click.outside="openImage = false"
+                                        src="{{ asset('assets/images/milad-fakurian-PGdW_bHDbpI-unsplash.jpg') }}"
+                                        alt="" class="rounded-xl w-max h-max lg:max-w-full lg:max-h-full"
+                                        draggable="false">
+                                    <div class="absolute w-8 h-8 top-10 right-10 cursor-pointer"
+                                        @click="openImage = false">
+                                        <x-heroicon-o-x-mark class="w-8 h-8" class="text-white-snow absolute" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="mx-3 my-10 text-left">
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded-md">Kembali</button>
-                </div>
+
+                    {{-- Tombol Setujui dan Tolak --}}
+                    <div class="mt-10 flex gap-x-5">
+                        <button type="submit"
+                            class="bg-green-500 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">
+                            <p>Simpan</p>
+                        </button>
+                        <button type="submit"
+                            class="bg-red-500 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">
+                            <p>Simpan</p>
+                        </button>
+                    </div>
+                </form>
             </section>
             {{-- End Table --}}
         </div>

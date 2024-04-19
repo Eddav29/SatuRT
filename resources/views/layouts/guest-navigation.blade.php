@@ -1,6 +1,6 @@
-<nav x-data="{ open: false, search: false }" class="bg-soft-snow px-7 border-b border-gray-100 sticky top-0 z-50">
+<nav x-data="{ open: false, search: false }" class="bg-soft-snow px-7 xl:px-0 border-b border-gray-100 sticky top-0 z-50 ">
     <!-- Primary Navigation Menu -->
-    <div class="py-4 sm:px-6 lg:px-8">
+    <div class="py-4 lg:px-8 2xl:px-0 max-w-7xl mx-auto">
         <div class="flex justify-between h-16">
             <!-- Logo -->
             <div class="shrink-0 flex items-center">

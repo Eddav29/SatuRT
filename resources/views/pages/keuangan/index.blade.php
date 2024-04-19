@@ -110,13 +110,6 @@
                         ],
                     ],
                     [
-                        'label' => 'Tanggal',
-                        'key' => 'tanggal',
-                        'style' => [
-                            'text-align' => 'center',
-                        ],
-                    ],
-                    [
                         'label' => 'Dibuat Pada',
                         'key' => 'created_at',
                         'style' => [

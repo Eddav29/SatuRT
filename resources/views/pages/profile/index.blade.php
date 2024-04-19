@@ -54,7 +54,7 @@
             {{-- Form --}}
             <section>
                 <div
-                    class="p-6 lg:px-12 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col md:grid md:grid-cols-2 gap-y-5">
+                    class="p-6 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col md:grid md:grid-cols-2 gap-y-5">
                     <div>
                         <h5 class="font-semibold">NIK</h5>
                         <p>24242424242242</p>

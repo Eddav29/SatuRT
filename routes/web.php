@@ -82,7 +82,7 @@ Route::resource('umkm', BusinessUserController::class)->middleware(['auth', 'ver
 Route::resource('keuangan', FinanceReportController::class)->middleware(['auth', 'verified'])->names([
     'index' => 'keuangan.index',
     'show' => 'keuangan.show',
-    'create' => 'keuangam.create',
+    'create' => 'keuangan.create',
     'store' => 'keuangan.store',
     'edit' => 'keuangan.edit',
     'update' => 'keuangan.update',
@@ -92,6 +92,7 @@ Route::resource('keuangan', FinanceReportController::class)->middleware(['auth',
 Route::resource('persuratan', DocumentRequestController::class)->middleware(['auth', 'verified'])->names([
     'index' => 'persuratan.index',
     'show' => 'persuratan.show',
+    'create' => 'persuratan.create',
 ]);
 
 Route::resource('alternatif', AlternativeController::class)

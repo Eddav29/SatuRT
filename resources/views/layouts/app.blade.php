@@ -51,7 +51,7 @@
                                     <x-nav-button :href="route('profile')">
                                         {{ __('Profil') }}
                                     </x-nav-button>
-                                    <x-nav-button :class="'text-red-500'">
+                                    <x-nav-button :class="'text-red-500'" :href="route('logout')">
                                         {{ __('Logout') }}
                                     </x-nav-button>
                                 </div>

@@ -9,73 +9,52 @@
             {{-- Detail Keuangan --}}
             <section>
                 <div class="bg-blue-gray p-5 rounded-md">
-                    <h1 class="text-2xl font-semibold">Detail Keuangan</h1>
+                    <h1 class="font-bold md:text-2xl text-xl">Detail Keuangan</h1>
                 </div>
             </section>
             {{-- Forms Keuangan --}}
             <section>
-
-                <div class="mx-3 my-4 flex  max-lg:flex-col flex-nowrap font-bold">
-                    <div class="w-1/2">
-                        <div>Judul Catatan</div>
-                        <div class="font-normal my-2">{{ $detailKeuangan->judul }}</div>
-                    </div>
-                    <div class="w-1/2">
-                        <div>Asal</div>
-                        <div class="font-normal my-2">{{ $detailKeuangan->keuangan->penduduk->nama }}</div>
-                    </div>
-                </div>
-
-                <div class="mx-3 my-6 flex  max-lg:flex-col flex-nowrap font-bold">
-                    <div class="w-1/2">
-                        <div>Jenis Catatan</div>
-                        <div class="font-normal my-2">{{ $detailKeuangan->jenis_keuangan }}</div>
-                    </div>
-                    <div class="w-1/2">
-                        <div>Nominal</div>
-                        <div class="font-normal my-2">{{ $detailKeuangan->nominal }}</div>
-                    </div>
-                </div>
-
-                <div class="mx-3 my-6 flex max-lg:flex-col flex-nowrap font-bold">
-                    <div class="w-1/2">
-                        <div>Saldo Sebelum</div>
-                        <div class="font-normal my-2">{{ $detailKeuangan->keuangan->total_keuangan }}</div>
-                    </div>
-                    <div class="w-1/2">
-                        <div>Saldo Sesudah</div>
-                        <div class="font-normal my-2">{{ $detailKeuangan->nominal }}</div>
-                    </div>
-                </div>
-
-                <div class="mx-3 my-6 flex max-lg:flex-col flex-nowrap font-bold">
-                    <div class="w-1/2">
-                        <div>Dibuat Pada</div>
-                        <div class="font-normal my-2">{{ $detailKeuangan->created_at }}</div>
-                    </div>
-                    <div class="w-1/2">
-                        <div>Terakhir diubah</div>
-                        <div class="font-normal my-2">{{ $detailKeuangan->updated_at }}</div>
-                    </div>
-                </div>
-
-                <div class="mx-3 my-6 font-bold my-2">
+                <div class="p-6 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col md:grid md:grid-cols-2 gap-5">
                     <div>
-                        <div>Keterangan</div>
-                        <textarea
-                            class="w-full h-48 p-2.5 rounded border border-neutral-900 border-opacity-30 justify-start items-start gap-2.5 inline-flex font-normal">{{ $detailKeuangan->keterangan }}</textarea>
+                        <h5 class="font-semibold">Judul Catatan</h5>
+                        <p>{{ $detailKeuangan->judul }}</p>
+                    </div>
+                    <div>
+                        <h5 class="font-semibold">Asal</h5>
+                        <p>{{ $detailKeuangan->keuangan->penduduk->nama }}</p>
+                    </div>
+                    <div>
+                        <h5 class="font-semibold">Jenis Catatan</h5>
+                        <p>{{ $detailKeuangan->jenis_keuangan }}</p>
+                    </div>
+                    <div>
+                        <h5 class="font-semibold">Nominal</h5>
+                        <p>{{ $detailKeuangan->nominal }}</p>
+                    </div>
+                    <div>
+                        <h5 class="font-semibold">Saldo Sebelum</h5>
+                        <p>{{ $detailKeuangan->keuangan->total_keuangan }}</p>
+                    </div>
+                    <div>
+                        <h5 class="font-semibold">Saldo Sesudah</h5>
+                        <p>{{ $detailKeuangan->nominal }}</p>
+                    </div>
+                    <div>
+                        <h5 class="font-semibold">Dibuat Pada</h5>
+                        <p>{{ $detailKeuangan->created_at }}</p>
+                    </div>
+                    <div>
+                        <h5 class="font-semibold">Terakhri Diubah</h5>
+                        <p>{{ $detailKeuangan->updated_at }}</p>
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <h5 class="font-semibold">Keterangan</h5>
+                        <p>{{ $detailKeuangan->keterangan }}</p>
                     </div>
                 </div>
             </section>
             {{-- Akhir Detail Keuangan --}}
         </div>
     </div>
-
-    @push('scripts')
-        <script>
-            const textarea = document.querySelector('textarea');
-            textarea.readOnly = true;
-        </script>
-    @endpush
-
 </x-app-layout>

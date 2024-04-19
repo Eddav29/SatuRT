@@ -8,7 +8,7 @@
             {{-- Header --}}
             <section>
                 <div class="bg-blue-gray p-5 rounded-md">
-                    <h1 class="text-2xl font-semibold">Buat Keuangan</h1>
+                    <h1 class="font-bold md:text-2xl text-xl">Buat Keuangan</h1>
                 </div>
             </section>
             {{-- End Header --}}
@@ -38,7 +38,6 @@
                 <form action="{{ route('keuangan.store') }}" method="POST" enctype="multipart/form-data"
                     class="px-5">
                     @csrf
-                    <input type="text" hidden name="keuangan_id" value="b5784e6c-d08a-452b-b3d6-4e54eee3f428">
                     {{-- Field Judul keuangan --}}
                     <div class="flex flex-col mt-5">
                         <label for="judul"
@@ -46,9 +45,7 @@
                         @error('judul_keuangan')
                             <small class="text-red-500 text-xs py-3">{{ $message }}</small>
                         @enderror
-                        <input type="text" placeholder="Judul keuangan" name="judul_keuangan" id="judul"
-                            value="{{ old('judul_keuangan') }}"
-                            class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                        <input type="text" placeholder="Judul keuangan" name="judul_keuangan" id="judul" value="{{ old('judul_keuangan') }}" class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder:text-xs text-sm">
                     </div>
 
                     <div x-data="{ selected: '{{ old('jenis_keuangan') == null ? 'Pilih Jenis keuangan' : old('jenis_keuangan') }}' }">
@@ -61,8 +58,8 @@
                                 <small class="text-red-500 text-xs py-3">{{ $message }}</small>
                             @enderror
                             <select id="jenis_keuangan" name="jenis_keuangan" required
-                                class="placeholder:font-light invalid:ring-1 invalid:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-gray-300 focus:text-navy-night"
-                                :class="selected === 'Pilih Jenis keuangan' ? 'text-gray-300' : 'text-navy-night'">
+                                class="placeholder:font-light placeholder:text-xs invalid:ring-1 invalid:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-gray-300 focus:text-navy-night"
+                                :class="selected === 'Pilih Jenis keuangan' ? 'text-gray-300 text-xs' : 'text-navy-night text-sm'">
                                 <option value="Pilih Jenis keuangan" @click="selected = 'Pilih Jenis keuangan'"
                                     x-bind:selected="selected === 'Pilih Jenis keuangan'">Pilih Jenis keuangan
                                 </option>
@@ -85,19 +82,19 @@
                             @enderror
                             <select id="jenis_keuangan" name="jenis_keuangan" required
                                 class="placeholder:font-light invalid:ring-1 invalid:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-gray-300 focus:text-navy-night"
-                                :class="selected === 'Pilih Jenis keuangan' ? 'text-gray-300' : 'text-navy-night'">
+                                :class="selected === 'Pilih Jenis keuangan' ? 'text-gray-300 text-xs' : 'text-navy-night text-sm'">
                                 <option value="Pilih Jenis keuangan" @click="selected = 'Pilih Asal keuangan'"
                                     x-bind:selected="selected === 'Pilih Jenis keuangan'">Pilih Jenis keuangan
                                 </option>
-                                    <option value="Donasi" @click="selected = 'Donasi'"
+                                <option value="Donasi" @click="selected = 'Donasi'"
                                     x-bind:selected="selected === 'Donasi'">Donasi</option>
-                                    <option value="Iuran Warga" @click="selected = 'Iuran Warga'"
+                                <option value="Iuran Warga" @click="selected = 'Iuran Warga'"
                                     x-bind:selected="selected === 'Iuran Warga'">Iuran Warga</option>
-                                    <option value="Kas Umum" @click="selected = 'Kas Umum'"
+                                <option value="Kas Umum" @click="selected = 'Kas Umum'"
                                     x-bind:selected="selected === 'Kas Umum'">Kas Umum</option>
-                                    <option value="Dana Darurat" @click="selected = 'Dana Darurat'"
+                                <option value="Dana Darurat" @click="selected = 'Dana Darurat'"
                                     x-bind:selected="selected === 'Dana Darurat'">Dana Darurat</option>
-                                    <option value="Lainnya" @click="selected = 'Lainnya'"
+                                <option value="Lainnya" @click="selected = 'Lainnya'"
                                     x-bind:selected="selected === 'Lainnya'">Lainnya</option>
                             </select>
                         </div>
@@ -110,7 +107,7 @@
                         @enderror
                         <input type="number" placeholder="Nominal" name="nominal" id="nominal"
                             value="{{ old('nominal') }}"
-                            class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                            class="placeholder:text-gray-300 placeholder:text-xs placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-sm">
                     </div>
                     {{-- Field keterangan keuangan --}}
                     <div class="mt-5">
@@ -119,19 +116,17 @@
                         @error('keterangan')
                             <small class="text-red-500 text-xs py-3">{{ $message }}</small>
                         @enderror
-                        <textarea id="text-editor" name="isi_keuangan">{{ old('isi_keuangan') }}</textarea>
+                        <textarea id="text-editor" name="keterangan" placeholder="Masukkan keterangan" class="placeholder:text-xs placeholder:text-gray-300 placeholder:font-light text-sm"></textarea>
                     </div>
 
                     {{-- Button --}}
-                    <div class="mt-5 flex gap-x-5">
+                    <div class="mt-10 flex gap-x-5">
                         <button type="submit"
-                            class="bg-azure-blue text-white-snow font-medium px-4 py-2 rounded-md flex justify-center items-center gap-x-3">
-                            <x-heroicon-o-folder-arrow-down class="w-5 h-5" />
+                            class="bg-azure-blue text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">
                             <p>Simpan</p>
                         </button>
                         <a href="{{ route('keuangan.index') }}"
-                            class="border border-navy-night/50 rounded-md px-4 py-2 flex justify-center items-center gap-x-3"><x-heroicon-o-arrow-uturn-left
-                                class="w-5 h-5" />
+                            class="border border-navy-night/50 rounded-md px-4 py-2 text-sm flex justify-center items-center gap-x-3">
                             <p>Kembali</p>
                         </a>
                     </div>

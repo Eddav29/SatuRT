@@ -9,19 +9,18 @@
         <div class="p-6 rounded-xl bg-white-snow mt-5">
             <section>
                 <div class="bg-blue-gray p-5 rounded-md">
-                    <h1 class="text-2xl font-semibold">Edit UMKM</h1>
+                    <h1 class="font-bold md:text-2xl text-xl">Edit UMKM</h1>
                 </div>
             </section>
 
             <section>
-                <form method="POST" action="{{ url('umkm') }}" class="space-y-4">
+                <form method="POST" action="{{ url('umkm') }}" class="px-5">
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                        <div>
-                            <label class="sr-only " for="pemilik"></label>
-                            <p
+                        <div class="mt-5">
+                            <label for="penduduk_id"
                                 class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">
-                                Pemilik</p>
-                            <select class="form-control w-full rounded-lg border-gray-200 p-3 text-sm" id="penduduk_id"
+                                Pemilik</label>
+                            <select class="form-control w-full rounded-md border-gray-200 placeholder:text-xs p-3 text-sm" id="penduduk_id"
                                 name="penduduk_id" required>
                                 <option class="hidden" value="{{ old('pemilik', $umkm->penduduk->nama) }}">
                                     {{ $umkm->penduduk->nama }}</option>
@@ -32,40 +31,23 @@
                             @error('penduduk_id')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
-
                         </div>
-
-                        {{-- <input type="hidden" id="umkm_id" name="umkm_id">
-
-            <script>
-              document.addEventListener('DOMContentLoaded', function() {
-                  var chars = '0123456789abcdefghijklmnopqrstuvwxyz';
-                  var randomString = '';
-                  for (var i = 0; i < 36; i++) {
-                      var randomIndex = Math.floor(Math.random() * chars.length);
-                      randomString += chars[randomIndex];
-                  }
-                  document.getElementById('umkm_id').value = randomString;
-              });
-          </script> --}}
-
                         <div>
-                            <label class="sr-only" for="nama_umkm"></label>
-                            <p
+                            <label for="nama_umkm"
                                 class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">
-                                Nama UMKM</p>
-                            <input class="placeholder-gray-300 w-full rounded-lg border-gray-200 p-3 text-sm"
+                                Nama UMKM</label>
+                            <input class="placeholder-gray-300 w-full rounded-md border-gray-200 placeholder:text-xs p-3 text-sm "
                                 placeholder="Nama UMKM" type="text" id="nama_umkm"
                                 value="{{ old('nama_umkm', $umkm->nama_umkm) }}" required />
                         </div>
                     </div>
-                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-5">
                         <div>
-                            <label class="sr-only" for="jenis_umkm"></label>
-                            <p
+                            <label for="jenis_umkm"
                                 class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">
-                                Jenis UMKM</p>
-                            <select class="form-control w-full rounded-lg border-gray-200 p-3 text-sm" id="jenis_umkm"
+                                Jenis UMKM</label>
+                            <select class="form-control w-full rounded-md border-gray-200 placeholder:text-xs p-3 text-sm" id="jenis_umkm"
                                 name="jenis_umkm" required>
                                 <option class="hidden" value="{{ old('jenis_umkm', $umkm->jenis_umkm) }}">
                                     {{ $umkm->jenis_umkm }}</option>
@@ -77,46 +59,41 @@
                                 <option value="Lainnya">Lainnya</option>
                             </select>
                         </div>
-
-
-
                         <div>
-                            <label class="sr-only" for="alamat"></label>
-                            <p
+                            <label for="alamat"
                                 class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">
-                                Alamat</p>
-                            <input class="placeholder-gray-300 w-full rounded-lg border-gray-200 p-3 text-sm"
+                                Alamat</label>
+                            <input class="placeholder-gray-300 w-full rounded-md border-gray-200 placeholder:text-xs p-3 text-sm"
                                 placeholder="Alamat" type="text" id="alamat"
                                 value="{{ old('alamat', $umkm->alamat) }}" />
                         </div>
                     </div>
-                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-5">
                         <div>
-                            <label class="sr-only" for="nomor_telepon"></label>
-                            <p
+                            <label for="nomor_telepon"
                                 class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">
-                                Nomor Telepon</p>
-                            <input class="placeholder-gray-300 w-full rounded-lg border-gray-200 p-3 text-sm"
+                                Nomor Telepon</label>
+                            <input class="placeholder-gray-300 w-full rounded-md border-gray-200 placeholder:text-xs p-3 text-sm"
                                 placeholder="Nomor Telepon" type="text" id="nomor_telepon"
                                 value="{{ old('nomor_telepon', $umkm->nomor_telepon) }}" />
                         </div>
-
                         <div>
-                            <label class="sr-only" for="lokasi_url"></label>
-                            <p
+                            <label for="lokasi_url"
                                 class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">
-                                Lokasi URL</p>
-                            <input class="placeholder-gray-300 w-full rounded-lg border-gray-200 p-3 text-sm"
+                                Lokasi URL</label>
+                            <input class="placeholder-gray-300 w-full rounded-md border-gray-200 placeholder:text-xs p-3 text-sm"
                                 placeholder="Lokasi URL" type="text" id="lokasi_url"
                                 value="{{ old('lokasi_url', $umkm->lokasi_url) }}" />
                         </div>
                     </div>
-                    <div>
+
+                    <div class="mt-5">
                         <label for="status"
                             class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">Status
                             UMKM</label>
                         <select id="status"
-                            class="placeholder-gray-300 w-full rounded-lg border-gray-200 p-3 text-sm">
+                            class="placeholder-gray-300 w-full rounded-md border-gray-200 placeholder:text-xs p-3 text-sm">
                             <option class="hidden" value="{{ old('status', $umkm->status) }}">{{ $umkm->status }}
                             </option>
                             <option value="Aktif">Aktif</option>
@@ -124,52 +101,57 @@
                         </select>
                     </div>
 
-                    <p class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">
-                        Surat Izin Usaha</p>
-                    <div class="flex items-center justify-center w-full">
-                        <label for="lisence_image_url"
-                            class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-bray-100  hover:border-gray-100 hover:bg-gray-200">
-                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                <svg class="w-8 h-8 mb-4 text-gray-300 dark:text-gray-300" aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                                </svg>
-                                <div id="lisence_image_url-container" class="hidden flex justify-center">
-                                    <!-- Preview container for license image -->
+                    <div class="mt-5">
+                        <p class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">
+                            Surat Izin Usaha</p>
+                        <div class="flex items-center justify-center w-full">
+                            <label for="lisence_image_url"
+                                class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-bray-100  hover:border-gray-100 hover:bg-gray-200">
+                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <svg class="w-8 h-8 mb-4 text-gray-300 dark:text-gray-300" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                                    </svg>
+                                    <div id="lisence_image_url-container" class="hidden flex justify-center">
+                                        <!-- Preview container for license image -->
+                                    </div>
+                                    <p class="mb-2 text-sm text-gray-300 dark:text-gray-300"><span
+                                            class="font-semibold">Unggah Surat Izin Usaha</span></p>
                                 </div>
-                                <p class="mb-2 text-sm text-gray-300 dark:text-gray-300"><span
-                                        class="font-semibold">Unggah Surat Izin Usaha</span></p>
-                            </div>
-                            <input id="lisence_image_url" type="file" class="hidden"
-                                onchange="renderFiles(this.files, 'lisence_image_url')" />
-                        </label>
-                    </div>
-                    <p class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">
-                        Thumbnail</p>
-                    <div class="flex items-center justify-center w-full">
-                        <label for="thumbnail_url"
-                            class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 dark:hover:bg-bray-100  hover:border-gray-100 hover:bg-gray-200">
-                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                <svg class="w-8 h-8 mb-4 text-gray-300 dark:text-gray-300" aria-hidden="true"
-                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                                </svg>
-                                <div id="thumbnail_url-container" class="hidden flex justify-center">
-                                    <!-- Preview container for thumbnail -->
-                                </div>
-                                <p class="mb-2 text-sm text-gray-300 dark:text-gray-300"><span
-                                        class="font-semibold">Unggah Thumbnail</span></p>
-                            </div>
-                            <input id="thumbnail_url" type="file" class="hidden"
-                                onchange="renderFiles(this.files, 'thumbnail_url')" />
-                        </label>
+                                <input id="lisence_image_url" type="file" class="hidden"
+                                    onchange="renderFiles(this.files, 'lisence_image_url')" />
+                            </label>
+                        </div>
                     </div>
 
-                    <div>
+                    <div class="mt-5">
+                        <p class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">
+                            Thumbnail</p>
+                        <div class="flex items-center justify-center w-full">
+                            <label for="thumbnail_url"
+                                class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 dark:hover:bg-bray-100  hover:border-gray-100 hover:bg-gray-200">
+                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                    <svg class="w-8 h-8 mb-4 text-gray-300 dark:text-gray-300" aria-hidden="true"
+                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
+                                    </svg>
+                                    <div id="thumbnail_url-container" class="hidden flex justify-center">
+                                        <!-- Preview container for thumbnail -->
+                                    </div>
+                                    <p class="mb-2 text-sm text-gray-300 dark:text-gray-300"><span
+                                            class="font-semibold">Unggah Thumbnail</span></p>
+                                </div>
+                                <input id="thumbnail_url" type="file" class="hidden"
+                                    onchange="renderFiles(this.files, 'thumbnail_url')" />
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="mt-5">
                         <label for="text-editor"
                             class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">Keterangan
                         </label>
@@ -179,13 +161,15 @@
                         <textarea id="text-editor" name="keterangan">{{ old('keterangan') }}</textarea>
                     </div>
 
-
-
-                    <div class="py-14">
+                    <div class="mt-10 flex gap-x-5">
                         <button type="submit"
-                            class="inline-block w-full rounded-lg bg-blue-500 px-5 py-3 font-medium text-white sm:w-auto">
-                            Simpan
+                            class="bg-azure-blue text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">
+                            <p>Simpan</p>
                         </button>
+                        <a href="{{ route('umkm.index') }}"
+                            class="border border-navy-night/50 rounded-md px-4 py-2 text-sm flex justify-center items-center gap-x-3">
+                            <p>Kembali</p>
+                        </a>
                     </div>
                 </form>
         </div>

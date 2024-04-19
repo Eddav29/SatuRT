@@ -56,8 +56,8 @@ Route::prefix('v1')->group(function () {
     Route::get('keuangan', [FinanceReportController::class, 'list']);
     Route::get('persuratan', [DocumentRequestController::class, 'list']);
 
-    Route::get('spk/alternatif', [AlternativeController::class, 'list'])->middleware('api');
-    Route::get('spk/kriteria', [CriteriaController::class, 'list'])->middleware('api');
+    Route::get('spk/alternatif', [AlternativeController::class, 'list']);
+    Route::get('spk/kriteria', [CriteriaController::class, 'list']);
 })->middleware('api');
 
 Route::get('/pengumuman/{id}', [AnnouncementController::class, 'getAnnouncement'])->middleware('api');

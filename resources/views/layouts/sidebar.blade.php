@@ -131,7 +131,7 @@
                             </x-nav-menu>
                         </div>
                         <div>
-                            <x-nav-menu svgIcon="heroicon-o-document-text" iconStyle="h-8 w-8">
+                            <x-nav-menu :href="route('persuratan.index')" :active="request()->is('persuratan*')" svgIcon="heroicon-o-document-text" iconStyle="h-8 w-8">
                                 Permohonan Surat
                             </x-nav-menu>
                         </div>

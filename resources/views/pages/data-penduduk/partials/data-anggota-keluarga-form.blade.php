@@ -1,4 +1,4 @@
-<div class="mt-8 grid sm:grid-cols-2 grid-cols-1 gap-6">
+<div class="mt-5 grid sm:grid-cols-2 grid-cols-1 gap-5 px-5">
     <div>
         <x-input-label for="nik" :value="__('NIK')" required="true" />
 
@@ -14,7 +14,7 @@
         <x-input-error :messages="$errors->get('nama')" class="mt-2" />
     </div>
 </div>
-<div class="mt-8 grid sm:grid-cols-2 grid-cols-1 gap-6">
+<div class="mt-5 grid sm:grid-cols-2 grid-cols-1 gap-5 px-5">
     <div>
         <x-input-label for="tempat_lahir" :value="__('Tempat Lahir')" required="true" />
 
@@ -27,17 +27,17 @@
         <x-input-label for="tanggal_lahir" :value="__('Tanggal Lahir')" required="true" />
 
         <x-text-input id="tanggal_lahir" class="block mt-1 w-full" type="date" name="tanggal_lahir"
-        value="{{isset($citizen) ? $citizen->tanggal_lahir->format('Y-m-d') : '' }}"
-            placeholder="tanggal lahir" required />
+            value="{{ isset($citizen) ? $citizen->tanggal_lahir->format('Y-m-d') : '' }}" placeholder="tanggal lahir"
+            required />
         <x-input-error :messages="$errors->get('tanggal_lahir')" class="mt-2" />
     </div>
 </div>
-<div class="mt-8 grid sm:grid-cols-2 grid-cols-1 gap-6">
+<div class="mt-5 grid sm:grid-cols-2 grid-cols-1 gap-5 px-5">
     <div>
         <x-input-label for="jenis_kelamin" :value="__('Jenis Kelamin')" required="true" />
 
         <select name="jenis_kelamin" id="jenis_kelamin"
-            class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 text-sm focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
             @if (!old('jenis_kelamin') || !isset($citizen->jenis_kelamin))
                 <option value="" selected>--Select--</option>
             @endif
@@ -58,11 +58,11 @@
         <x-input-error :messages="$errors->get('pekerjaan')" class="mt-2" />
     </div>
 </div>
-<div class="mt-8 grid sm:grid-cols-2 grid-cols-1 gap-6">
+<div class="mt-5 grid sm:grid-cols-2 grid-cols-1 gap-5 px-5">
     <div>
         <x-input-label for="status_hubungan_dalam_keluarga" :value="__('Status Hubungan Dalam Keluarga')" required="true" />
         <select name="status_hubungan_dalam_keluarga" id="status_hubungan_dalam_keluarga"
-            class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            class="block mt-1 w-full text-sm border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
             <option value="" selected>--Select--</option>
             @foreach ($status_hubungan_dalam_keluarga as $value)
                 <option value="{{ $value }}" @if ($value == old('status_hubungan_dalam_keluarga', isset($citizen) ? $citizen->status_hubungan_dalam_keluarga : '')) selected @endif>
@@ -76,7 +76,7 @@
     <div>
         <x-input-label for="status_perkawinan" :value="__('Status Perkawinan')" required="true" />
         <select name="status_perkawinan" id="status_perkawinan"
-            class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            class="block mt-1 w-full text-sm border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
 
             @if (!old('status_perkawinan') || !isset($citizen->status_perkawinan))
                 <option value="" selected>--Select--</option>
@@ -92,7 +92,7 @@
     </div>
 </div>
 
-<div class="mt-8 grid sm:grid-cols-2 grid-cols-1 gap-6">
+<div class="mt-5 grid sm:grid-cols-2 grid-cols-1 gap-5 px-5">
     <div>
         <x-input-label for="kota" :value="__('Kota')" required="true" />
 
@@ -108,7 +108,7 @@
         <x-input-error :messages="$errors->get('kecamatan')" class="mt-2" />
     </div>
 </div>
-<div class="mt-8 grid sm:grid-cols-2 grid-cols-1 gap-6">
+<div class="mt-5 grid sm:grid-cols-2 grid-cols-1 gap-5 px-5">
     <div>
         <x-input-label for="desa" :value="__('Desa/Kelurahan')" required="true" />
 
@@ -116,7 +116,7 @@
             value="{{ old('desa', isset($citizen) ? $citizen->desa : '') }}" placeholder="Desa/Kelurahan" required />
         <x-input-error :messages="$errors->get('desa')" class="mt-2" />
     </div>
-    <div class="grid sm:grid-cols-2 grid-cols-1 gap-6">
+    <div class="grid sm:grid-cols-2 grid-cols-1 gap-5">
         <div>
             <x-input-label for="nomor_rw" :value="__('RW')" required="true" />
 
@@ -134,11 +134,11 @@
     </div>
 </div>
 
-<div class="mt-8 grid sm:grid-cols-2 grid-cols-1 gap-6">
+<div class="mt-5 grid sm:grid-cols-2 grid-cols-1 gap-5 px-5">
     <div>
         <x-input-label for="pendidikan_terakhir" :value="__('Pendidikan Terakhir')" required="true" />
         <select name="pendidikan_terakhir" id="pendidikan_terakhir"
-            class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            class="block mt-1 w-full text-sm border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
 
             @if (!old('pendidikan_terakhir') || !isset($citizen->pendidikan_terakhir))
                 <option value="" selected>--Select--</option>
@@ -156,7 +156,7 @@
     <div>
         <x-input-label for="golongan_darah" :value="__('Golongan Darah')" required="true" />
         <select name="golongan_darah" id="golongan_darah"
-            class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            class="block mt-1 w-full text-sm border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
 
             @if (!old('golongan_darah') || !isset($citizen->golongan_darah))
                 <option value="" selected>--Select--</option>
@@ -171,11 +171,11 @@
         <x-input-error :messages="$errors->get('golongan_darah')" class="mt-2" />
     </div>
 </div>
-<div class="mt-8 grid sm:grid-cols-2 grid-cols-1 gap-6">
+<div class="mt-5 grid sm:grid-cols-2 grid-cols-1 gap-5 px-5">
     <div>
         <x-input-label for="agama" :value="__('Agama')" required="true" />
         <select name="agama" id="agama"
-            class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            class="block mt-1 text-sm w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
             @if (!old('agama') || !isset($citizen->agama))
                 <option value="" selected>--Select--</option>
             @endif
@@ -191,7 +191,7 @@
     <div>
         <x-input-label for="status_penduduk" :value="__('Status Penduduk')" required="true" />
         <select name="status_penduduk" id="status_penduduk"
-            class="block mt-1 w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            class="block mt-1 text-sm w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
             @if (!old('status_penduduk') || !isset($citizen->status_penduduk))
                 <option value="" selected>--Select--</option>
             @endif
@@ -205,7 +205,7 @@
         <x-input-error :messages="$errors->get('status_penduduk')" class="mt-2" />
     </div>
 </div>
-<div class="mt-8 flex h-96 items-center justify-center bg-gray-100 font-sans">
+<div class="mt-5 flex h-96 items-center justify-center bg-gray-100 font-sans mx-5">
     <div class="bg-white border border-gray-300 w-full h-full rounded-md flex flex-col items-center">
         <label for="images" ondragover="allowDrop(event)" ondrop="dropFile(event)"
             class="mx-auto cursor-pointer flex flex-col items-center justify-center text-center h-full w-full">
@@ -214,12 +214,12 @@
                 <path stroke-linecap="round" stroke-linejoin="round"
                     d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
             </svg>
-            <div id="file-preview-container" class="mt-8 flex justify-center">
+            <div id="file-preview-container" class="mt-5 flex justify-center">
                 <img id="file-preview" class="w-64 h-auto" alt="File Preview"
                     @if (isset($citizen) && $citizen->foto_ktp) src="{{ asset($citizen->foto_ktp) }}" @endif />
             </div>
-            <h2 class="mt-4 text-xl font-medium text-gray-700 tracking-wide">Payment File</h2>
-            <p class="mt-2 text-gray-500 tracking-wide">Upload or drag & drop your file SVG, PNG, JPG, or GIF.</p>
+            <h2 class="mt-4 text-lg font-medium text-gray-700 tracking-wide">Foto KTP</h2>
+            <p class="mt-2 text-gray-500 tracking-wide text-sm">Upload or drag & drop your file SVG, PNG, JPG, or GIF.</p>
             <input id="images" name="images" type="file" class="hidden" onchange="renderFile(this.files)" />
         </label>
         <x-input-error :messages="$errors->get('images')" class="mt-2" />

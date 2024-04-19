@@ -61,6 +61,7 @@
                         'key' => 'pelapor',
                         'style' => [
                             'text-align' => 'left',
+                            'width' => 'max-content'
                         ],
                     ],
                     [

@@ -48,7 +48,7 @@
 
 
                 <div class="bg-blue-gray p-5 max-lg:mt-5 rounded-md">
-                    <h1 class="text-2xl font-semibold">Tambahkan Pelaporan</h1>
+                    <h1 class="font-bold md:text-2xl text-xl">Tambahkan Pelaporan</h1>
                 </div>
 
                 <form method="POST" action="{{ url('umkm') }}" class="space-y-4">
