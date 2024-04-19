@@ -68,7 +68,15 @@
                     <div class="lg:grid lg:grid-cols-5 lg:gap-3">
                         <div class="lg:col-span-3">
                             <h5 class="font-semibold">Laporan</h5>
-                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Unde obcaecati rem eligendi rerum ad sunt vel nesciunt error ut, voluptatem et esse debitis dolorum perspiciatis. Aliquid tempore assumenda fuga facilis ullam quisquam vero, nihil at magnam corrupti, neque a consequuntur, laudantium tenetur quo voluptatum earum nostrum numquam? Atque quidem reprehenderit ad? Doloremque repudiandae quis asperiores sapiente aut minus nostrum quo hic quibusdam optio? Sed laborum amet beatae itaque tempora quibusdam voluptatum. Sint a qui, officiis facilis vitae quibusdam ipsa rerum? Ea illo dicta quas accusantium amet ad! Laudantium debitis necessitatibus nihil laborum praesentium libero quam laboriosam accusantium dicta ipsum! Aut.</p>
+                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Unde obcaecati rem eligendi
+                                rerum ad sunt vel nesciunt error ut, voluptatem et esse debitis dolorum perspiciatis.
+                                Aliquid tempore assumenda fuga facilis ullam quisquam vero, nihil at magnam corrupti,
+                                neque a consequuntur, laudantium tenetur quo voluptatum earum nostrum numquam? Atque
+                                quidem reprehenderit ad? Doloremque repudiandae quis asperiores sapiente aut minus
+                                nostrum quo hic quibusdam optio? Sed laborum amet beatae itaque tempora quibusdam
+                                voluptatum. Sint a qui, officiis facilis vitae quibusdam ipsa rerum? Ea illo dicta quas
+                                accusantium amet ad! Laudantium debitis necessitatibus nihil laborum praesentium libero
+                                quam laboriosam accusantium dicta ipsum! Aut.</p>
                         </div>
                         <div class="max-lg:mt-5 lg:col-span-2">
                             <h5 class="font-semibold">Lampiran</h5>
@@ -98,16 +106,16 @@
                     <div class="mt-10 flex gap-x-5">
                         <button type="submit"
                             class="bg-green-500 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">
-                            <p>Simpan</p>
+                            <p>Setujui</p>
                         </button>
                         <button type="submit"
                             class="bg-red-500 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">
-                            <p>Simpan</p>
+                            <p>Tolak</p>
                         </button>
                     </div>
                 </form>
             </section>
-            
+
             {{-- End Table --}}
         </div>
     </div>
