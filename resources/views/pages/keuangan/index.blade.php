@@ -89,46 +89,32 @@
                     [
                         'label' => 'Judul keuangan',
                         'key' => 'judul',
-                        'style' => [
-                            'text-align' => 'left',
-                            'width' => 'max-content',
-                        ],
+                        'style' => 'text-left'
                     ],
                     [
                         'label' => 'Jenis keuangan',
                         'key' => 'jenis_keuangan',
-                        'style' => [
-                            'text-align' => 'left',
-                            'width' => 'max',
-                        ],
+                        'style' => 'text-left'
                     ],
                     [
                         'label' => 'Nominal',
                         'key' => 'nominal',
-                        'style' => [
-                            'text-align' => 'right',
-                        ],
+                        'style' => 'text-left'
                     ],
                     [
                         'label' => 'Tanggal',
                         'key' => 'tanggal',
-                        'style' => [
-                            'text-align' => 'center',
-                        ],
+                        'style' => 'text-center'
                     ],
                     [
                         'label' => 'Dibuat Pada',
                         'key' => 'created_at',
-                        'style' => [
-                            'text-align' => 'center',
-                        ],
+                        'style' => 'text-center'
                     ],
                     [
                         'label' => 'Terakhir Diubah',
                         'key' => 'updated_at',
-                        'style' => [
-                            'text-align' => 'center',
-                        ],
+                        'style' => 'text-center'
                     ],
                 ]" :aksi="[
                     'detail' => true,

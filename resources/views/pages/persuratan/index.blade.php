@@ -49,37 +49,27 @@
                 [
                     'label' => 'NIK',
                     'key' => 'nik',
-                    'style' => [
-                        'text-align' => 'left',
-                    ],
+                    'style' => 'text-left'
                 ],
                 [
                     'label' => 'Pemohon',
                     'key' => 'nama',
-                    'style' => [
-                        'text-align' => 'left',
-                    ],
+                    'style' => 'text-left'
                 ],
                 [
                     'label' => 'Status',
                     'key' => 'status',
-                    'style' => [
-                        'text-align' => 'left',
-                    ],
+                    'style' => 'text-left'
                 ],
                 [
                     'label' => 'Keperluan',
                     'key' => 'keperluan',
-                    'style' => [
-                        'text-align' => 'left',
-                    ],
+                    'style' => 'text-left'
                 ],
                 [
                     'label' => 'Tanggal',
                     'key' => 'accepted_at',
-                    'style' => [
-                        'text-align' => 'left',
-                    ],
+                    'style' => 'text-left'
                 ],
                 ]" :aksi="[
                     'detail' => true,

@@ -49,42 +49,37 @@
                         [
                             'label' => 'NIK',
                             'key' => 'nik',
-                            'style' => [
-                                'text-align' => 'left',
-                                'width' => 'max-content',
-                            ],
+                            'style' => 'text-left'
                         ],
                         [
                             'label' => 'Pemilik',
                             'key' => 'nama',
-                            'style' => [
-                                'text-align' => 'left',
-                                'width' => 'max-content',
-                            ],
+                            'style' => 'text-left'
                         ],
                         [
                             'label' => 'Nama Usaha',
                             'key' => 'nama_umkm',
-                            'style' => [
-                                'text-align' => 'left',
-                                'width' => 'max-content',
-                            ],
+                            'style' => 'text-left'
                         ],
                         [
                             'label' => 'Jenis Usaha',
                             'key' => 'jenis_umkm',
-                            'style' => [
-                                'text-align' => 'center',
-                                'width' => 'max-content',
-                            ],
+                            'customStyle' => [
+                                'Makanan' => 'px-4 py-2 text-center rounded-md bg-yellow-100 text-yellow-800',
+                                'Minuman' => 'px-4 py-2 text-center rounded-md bg-purple-100 text-purple-800',
+                                'Pakaian' => 'px-4 py-2 text-center rounded-md bg-blue-100 text-blue-800',
+                                'Peralatan' => 'px-4 py-2 text-center rounded-md bg-pink-100 text-pink-800',
+                                'Jasa' => 'px-4 py-2 text-center rounded-md bg-green-100 text-green-800',
+                                'Lainnya' => 'px-4 py-2 text-center rounded-md bg-gray-100 text-gray-800',
+                            ]
                         ],
                         [
                             'label' => 'Status',
                             'key' => 'status',
-                            'style' => [
-                                'text-align' => 'center',
-                                'width' => 'max-content',
-                            ],
+                            'customStyle' => [
+                                'Aktif' => 'px-4 py-2 text-center rounded-md bg-green-100 text-green-800',
+                                'Nonaktif' => 'px-4 py-2 text-center rounded-md bg-red-100 text-red-800'
+                            ]
                         ],
                     ]" :aksi="[
                         'detail' => true,

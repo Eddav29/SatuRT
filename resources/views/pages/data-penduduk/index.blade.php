@@ -10,30 +10,22 @@
                     [
                         'label' => 'No. Kartu Keluarga',
                         'key' => 'kartu_keluarga.nomor_kartu_keluarga',
-                        'style' => [
-                            'text-align' => 'left',
-                        ],
+                        'style' => 'text-left'
                     ],
                     [
                         'label' => 'NIK Kepala Keluarga',
                         'key' => 'nik',
-                        'style' => [
-                            'text-align' => 'left',
-                        ],
+                        'style' => 'text-left'
                     ],
                     [
                         'label' => 'Nama Kepala Keluarga',
                         'key' => 'nama',
-                        'style' => [
-                            'text-align' => 'left',
-                        ],
+                        'style' => 'text-left'
                     ],
                     [
                         'label' => 'Jumlah Anggota',
                         'key' => 'penduduk_count',
-                        'style' => [
-                            'text-align' => 'center',
-                        ],
+                        'style' => 'text-center'
                     ],
                 ]" :aksi="[
                     'detail' => true,

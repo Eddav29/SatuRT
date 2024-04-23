@@ -30,7 +30,7 @@
                 <thead class="bg-blue-gray w-max">
                     <tr>
                         @foreach ($columns as $column)
-                            <th class="w-max">{{ $column['label'] }}</th>
+                            <th>{{ $column['label'] }}</th>
                         @endforeach
                         @if ($aksi['detail'] || $aksi['edit'] || $aksi['hapus'])
                             <th class="w-full flex justify-center">Aksi</th>
@@ -124,13 +124,22 @@
                                     className: '{{ $column['className'] }}',
                                 @endif
                                 render: function(data, type, row) {
-                                    @if (isset($column['style']) || isset($column['customDataStyle']))
+                                    @if (isset($column['style']) || isset($column['customStyle']))
                                         let style = '';
                                         @if (isset($column['style']))
                                             style +=
-                                                '{{ implode(';',array_map(function ($key, $value) {return $key . ': ' . $value;},array_keys($column['style']),$column['style'])) }}';
+                                                '{{ $column['style'] }}';
                                         @endif
-                                        return '<div style="' + style + '">' + data + '</div>';
+
+                                        @if (isset($column['customStyle']))
+                                            @foreach ($column['customStyle'] as $key => $value)
+                                                if (data == '{{ $key }}') {
+                                                    style += ' {{ $value }}';
+                                                }
+
+                                            @endforeach
+                                        @endif
+                                        return `<div class="${style}">${data}</div>`;
                                     @else
                                         return data;
                                     @endif
@@ -144,7 +153,7 @@
                                 let id = {!! json_encode($id) !!}
                                 @if (!empty($aksi))
                                     let aksi =
-                                        '<div class="flex justify-center space-x-2">'; // Open a flex container
+                                        '<div class="flex justify-start space-x-2">'; // Open a flex container
 
                                     @if ($aksi['detail'])
                                         aksi +=
