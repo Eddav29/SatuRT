@@ -729,6 +729,7 @@
         div.dt-container .dt-paging .dt-paging-button.current:hover {
             color: #0B1215;
             border: 1px solid rgba(0, 0, 0, 0.3);
+            border-radius: 0.375rem;
             background-color: #E8F1FF;
             background: -webkit-gradient(linear,
                     left top,
