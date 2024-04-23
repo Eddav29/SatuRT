@@ -6,7 +6,7 @@
 
 
     <section class="bg-white mx-6 md:mx-14 my-10 p-6">
-        <form action="{{ route('data-akun.store', [
+        <form action="{{ route('data-anggota.store', [
             'keluargaid' => $id,
         ])}}" method="POST" enctype="multipart/form-data">
             @csrf
