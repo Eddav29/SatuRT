@@ -20,7 +20,8 @@ use App\Http\Controllers\DocumentRequestController;
 use App\Models\User;
 use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\CriteriaController;
+use App\Http\Controllers\AlternativeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,6 +63,10 @@ Route::resource('pelaporan', ResidentReportController::class)->middleware(['auth
     'index' => 'pelaporan.index',
     'show' => 'pelaporan.show',
     'update' => 'pelaporan.update',
+    'create' => 'pelaporan.create',
+    'store' => 'pelaporan.store',
+    'edit' => 'pelaporan.edit',
+    'destroy' => 'pelaporan.destroy',
 ]);
 
 Route::resource('umkm', BusinessUserController::class)->middleware(['auth', 'verified'])->names([
@@ -77,7 +82,7 @@ Route::resource('umkm', BusinessUserController::class)->middleware(['auth', 'ver
 Route::resource('keuangan', FinanceReportController::class)->middleware(['auth', 'verified'])->names([
     'index' => 'keuangan.index',
     'show' => 'keuangan.show',
-    'create' => 'keuangam.create',
+    'create' => 'keuangan.create',
     'store' => 'keuangan.store',
     'edit' => 'keuangan.edit',
     'update' => 'keuangan.update',
@@ -87,7 +92,26 @@ Route::resource('keuangan', FinanceReportController::class)->middleware(['auth',
 Route::resource('persuratan', DocumentRequestController::class)->middleware(['auth', 'verified'])->names([
     'index' => 'persuratan.index',
     'show' => 'persuratan.show',
+    'create' => 'persuratan.create',
 ]);
+
+Route::resource('alternatif', AlternativeController::class)
+->names([
+    'index' => 'spk.index',
+    'create' => 'spk.create',
+    'store' => 'spk.store',
+    'show' => 'spk.show',
+    'edit' => 'spk.edit',
+    'update' => 'spk.update',
+    'destroy' => 'spk.destroy'
+])
+->middleware('auth');
+
+Route::resource('kriteria', CriteriaController::class)
+->names([
+    'index' => 'spk.kriteria.index',
+])
+->middleware('auth');
 
 /* Guest and User */
 Route::prefix('profile')->middleware(['auth', 'verified'])->group(function () {

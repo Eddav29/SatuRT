@@ -91,21 +91,25 @@ class FinanceReportController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        $keuangan = Keuangan::latest('tanggal')->first();
+        $request['keuangan_id'] = $keuangan->keuangan_id;
+
         $validated = $request->validate([
             'keuangan_id' => ['required', 'exists:keuangan,keuangan_id'],
             'judul_keuangan' => 'required',
             'jenis_keuangan' => 'required',
             'asal_keuangan' => 'required|string',
             'nominal' => 'required|integer',
-
         ], [
             'keuangan_id.required' => 'ID keuangan harus diisi.',
             'judul_keuangan.required' => 'Judul keuangan harus diisi.',
             'jenis_keuangan.required' => 'Jenis keuangan harus diisi.',
             'asal_keuangan.required' => 'Asal keuangan harus diisi.',
             'nominal.required' => 'Nominal harus diisi.',
-
         ]);
+
+        DetailKeuangan::create($validated);
+        return redirect()->route('keuangan.index');
     }
 
     public function show(string $id): Response

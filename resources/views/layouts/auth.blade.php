@@ -27,12 +27,13 @@
 
 <body class="font-sans text-gray-900 antialiased">
     <x-notification />
-    <div class="relative min-h-screen flex flex-col justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-        <div
-            class="w-full max-w-80 sm:max-w-sm mt-6 px-8 py-10 bg-white shadow-md overflow-hidden rounded-lg">
+    <div
+        class="relative min-h-screen flex flex-col justify-center items-center pt-6 sm:pt-0 bg-cover bg-no-repeat" style="background-image: url({{ asset('assets/images/milad-fakurian-PGdW_bHDbpI-unsplash.jpg') }})">
+        <div class="w-full max-w-80 sm:max-w-sm mt-6 px-8 py-10 bg-white shadow-md overflow-hidden rounded-lg">
             {{ $slot }}
         </div>
     </div>
 </body>
 @stack('scripts')
+
 </html>

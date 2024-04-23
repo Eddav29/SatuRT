@@ -10,12 +10,12 @@
             <section>
                 <div class="flex flex-col gap-y-10">
                     <div class="flex flex-col gap-y-3">
-                        <p class="text-sm">Diposting pada {{ $information->created_at }}</p>
-                        <p class="text-sm">Dibuat oleh {{ $information->penduduk->nama }}</p>
-                        <h1 class="font-bold text-4xl">{{ $information->judul_informasi }}</h1>
+                        <p class="text-xs md:text-sm break-words">Diposting pada {{ $information->created_at }}</p>
+                        <p class="text-xs md:text-sm break-words">Dibuat oleh {{ $information->penduduk->nama }}</p>
+                        <h1 class="font-bold text-3xl md:text-4xl break-words">{{ $information->judul_informasi }}</h1>
                         <div
                             class="{{ (($information->jenis_informasi == 'Dokumentasi' ? 'bg-green-500/30 text-green-500' : $information->jenis_informasi == 'Pengumuman') ? 'bg-yellow-500/30 text-yellow-500' : $information->jenis_informasi == 'Artikel') ? 'bg-blue-500/30 text-blue-500' : 'bg-red-500/30 text-red-500' }} w-fit px-4 py-2 rounded-md">
-                            <p>{{ $information->jenis_informasi }}</p>
+                            <p class="text-sm">{{ $information->jenis_informasi }}</p>
                         </div>
                     </div>
                     <div>

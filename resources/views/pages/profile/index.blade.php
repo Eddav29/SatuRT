@@ -11,7 +11,7 @@
                 </div>
                 <div class="absolute right-11 p-2" :class="profile ? 'block' : 'hidden'">
                     <div class="flex flex-col overflow-hidden rounded-lg ">
-                        <x-nav-button :class="'text-red-500'">
+                        <x-nav-button :class="'text-red-500'" :href="route('logout')">
                             {{ __('Logout') }}
                         </x-nav-button>
                     </div>
@@ -53,8 +53,7 @@
 
             {{-- Form --}}
             <section>
-                <div
-                    class="p-6 lg:px-12 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col md:grid md:grid-cols-2 gap-y-5">
+                <div class="p-6 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col md:grid md:grid-cols-2 gap-y-5">
                     <div>
                         <h5 class="font-semibold">NIK</h5>
                         <p>24242424242242</p>

@@ -102,11 +102,6 @@
                         'style' => 'text-left'
                     ],
                     [
-                        'label' => 'Tanggal',
-                        'key' => 'tanggal',
-                        'style' => 'text-center'
-                    ],
-                    [
                         'label' => 'Dibuat Pada',
                         'key' => 'created_at',
                         'style' => 'text-center'

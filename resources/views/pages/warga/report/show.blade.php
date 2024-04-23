@@ -5,7 +5,8 @@
 
 
     <div class="p-6 lg:px-14 gap-y-5 mx-auto max-w-screen-2xl md:p-6 2xl:p-10 ">
-        <div class="p-6 rounded-xl bg-white-snow overflow-hidden">
+        <x-toolbar :toolbar_id="$toolbar_id" :active="$active" :toolbar_route="$toolbar_route" />
+        <div class="p-6 mt-3 rounded-xl bg-white-snow overflow-hidden">
             @if (session('success'))
                 <div role="alert" class="rounded border-s-4 border-green-500 bg-white p-4">
                     <div class="flex items-start gap-4">
@@ -106,16 +107,15 @@
                     <div class="mt-10 flex gap-x-5">
                         <button type="submit"
                             class="bg-green-500 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">
-                            <p>Setujui</p>
+                            <p>Simpan</p>
                         </button>
                         <button type="submit"
                             class="bg-red-500 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">
-                            <p>Tolak</p>
+                            <p>Simpan</p>
                         </button>
                     </div>
                 </form>
             </section>
-
             {{-- End Table --}}
         </div>
     </div>
