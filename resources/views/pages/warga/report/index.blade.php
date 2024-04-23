@@ -52,32 +52,23 @@
                     [
                         'label' => 'ID Laporan',
                         'key' => 'id_laporan',
-                        'style' => [
-                            'text-align' => 'left',
-                        ],
+                        'style' => 'text-left'
                     ],
                     [
                         'label' => 'Pelapor',
                         'key' => 'pelapor',
-                        'style' => [
-                            'text-align' => 'left',
-                            'width' => 'max-content'
-                        ],
+                        'style' => 'text-left'
                     ],
                     [
                         'label' => 'Jenis Laporan',
                         'key' => 'jenis_pelaporan',
-                        'style' => [
-                            'text-align' => 'left',
-                        ],
+                        'style' => 'text-left'
 
                     ],
                     [
                         'label' => 'Tanggal',
                         'key' => 'tanggal',
-                        'style' => [
-                            'text-align' => 'center',
-                        ],
+                        'style' => 'text-center'
                     ],
                 ]" :aksi="[
                     'detail' => true,

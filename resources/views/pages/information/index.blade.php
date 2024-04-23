@@ -49,30 +49,22 @@
                     [
                         'label' => 'Judul Informasi',
                         'key' => 'judul_informasi',
-                        'style' => [
-                            'text-align' => 'left',
-                        ],
+                        'style' => 'text-left'
                     ],
                     [
                         'label' => 'Jenis Informasi',
                         'key' => 'jenis_informasi',
-                        'style' => [
-                            'text-align' => 'left',
-                        ],
+                        'style' => 'text-left'
                     ],
                     [
                         'label' => 'Dibuat Pada',
                         'key' => 'created_at',
-                        'style' => [
-                            'text-align' => 'center',
-                        ],
+                        'style' => 'text-center'
                     ],
                     [
                         'label' => 'Terakhir Diubah',
                         'key' => 'updated_at',
-                        'style' => [
-                            'text-align' => 'center',
-                        ],
+                        'style' => 'text-center'
                     ],
                 ]" :aksi="[
                     'detail' => true,

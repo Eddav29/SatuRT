@@ -48,16 +48,12 @@
                     [
                         'label' => 'ID',
                         'key' => 'alternatif_id',
-                        'style' => [
-                            'text-align' => 'left',
-                        ],
+                        'style' => 'text-left'
                     ],
                     [
                         'label' => 'Nama Kegiatan',
                         'key' => 'nama_alternatif',
-                        'style' => [
-                            'text-align' => 'left',
-                        ],
+                        'style' => 'text-left'
                     ],
                 ]" :aksi="[
                     'detail' => true,

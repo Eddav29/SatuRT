@@ -52,31 +52,23 @@
                     [
                         'label' => 'Pelapor',
                         'key' => 'pelapor',
-                        'style' => [
-                            'text-align' => 'left',
-                        ],
+                        'style' =>'text-left'
                     ],
                     [
                         'label' => 'Status',
                         'key' => 'status',
-                        'style' => [
-                            'text-align' => 'center',
-                        ],
+                        'style' => 'text-center'
                     ],
                     [
                         'label' => 'Jenis Laporan',
                         'key' => 'jenis_pelaporan',
-                        'style' => [
-                            'text-align' => 'left',
-                        ],
+                        'style' =>'text-left'
 
                     ],
                     [
                         'label' => 'Tanggal',
                         'key' => 'tanggal',
-                        'style' => [
-                            'text-align' => 'center',
-                        ],
+                        'style' => 'text-center'
                     ],
                 ]" :aksi="[
                     'detail' => true,

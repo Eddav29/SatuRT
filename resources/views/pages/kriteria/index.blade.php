@@ -48,30 +48,22 @@
                     [
                         'label' => 'ID',
                         'key' => 'kriteria_id',
-                        'style' => [
-                            'text-align' => 'left',
-                        ],
+                        'style' => 'text-left'
                     ],
                     [
                         'label' => 'Nama Kriteria',
                         'key' => 'nama_kriteria',
-                        'style' => [
-                            'text-align' => 'left',
-                        ],
+                        'style' => 'text-left'
                     ],
                     [
                         'label' => 'Jenis Kriteria',
                         'key' => 'jenis_kriteria',
-                        'style' => [
-                            'text-align' => 'left',
-                        ],
+                        'style' => 'text-left'
                     ],
                     [
                         'label' => 'Bobot',
                         'key' => 'bobot',
-                        'style' => [
-                            'text-align' => 'left',
-                        ],
+                        'style' => 'text-left'
                     ],
                 ]" :aksi="[
                     'detail' => true,
