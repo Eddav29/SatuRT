@@ -29,7 +29,7 @@
         }
 
         table.dataTable thead tr th span.dt-column-title {
-            width: max-content !important;
+            width: 100% !important;
             display: inline-block !important;
         }
 
@@ -267,7 +267,7 @@
             border-bottom: 1px solid #0b121511;
         }
 
-        table.dataTable th.dt-left,
+        /* table.dataTable th.dt-left,
         table.dataTable td.dt-left {
             text-align: left;
         }
@@ -285,7 +285,7 @@
         table.dataTable th.dt-justify,
         table.dataTable td.dt-justify {
             text-align: justify;
-        }
+        } */
 
         table.dataTable th.dt-nowrap,
         table.dataTable td.dt-nowrap {
@@ -661,13 +661,13 @@
             align-items: center;
         }
 
-        div.dt-layout-cell.dt-start div.dt-info {
+        /* div.dt-layout-cell.dt-start div.dt-info {
             text-align: left;
-        }
+        } */
 
-        div.dt-layout-cell table tbody tr td div {
+        /* div.dt-layout-cell table tbody tr td div {
             text-align: left !important;
-        }
+        } */
 
         div.dt-container div.dt-layout-cell.dt-end {
             display: flex;
@@ -729,6 +729,7 @@
         div.dt-container .dt-paging .dt-paging-button.current:hover {
             color: #0B1215;
             border: 1px solid rgba(0, 0, 0, 0.3);
+            border-radius: 0.375rem;
             background-color: #E8F1FF;
             background: -webkit-gradient(linear,
                     left top,
@@ -982,10 +983,7 @@
                 margin-top: 0.5em;
             }
         }
-
-        /*
-                                                                                                                                                                                                                             * Overrides for RTL support
-                                                                                                                                                                                                                             */
+                                                                                                                                                                                                                    */
         *[dir="rtl"] table.dataTable thead th,
         *[dir="rtl"] table.dataTable thead td,
         *[dir="rtl"] table.dataTable tfoot th,

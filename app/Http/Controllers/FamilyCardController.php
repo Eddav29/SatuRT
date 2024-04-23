@@ -6,6 +6,7 @@ use App\Models\KartuKeluarga;
 use App\Models\Penduduk;
 use App\Services\FamilyManagement\CitizenService;
 use App\Services\FamilyManagement\FamilyCardService;
+use App\Services\ImageManager\imageService;
 use App\Services\Notification\NotificationPusher;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -13,9 +14,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-use Intervention\Image\Drivers\Gd\Driver;
-use Intervention\Image\ImageManager;
 
 class FamilyCardController extends Controller
 {
@@ -96,32 +94,7 @@ class FamilyCardController extends Controller
     public function store(Request $request)
     {
 
-        $validator = Validator::make([
-            'nomor_kartu_keluarga' => $request->nomor_kartu_keluarga,
-            'kk_kota' => $request->kk_kota,
-            'kk_kecamatan' => $request->kk_kecamatan,
-            'kk_desa' => $request->kk_desa,
-            'kk_nomor_rt' => $request->kk_nomor_rt,
-            'kk_nomor_rw' => $request->kk_nomor_rw,
-            'nik' => $request->nik,
-            'nama' => $request->nama,
-            'tempat_lahir' => $request->tempat_lahir,
-            'tanggal_lahir' => $request->tanggal_lahir,
-            'jenis_kelamin' => $request->jenis_kelamin,
-            'pekerjaan' => $request->pekerjaan,
-            'status_hubungan_dalam_keluarga' => $request->status_hubungan_dalam_keluarga,
-            'status_perkawinan' => $request->status_perkawinan,
-            'kota' => $request->kota,
-            'kecamatan' => $request->kecamatan,
-            'desa' => $request->desa,
-            'nomor_rt' => $request->nomor_rt,
-            'nomor_rw' => $request->nomor_rw,
-            'pendidikan_terakhir' => $request->pendidikan_terakhir,
-            'golongan_darah' => $request->golongan_darah,
-            'agama' => $request->agama,
-            'status_penduduk' => $request->status_penduduk,
-            'images' => $request->images,
-        ], [
+        $validator = Validator::make($request->all(), [
             'nomor_kartu_keluarga' => 'required|numeric|digits:16|unique:kartu_keluarga,nomor_kartu_keluarga',
             'kk_kota' => 'required|string',
             'kk_kecamatan' => 'required|string',
@@ -161,14 +134,7 @@ class FamilyCardController extends Controller
             $familyCard = FamilyCardService::create($request);
             $request['kartu_keluarga_id'] = $familyCard->kartu_keluarga_id;
 
-            $manager = new ImageManager(new Driver());
-            $image = $manager->read($request->file('images'));
-            $image->toJpeg(80);
-            $imageName = $request->images->hashName();
-            $image->save(storage_path('app/' . $imageName));
-            Storage::disk('storage_ktp')->put($imageName, file_get_contents(storage_path('app/' . $imageName)));
-
-            unlink(storage_path('app/' . $imageName));
+            $imageName = imageService::uploadImage('storage_ktp', $request);
             $request->merge(['foto_ktp' => route('storage.ktp', ['filename' => $imageName])]);
             CitizenService::create($request);
 

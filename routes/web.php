@@ -171,7 +171,3 @@ Route::resource('data-akun/penduduk', CitizenAccountController::class)
 require __DIR__ . '/auth.php';
 
 Route::get('storage/ktp/{filename}', [StorageController::class, 'storageKTP'])->name('storage.ktp');
-
-Route::get('user', function () {
-    return User::all();
-})->name('user');

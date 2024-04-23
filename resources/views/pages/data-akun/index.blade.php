@@ -10,30 +10,22 @@
                     [
                         'label' => 'NIK Kepala Keluarga',
                         'key' => 'nik',
-                        'style' => [
-                            'text-align' => 'left',
-                        ],
+                        'style' => 'text-left'
                     ],
                     [
                         'label' => 'Username',
                         'key' => 'user.username',
-                        'style' => [
-                            'text-align' => 'left',
-                        ],
+                        'style' => 'text-left'
                     ],
                     [
                         'label' => 'Email',
                         'key' => 'user.email',
-                        'style' => [
-                            'text-align' => 'left',
-                        ],
+                        'style' => 'text-left'
                     ],
                     [
                         'label' => 'Pemilik',
                         'key' => 'nama',
-                        'style' => [
-                            'text-align' => 'left',
-                        ],
+                        'style' => 'text-left'
                     ],
                 ]" :aksi="[
                     'detail' => true,

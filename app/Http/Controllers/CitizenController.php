@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Penduduk;
 use App\Services\FamilyManagement\CitizenService;
 use App\Services\FamilyManagement\FamilyCardService;
+use App\Services\ImageManager\imageService;
 use App\Services\Notification\NotificationPusher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -162,14 +163,7 @@ class CitizenController extends Controller
 
         try {
             DB::beginTransaction();
-            $manager = new ImageManager(new Driver());
-            $image = $manager->read($request->file('images'));
-            $image->toJpeg(80);
-            $imageName = $request->images->hashName();
-            $image->save(storage_path('app/' . $imageName));
-            Storage::disk('storage_ktp')->put($imageName, file_get_contents(storage_path('app/' . $imageName)));
-
-            unlink(storage_path('app/' . $imageName));
+            $imageName = imageService::uploadImage('storage_ktp', $request);
             $request->merge(['foto_ktp' => route('storage.ktp', ['filename' => $imageName])]);
             $request['kartu_keluarga_id'] = $keluargaid;
             $citizen = CitizenService::create($request);
@@ -294,17 +288,10 @@ class CitizenController extends Controller
             $citizen = CitizenService::find($id);
             $request['kartu_keluarga_id'] = $keluargaid;
             if ($request->hasFile('images')) {
-                $manager = new ImageManager(new Driver());
-                $image = $manager->read($request->file('images'));
-                $image->toJpeg(80);
-                $imageName = $request->images->hashName();
-                $image->save(storage_path('app/' . $imageName));
-                Storage::disk('storage_ktp')->put($imageName, file_get_contents(storage_path('app/' . $imageName)));
-                unlink(storage_path('app/' . $imageName));
+                $imageName = imageService::uploadImage('storage_ktp', $request);
                 $request->merge(['foto_ktp' => route('storage.ktp', ['filename' => $imageName])]);
                 if ($citizen && $citizen->foto_ktp) {
-                    $oldImagePath = basename($citizen->foto_ktp);
-                    Storage::disk('storage_ktp')->delete($oldImagePath);
+                    imageService::deleteImage('storage_ktp', $citizen->foto_ktp);
                 }
             } else {
                 $request->merge(['foto_ktp' => $citizen->foto_ktp]);
@@ -343,8 +330,7 @@ class CitizenController extends Controller
             $user = Auth::user();
             $service = CitizenService::find($id);
 
-            if ($service && $service->user_id === $user->id) {
-                // Hapus data jika pengguna memiliki izin
+            if ($service && $service->user_id === $user->id) {  
                 $service->delete();
 
                 return response()->json([
