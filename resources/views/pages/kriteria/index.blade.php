@@ -3,8 +3,8 @@
         <x-breadcrumb :list="$breadcrumb['list']" :url="$breadcrumb['url']" />
     </x-slot>
 
-    <div class="px-8">
-        <div class="rounded-lg bg-white px-6 py-0 overflow-hidden">
+    <div class="p-6 lg:px-14 gap-y-5 mx-auto max-w-screen-2xl md:p-6 2xl:p-10 ">
+        <div class="p-6 rounded-xl bg-white-snow overflow-hidden">
             @if (session('success'))
                 <div role="alert" class="rounded border-s-4 border-green-500 bg-white p-4">
                     <div class="flex items-start gap-4">
@@ -41,45 +41,45 @@
                     </p>
                 </div>
             @endif
-            
+
             {{-- Table --}}
-                    <section>
-                        <x-datatables id="kriteria_id" url="/spk/kriteria" :columns="[
-                            [
-                                'label' => 'ID',
-                                'key' => 'kriteria_id',
-                                'style' => [
-                                    'text-align' => 'left',
-                                ],
-                            ],
-                            [
-                                'label' => 'Nama Kriteria',
-                                'key' => 'nama_kriteria',
-                                'style' => [
-                                    'text-align' => 'left',
-                                ],
-                            ],
-                            [
-                                'label' => 'Jenis Kriteria',
-                                'key' => 'jenis_kriteria',
-                                'style' => [
-                                    'text-align' => 'left',
-                                ],
-                            ],
-                            [
-                                'label' => 'Bobot',
-                                'key' => 'bobot',
-                                'style' => [
-                                    'text-align' => 'left',
-                                ],
-                            ]
-                        ]" :aksi="[
-                            'detail' => true,
-                            'edit' => true,
-                            'hapus' => true,
-                        ]">
-                        </x-datatables>
-                    </section>
+            <section>
+                <x-datatables id="kriteria_id" url="/spk/kriteria" :columns="[
+                    [
+                        'label' => 'ID',
+                        'key' => 'kriteria_id',
+                        'style' => [
+                            'text-align' => 'left',
+                        ],
+                    ],
+                    [
+                        'label' => 'Nama Kriteria',
+                        'key' => 'nama_kriteria',
+                        'style' => [
+                            'text-align' => 'left',
+                        ],
+                    ],
+                    [
+                        'label' => 'Jenis Kriteria',
+                        'key' => 'jenis_kriteria',
+                        'style' => [
+                            'text-align' => 'left',
+                        ],
+                    ],
+                    [
+                        'label' => 'Bobot',
+                        'key' => 'bobot',
+                        'style' => [
+                            'text-align' => 'left',
+                        ],
+                    ],
+                ]" :aksi="[
+                    'detail' => true,
+                    'edit' => true,
+                    'hapus' => true,
+                ]">
+                </x-datatables>
+            </section>
             {{-- End Table --}}
         </div>
     </div>

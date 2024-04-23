@@ -45,35 +45,36 @@
 
             {{-- Table --}}
             <section>
-
-
                 <div class="bg-blue-gray p-5 max-lg:mt-5 rounded-md">
-                    <h1 class="text-2xl font-semibold">Tambahkan Pelaporan</h1>
+                    <h1 class="font-bold md:text-2xl text-xl">Tambahkan Pelaporan</h1>
                 </div>
 
-                <form method="POST" action="{{ url('umkm') }}" class="space-y-4">
-
-                    <div class="mx-3 my-4 gap-5 flex max-lg:flex-col lg:flex-nowrap font-bold">
-                        <div class="lg:w-1/2">
-                            <div class="after:content-['*'] after:ml-0.5 after:text-red-500">NIK</div>
-                            <input type="text" placeholder="Masukkan NIK" name="" id=""
-                                class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
+                <form method="POST" action="{{ url('umkm') }}" class="px-5">
+                    <div class="mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
+                        <div>
+                            <label for="nik"
+                                class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">NIK</label>
+                            <input type="text" placeholder="Masukkan NIK" name="" id="nik"
+                                class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
                         </div>
-                        <div class="lg:w-1/2">
-                            <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Nama</div>
-                            <input type="text" placeholder="Masukkan Nama" name="" id=""
-                                class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
+                        <div>
+                            <label for="nama"
+                                class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Nama</label>
+                            <input type="text" placeholder="Masukkan Nama" name="" id="nama"
+                                class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
                         </div>
                     </div>
 
-                    <div class="mx-3 my-4 gap-5 flex max-lg:flex-col lg:flex-nowrap font-bold">
-                        <div class="lg:w-1/2">
-                            <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Tanggal</div>
-                            <input type="date" name="" id=""
-                                class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
+                    <div class="mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
+                        <div>
+                            <label for="tanggal"
+                                class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Tanggal</label>
+                            <input type="date" name="" id="tanggal"
+                                class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
                         </div>
-                        <div class="lg:w-1/2">
-                            <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Jenis Laporan</div>
+                        <div>
+                            <label for="jenis_laporan" class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Jenis
+                                Laporan</label>
                             <select id="jenis_laporan" name="jenis_laporan"
                                 class="font-normal  mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
                                 <option value="" selected disabled>Pilih Jenis Laporan</option>
@@ -85,22 +86,28 @@
                         </div>
                     </div>
 
-                    <div class="mx-3 my-3 font-bold">
-                        <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Lampiran</div>
-                        <label for="lisence_image_url" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-bray-100  hover:border-gray-100 hover:bg-gray-200">
+                    <div class="mt-5">
+                        <div class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Lampiran</div>
+                        <label for="lisence_image_url"
+                            class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-bray-100  hover:border-gray-100 hover:bg-gray-200">
                             <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                <svg class="w-8 h-8 mb-4 text-gray-300 dark:text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                                <svg class="w-8 h-8 mb-4 text-gray-300 dark:text-gray-300" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                                 </svg>
                                 <div id="lisence_image_url-container" class="hidden flex justify-center">
                                 </div>
-                                <p class="mb-2 text-sm text-gray-300 dark:text-gray-300"><span class="font-semibold">Unggah Foto</span></p>
+                                <p class="mb-2 text-sm text-gray-300 dark:text-gray-300"><span
+                                        class="font-semibold">Unggah Foto</span></p>
                             </div>
-                            <input id="lisence_image_url" type="file" class="hidden" onchange="renderFiles(this.files, 'lisence_image_url')" />
+                            <input id="lisence_image_url" type="file" class="hidden"
+                                onchange="renderFiles(this.files, 'lisence_image_url')" />
                         </label>
                     </div>
 
-                    <div class="mx-3 my-3 font-bold ">
+                    <div class="mt-5">
                         <label for="text-editor"
                             class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night ">Keterangan
                         </label>
@@ -110,18 +117,19 @@
                         <textarea name="description" id="text-editor"></textarea>
                     </div>
 
-                    <div class="py-5">
+                    <div class="mt-10 flex gap-x-5">
                         <button type="submit"
-                            class="inline-block w-full rounded-lg bg-blue-500 px-5 py-3 font-medium text-white sm:w-auto">
-                            Laporkan
+                            class="bg-azure-blue text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">
+                            <p>Laporkan</p>
                         </button>
-                        <a href="#" class="text-black border-2 py-3 px-5 rounded-lg mt-4">
-                            Batalkan
+                        <a href="{{ route('keuangan.index') }}"
+                            class="border border-navy-night/50 rounded-md px-4 py-2 text-sm flex justify-center items-center gap-x-3">
+                            <p>Kembali</p>
                         </a>
                     </div>
                 </form>
+            </section>
         </div>
-        </section>
     </div>
 
     @push('scripts')

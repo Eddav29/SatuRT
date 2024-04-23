@@ -45,7 +45,7 @@
             {{-- Header --}}
             <section>
                 <div class="bg-blue-gray p-5 rounded-md">
-                    <h1 class="text-2xl font-semibold">Buat Informasi</h1>
+                    <h1 class="font-bold md:text-2xl text-xl">Buat Informasi</h1>
                 </div>
             </section>
             {{-- End Header --}}
@@ -85,7 +85,7 @@
                         @enderror
                         <input type="text" placeholder="Judul Informasi" name="judul_informasi" id="judul"
                             value="{{ old('judul_informasi') }}"
-                            class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                            class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder:text-xs text-sm">
                     </div>
 
                     <div x-data="{ selected: '{{ old('jenis_informasi') == null ? 'Pilih Jenis Informasi' : old('jenis_informasi') }}' }">
@@ -99,7 +99,7 @@
                             @enderror
                             <select id="jenis_informasi" name="jenis_informasi" required
                                 class="placeholder:font-light invalid:ring-1 invalid:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-gray-300 focus:text-navy-night"
-                                :class="selected === 'Pilih Jenis Informasi' ? 'text-gray-300' : 'text-navy-night'">
+                                :class="selected === 'Pilih Jenis Informasi' ? 'text-gray-300 text-xs' : 'text-navy-night text-sm'">
                                 <option value="Pilih Jenis Informasi" @click="selected = 'Pilih Jenis Informasi'"
                                     x-bind:selected="selected === 'Pilih Jenis Informasi'">Pilih Jenis Informasi
                                 </option>
@@ -148,15 +148,13 @@
                     </div>
 
                     {{-- Button --}}
-                    <div class="mt-5 flex gap-x-5">
+                    <div class="mt-10 flex gap-x-5">
                         <button type="submit"
-                            class="bg-azure-blue text-white-snow font-medium px-4 py-2 rounded-md flex justify-center items-center gap-x-3">
-                            <x-heroicon-o-folder-arrow-down class="w-5 h-5" />
+                            class="bg-azure-blue text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">
                             <p>Simpan</p>
                         </button>
                         <a href="{{ route('informasi.index') }}"
-                            class="border border-navy-night/50 rounded-md px-4 py-2 flex justify-center items-center gap-x-3"><x-heroicon-o-arrow-uturn-left
-                                class="w-5 h-5" />
+                            class="border border-navy-night/50 rounded-md px-4 py-2 text-sm flex justify-center items-center gap-x-3">
                             <p>Kembali</p>
                         </a>
                     </div>

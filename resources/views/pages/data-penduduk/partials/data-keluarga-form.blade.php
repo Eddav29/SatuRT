@@ -1,6 +1,4 @@
-
-
-<div class="mt-8 grid sm:grid-cols-2 grid-cols-1 gap-6">
+<div class="mt-5 grid sm:grid-cols-2 grid-cols-1 gap-5  px-5">
     <div>
         <x-input-label for="nomor_kartu_keluarga" :value="__('Nomor Kartu Keluarga')" required="true" />
 
@@ -18,7 +16,7 @@
         <x-input-error :messages="$errors->get('kota')" class="mt-2" />
     </div>
 </div>
-<div class="mt-8 grid sm:grid-cols-2 grid-cols-1 gap-6">
+<div class="mt-5 grid sm:grid-cols-2 grid-cols-1 gap-5 px-5">
     <div>
         <x-input-label for="kk_kecamatan" :value="__('Kecamatan')" required="true" />
 
@@ -36,7 +34,7 @@
         <x-input-error :messages="$errors->get('kk_desa')" class="mt-2" />
     </div>
 </div>
-<div class="mt-8 grid sm:grid-cols-2 grid-cols-1 gap-6">
+<div class="mt-5 grid sm:grid-cols-2 grid-cols-1 gap-5 px-5">
     <div>
         <x-input-label for="kk_nomor_rw" :value="__('RW')" required="true" />
 

@@ -3,8 +3,8 @@
     :class="sidebar ? 'translate-x-0' : '-translate-x-full'" @click.outside="sidebar = false">
 
     {{-- Main Menu --}}
-    <div class="overflow-y-auto pt-10 lg:pt-24 no-scrollbar h-full">
-        <h1 class="text-navy-night/35 ">PROFILE</h1>
+    <div class="py-10 lg:pt-24 no-scrollbar h-full">
+        <h1 class="text-navy-night/35">PROFILE</h1>
         <div x-data="{ selected: '' }" class="py-5 h-full">
             <nav class="h-full flex flex-col justify-between">
                 <div class="flex flex-col gap-y-3">
@@ -14,8 +14,8 @@
                                 src="{{ asset('assets/images/milad-fakurian-PGdW_bHDbpI-unsplash.jpg') }}"
                                 alt="">
                         </div>
-                        <div class="ml-4 flex flex-col justify-between h-full">
-                            <div class="flex-grow">
+                        <div class="px-4 flex flex-col justify-center h-full">
+                            <div>
                                 <div class="text-sm">Hallo</div>
                             </div>
                             <div>
