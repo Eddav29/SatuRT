@@ -85,7 +85,7 @@
 
             {{-- Table --}}
             <section>
-                <x-datatables id="keuangan_id" url="/keuangan" :columns="[
+                <x-datatables id="detail_keuangan_id" url="/keuangan" :columns="[
                     [
                         'label' => 'Judul keuangan',
                         'key' => 'judul',

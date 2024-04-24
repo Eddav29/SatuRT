@@ -74,7 +74,7 @@ class InformationController extends Controller
                     $validated['thumbnail_url'] = basename($validated['thumbnail_url']);
                 }
             }
-
+            
             Informasi::create($validated);
 
             return redirect()->route('informasi.index')->with(['success' => 'Informasi baru ditambahkan']);

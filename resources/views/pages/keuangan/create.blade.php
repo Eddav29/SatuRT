@@ -45,7 +45,7 @@
                         @error('judul_keuangan')
                             <small class="text-red-500 text-xs py-3">{{ $message }}</small>
                         @enderror
-                        <input type="text" placeholder="Judul keuangan" name="judul_keuangan" id="judul" value="{{ old('judul_keuangan') }}" class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder:text-xs text-sm">
+                        <input type="text" placeholder="Judul keuangan" name="judul" id="judul" value="{{ old('judul_keuangan') }}" class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder:text-xs text-sm">
                     </div>
 
                     <div x-data="{ selected: '{{ old('jenis_keuangan') == null ? 'Pilih Jenis keuangan' : old('jenis_keuangan') }}' }">
@@ -71,20 +71,20 @@
                         </div>
                     </div>
 
-                    <div x-data="{ selected: '{{ old('jenis_keuangan') == null ? 'Pilih Jenis keuangan' : old('jenis_keuangan') }}' }">
+                    <div x-data="{ selected: '{{ old('asal_keuangan') == null ? 'Pilih Asal keuangan' : old('asal_keuangan') }}' }">
                         {{-- Field Jenis keuangan --}}
                         <div class="flex flex-col mt-5">
-                            <label for="jenis_keuangan"
+                            <label for="asal_keuangan"
                                 class="block font-semibold text-navy-night after:content-['*'] after:ml-0.5 after:text-red-500 w-fit">Asal
                                 keuangan</label>
-                            @error('jenis_keuangan')
+                            @error('asal_keuangan')
                                 <small class="text-red-500 text-xs py-3">{{ $message }}</small>
                             @enderror
-                            <select id="jenis_keuangan" name="jenis_keuangan" required
+                            <select id="asal_keuangan" name="asal_keuangan" required
                                 class="placeholder:font-light invalid:ring-1 invalid:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-gray-300 focus:text-navy-night"
-                                :class="selected === 'Pilih Jenis keuangan' ? 'text-gray-300 text-xs' : 'text-navy-night text-sm'">
+                                :class="selected === 'Pilih Asal keuangan' ? 'text-gray-300 text-xs' : 'text-navy-night text-sm'">
                                 <option value="Pilih Jenis keuangan" @click="selected = 'Pilih Asal keuangan'"
-                                    x-bind:selected="selected === 'Pilih Jenis keuangan'">Pilih Jenis keuangan
+                                    x-bind:selected="selected === 'Pilih Asal keuangan'">Pilih Asal keuangan
                                 </option>
                                 <option value="Donasi" @click="selected = 'Donasi'"
                                     x-bind:selected="selected === 'Donasi'">Donasi</option>

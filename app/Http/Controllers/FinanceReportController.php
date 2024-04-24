@@ -7,12 +7,16 @@ use App\Models\DetailKeuangan;
 use App\Models\Keuangan;
 use App\Models\Penduduk;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use App\Services\Notification\NotificationPusher;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class FinanceReportController extends Controller
 {
@@ -55,6 +59,7 @@ class FinanceReportController extends Controller
         try {
             $data = DetailKeuangan::all()->map(function ($keuangan) {
                 return [
+                    'detail_keuangan_id' => $keuangan->detail_keuangan_id,
                     'keuangan_id' => $keuangan->keuangan_id,
                     'judul' => $keuangan->judul,
                     'jenis_keuangan' => $keuangan->jenis_keuangan,
@@ -91,26 +96,59 @@ class FinanceReportController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $keuangan = Keuangan::latest('tanggal')->first();
-        $request['keuangan_id'] = $keuangan->keuangan_id;
-
-        $validated = $request->validate([
-            'keuangan_id' => ['required', 'exists:keuangan,keuangan_id'],
-            'judul_keuangan' => 'required',
+        // Mendapatkan nilai ID terbesar dari tabel 'keuangan'
+        $keuangan = DB::table('keuangan')->orderBy('tanggal', 'DESC')->first(); // Mendapatkan record terakhir
+        $keuanganId = $keuangan->keuangan_id; // Ambil ID terbesar
+        $pendudukId = $keuangan->penduduk_id; // Ambil penduduk terkait
+        $total_keuangan = $keuangan->total_keuangan;
+    
+        // Tambahkan ID yang didapatkan ke permintaan
+        $request['keuangan_id'] = $keuanganId;
+    
+        // Validasi data yang diterima dari permintaan
+        $validator = Validator::make($request->all(), [
+            'judul' => 'required',
             'jenis_keuangan' => 'required',
-            'asal_keuangan' => 'required|string',
-            'nominal' => 'required|integer',
-        ], [
-            'keuangan_id.required' => 'ID keuangan harus diisi.',
-            'judul_keuangan.required' => 'Judul keuangan harus diisi.',
-            'jenis_keuangan.required' => 'Jenis keuangan harus diisi.',
-            'asal_keuangan.required' => 'Asal keuangan harus diisi.',
-            'nominal.required' => 'Nominal harus diisi.',
+            'asal_keuangan' => 'required',
+            'nominal' => 'required|numeric', // Pastikan nominal adalah angka
+            'keterangan' => 'required',
         ]);
-
-        DetailKeuangan::create($validated);
-        return redirect()->route('keuangan.index');
+    
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+    
+        try {
+            DB::beginTransaction();
+            
+            // Membuat record baru di 'detail_keuangan'
+            $detailKeuangan = DetailKeuangan::create($request->all());
+    
+            // Menambahkan entitas baru ke tabel 'keuangan'
+            $nominal = $request->input('nominal');
+            
+            $keuangan = Keuangan::create([
+                'keuangan_id' => $keuanganId,
+                'penduduk_id' => $pendudukId,
+                'total_keuangan' => $total_keuangan + $nominal, // Tambahkan nominal ke total sebelumnya
+                'tanggal' => now(), // Set tanggal ke waktu sekarang
+            ]);
+            
+            DB::commit();
+    
+            NotificationPusher::success('Data berhasil disimpan dan entitas baru ditambahkan ke tabel keuangan.');
+            
+            return redirect()->route('keuangan.index');
+            
+        } catch (\Exception $e) {
+            DB::rollBack();
+            dd($e);
+            NotificationPusher::error($e->getMessage());
+            return redirect()->back()->withInput();
+        }
     }
+    
+
 
     public function show(string $id): Response
     {
@@ -118,9 +156,21 @@ class FinanceReportController extends Controller
             'list' => ['Home', 'Keuangan', 'Detail Keuangan'],
             'url' => ['home', 'keuangan.index', ['keuangan.show', $id]],
         ];
+        
+        // Temukan detail keuangan berdasarkan ID
         $detailKeuangan = DetailKeuangan::with('keuangan')->find($id);
-        $keuangan = Keuangan::with('penduduk')->find($id);
-        $penduduk = Penduduk::all();
+
+        // Jika tidak ditemukan, kembalikan respon error atau redirect
+        if (!$detailKeuangan) {
+            return redirect()->route('keuangan.index')->with('error', 'Detail Keuangan tidak ditemukan');
+        }
+
+        // Dapatkan keuangan yang terkait dengan detail tersebut
+        $keuangan = $detailKeuangan->keuangan;  // Ambil dari relasi, jika ada
+        
+        // Pastikan relasi penduduk pada keuangan tersedia
+        $penduduk = $keuangan ? $keuangan->penduduk : null;
+
         return response()->view('pages.keuangan.show', [
             'breadcrumb' => $breadcrumb,
             'keuangan' => $keuangan,
@@ -135,6 +185,7 @@ class FinanceReportController extends Controller
             ]
         ]);
     }
+
 
     public function edit(string $id): Response
     {
@@ -160,12 +211,43 @@ class FinanceReportController extends Controller
 
     public function update(Request $request, string $id): RedirectResponse
     {
+        DetailKeuangan::find($id);
 
+         // Validasi data yang diterima dari permintaan
+         $validated = $request->validate([
+            'keuangan_id' => 'required',
+            'judul' => 'required',
+            'jenis_keuangan' => 'required',
+            'asal_keuangan' => 'required',
+            'nominal' => 'required',
+            // 'keterangan' => 'max:255',
+        ]);
+        try{
+            // Membuat entri baru untuk DetailKeuangan
+            $detailKeuangan = DetailKeuangan::update($validated);
+            // Jika berhasil, redirect ke indeks halaman dengan pesan sukses
+            return redirect()->route('keuangan.index')->with(['success' => 'Informasi baru ditambahkan']);
+        } catch (\Throwable $th) {
+            return redirect()->route('keuangan.index')->with(['error' => 'Informasi gagal ditambahkan']);
+        }
     }
 
     public function destroy(string $id): RedirectResponse
     {
-
+        try {
+            DetailKeuangan::delete($id);
+            return response()->json([
+                'code' => 200,
+                'message' => 'Data berhasil dihapus',
+                'timestamp' => now()
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'code' => 500,
+                'message' => $e->getMessage(),
+                'timestamp' => now()
+            ], 500);
+        }
     }
 
     public function financeReport(string $id): FinanceReportResource

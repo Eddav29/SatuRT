@@ -79,17 +79,17 @@
                     <div x-data="{ selected: '{{ $detailKeuangan->asal_keuangan }}' }">
                         {{-- Field Asal keuangan --}}
                         <div class="flex flex-col mt-5">
-                            <label for="jenis_keuangan"
+                            <label for="asal_keuangan"
                                 class="block font-semibold text-navy-night after:content-['*'] after:ml-0.5 after:text-red-500 w-fit">Asal
                                 keuangan</label>
-                            @error('jenis_keuangan')
+                            @error('asal_keuangan')
                                 <small class="text-red-500 text-xs py-3">{{ $message }}</small>
                             @enderror
-                            <select id="jenis_keuangan" name="jenis_keuangan" required
+                            <select id="asal_keuangan" name="asal_keuangan" required
                                 class="placeholder:font-light invalid:ring-1 invalid:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-gray-300 focus:text-navy-night"
                                 :class="selected === 'Pilih Jenis keuangan' ? 'text-gray-300' : 'text-navy-night'">
                                 <option value="Pilih Jenis keuangan" @click="selected = 'Pilih Asal keuangan'"
-                                    x-bind:selected="selected === 'Pilih Jenis keuangan'">Pilih Asal keuangan
+                                    x-bind:selected="selected === 'Pilih asal keuangan'">Pilih Asal keuangan
                                 </option>
                                 <option value="Donasi" @click="selected = 'Donasi'"
                                     x-bind:selected="selected === 'Donasi'">Donasi</option>
