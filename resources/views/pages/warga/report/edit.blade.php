@@ -45,8 +45,8 @@
             @endif
 
             {{-- Table --}}
-            <section>
-
+            <form method="POST" action="{{ route('pelaporan.update', $pelaporan->pelaporan_id) }}">
+                @csrf
 
                 <div class="bg-blue-gray p-5 max-lg:mt-5 rounded-md">
                     <h1 class="font-bold md:text-2xl text-xl">Edit Pelaporan</h1>
@@ -57,13 +57,15 @@
                     <div class="mx-3 my-4 gap-5 flex max-lg:flex-col lg:flex-nowrap font-bold">
                         <div class="lg:w-1/2">
                             <div class="after:content-['*'] after:ml-0.5 after:text-red-500">NIK</div>
-                            <input type="text" placeholder="Masukkan NIK" name="" id=""
-                                class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
+                            <input type="text" value="{{ $pelaporan->pengajuan->penduduk->nik }}"
+                                placeholder="Masukkan NIK" name="" id=""
+                                class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
                         </div>
                         <div class="lg:w-1/2">
                             <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Nama</div>
-                            <input type="text" placeholder="Masukkan Nama" name="" id=""
-                                class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
+                            <input type="text" value="{{ $pelaporan->pengajuan->penduduk->nama }}"
+                                placeholder="Masukkan Nama" name="" id=""
+                                class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
                         </div>
                     </div>
 
@@ -71,13 +73,14 @@
                         <div class="lg:w-1/2">
                             <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Tanggal</div>
                             <input type="date" name="" id=""
+                                value="{{ $pelaporan->pengajuan->penduduk->tanggal_lahir ? \Carbon\Carbon::parse($pelaporan->pengajuan->penduduk->tanggal_lahir)->format('Y-m-d') : '' }}"
                                 class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
                         </div>
                         <div class="lg:w-1/2">
                             <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Jenis Laporan</div>
                             <select id="jenis_laporan" name="jenis_laporan"
                                 class="font-normal  mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                                <option value="" selected disabled>Pilih Jenis Laporan</option>
+                                <option value="{{ $pelaporan->jenis_pelaporan }}" selected disabled>Pilih Jenis Laporan</option>
                                 <option value="pengaduan">Pengaduan</option>
                                 <option value="kritik">Kritik</option>
                                 <option value="saran">Saran</option>
@@ -88,40 +91,48 @@
 
                     <div class="mx-3 my-3 font-bold">
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Lampiran</div>
-                        <label for="lisence_image_url" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-bray-100  hover:border-gray-100 hover:bg-gray-200">
+                        <label for="lisence_image_url"
+                            class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-bray-100  hover:border-gray-100 hover:bg-gray-200">
                             <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                <svg class="w-8 h-8 mb-4 text-gray-300 dark:text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
+                                <svg class="w-8 h-8 mb-4 text-gray-300 dark:text-gray-300" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
                                 </svg>
                                 <div id="lisence_image_url-container" class="hidden flex justify-center">
                                 </div>
-                                <p class="mb-2 text-sm text-gray-300 dark:text-gray-300"><span class="font-semibold">Unggah Foto</span></p>
+                                <p class="mb-2 text-sm text-gray-300 dark:text-gray-300"><span
+                                        class="font-semibold">Unggah Foto</span></p>
                             </div>
-                            <input id="lisence_image_url" type="file" class="hidden" onchange="renderFiles(this.files, 'lisence_image_url')" />
+                            <input id="lisence_image_url" type="file" class="hidden"
+                                onchange="renderFiles(this.files, 'lisence_image_url')" />
                         </label>
                     </div>
 
-                    <div class="mx-3 my-3 font-bold ">
+                    <div class="mx-3 my-3">
                         <label for="text-editor"
                             class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night ">Keterangan
                         </label>
                         @error('keterangan')
                             <small class="text-red-500 text-xs py-3">{{ $message }}</small>
                         @enderror
-                        <textarea name="description" id="text-editor"></textarea>
+                        <textarea name="description" id="text-editor">{{ $pelaporan->pengajuan->keterangan }}</textarea>
                     </div>
 
                     <div class="mx-3 my-3">
-                        <button type="submit" class="bg-blue-500 hover:bg-blue-800 text-white py-2 px-4 rounded mt-4 mr-2">
+                        <button type="submit"
+                            class="bg-blue-500 hover:bg-blue-800 text-white py-2 px-4 rounded mt-4 mr-2">
                             Simpan
                         </button>
-                        <a href="#" class="text-black border-2 py-3 px-5 rounded-lg mt-4">
+                        <a href="#" onclick="window.history.back()" class="text-black border-2 py-3 px-5 rounded-lg mt-4">
                             Batalkan
                         </a>
+
                     </div>
                 </form>
         </div>
-        </section>
+        </form>
     </div>
 
     @push('scripts')

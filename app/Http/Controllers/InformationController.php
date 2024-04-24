@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Stevebauman\Purify\Casts\PurifyHtmlOnSet;
+use Stevebauman\Purify\Facades\Purify;
 
 class InformationController extends Controller
 {
@@ -64,6 +67,14 @@ class InformationController extends Controller
         ]);
 
         try {
+            $model = Purify::clean($validated['isi_informasi']);
+            $cleaned_string = strip_tags(preg_replace('/(<\/p>)/', '$1 ', $model));
+            $cleaned_string = preg_replace('/[^\x20-\x7E]/u', ' ', $cleaned_string);
+            $validated['excerpt'] = Str::substr($cleaned_string, 0, 300);
+            $validated['judul_informasi'] = Str::title($validated['judul_informasi']);
+
+
+
             if ($request->file('thumbnail_url')) {
                 if ($validated['jenis_informasi'] == 'Pengumuman') {
                     $fileName = $request->file('thumbnail_url')->getClientOriginalName();
@@ -79,6 +90,7 @@ class InformationController extends Controller
 
             return redirect()->route('informasi.index')->with(['success' => 'Informasi baru ditambahkan']);
         } catch (\Throwable $th) {
+            dd($th);
             return redirect()->route('informasi.index')->with(['error' => 'Informasi gagal ditambahkan']);
         }
     }
@@ -107,6 +119,7 @@ class InformationController extends Controller
     public function show(string $id): Response
     {
         $information = Informasi::with('penduduk')->find($id);
+        $file_extension = pathinfo($information->thumbnail_url, PATHINFO_EXTENSION);
 
         $breadcrumb = [
             'list' => ['Home', 'Informasi', 'Detail Informasi'],
@@ -117,6 +130,7 @@ class InformationController extends Controller
             'information' => $information,
             'breadcrumb' => $breadcrumb,
             'toolbar_id' => $id,
+            'file_extension' => $file_extension,
             'active' => 'detail',
             'toolbar_route' => [
                 'detail' => route('informasi.show', ['informasi' => $id]),
@@ -189,6 +203,14 @@ class InformationController extends Controller
         }
 
         try {
+            $model = Purify::clean($validated['isi_informasi']);
+            $cleaned_string = strip_tags(preg_replace('/(<\/p>)/', '$1 ', $model));
+            $cleaned_string = preg_replace('/[^\x20-\x7E]/u', ' ', $cleaned_string);
+            $validated['excerpt'] = Str::substr($cleaned_string, 0, 300);
+            $validated['judul_informasi'] = Str::title($validated['judul_informasi']);
+
+            dd($validated);
+
             $information->update($validated);
 
             return redirect()->route('informasi.index')->with(['success' => 'Perubahan berhasila disimpan']);

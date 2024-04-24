@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\ResidentReportResource;
 use App\Models\Pelaporan;
+use App\Models\Pengajuan;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -55,11 +56,11 @@ class ResidentReportController extends Controller
     /**
      * Display the specified resource.
      */
+
     public function show(string $id)
     {
         if (Auth::user()->role->role_name == 'Ketua RT') {
             $pelaporan = Pelaporan::with('pengajuan')->find($id);
-            $user = User::all();
 
             $breadcrumb = [
                 'list' => ['Home', 'Pelaporan', 'Detail Pelaporan'],
@@ -68,12 +69,10 @@ class ResidentReportController extends Controller
 
             return response()->view('pages.resident-report.show', [
                 'pelaporan' => $pelaporan,
-                'user' => $user,
                 'breadcrumb' => $breadcrumb,
             ]);
         } else {
             $pelaporan = Pelaporan::with('pengajuan')->find($id);
-            $user = User::all();
 
             $breadcrumb = [
                 'list' => ['Home', 'LAPOR!', 'Detail Pelaporan'],
@@ -82,7 +81,6 @@ class ResidentReportController extends Controller
 
             return response()->view('pages.warga.report.show', [
                 'pelaporan' => $pelaporan,
-                'user' => $user,
                 'breadcrumb' => $breadcrumb,
                 'toolbar_id' => $id,
                 'active' => 'detail',
@@ -216,7 +214,7 @@ class ResidentReportController extends Controller
 
     public function edit(string $id): Response
     {
-        $pelaporan = Pelaporan::all();
+        $pelaporan = Pelaporan::find($id);
 
         $breadcrumb = [
             'list' => ['Home', 'LAPOR!', 'Edit Pelaporan'],

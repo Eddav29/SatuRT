@@ -29,7 +29,8 @@ class Informasi extends Model
         'judul_informasi',
         'jenis_informasi',
         'isi_informasi',
-        'thumbnail_url'
+        'thumbnail_url',
+        'excerpt'
     ];
 
     protected $hidden = [

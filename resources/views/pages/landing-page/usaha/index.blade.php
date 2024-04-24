@@ -88,35 +88,45 @@
         </section>
         {{-- End Group Section --}}
 
-        {{-- Start Listing Section --}}
-        <section>
-            <div class="grid auto-rows-fr grid-cols-1">
-                <ul class="grid grid-cols-1 gap-y-10 auto-rows-fr md:grid-cols-2 lg:gap-5">
-                    @foreach ($businesses as $business)
-                        <li>
-                            <a href="{{ route('usaha-detail', $business->umkm_id) }}"
-                                class="grid grid-cols-3 gap-x-3 group">
-                                <div>
-                                    <img src="https://source.unsplash.com/random/?market" alt=""
-                                        class="max-h-52 w-full object-cover rounded-xl aspect-[2/3]">
-                                </div>
-                                <div class="flex col-span-2 flex-col gap-y-3 justify-between">
+        @if (count($businesses) > 0)
+            {{-- Start Listing Section --}}
+            <section>
+                <div class="grid auto-rows-fr grid-cols-1">
+                    <ul class="grid grid-cols-1 gap-y-10 auto-rows-fr md:grid-cols-2 lg:gap-5">
+                        @foreach ($businesses as $business)
+                            <li>
+                                <a href="{{ route('usaha-detail', $business->umkm_id) }}"
+                                    class="grid grid-cols-3 gap-x-3 group">
                                     <div>
-                                        <h1 class="font-bold text-[1.618rem]/[2.618rem] group-hover:underline">
-                                            {{ $business->nama_umkm }}</h1>
+                                        <img src="https://source.unsplash.com/random/?market" alt=""
+                                            class="max-h-52 w-full object-cover rounded-xl aspect-[2/3]">
                                     </div>
-                                    <div>
-                                        <h1 class="font-semibold text-[1rem]/[1.618rem]">Deskripsi:</h1>
-                                        <p class="text-[1rem]/[1.618rem]">{{ $business->keterangan }}</p>
+                                    <div class="flex col-span-2 flex-col gap-y-3 justify-between">
+                                        <div>
+                                            <h1 class="font-bold text-[1.618rem]/[2.618rem] group-hover:underline">
+                                                {{ $business->nama_umkm }}</h1>
+                                        </div>
+                                        <div>
+                                            <h1 class="font-semibold text-[1rem]/[1.618rem]">Deskripsi:</h1>
+                                            <p class="text-[1rem]/[1.618rem]">{{ $business->keterangan }}</p>
+                                        </div>
                                     </div>
-                                </div>
-                            </a>
-                        </li>
-                    @endforeach
-                </ul>
-            </div>
-        </section>
-        {{-- End Listing Section --}}
+                                </a>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+            </section>
+            {{-- End Listing Section --}}
+        @else
+            <section>
+                <div class="flex flex-col gap-y-3 py-20">
+                    <h1 class="text-center font-semibold text-[1rem]/[1.618rem]">
+                        Belum ada data UMKM
+                    </h1>
+                </div>
+            </section>
+        @endif
 
         {{-- Start Other Section --}}
         <section>
