@@ -25,7 +25,7 @@ class NewsController extends Controller
     public function index(): Response
     {
         $newInformation = $this->newsService->getLatestNews();
-        $informations = $this->newsService->getNewsWithPagination($newInformation->informasi_id, request(['search', 'jfsi']));
+        $informations = $this->newsService->getNewsWithPagination($newInformation->informasi_id ?? null, request(['search', 'jfsi'])) ?? null;
         $types = $this->newsService->getAllTypes();
 
         return response()->view(

@@ -71,53 +71,57 @@
         </section>
         {{-- End of Remarks by the Head of RT --}}
 
-        {{-- MSME Start --}}
-        <section class="w-full max-w-7xl mx-auto relative">
-            <div class="h-80 w-80 absolute top-0 z-0 -right-60 bg-green-light rounded-full blur-3xl"></div>
-            <div class="relative z-10">
-                <h1 class="text-center font-bold text-[1.618rem]/[2.618rem] lg:text-[2.618rem]/[3.618rem]">Telusuri
-                    Daftar UMKM Terkini di RT Ini</h1>
-                <p class="text-center mt-2 text-[1rem]/[1.618rem]">Temukan Produk-produk Berkualitas dari Pengusaha
-                    Lokal</p>
-            </div>
-            <!-- Slider main container -->
-            <div class="swiper mt-10">
-                <!-- Additional required wrapper -->
-                <div class="swiper-wrapper lg:grid lg:grid-cols-3 lg:gap-x-7">
-                    <!-- Slides -->
-                    @foreach ($businesses as $business)
-                        <div class="swiper-slide overflow-hidden">
-                            <a href="{{ url('usaha/' . $business->umkm_id) }}" class="flex flex-col">
-                                <div>
-                                    <img src="https://source.unsplash.com/random/?market" alt=""
-                                        class="h-[15rem] w-full object-cover rounded-lg">
-                                </div>
-                                <div>
-                                    <div class="flex justify-between items-center mt-3">
-                                        <h1 class="font-bold text-[1.618rem]/[2.618rem]">{{ $business->nama_umkm }}</h1>
-                                        <div aria-label="MSMS-Type"
-                                            class="px-6 py-3 bg-green-light text-navy-night rounded-2xl">
-                                            {{ $business->jenis_umkm }}
-                                        </div>
-                                    </div>
-                                    <p>Owner : <span class="font-semibold">{{ $business->penduduk->nama }}</span></p>
-                                </div>
-                                <div class="py-3">
-                                    <p class="font-light text-justify text-[1rem]/[1.618rem]">
-                                        {{ $business->keterangan }}</p>
-                                </div>
-                            </a>
-                        </div>
-                    @endforeach
+        @if (count($businesses) > 0)
+            {{-- MSME Start --}}
+            <section class="w-full max-w-7xl mx-auto relative">
+                <div class="h-80 w-80 absolute top-0 z-0 -right-60 bg-green-light rounded-full blur-3xl"></div>
+                <div class="relative z-10">
+                    <h1 class="text-center font-bold text-[1.618rem]/[2.618rem] lg:text-[2.618rem]/[3.618rem]">Telusuri
+                        Daftar UMKM Terkini di RT Ini</h1>
+                    <p class="text-center mt-2 text-[1rem]/[1.618rem]">Temukan Produk-produk Berkualitas dari Pengusaha
+                        Lokal</p>
                 </div>
-            </div>
-            <div class="mt-10 w-full flex justify-center">
-                <a href="{{ url('usaha') }}"
-                    class="px-6 py-3 bg-soft-snow w-full text-navy-night rounded-full gap-x-5 border border-navy-night flex justify-center items-center hover:bg-green-light transition-all duration-300">Lihat
-                    Semua</a>
-            </div>
-        </section>
-        {{-- MSME End --}}
+                <!-- Slider main container -->
+                <div class="swiper mt-10">
+                    <!-- Additional required wrapper -->
+                    <div class="swiper-wrapper lg:grid lg:grid-cols-3 lg:gap-x-7">
+                        <!-- Slides -->
+                        @foreach ($businesses as $business)
+                            <div class="swiper-slide overflow-hidden">
+                                <a href="{{ url('usaha/' . $business->umkm_id) }}" class="flex flex-col">
+                                    <div>
+                                        <img src="https://source.unsplash.com/random/?market" alt=""
+                                            class="h-[15rem] w-full object-cover rounded-lg">
+                                    </div>
+                                    <div>
+                                        <div class="flex justify-between items-center mt-3">
+                                            <h1 class="font-bold text-[1.618rem]/[2.618rem]">{{ $business->nama_umkm }}
+                                            </h1>
+                                            <div aria-label="MSMS-Type"
+                                                class="px-6 py-3 bg-green-light text-navy-night rounded-2xl">
+                                                {{ $business->jenis_umkm }}
+                                            </div>
+                                        </div>
+                                        <p>Owner : <span class="font-semibold">{{ $business->penduduk->nama }}</span>
+                                        </p>
+                                    </div>
+                                    <div class="py-3">
+                                        <p class="font-light text-justify text-[1rem]/[1.618rem]">
+                                            {{ $business->keterangan }}</p>
+                                    </div>
+                                </a>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="mt-10 w-full flex justify-center">
+                    <a href="{{ url('usaha') }}"
+                        class="px-6 py-3 bg-soft-snow w-full text-navy-night rounded-full gap-x-5 border border-navy-night flex justify-center items-center hover:bg-green-light transition-all duration-300">Lihat
+                        Semua</a>
+                </div>
+            </section>
+            {{-- MSME End --}}
+        @endif
 
         {{-- Feature  --}}
         <section class="w-full max-w-7xl mx-auto flex flex-col relative">
@@ -272,60 +276,67 @@
         </section>
         {{-- End of Feature --}}
 
-        {{-- Start of News --}}
-        <section class="w-full max-w-7xl mx-auto">
-            <div class="flex justify-between items-center">
-                <h1 class="text-[1.618rem]/[2.618rem] font-bold lg:text-[2.618rem]/[3.618rem]">Berita</h1>
-                <a href="/berita"
-                    class="px-6 py-3 bg-soft-snow text-navy-night rounded-full gap-x-5 border border-navy-night flex justify-center items-center hover:bg-green-light transition-all duration-300">Lihat
-                    Semua <span class="inline-block p-3 bg-green-light rounded-full"><x-heroicon-o-arrow-up-right
-                            class="w-5 h-5" /></span></a>
-            </div>
-            <div class="grid grid-row-4 grid-cols-1 mt-10 gap-5 lg:grid-rows-2 lg:grid-cols-3">
-                @foreach ($informations as $key => $information)
-                    @if ($key % 2 == 0)
-                        <a href="{{ url('berita/' . $information->informasi_id) }}" class="lg:row-span-2">
-                            <div class="relative h-72 lg:h-[50rem]">
-                                <img src="https://source.unsplash.com/random/?market" alt=""
-                                    class="rounded-xl w-full h-full object-cover">
-                                <div
-                                    class="absolute bottom-3 left-3 z-10 rounded-full text-[1rem]/[1.618rem] text-soft-snow px-6 py-3 bg-navy-night/50 backdrop-blur-3xl flex gap-3">
-                                    <x-heroicon-o-calendar-days class="w-6 h-6" />
-                                    <p>
-                                        {{ $information->created_at->format('d F Y') }}
-                                    </p>
+        @if (count($informations) > 0)
+            {{-- Start of News --}}
+            <section class="w-full max-w-7xl mx-auto">
+                <div class="flex justify-between items-center">
+                    <h1 class="text-[1.618rem]/[2.618rem] font-bold lg:text-[2.618rem]/[3.618rem]">Berita</h1>
+                    <a href="/berita"
+                        class="px-6 py-3 bg-soft-snow text-navy-night rounded-full gap-x-5 border border-navy-night flex justify-center items-center hover:bg-green-light transition-all duration-300">Lihat
+                        Semua <span class="inline-block p-3 bg-green-light rounded-full"><x-heroicon-o-arrow-up-right
+                                class="w-5 h-5" /></span></a>
+                </div>
+                <div class="grid grid-row-4 grid-cols-1 mt-10 gap-5 lg:grid-rows-2 lg:grid-cols-3 lg:gap-y-10">
+                    @foreach ($informations as $key => $information)
+                        @if ($key % 2 == 0)
+                            <a href="{{ url('berita/' . $information->informasi_id) }}" class="lg:row-span-2">
+                                <div class="relative h-72 lg:h-[50rem]">
+                                    <img src="{{ asset('storage/information_images/' . $information->thumbnail_url ?? 'https://source.unsplash.com/random/?market') }}"
+                                        alt="" class="rounded-xl w-full h-full object-cover">
+                                    <div
+                                        class="absolute bottom-3 left-3 z-10 rounded-full text-[1rem]/[1.618rem] text-soft-snow px-6 py-3 bg-navy-night/50 backdrop-blur-3xl flex gap-3">
+                                        <x-heroicon-o-calendar-days class="w-6 h-6" />
+                                        <p>
+                                            {{ $information->created_at->format('d F Y') }}
+                                        </p>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="py-3">
-                                <h1 class="font-bold text-[1.618rem]/[2.618rem]">{{ $information->judul_informasi }}
-                                </h1>
-                                <p class="text-[1rem]/[1.618rem]">{{ $information->isi_informasi }}</p>
-                            </div>
-                        </a>
-                    @else
-                        <a href="{{ url('berita/' . $information->informasi_id) }}" class="lg:max-h-[29rem]">
-                            <div class="relative h-72 lg:h-[60%]">
-                                <img src="https://source.unsplash.com/random/?market" alt=""
-                                    class="rounded-xl w-full h-full object-cover">
-                                <div
-                                    class="absolute bottom-3 left-3 z-10 rounded-full text-[1rem]/[1.618rem] text-soft-snow px-6 py-3 bg-navy-night/50 backdrop-blur-3xl flex gap-3">
-                                    <x-heroicon-o-calendar-days class="w-6 h-6" />
-                                    <p>
-                                        {{ $information->created_at->format('d F Y') }}
-                                    </p>
+                                <div class="py-3">
+                                    <h1 class="font-bold text-[1.618rem]/[2.618rem]">
+                                        {{ $information->judul_informasi }}
+                                    </h1>
+                                    <p class="text-[1rem]/[1.618rem]">{{ $information->excerpt }} ...</p>
                                 </div>
-                            </div>
-                            <div class="py-3">
-                                <h1 class="font-bold text-[1.618rem]/[2.618rem]">{{ $information->judul_informasi }}
-                                </h1>
-                                <p class="text-[1rem]/[1.618rem]">{{ $information->isi_informasi }}</p>
-                            </div>
-                        </a>
-                    @endif
-                @endforeach
-            </div>
-        </section>
-        {{-- End of News --}}
+                            </a>
+                        @else
+                            <a href="{{ url('berita/' . $information->informasi_id) }}" class="lg:max-h-[27rem]">
+                                <div class="relative h-72 lg:h-[20rem]">
+                                    <img src="{{ asset('storage/information_images/' . $information->thumbnail_url ?? 'https://source.unsplash.com/random/?market') }}"
+                                        alt="" class="rounded-xl w-full h-full object-cover">
+                                    <div
+                                        class="absolute bottom-3 left-3 z-10 rounded-full text-[1rem]/[1.618rem] text-soft-snow px-6 py-3 bg-navy-night/50 backdrop-blur-3xl flex gap-3">
+                                        <x-heroicon-o-calendar-days class="w-6 h-6" />
+                                        <p>
+                                            {{ $information->created_at->format('d F Y') }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="py-3">
+                                    @php
+                                        $judul = Str::limit($information->judul_informasi, 20, '...');
+                                    @endphp
+                                    <h1 class="font-bold text-[1.618rem]/[2.618rem]">
+                                        {{ $judul }}
+                                    </h1>
+                                    <p class="text-[1rem]/[1.618rem] break-words">{{ $information->excerpt }}...</p>
+                                </div>
+                            </a>
+                        @endif
+                    @endforeach
+                </div>
+            </section>
+            {{-- End of News --}}
+        @endif
     </div>
 
 

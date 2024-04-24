@@ -10,9 +10,9 @@ interface NewsService
 {
     public function getRandomNews(): Collection;
 
-    public function getNewsWithPagination(string $id, array $filters): LengthAwarePaginator;
+    public function getNewsWithPagination(string|null $id, array $filters): LengthAwarePaginator|null;
 
-    public function getLatestNews(): Model;
+    public function getLatestNews(): Model|null;
 
     public function getAllTypes(): array;
 

@@ -27,6 +27,7 @@ class InformasiFactory extends Factory
                 'Artikel',
             ]),
             'isi_informasi' => $this->faker->word(),
+            'excerpt' => $this->faker->word(),
             'thumbnail_url' => $this->faker->word(),
         ];
     }

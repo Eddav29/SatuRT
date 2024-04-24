@@ -58,8 +58,12 @@ class NewsServiceImplementation implements CRUDService, NewsService
         return $informations;
     }
 
-    public function getNewsWithPagination(string $id, array $filters): LengthAwarePaginator
+    public function getNewsWithPagination(string|null $id, array $filters): LengthAwarePaginator|null
     {
+        if (is_null($id)) {
+            return null;
+        }
+
         $informations = Informasi::whereNull('deleted_at')
             ->where('jenis_informasi', '!=', 'Pengumuman')
             ->whereNot('informasi_id', $id)
@@ -70,7 +74,7 @@ class NewsServiceImplementation implements CRUDService, NewsService
         return $informations;
     }
 
-    public function getLatestNews(): Model
+    public function getLatestNews(): Model|null
     {
         $information = Informasi::whereNull('deleted_at')
             ->where('jenis_informasi', '!=', 'Pengumuman')

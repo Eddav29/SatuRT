@@ -19,90 +19,60 @@
                     <div id="content" class="flex flex-col lg:col-span-2">
                         {!! $information->isi_informasi !!}
                     </div>
-                    <div class="max-lg:hidden border-l-2 border-green-light px-4">
-                        <div class="flex flex-col gap-y-5">
-                            <div class="border-b-2 border-green-light">
-                                <h1 class="font-bold text-[1.618rem]/[2.618rem]">Berita Lainnya</h1>
-                            </div>
-                            <div class="flex flex-col gap-5">
-                                @foreach ($otherInformations as $otherInformation)
-                                    <a href="{{ route('berita-detail', $otherInformation->informasi_id) }}"
-                                        class="lg:max-h-[29rem] group">
-                                        <div class="relative h-72 lg:h-[60%]">
-                                            <img src="{{ asset('storage/information_images/' . $otherInformation->thumbnail_url ?? '') }}"
-                                                alt="" class="rounded-xl w-full h-full object-cover">
-                                        </div>
-                                        <div class="py-3">
-                                            <h1 class="group-hover:underline font-bold text-[1rem]/[1.618rem]">
-                                                {{ $otherInformation->judul_informasi }}
-                                            </h1>
-                                        </div>
-                                    </a>
-                                @endforeach
+                    @if (count($otherInformations) > 0)
+                        <div class="max-lg:hidden border-l-2 border-gray-300 px-4">
+                            <div class="flex flex-col gap-y-5">
+                                <div>
+                                    <h1 class="font-bold text-[1.618rem]/[2.618rem]">Berita Lainnya</h1>
+                                </div>
+                                <div class="flex flex-col gap-5">
+                                    @foreach ($otherInformations as $otherInformation)
+                                        <a href="{{ route('berita-detail', $otherInformation->informasi_id) }}"
+                                            class="lg:max-h-[29rem] group">
+                                            <div class="relative h-72 lg:h-[15rem]">
+                                                <img src="{{ asset('storage/information_images/' . $otherInformation->thumbnail_url ?? '') }}"
+                                                    alt="" class="rounded-xl w-full h-full object-cover">
+                                            </div>
+                                            <div class="py-3">
+                                                <h1 class="group-hover:underline font-bold text-[1rem]/[1.618rem]">
+                                                    {{ $otherInformation->judul_informasi }}
+                                                </h1>
+                                            </div>
+                                        </a>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
             </div>
         </section>
 
         {{-- Other News --}}
         <section class="lg:hidden">
-            <div class="mt-10 flex flex-col gap-y-5">
-                <div class="border-b-2 border-green-light">
-                    <h1 class="font-bold text-[1.618rem]/[2.618rem]">Berita Lainnya</h1>
+            @if (count($otherInformations) > 0)
+                <div class="mt-10 flex flex-col gap-y-5">
+                    <div class="border-b-2 border-gray-300">
+                        <h1 class="font-bold text-[1.618rem]/[2.618rem]">Berita Lainnya</h1>
+                    </div>
+                    <div class="grid grid-rows-4 grid-cols-1 gap-5">
+                        @foreach ($otherInformations as $otherInformation)
+                            <a href="{{ route('berita-detail', $otherInformation->informasi_id) }}"
+                                class="lg:max-h-[29rem] group">
+                                <div class="relative h-72 lg:h-[60%]">
+                                    <img src="{{ asset('storage/information_images/' . $otherInformation->thumbnail_url ?? '') }}"
+                                        alt="" class="rounded-xl w-full h-full object-cover">
+                                </div>
+                                <div class="py-3">
+                                    <h1 class="group-hover:underline font-bold text-[1.618rem]/[2.618rem]">
+                                        {{ $otherInformation->judul_informasi }}
+                                    </h1>
+                                </div>
+                            </a>
+                        @endforeach
+                    </div>
                 </div>
-                <div class="grid grid-rows-4 grid-cols-1 gap-5">
-                    <a href="#" class="lg:max-h-[29rem] group">
-                        <div class="relative h-72 lg:h-[60%]">
-                            <img src="https://source.unsplash.com/random/?market" alt=""
-                                class="rounded-xl w-full h-full object-cover">
-                        </div>
-                        <div class="py-3">
-                            <h1 class="group-hover:underline font-bold text-[1.618rem]/[2.618rem]">Kerja Bakti Dalam
-                                Rangka
-                                Pembangunan Jalan
-                            </h1>
-                        </div>
-                    </a>
-                    <a href="#" class="lg:max-h-[29rem] group">
-                        <div class="relative h-72 lg:h-[60%]">
-                            <img src="https://source.unsplash.com/random/?market" alt=""
-                                class="rounded-xl w-full h-full object-cover">
-                        </div>
-                        <div class="py-3">
-                            <h1 class="group-hover:underline font-bold text-[1.618rem]/[2.618rem]">Kerja Bakti Dalam
-                                Rangka
-                                Pembangunan Jalan
-                            </h1>
-                        </div>
-                    </a>
-                    <a href="#" class="lg:max-h-[29rem] group">
-                        <div class="relative h-72 lg:h-[60%]">
-                            <img src="https://source.unsplash.com/random/?market" alt=""
-                                class="rounded-xl w-full h-full object-cover">
-                        </div>
-                        <div class="py-3">
-                            <h1 class="group-hover:underline font-bold text-[1.618rem]/[2.618rem]">Kerja Bakti Dalam
-                                Rangka
-                                Pembangunan Jalan
-                            </h1>
-                        </div>
-                    </a>
-                    <a href="#" class="lg:max-h-[29rem] group">
-                        <div class="relative h-72 lg:h-[60%]">
-                            <img src="https://source.unsplash.com/random/?market" alt=""
-                                class="rounded-xl w-full h-full object-cover">
-                        </div>
-                        <div class="py-3">
-                            <h1 class="group-hover:underline font-bold text-[1.618rem]/[2.618rem]">Kerja Bakti Dalam
-                                Rangka
-                                Pembangunan Jalan
-                            </h1>
-                        </div>
-                    </a>
-                </div>
-            </div>
+            @endif
         </section>
     </div>
     {{-- End Other News --}}
