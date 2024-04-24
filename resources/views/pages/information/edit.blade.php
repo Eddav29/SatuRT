@@ -13,34 +13,13 @@
                 </div>
             </section>
             {{-- End Header --}}
-
-            {{-- Alert --}}
-            @if (session('error'))
-                <div role="alert" class="rounded border-s-4 border-red-500 bg-red-50 p-4 my-8">
-                    <div class="flex items-center gap-2 text-red-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
-                            <path fill-rule="evenodd"
-                                d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
-                                clip-rule="evenodd" />
-                        </svg>
-
-                        <strong class="block font-medium"> Terjadi Kesalahan </strong>
-                    </div>
-
-                    <p class="mt-2 text-sm text-red-700">
-                        {{ session('error') }}
-                    </p>
-                </div>
-            @endif
-            {{-- End Alert --}}
-
+            
             {{-- Form --}}
             <section>
                 <form action="{{ route('informasi.update', $information->informasi_id) }}" method="POST"
                     enctype="multipart/form-data" class="px-5">
                     @csrf
                     @method('PUT')
-                    <input type="text" hidden name="penduduk_id" value="b5784e6c-d08a-452b-b3d6-4e54eee3f428">
                     {{-- Field Judul Informasi --}}
                     <div class="flex flex-col mt-5">
                         <label for="judul"
@@ -251,57 +230,105 @@
     @endpush
 
     @push('scripts')
-        <script src="https://cdn.ckeditor.com/ckeditor5/41.3.0/classic/ckeditor.js"></script>
+        <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/super-build/ckeditor.js"></script>
         <script>
-            ClassicEditor
-                .create(document.querySelector('#text-editor'), {
-                    ckfinder: {
-                        uploadUrl: "{{ route('file.upload', ['_token' => csrf_token()]) }}"
-                    },
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-
-
-            document.getElementById('jenis_informasi').addEventListener('change', () => {
-                document.getElementById('old-preview-container').remove();
+            CKEDITOR.ClassicEditor.create(document.getElementById("text-editor"), {
+                ckfinder: {
+                    uploadUrl: "{{ route('file.upload', ['_token' => csrf_token()]) }}"
+                },
+                toolbar: {
+                    items: [
+                        'findAndReplace', 'selectAll', '|',
+                        'heading', '|',
+                        'bold', 'italic', 'strikethrough', 'underline', 'subscript', 'superscript',
+                        'removeFormat', '|',
+                        'bulletedList', 'numberedList', '|',
+                        'outdent', 'indent', '|',
+                        'undo', 'redo',
+                        '-',
+                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
+                        'alignment', '|',
+                        'link', 'uploadImage', 'blockQuote', 'insertTable',
+                        '|',
+                        'specialCharacters', 'horizontalLine', '|'
+                    ],
+                    shouldNotGroupWhenFull: true
+                },
+                list: {
+                    properties: {
+                        styles: true,
+                        startIndex: true,
+                        reversed: true
+                    }
+                },
+                placeholder: 'Tuliskan sesuatu...',
+                fontFamily: {
+                    options: [
+                        'default',
+                        'Arial, Helvetica, sans-serif',
+                        'Courier New, Courier, monospace',
+                        'Georgia, serif',
+                        'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                        'Tahoma, Geneva, sans-serif',
+                        'Times New Roman, Times, serif',
+                        'Trebuchet MS, Helvetica, sans-serif',
+                        'Verdana, Geneva, sans-serif'
+                    ],
+                    supportAllValues: true
+                },
+                fontSize: {
+                    options: [10, 12, 14, 'default', 18, 20, 22],
+                    supportAllValues: true
+                },
+                removePlugins: [
+                    'AIAssistant',
+                    'CKBox',
+                    'CKFinder',
+                    'EasyImage',
+                    'MultiLevelList',
+                    'RealTimeCollaborativeComments',
+                    'RealTimeCollaborativeTrackChanges',
+                    'RealTimeCollaborativeRevisionHistory',
+                    'PresenceList',
+                    'Comments',
+                    'TrackChanges',
+                    'TrackChangesData',
+                    'RevisionHistory',
+                    'Pagination',
+                    'WProofreader',
+                    'MathType',
+                    'SlashCommand',
+                    'Template',
+                    'DocumentOutline',
+                    'FormatPainter',
+                    'TableOfContents',
+                    'PasteFromOfficeEnhanced',
+                    'CaseChange'
+                ]
             });
 
-            const previewFile = () => {
+            const previewImage = () => {
                 const fileInput = document.querySelector('#file_input');
-                const filePreview = document.querySelector('#preview-file');
-                const filePreviewContainer = document.querySelector('#preview-file-container');
                 const imagePreview = document.querySelector('#preview-image');
-                const previewContainer = document.querySelector('#preview-container');
-                const oldPreviewContainer = document.querySelector('#old-preview-container');
+                const filePreview = document.querySelector('#preview-file');
 
                 if (fileInput.files && fileInput.files[0]) {
-                    if (oldPreviewContainer) {
-                        if (imagePreview) {
-                            imagePreview.classList.remove('hidden');
-                            imagePreview.classList.add('inline-block', 'py-5');
-                        } else if (filePreview) {
-                            filePreviewContainer.innerHTML =
-                                `<p class="text-blue-500 py-3 text-sm font-light">${fileInput.files[0].name}</p>`;
-                        }
+                    if (fileInput.files[0].type !== 'application/pdf') {
+                        !filePreview.classList.contains('hidden') ? filePreview.classList.add('hidden') : '';
+                        imagePreview.classList.remove('hidden');
+                        imagePreview.classList.add('inline-block', 'py-5');
                     } else {
-                        if (fileInput.files[0].type !== 'application/pdf') {
-                            !filePreview.classList.contains('hidden') ? filePreview.classList.add('hidden') : '';
-                            imagePreview.classList.remove('hidden');
-                            imagePreview.classList.add('inline-block', 'py-5');
-                        } else {
-                            !imagePreview.classList.contains('hidden') ? imagePreview.classList.add('hidden') : '';
-                            filePreview.textContent = fileInput.files[0].name;
-                            filePreview.classList.remove('hidden');
-                        }
+                        !imagePreview.classList.contains('hidden') ? imagePreview.classList.add('hidden') : '';
+                        filePreview.textContent = fileInput.files[0].name;
+                        filePreview.classList.remove('hidden');
                     }
                 }
 
-                const oFReader = new FileReader();
-                oFReader.readAsDataURL(fileInput.files[0]);
 
                 if (fileInput.files[0].type !== 'application/pdf') {
+                    const oFReader = new FileReader();
+                    oFReader.readAsDataURL(fileInput.files[0]);
+
                     oFReader.onload = function(oFREvent) {
                         imagePreview.src = oFREvent.target.result;
                     }

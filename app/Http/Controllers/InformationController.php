@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Informasi;
+use App\Services\Notification\NotificationPusher;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -88,9 +89,11 @@ class InformationController extends Controller
 
             Informasi::create($validated);
 
+            NotificationPusher::success('Informasi baru ditambahkan');
+
             return redirect()->route('informasi.index')->with(['success' => 'Informasi baru ditambahkan']);
         } catch (\Throwable $th) {
-            dd($th);
+            NotificationPusher::error('Informasi gagal ditambahkan');
             return redirect()->route('informasi.index')->with(['error' => 'Informasi gagal ditambahkan']);
         }
     }
@@ -171,13 +174,29 @@ class InformationController extends Controller
     public function update(Request $request, string $id)
     {
         $information = Informasi::find($id);
+        $request['penduduk_id'] = Auth::user()->penduduk->penduduk_id;
+
+        if ($request->file('thumbnail_url')) {
+            Storage::delete('public/information_images/' . $information->thumbnail_url);
+
+            if ($request['jenis_informasi'] == 'Pengumuman') {
+                $fileName = $request->file('thumbnail_url')->getClientOriginalName();
+                $request->file('thumbnail_url')->storeAs('information_images', $fileName, 'public');
+                $request['thumbnail_url'] = $fileName;
+            } else {
+                $request['thumbnail_url'] = $request->file('thumbnail_url')->store('information_images', 'public');
+                $request['thumbnail_url'] = basename($request['thumbnail_url']);
+            }
+        } else {
+            $request['thumbnail_url'] = $information->thumbnail_url;
+        }
 
         $validated = $request->validate([
             'penduduk_id' => ['required', 'exists:penduduk,penduduk_id'],
             'jenis_informasi' => ['required'],
             'judul_informasi' => ['required', 'string', 'min:3', 'max:255'],
             'isi_informasi' => ['required', 'string', 'min:3'],
-            'thumbnail_url' => ['required', 'file'],
+            'thumbnail_url' => ['required']
         ], [
             'jenis_informasi.required' => 'Jenis informasi harus diisi.',
             'judul_informasi.required' => 'Judul informasi harus diisi.',
@@ -185,22 +204,7 @@ class InformationController extends Controller
             'judul_informasi.max' => 'Judul informasi maksimal memiliki panjang :max karakter.',
             'isi_informasi.required' => 'Isi informasi harus diisi.',
             'isi_informasi.min' => 'Isi informasi minimal memiliki panjang :min karakter.',
-            'thumbnail_url.required' => 'Thumbnail harus diisi.',
-            'thumbnail_url.file' => 'Thumbnail harus berupa gambar.',
         ]);
-
-        if ($request->file('thumbnail_url')) {
-            Storage::delete('public/information_images/' . $information->thumbnail_url);
-
-            if ($validated['jenis_informasi'] == 'Pengumuman') {
-                $fileName = $request->file('thumbnail_url')->getClientOriginalName();
-                $request->file('thumbnail_url')->storeAs('information_images', $fileName, 'public');
-                $validated['thumbnail_url'] = $fileName;
-            } else {
-                $validated['thumbnail_url'] = $request->file('thumbnail_url')->store('information_images', 'public');
-                $validated['thumbnail_url'] = basename($validated['thumbnail_url']);
-            }
-        }
 
         try {
             $model = Purify::clean($validated['isi_informasi']);
@@ -209,12 +213,12 @@ class InformationController extends Controller
             $validated['excerpt'] = Str::substr($cleaned_string, 0, 300);
             $validated['judul_informasi'] = Str::title($validated['judul_informasi']);
 
-            dd($validated);
-
             $information->update($validated);
 
+            NotificationPusher::success('Data berhasil diperbarui');
             return redirect()->route('informasi.index')->with(['success' => 'Perubahan berhasila disimpan']);
         } catch (\Throwable $th) {
+            NotificationPusher::error('Data gagal diperbarui');
             return redirect()->route('informasi.index')->with(['error' => 'Gagal menyimpan perubahan']);
         }
     }
@@ -270,8 +274,8 @@ class InformationController extends Controller
                     'informasi_id' => $informasi->informasi_id,
                     'judul_informasi' => $informasi->judul_informasi,
                     'jenis_informasi' => $informasi->jenis_informasi,
-                    'created_at' => Carbon::parse($informasi->created_at)->format('d-m-Y'),
-                    'updated_at' => Carbon::parse($informasi->updated_at)->format('d-m-Y'),
+                    'created_at' => Carbon::parse($informasi->created_at)->format('d-m-Y | H:i:s'),
+                    'updated_at' => Carbon::parse($informasi->updated_at)->format('d-m-Y | H:i:s'),
                 ];
             });
 

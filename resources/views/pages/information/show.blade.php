@@ -41,7 +41,12 @@
             <section>
                 <div class="flex flex-col gap-y-10">
                     <div class="flex flex-col gap-y-3">
-                        <p class="text-xs md:text-sm break-words">Diposting pada {{ $information->created_at }}</p>
+                        <div class="grid grid-rows-2 grid-cols-1 gap-y-3 lg:grid-cols-2 lg:grid-rows-1">
+                            <p class="text-xs md:text-sm break-words">Diposting pada {{ $information->created_at }}</p>
+                            @if ($information->created_at != $information->updated_at)
+                                <p class="text-xs md:text-sm break-words lg:flex lg:justify-end">Terakhir diperbarui pada {{ $information->created_at }}</p>
+                            @endif
+                        </div>
                         <p class="text-xs md:text-sm break-words">Dibuat oleh {{ $information->penduduk->nama }}</p>
                         <h1 class="font-bold text-3xl md:text-4xl break-words">{{ $information->judul_informasi }}</h1>
                         <div
