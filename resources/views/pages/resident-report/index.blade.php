@@ -46,6 +46,7 @@
             {{-- Table --}}
             <section>
                 <x-datatables
+                :layoutTop2Start=false
                 id="pelaporan"
                 url="/pelaporan"
                 :columns="[

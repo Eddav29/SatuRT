@@ -46,43 +46,37 @@
             {{-- Table --}}
             <section>
                 <div class="bg-blue-gray p-5 rounded-md">
-                    <h1 class="font-bold md:text-2xl text-xl">Detail Permohonan Surat</h1>
+                    <h1 class="font-bold md:text-2xl text-xl">Detail Pelaporan Warga</h1>
                 </div>
             </section>
             {{-- Forms Permhonan Surat --}}
             <section>
-                <form
+                <form method="POST" action=""
                     class="p-6 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col md:grid md:grid-cols-1 md:auto-rows-auto gap-y-5">
+                    @csrf
+
                     <div class="md:grid md:grid-cols-4">
                         <h5 class="font-semibold">Pelapor</h5>
-                        <p class="md:col-span-3">Eddo</p>
+                        <p class="md:col-span-3">{{ $pelaporan->pengajuan->penduduk->nama }}</p>
                     </div>
                     <div class="md:grid md:grid-cols-4">
                         <h5 class="font-semibold">Jenis Laporan</h5>
-                        <p class="md:col-span-3">Kritik</p>
+                        <p class="md:col-span-3">{{ $pelaporan->jenis_pelaporan }}</p>
                     </div>
                     <div class="md:grid md:grid-cols-4">
                         <h5 class="font-semibold">Tanggal</h5>
-                        <p class="md:col-span-3">12-12-2022</p>
+                        <p class="md:col-span-3">{{ $pelaporan->pengajuan->accepted_at->format('Y-m-d') }}</p>
                     </div>
                     <div class="lg:grid lg:grid-cols-5 lg:gap-3">
                         <div class="lg:col-span-3">
                             <h5 class="font-semibold">Laporan</h5>
-                            <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Unde obcaecati rem eligendi
-                                rerum ad sunt vel nesciunt error ut, voluptatem et esse debitis dolorum perspiciatis.
-                                Aliquid tempore assumenda fuga facilis ullam quisquam vero, nihil at magnam corrupti,
-                                neque a consequuntur, laudantium tenetur quo voluptatum earum nostrum numquam? Atque
-                                quidem reprehenderit ad? Doloremque repudiandae quis asperiores sapiente aut minus
-                                nostrum quo hic quibusdam optio? Sed laborum amet beatae itaque tempora quibusdam
-                                voluptatum. Sint a qui, officiis facilis vitae quibusdam ipsa rerum? Ea illo dicta quas
-                                accusantium amet ad! Laudantium debitis necessitatibus nihil laborum praesentium libero
-                                quam laboriosam accusantium dicta ipsum! Aut.</p>
+                            <p>{{ $pelaporan->pengajuan->keterangan }}</p>
                         </div>
                         <div class="max-lg:mt-5 lg:col-span-2">
                             <h5 class="font-semibold">Lampiran</h5>
                             <div x-data="{ openImage: false }">
                                 <img @click="openImage = !openImage"
-                                    src="{{ asset('assets/images/milad-fakurian-PGdW_bHDbpI-unsplash.jpg') }}"
+                                    src="{{ asset('storage/resident-report_images/' . $pelaporan->image_url) }}"
                                     alt="" class="rounded-xl max-h-[30rem] w-full object-cover"
                                     draggable="false">
                                 <div x-show="openImage"

@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Penduduk;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 
 class ProfileController extends Controller
 {
@@ -23,105 +22,82 @@ class ProfileController extends Controller
         return response()->view('pages.profile.index');
     }
 
-    public function completeDataForm(): Response
+    public function completeDataForm(string $id): Response
     {
-        // $users = User::find($id);
-        return response()->view('pages.profile.complete-data');
+        $penduduk = Penduduk::find($id);
+
+        return response()->view('pages.profile.complete-data', [
+            'penduduk' => $penduduk
+        ]);
     }
 
-    public function changePasswordForm(): Response
+    public function changePasswordForm(string $id): Response
     {
-        // $users = User::find($id);
-        return response()->view('pages.profile.change-password');
+        $penduduk = Penduduk::find($id);
+        return response()->view('pages.profile.change-password', [
+            'penduduk' => $penduduk,
+        ]);
     }
 
-    // public function edit(string $id): Response
-    // {
-    //     $breadcrumb = [
-    //         'list' => ['Home', 'Informasi', 'Edit Informasi'],
-    //         'url' => ['home', 'informasi.index', ''],
-    //     ];
+    public function completeData(Request $request, string $id): RedirectResponse
+    {
+        $validated = $request->validate([
+            'nik' => 'required|size:16|unique:penduduk,nik',
+            'nama' => 'required|string|max:255',
+            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
+            'pekerjaan' => 'nullable|string|max:255',
+            'golongan_darah' => 'nullable|in:A,B,AB,O',
+            'agama' => 'nullable|string|in:Islam,Kristen,Katolik,Hindu,Budha,Konghucu,Lainnya',
+            'tempat_lahir' => 'nullable|string|max:255',
+            'tanggal_lahir' => 'nullable|date',
+            'status_hubungan_dalam_keluarga' => 'nullable|string|max:255',
+            'status_perkawinan' => 'nullable|in:Kawin,Belum Kawin,Cerai',
+            'pendidikan_terakhir' => 'nullable|string|in:SD,SMP,SMA,D3,S1,S2,S3',
+            'foto_ktp' => 'nullable|string|max:255',
+            'status_penduduk' => 'nullable|in:Domisili,Non Domisili',
+            'nomor_rt' => 'nullable|integer',
+            'nomor_rw' => 'nullable|integer',
+            'desa' => 'nullable|string|max:255',
+            'kecamatan' => 'nullable|string|max:255',
+            'kota' => 'nullable|string|max:255',
+        ]);
 
-    //     $information = Informasi::find($id);
+        $penduduk = Penduduk::find($id);
+        $penduduk ->update($validated);
 
-    //     return response()->view('pages.information.edit', [
-    //         'breadcrumb' => $breadcrumb,
-    //         'information' => $information
-    //     ]);
-    // }
+        try {
+            return redirect()->route('profile.index')->with(['success' => 'Data Profile berhasil diubah']);
+        } catch (\Throwable $th) {
+            return redirect()->route('profile.index')->with(['error' => 'Data Profile gagal diubah']);
+        }
+    }
 
-    // /**
-    //  * Update the specified resource in storage.
-    //  */
-    // public function update(Request $request, string $id)
-    // {
-    //     $information = Informasi::find($id);
+    public function changePassword(Request $request, string $id)
+    {
+        $penduduk = Penduduk::find($id);
+        $user = User::find($penduduk->user_id);
 
-    //     $validated = $request->validate([
-    //         'penduduk_id' => ['required', 'exists:penduduk,penduduk_id'],
-    //         'jenis_informasi' => ['required'],
-    //         'judul_informasi' => ['required', 'string', 'min:3', 'max:255'],
-    //         'isi_informasi' => ['required', 'string', 'min:3'],
-    //         'thumbnail_url' => ['required', 'file'],
-    //     ], [
-    //         'jenis_informasi.required' => 'Jenis informasi harus diisi.',
-    //         'judul_informasi.required' => 'Judul informasi harus diisi.',
-    //         'judul_informasi.min' => 'Judul informasi minimal memiliki panjang :min karakter.',
-    //         'judul_informasi.max' => 'Judul informasi maksimal memiliki panjang :max karakter.',
-    //         'isi_informasi.required' => 'Isi informasi harus diisi.',
-    //         'isi_informasi.min' => 'Isi informasi minimal memiliki panjang :min karakter.',
-    //         'thumbnail_url.required' => 'Thumbnail harus diisi.',
-    //         'thumbnail_url.file' => 'Thumbnail harus berupa gambar.',
-    //     ]);
+        $validated = $request->validate([
+            'sandi_lama' => 'required',
+            'sandi_baru' => 'required|min:8', // Atur kebutuhan validasi sesuai kebutuhan Anda
+            'ulang_sandi_baru' => 'required|same:sandi_baru',
+        ]);
 
-    //     if ($request->file('thumbnail_url')) {
-    //         Storage::delete('public/information_images/' . $information->thumbnail_url);
+        if ($request->sandi_lama == $user->password) {
+            try {
+                $user->password = Hash::make($request->sandi_baru);
+                $user->update($validated);
 
-    //         if ($validated['jenis_informasi'] == 'Pengumuman') {
-    //             $fileName = $request->file('thumbnail_url')->getClientOriginalName();
-    //             $request->file('thumbnail_url')->storeAs('information_images', $fileName, 'public');
-    //             $validated['thumbnail_url'] = $fileName;
-    //         } else {
-    //             $validated['thumbnail_url'] = $request->file('thumbnail_url')->store('information_images', 'public');
-    //             $validated['thumbnail_url'] = basename($validated['thumbnail_url']);
-    //         }
-    //     }
+                return redirect()->route('profile')->with(['success' => 'Perubahan berhasila disimpan']);
+            } catch (\Throwable $th) {
+                return redirect()->route('profile')->with(['error' => 'Gagal menyimpan perubahan']);
+            }
+        } else {
+            return redirect()->back()->with('error', 'Kata sandi lama tidak sesuai.');
+        }
 
-    //     try {
-    //         $information->update($validated);
+    }
 
-    //         return redirect()->route('informasi.index')->with(['success' => 'Perubahan berhasila disimpan']);
-    //     } catch (\Throwable $th) {
-    //         return redirect()->route('informasi.index')->with(['error' => 'Gagal menyimpan perubahan']);
-    //     }
-    // }
-
-    //  public function edit(Request $request): View
-    // {
-    //     return view('pages.profile.edit', [
-    //         'user' => $request->user(),
-    //     ]);
-    // }
-
-    // /**
-    //  * Update the user's profile information.
-    //  */
-    // public function update(ProfileUpdateRequest $request): RedirectResponse
-    // {
-    //     $request->user()->fill($request->validated());
-
-    //     if ($request->user()->isDirty('email')) {
-    //         $request->user()->email_verified_at = null;
-    //     }
-
-    //     $request->user()->save();
-
-    //     return Redirect::route('profile.edit')->with('status', 'profile-updated');
-    // }
-
-    /**
-     * Delete the user's account.
-     */
     public function destroy(Request $request): RedirectResponse
     {
         $request->validateWithBag('userDeletion', [

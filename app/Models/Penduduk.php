@@ -70,6 +70,11 @@ class Penduduk extends Model
         return $this->belongsTo(User::class, 'user_id', 'user_id');
     }
 
+    public function penduduk()
+    {
+        return $this->hasOne(Penduduk::class, 'penduduk_id', 'penduduk_id');
+    }
+
     public static function getListGolonganDarah()
     {
         return ['A', 'B', 'AB', 'O'];

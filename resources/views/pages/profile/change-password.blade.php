@@ -45,7 +45,11 @@
             {{-- End Alert --}}
 
             {{-- Form --}}
-            <section>
+            <form action="{{ route('profile.change-password.p
+
+            ost', $penduduk->penduduk_id) }}" method="POST">
+                @csrf
+
                 <div class="mx-3 my-6 flex flex-nowrap">
                     <div class="lg:w-1/2 max-lg:w-full">
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500" >Kata Sandi Lama</div>
@@ -67,17 +71,16 @@
                 <div class="mx-3 my-6 flex flex-nowrap">
                     <div class="lg:w-1/2 max-lg:w-full">
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Ulangi Kata Sandi Baru</div>
-                        <input type="text" placeholder="Ulangi Kata Sandi Baru" name="r_sandi_baru" id="r_sandi_baru"
+                        <input type="text" placeholder="Ulangi Kata Sandi Baru" name="ulang_sandi_baru" id="ulang_sandi_baru"
                             class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
                         <!-- Menambahkan kelas w-full di sini -->
                     </div>
                 </div>
 
-                <a href="{{ route('profile.complete-data') }}"
-                    class="bg-green-400 hover:bg-green-700 text-white mx-3 my-6 py-2 px-4 rounded mt-4">
+                <button class="bg-green-400 hover:bg-green-700 text-white mx-3 my-6 py-2 px-4 rounded mt-4">
                     Simpan Perubahan
-                </a>
-            </section>
+                </button>
+            </form>
 
             {{-- End Form --}}
         </div>
