@@ -11,7 +11,7 @@ class HomeServiceImplementation implements HomeService
 {
     public function getFourLastInformation(): Collection
     {
-        $informations = Informasi::orderBy('created_at', 'desc')->limit(4)->get();
+        $informations = Informasi::where('jenis_informasi', "!=", "Pengumuman")->orderBy('created_at', 'desc')->limit(4)->get();
         return $informations;
     }
     public function getThreeLastUMKM(): Collection
