@@ -39,8 +39,8 @@
 
                 </div>
                 <div>
-                    <x-nav-menu svgIcon="heroicon-o-arrow-uturn-left" iconStyle="h-8 w-8" href="#"
-                        onclick="history.back()">
+                    <x-nav-menu svgIcon="heroicon-o-arrow-uturn-left" iconStyle="h-8 w-8"
+                    :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         Kembali
                     </x-nav-menu>
                 </div>

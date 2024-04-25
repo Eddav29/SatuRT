@@ -14,6 +14,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use App\Services\Notification\NotificationPusher;
 
 class ResidentReportController extends Controller
 {
@@ -30,7 +32,6 @@ class ResidentReportController extends Controller
         return new ResidentReportResource($residentReport);
     }
 
-    // KETUA RT
     public function index(): Response
     {
         if (Auth::user()->role->role_name == 'Ketua RT') {
@@ -99,74 +100,54 @@ class ResidentReportController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $pelaporan = Pelaporan::find($id);
+        if (Auth::user()->role->role_name == 'Ketua RT') {
+            $pelaporan = Pelaporan::find($id);
+            $pengajuan = Pengajuan::find($pelaporan->pengajuan_id);
 
-        $validated = $request->validate([
-            'pelaporan_id' => ['required', 'exists:penduduk,penduduk_id'],
-            'jenis_pelaporan' => ['required'],
-            'image_url' => ['required', 'file'],
-            'pengajuan_id' => ['required', 'exists:pengajuan,id'],
-        ], [
-            'pelaporan_id.required' => 'ID pelaporan harus diisi.',
-            'pelaporan_id.exists' => 'ID pelaporan yang diberikan tidak valid.',
-            'jenis_pelaporan.required' => 'Jenis pelaporan harus diisi.',
-            'image_url.required' => 'Gambar harus diunggah.',
-            'image_url.file' => 'File gambar tidak valid.',
-            'pengajuan_id.required' => 'ID pengajuan harus diisi.',
-            'pengajuan_id.exists' => 'ID pengajuan yang diberikan tidak valid.',
-        ]);
+            $validated = $request->validate([
+                'status_id' => 'required',
+            ]);
 
-        if ($request->file('image_url')) {
-            Storage::delete('public/resident-report_images/' . $pelaporan->image_url);
+            try {
+                $pengajuan->update($validated);
 
-            if (
-                $validated['jenis_pelaporan'] == 'Pengaduan' ||
-                $validated['jenis_pelaporan'] == 'Kritik' ||
-                $validated['jenis_pelaporan'] == 'Saran'
-            ) {
-
-                $fileName = $request->file('image_url')->getClientOriginalName();
-                $request->file('image_url')->storeAs('resident-report_images', $fileName, 'public');
-                $validated['image_url'] = $fileName;
-            } else {
-                $validated['image_url'] = $request->file('image_url')->store('resident-report_images', 'public');
-                $validated['image_url'] = basename($validated['image_url']);
+                NotificationPusher::success('Status Pelaporan Berhasil diperbarui');
+                return redirect()->route('pelaporan.index')->with(['success' => 'Status Pelaporan Berhasil diperbarui']);
+            } catch (\Throwable $th) {
+                NotificationPusher::error('Status Pelaporan Gagal Berhasil diperbarui');
+                return redirect()->route('pelaporan.index')->with(['error' => 'Status Pelaporan Gagal Berhasil diperbarui']);
             }
-        }
 
-        try {
-            $pelaporan->update($validated);
+        } else {
+            $pelaporan = Pelaporan::find($id);
+            $pengajuan = Pengajuan::find($pelaporan->pengajuan_id);
 
-            return redirect()->route('pelaporan.index')->with(['success' => 'Perubahan berhasil disimpan']);
-        } catch (\Throwable $th) {
-            return redirect()->route('pelaporan.index')->with(['error' => 'Gagal menyimpan perubahan']);
-        }
-    }
+            $validated = $request->validate([
+                'accepted_at' => 'required|date',
+                'jenis_pelaporan' => 'required',
+                'keterangan' => 'required',
+            ]);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id): RedirectResponse
-    {
-        $pelaporan = Pelaporan::find($id);
+            try {
+                $pelaporan->update($validated);
+                $pengajuan->update($validated);
 
-        try {
-            Storage::delete($pelaporan->image_url);
-            $pelaporan->delete();
-
-            return redirect()->route('pelaporan.index')->with('success', 'Pelaporan berhasil dihapus');
-        } catch (\Throwable $th) {
-            return redirect()->route('pelaporan.index')->with('error', 'Gagal menghapus pelaporan');
+                NotificationPusher::success('Perubahan berhasil disimpan');
+                return redirect()->route('pelaporan.show', ['pelaporan' => $id])->with(['success' => 'Perubahan berhasil disimpan']);
+            } catch (\Throwable $th) {
+                NotificationPusher::error('Gagal menyimpan perubahan');
+                return redirect()->route('pelaporan.show', ['pelaporan' => $id])->with(['error' => 'Gagal menyimpan perubahan']);
+            }
         }
     }
 
     public function list(): JsonResponse
     {
         try {
-
             if (Auth::user()->role->role_name == 'Ketua RT') {
                 $data = Pelaporan::all()->map(function ($pelaporan) {
                     return [
+                        'pelaporan_id' => $pelaporan->pelaporan_id,
                         'pelapor' => $pelaporan->pengajuan->penduduk->nama,
                         'status' => $pelaporan->pengajuan->status->nama,
                         'jenis_pelaporan' => $pelaporan->jenis_pelaporan,
@@ -182,7 +163,7 @@ class ResidentReportController extends Controller
                     $query->where('penduduk_id', auth()->user()->penduduk->penduduk_id);
                 })->with('pengajuan')->get()->map(function ($pelaporan) {
                     return [
-                        'id_laporan' => $pelaporan->pelaporan_id,
+                        'pelaporan_id' => $pelaporan->pelaporan_id,
                         'pelapor' => $pelaporan->pengajuan->penduduk->nama,
                         'jenis_pelaporan' => $pelaporan->jenis_pelaporan,
                         'tanggal' => Carbon::parse($pelaporan->pengajuan->accepted_at)->format('d-m-Y'),
@@ -218,7 +199,7 @@ class ResidentReportController extends Controller
 
         $breadcrumb = [
             'list' => ['Home', 'LAPOR!', 'Edit Pelaporan'],
-            'url' => ['home', 'pelaporan.index', 'pelaporan.index'],
+            'url' => ['home', 'pelaporan.index', ['pelaporan.edit', $id]],
         ];
 
         return response()->view('pages.warga.report.edit', [
@@ -232,6 +213,69 @@ class ResidentReportController extends Controller
                 'hapus' => route('pelaporan.destroy', ['pelaporan' => $id]),
             ]
         ]);
+    }
+
+    public function store(Request $request): RedirectResponse
+    {
+        $pendudukId = Auth::user()->penduduk->penduduk_id;
+
+        $validated = $request->validate([
+            'jenis_pelaporan' => 'required',
+            'accepted_at' => 'required|date',
+            'keterangan' => 'required|string|max:255',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            $pengajuan = Pengajuan::create([
+                'accepted_at' => $validated['accepted_at'],
+                'keterangan' => $validated['keterangan'],
+                'penduduk_id' => $pendudukId,
+            ]);
+
+            Pelaporan::create([
+                'jenis_pelaporan' => $validated['jenis_pelaporan'],
+                'pengajuan_id' => $pengajuan->pengajuan_id,
+            ]);
+
+            DB::commit();
+
+            NotificationPusher::success('Perubahan berhasil disimpan');
+            return redirect()->route('pelaporan.index')->with(['success' => 'Perubahan berhasil disimpan']);
+        } catch (\Exception $e) {
+            DB::rollback();
+            NotificationPusher::error('Gagal menyimpan perubahan: ' . $e->getMessage());
+            return redirect()->route('pelaporan.index')->with(['error' => 'Gagal menyimpan perubahan: ' . $e->getMessage()]);
+        }
+    }
+
+    public function destroy(String $id): JsonResponse | RedirectResponse
+    {
+        // Temukan detail keuangan dengan ID yang diberikan
+        $pelaporan = Pelaporan::findOrFail($id);
+        $pengajuan = Pengajuan::findOrFail($pelaporan->pengajuan_id);
+
+        try {
+            DB::beginTransaction();
+
+            $pelaporan->delete();
+            $pengajuan->delete();
+
+            DB::commit();
+            return response()->json([
+                'code' => 200,
+                'message' => 'Data berhasil dihapus',
+                'timestamp' => now()
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'code' => 500,
+                'message' => $e->getMessage(),
+                'timestamp' => now()
+            ], 500);
+        }
     }
 
 }

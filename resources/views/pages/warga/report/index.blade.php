@@ -46,12 +46,12 @@
             {{-- Table --}}
             <section>
                 <x-datatables
-                id="pelaporan"
+                id="pelaporan_id"
                 url="/pelaporan"
                 :columns="[
                     [
                         'label' => 'ID Laporan',
-                        'key' => 'id_laporan',
+                        'key' => 'pelaporan_id',
                         'style' => 'text-left'
                     ],
                     [

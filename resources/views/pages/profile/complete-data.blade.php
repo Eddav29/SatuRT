@@ -25,43 +25,24 @@
             </section>
             {{-- End Header --}}
 
-            {{-- Alert --}}
-            @if (session('error'))
-                <div role="alert" class="rounded border-s-4 border-red-500 bg-red-50 p-4 my-8">
-                    <div class="flex items-center gap-2 text-red-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
-                            <path fill-rule="evenodd"
-                                d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
-                                clip-rule="evenodd" />
-                        </svg>
-
-                        <strong class="block font-medium"> Terjadi Kesalahan </strong>
-                    </div>
-
-                    <p class="mt-2 text-sm text-red-700">
-                        {{ session('error') }}
-                    </p>
-                </div>
-            @endif
-            {{-- End Alert --}}
-
             {{-- Form --}}
             <form action="{{ route('profile.complete-data.post', $penduduk->penduduk_id) }}" method="POST">
                 @csrf
 
-
                 <div class="mx-3 my-4 gap-5 flex max-lg:flex-col lg:flex-nowrap font-bold">
                     <div class="lg:w-1/2">
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">NIK</div>
-                        <input type="text" value="{{ $penduduk->nik }}" placeholder="Masukkan NIK" name=""
-                            id=""
+                        <input disabled type="text" value="{{ $penduduk->nik }}" placeholder="Masukkan NIK"
+                            name="nik" id="nik"
                             class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
+                        <x-input-error :messages="$errors->get('nik')" class="mt-2" />
                     </div>
                     <div class="lg:w-1/2">
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Nama</div>
-                        <input type="text" value="{{ $penduduk->nama }}" placeholder="Masukkan Nama" name=""
-                            id=""
+                        <input type="text" value="{{ $penduduk->nama }}" placeholder="Masukkan Nama" name="nama"
+                            id="nama"
                             class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
+                        <x-input-error :messages="$errors->get('nama')" class="mt-2" />
                     </div>
                 </div>
 
@@ -69,15 +50,17 @@
                     <div class="lg:w-1/2">
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Tempat Lahir</div>
                         <input type="text" value="{{ $penduduk->tempat_lahir }}" placeholder="Masukkan Tempat Lahir"
-                            name="" id=""
+                            name="tempat_lahir" id="tempat_lahir"
                             class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
+                        <x-input-error :messages="$errors->get('tempat_lahir')" class="mt-2" />
                     </div>
                     <div class="lg:w-1/2">
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Tanggal Lahir</div>
                         <input type="date"
                             value="{{ $penduduk->tanggal_lahir ? \Carbon\Carbon::parse($penduduk->tanggal_lahir)->format('Y-m-d') : '' }}"
-                            name="" id=""
+                            name="tanggal_lahir" id="tanggal_lahir"
                             class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
+                        <x-input-error :messages="$errors->get('tanggal_lahir')" class="mt-2" />
                     </div>
                 </div>
 
@@ -86,17 +69,20 @@
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Jenis Kelamin</div>
                         <select id="jenis_kelamin" name="jenis_kelamin"
                             class="font-normal  mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                            <option value="{{ $penduduk->jenis_kelamin }}" selected disabled>
-                                Pilih Jenis Kelamin</option>
-                            <option value="laki-laki">Laki-laki</option>
-                            <option value="perempuan">Perempuan</option>
+                            <option value="Pilih Jenis Kelamin" disabled> Pilih Jenis Kelamin</option>
+                            <option value="Laki-laki" {{ $penduduk->jenis_kelamin === 'Laki-laki' ? 'selected' : '' }}>
+                                Laki-laki</option>
+                            <option value="Perempuan" {{ $penduduk->jenis_kelamin === 'Perempuan' ? 'selected' : '' }}>
+                                Perempuan</option>
                         </select>
+                        <x-input-error :messages="$errors->get('jenis_kelamin')" class="mt-2" />
                     </div>
                     <div class="lg:w-1/2">
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Pekerjaan</div>
                         <input type="text" value="{{ $penduduk->pekerjaan }}" placeholder="Masukkan Pekerjaan"
-                            name="" id=""
+                            name="pekerjaan" id="pekerjaan"
                             class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
+                        <x-input-error :messages="$errors->get('pekerjaan')" class="mt-2" />
                     </div>
                 </div>
 
@@ -104,34 +90,68 @@
                     <div class="lg:w-1/2">
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Status Hubungan Dalam
                             Keluarga</div>
-                        <select id="status_hubungan" name="status_hubungan"
+                        <select id="status_hubungan_dalam_keluarga" name="status_hubungan_dalam_keluarga"
                             class="font-normal mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                            <option value="{{ $penduduk->status_hubungan_dalam_keluarga }}" selected disabled>Pilih
-                                Status Hubungan</option>
-                            <option value="Kepala Keluarga">Kepala Keluarga</option>
-                            <option value="Istri">Istri</option>
-                            <option value="Anak">Anak</option>
-                            <option value="Cucu">Cucu</option>
-                            <option value="Ayah">Ayah</option>
-                            <option value="Ibu">Ibu</option>
-                            <option value="Saudara">Saudara</option>
-                            <option value="Mertua">Mertua</option>
-                            <option value="Menantu">Menantu</option>
-                            <option value="Cucu Menantu">Cucu Menantu</option>
-                            <option value="Cicit">Cicit</option>
-                            <option value="Keluarga Lain">Keluarga Lain</option>
+                            <option
+                                {{ $penduduk->status_hubungan_dalam_keluarga === 'Pilih Status Hubungan' ? 'selected' : '' }}
+                                disabled>Pilih Status Hubungan</option>
+                            <option value="Kepala Keluarga"
+                                {{ $penduduk->status_hubungan_dalam_keluarga === 'Kepala Keluarga' ? 'selected' : '' }}>
+                                Kepala
+                                Keluarga</option>
+                            <option value="Istri"
+                                {{ $penduduk->status_hubungan_dalam_keluarga === 'Istri' ? 'selected' : '' }}>Istri
+                            </option>
+                            <option value="Anak"
+                                {{ $penduduk->status_hubungan_dalam_keluarga === 'Anak' ? 'selected' : '' }}>Anak
+                            </option>
+                            <option value="Cucu"
+                                {{ $penduduk->status_hubungan_dalam_keluarga === 'Cucu' ? 'selected' : '' }}>Cucu
+                            </option>
+                            <option value="Ayah"
+                                {{ $penduduk->status_hubungan_dalam_keluarga === 'Ayah' ? 'selected' : '' }}>Ayah
+                            </option>
+                            <option value="Ibu"
+                                {{ $penduduk->status_hubungan_dalam_keluarga === 'Ibu' ? 'selected' : '' }}>Ibu
+                            </option>
+                            <option value="Saudara"
+                                {{ $penduduk->status_hubungan_dalam_keluarga === 'Saudara' ? 'selected' : '' }}>
+                                Saudara</option>
+                            <option value="Mertua"
+                                {{ $penduduk->status_hubungan_dalam_keluarga === 'Mertua' ? 'selected' : '' }}>
+                                Mertua</option>
+                            <option value="Menantu"
+                                {{ $penduduk->status_hubungan_dalam_keluarga === 'Menantu' ? 'selected' : '' }}>
+                                Menantu</option>
+                            <option value="Cucu Menantu"
+                                {{ $penduduk->status_hubungan_dalam_keluarga === 'Cucu Menantu' ? 'selected' : '' }}>
+                                Cucu Menantu
+                            </option>
+                            <option value="Cicit"
+                                {{ $penduduk->status_hubungan_dalam_keluarga === 'Cicit' ? 'selected' : '' }}>Cicit
+                            </option>
+                            <option value="Keluarga Lain"
+                                {{ $penduduk->status_hubungan_dalam_keluarga === 'Keluarga Lain' ? 'selected' : '' }}>
+                                Keluarga Lain
+                            </option>
                         </select>
+                        <x-input-error :messages="$errors->get('status_hubungan_dalam_keluarga')" class="mt-2" />
                     </div>
                     <div class="lg:w-1/2">
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Status Perkawinan</div>
                         <select id="status_perkawinan" name="status_perkawinan"
                             class="font-normal mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                            <option value="{{ $penduduk->status_perkawinan }}" selected disabled>
-                                Pilih Status Perkawinan</option>
-                            <option value="Belum Kawin">Belum Kawin</option>
-                            <option value="Kawin">Kawin</option>
-                            <option value="Cerai">Cerai</option>
+                            <option {{ $penduduk->status_perkawinan === null ? 'selected' : '' }} disabled>Pilih Status
+                                Perkawinan</option>
+                            <option value="Belum Kawin"
+                                {{ $penduduk->status_perkawinan === 'Belum Kawin' ? 'selected' : '' }}>Belum Kawin
+                            </option>
+                            <option value="Kawin" {{ $penduduk->status_perkawinan === 'Kawin' ? 'selected' : '' }}>
+                                Kawin</option>
+                            <option value="Cerai" {{ $penduduk->status_perkawinan === 'Cerai' ? 'selected' : '' }}>
+                                Cerai</option>
                         </select>
+                        <x-input-error :messages="$errors->get('status_perkawinan')" class="mt-2" />
                     </div>
                 </div>
 
@@ -139,66 +159,85 @@
                     <div class="lg:w-1/2">
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Kota</div>
                         <input type="text" value="{{ $penduduk->kota }}" placeholder="Masukkan Kota"
-                            name="" id=""
+                            name="kota" id="kota"
                             class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                    </div>
+                            <x-input-error :messages="$errors->get('kota')" class="mt-2" />
+                        </div>
                     <div class="lg:w-1/2">
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Kecamatan</div>
-                        <input type="text" {{ $penduduk->kecamatan }} placeholder="Masukkan Kecamatan"
-                            name="" id=""
+                        <input type="text" value="{{ $penduduk->kecamatan }}" placeholder="Masukkan Kecamatan"
+                            name="kecamatan" id="kecamatan"
                             class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                    </div>
+                            <x-input-error :messages="$errors->get('kecamatan')" class="mt-2" />
+                        </div>
                 </div>
 
                 <div class="mx-3 my-3 gap-5 flex max-lg:flex-col lg:flex-nowrap font-bold">
                     <div class="lg:w-1/2">
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Desa/Kelurahan</div>
                         <input type="text" value="{{ $penduduk->desa }}" placeholder="Masukkan Desa/Kelurahan"
-                            name="" id=""
+                            name="desa" id="desa"
                             class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                    </div>
+                            <x-input-error :messages="$errors->get('desa')" class="mt-2" />
+                        </div>
                     <div class="lg:w-1/2 flex flex-nowrap gap-3">
                         <div class="lg:w-1/2">
                             <div class="after:content-['*'] after:ml-0.5 after:text-red-500">RW</div>
                             <input type="text" value="{{ $penduduk->nomor_rw }}" placeholder="Masukkan RW"
-                                name="" id=""
+                                name="nomor_rw" id="nomor_rw"
                                 class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                        </div>
+                                <x-input-error :messages="$errors->get('nomor_rw')" class="mt-2" />
+                            </div>
                         <div class="lg:w-1/2">
                             <div class="after:content-['*'] after:ml-0.5 after:text-red-500">RT</div>
                             <input type="text" value="{{ $penduduk->nomor_rt }}" placeholder="Masukkan RT"
-                                name="" id=""
+                                name="nomor_rt" id="nomor_rt"
                                 class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                        </div>
+                                <x-input-error :messages="$errors->get('nomor_rt')" class="mt-2" />
+                            </div>
                     </div>
                 </div>
 
                 <div class="mx-3 my-3 gap-5 flex max-lg:flex-col lg:flex-nowrap font-bold">
                     <div class="lg:w-1/2">
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Status Penduduk</div>
-                        <select id="status_keluarga" name="status_keluarga"
+                        <select id="status_penduduk" name="status_penduduk"
                             class="font-normal mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
                             <option value="{{ $penduduk->status_penduduk }}" selected disabled>
-                                Pilih Status Perkawinan</option>
-                            <option value="Domisili">Domisili</option>
-                            <option value="Non-Domisili">Non-Domisili</option>
+                                Pilih Status Penduduk</option>
+                            <option value="Domisili"
+                                {{ $penduduk->status_penduduk === 'Domisili' ? 'selected' : '' }}>Domisili</option>
+                            <option
+                                value="Non Domisili"{{ $penduduk->status_penduduk === 'Non Domisili' ? 'selected' : '' }}>
+                                Non-Domisili</option>
                         </select>
+                        <x-input-error :messages="$errors->get('status_penduduk')" class="mt-2" />
                     </div>
                     <div class="lg:w-1/2">
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Pendidikan Terakhir</div>
                         <select id="pendidikan_terakhir" name="pendidikan_terakhir"
                             class="font-normal mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                            <option value="{{ $penduduk->pendidikan_terakhir }}" selected disabled>
-                                Pilih Pendidikan Terakhir</option>
-                            <option value="Tidak Sekolah">Tidak Sekolah</option>
-                            <option value="SD">SD</option>
-                            <option value="SMP">SMP</option>
-                            <option value="SMA">SMA</option>
-                            <option value="D3">D3</option>
-                            <option value="S1">S1</option>
-                            <option value="S2">S2</option>
-                            <option value="S3">S3</option>
+                            <option {{ $penduduk->pendidikan_terakhir === null ? 'selected' : '' }} disabled>Pilih
+                                Pendidikan Terakhir</option>
+                            <option value="Tidak Sekolah"
+                                {{ $penduduk->pendidikan_terakhir === 'Tidak Sekolah' ? 'selected' : '' }}>Tidak
+                                Sekolah</option>
+                            <option value="SD" {{ $penduduk->pendidikan_terakhir === 'SD' ? 'selected' : '' }}>SD
+                            </option>
+                            <option value="SMP" {{ $penduduk->pendidikan_terakhir === 'SMP' ? 'selected' : '' }}>
+                                SMP</option>
+                            <option value="SMA" {{ $penduduk->pendidikan_terakhir === 'SMA' ? 'selected' : '' }}>
+                                SMA</option>
+                            <option value="D3" {{ $penduduk->pendidikan_terakhir === 'D3' ? 'selected' : '' }}>D3
+                            </option>
+                            <option value="S1" {{ $penduduk->pendidikan_terakhir === 'S1' ? 'selected' : '' }}>S1
+                            </option>
+                            <option value="S2" {{ $penduduk->pendidikan_terakhir === 'S2' ? 'selected' : '' }}>S2
+                            </option>
+                            <option value="S3" {{ $penduduk->pendidikan_terakhir === 'S3' ? 'selected' : '' }}>S3
+                            </option>
                         </select>
+                        <x-input-error :messages="$errors->get('pendidikan_terakhir')" class="mt-2" />
                     </div>
                 </div>
 
@@ -207,50 +246,51 @@
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Golongan Darah</div>
                         <select id="golongan_darah" name="golongan_darah"
                             class="font-normal mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                            <option value="{{ $penduduk->golongan_darah }}" selected disabled>
-                                Pilih Golongan Darah</option>
-                            <option value="A">A</option>
-                            <option value="AB">AB</option>
-                            <option value="B">B</option>
-                            <option value="O">O</option>
+                            <option {{ $penduduk->golongan_darah === null ? 'selected' : '' }} disabled>Pilih Golongan
+                                Darah</option>
+                            <option value="A" {{ $penduduk->golongan_darah === 'A' ? 'selected' : '' }}>A
+                            </option>
+                            <option value="AB" {{ $penduduk->golongan_darah === 'AB' ? 'selected' : '' }}>AB
+                            </option>
+                            <option value="B" {{ $penduduk->golongan_darah === 'B' ? 'selected' : '' }}>B
+                            </option>
+                            <option value="O" {{ $penduduk->golongan_darah === 'O' ? 'selected' : '' }}>O
+                            </option>
                         </select>
+                        <x-input-error :messages="$errors->get('golongan_darah')" class="mt-2" />
                     </div>
                     <div class="lg:w-1/2">
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Agama</div>
                         <select id="agama" name="agama"
                             class="font-normal mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                            <option value="{{ $penduduk->agama }}" selected disabled>Pilih
-                                Agama</option>
-                            <option value="Islam">Islam</option>
-                            <option value="Kristen Protestan">Kristen Protestan</option>
-                            <option value="Katolik">Katolik</option>
-                            <option value="Hindu">Hindu</option>
-                            <option value="Buddha">Buddha</option>
-                            <option value="Kong Hu Cu">Kong Hu Cu</option>
+                            <option {{ $penduduk->agama === null ? 'selected' : '' }} disabled>Pilih Agama</option>
+                            <option value="Islam" {{ $penduduk->agama === 'Islam' ? 'selected' : '' }}>Islam</option>
+                            <option value="Kristen" {{ $penduduk->agama === 'Kristen' ? 'selected' : '' }}>Kristen
+                            </option>
+                            <option value="Katolik" {{ $penduduk->agama === 'Katolik' ? 'selected' : '' }}>Katolik
+                            </option>
+                            <option value="Hindu" {{ $penduduk->agama === 'Hindu' ? 'selected' : '' }}>Hindu</option>
+                            <option value="Buddha" {{ $penduduk->agama === 'Buddha' ? 'selected' : '' }}>Buddha
+                            </option>
+                            <option value="Konghucu"{{ $penduduk->agama === 'Konghucu' ? 'selected' : '' }}>Konghucu
+                            </option>
                         </select>
+                        <x-input-error :messages="$errors->get('agama')" class="mt-2" />
                     </div>
                 </div>
 
-
+                {{-- Foto KTP --}}
                 <div class="mx-3 my-3 font-bold">
                     <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Foto KTP</div>
-                    <img src="{{ $penduduk->foto_ktp }}"
-                        class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-bray-100  hover:border-gray-100 hover:bg-gray-200">
-                    {{-- <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                        <svg class="w-8 h-8 mb-4 text-gray-300 dark:text-gray-300" aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                        </svg>
-                        <div id="lisence_image_url-container" class="hidden flex justify-center">
-                        </div>
-                        <p class="mb-2 text-sm text-gray-300 dark:text-gray-300"><span class="font-semibold">Unggah
-                                Foto KTP</span></p>
+                    @if ($penduduk->foto_ktp)
+                        <img src="{{ $penduduk->foto_ktp }}"
+                            class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-gray-100 hover:border-gray-100 hover:bg-gray-200">
+                    @endif
+                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                        <input
+                            class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-primary focus:text-gray-700 focus:shadow-inset focus:outline-none"
+                            type="file" id="file_input" name="foto_ktp" onchange="previewImage()">
                     </div>
-                    <input id="lisence_image_url" type="file" class="hidden"
-                        onchange="renderFiles(this.files, 'lisence_image_url')" />
-                    </img> --}}
                 </div>
 
 
@@ -258,11 +298,11 @@
                 <div class="mt-10 flex gap-x-5">
                     <button type="submit"
                         class="bg-azure-blue text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">
-                        <p>Simpan</p>
+                        Simpan
                     </button>
                     <a href="{{ route('profile') }}"
                         class="border border-navy-night/50 rounded-md px-4 py-2 text-sm flex justify-center items-center gap-x-3">
-                        <p>Kembali</p>
+                        Kembali
                     </a>
                 </div>
 
@@ -275,6 +315,45 @@
     @endpush
 
     @push('scripts')
+        <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/super-build/ckeditor.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                var fileInput = document.getElementById('file_input');
+                var pendudukFotoKtp = <?php echo json_encode($penduduk->foto_ktp); ?>;
+
+                if (value === null) {
+                    fileInput.value = pendudukFotoKtp;
+                }
+            });
+
+            const previewImage = () => {
+                const fileInput = document.querySelector('#file_input');
+                const imagePreview = document.querySelector('#preview-image');
+                const filePreview = document.querySelector('#preview-file');
+
+                if (fileInput.files && fileInput.files[0]) {
+                    if (fileInput.files[0].type !== 'application/pdf') {
+                        !filePreview.classList.contains('hidden') ? filePreview.classList.add('hidden') : '';
+                        imagePreview.classList.remove('hidden');
+                        imagePreview.classList.add('inline-block', 'py-5');
+                    } else {
+                        !imagePreview.classList.contains('hidden') ? imagePreview.classList.add('hidden') : '';
+                        filePreview.textContent = fileInput.files[0].name;
+                        filePreview.classList.remove('hidden');
+                    }
+                }
+
+
+                if (fileInput.files[0].type !== 'application/pdf') {
+                    const oFReader = new FileReader();
+                    oFReader.readAsDataURL(fileInput.files[0]);
+
+                    oFReader.onload = function(oFREvent) {
+                        imagePreview.src = oFREvent.target.result;
+                    }
+                }
+            }
+        </script>
     @endpush
 
 </x-profile-layout>

@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('pengajuan', function (Blueprint $table) {
             $table->uuid('pengajuan_id')->primary();
             $table->uuid('penduduk_id')->index();
-            $table->unsignedBigInteger('status_id');
+            $table->unsignedBigInteger('status_id')->default(1);
             $table->uuid('accepted_by')->nullable();
-            $table->string('keperluan');
+            $table->string('keperluan')->nullable();
             $table->text('keterangan');
             $table->date('accepted_at')->nullable();
             $table->timestamps();

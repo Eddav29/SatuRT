@@ -23,13 +23,14 @@
 
 <body class="font-poppins antialiased bg-soft-snow">
     <div x-data="{ sidebar: false }" class="h-screen flex overflow-hidden">
+        <x-notification />
         @include('layouts.sidebar-profile')
 
         <!-- Page Content -->
         <div class="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
             <!-- Page Heading -->
             @if (isset($breadcrumb))
-                
+
             @endif
 
             {{-- Content --}}

@@ -10,6 +10,8 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Str;
+use App\Services\Notification\NotificationPusher;
 
 class ProfileController extends Controller
 {
@@ -27,7 +29,7 @@ class ProfileController extends Controller
         $penduduk = Penduduk::find($id);
 
         return response()->view('pages.profile.complete-data', [
-            'penduduk' => $penduduk
+            'penduduk' => $penduduk,
         ]);
     }
 
@@ -42,33 +44,41 @@ class ProfileController extends Controller
     public function completeData(Request $request, string $id): RedirectResponse
     {
         $validated = $request->validate([
-            'nik' => 'required|size:16|unique:penduduk,nik',
-            'nama' => 'required|string|max:255',
-            'jenis_kelamin' => 'required|in:Laki-laki,Perempuan',
-            'pekerjaan' => 'nullable|string|max:255',
-            'golongan_darah' => 'nullable|in:A,B,AB,O',
-            'agama' => 'nullable|string|in:Islam,Kristen,Katolik,Hindu,Budha,Konghucu,Lainnya',
-            'tempat_lahir' => 'nullable|string|max:255',
-            'tanggal_lahir' => 'nullable|date',
-            'status_hubungan_dalam_keluarga' => 'nullable|string|max:255',
-            'status_perkawinan' => 'nullable|in:Kawin,Belum Kawin,Cerai',
-            'pendidikan_terakhir' => 'nullable|string|in:SD,SMP,SMA,D3,S1,S2,S3',
-            'foto_ktp' => 'nullable|string|max:255',
-            'status_penduduk' => 'nullable|in:Domisili,Non Domisili',
-            'nomor_rt' => 'nullable|integer',
-            'nomor_rw' => 'nullable|integer',
-            'desa' => 'nullable|string|max:255',
-            'kecamatan' => 'nullable|string|max:255',
-            'kota' => 'nullable|string|max:255',
+            'agama' => 'required',
+            'desa' => 'required',
+            // 'foto_ktp' => 'required',
+            'golongan_darah' => 'required',
+            'jenis_kelamin' => 'required',
+            'kecamatan' => 'required',
+            'kota' => 'required',
+            'nama' => 'required',
+            'nomor_rt' => 'required',
+            'nomor_rw' => 'required',
+            'pekerjaan' => 'required',
+            'pendidikan_terakhir' => 'required',
+            'status_hubungan_dalam_keluarga' => 'required',
+            'status_perkawinan' => 'required',
+            'status_penduduk' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required',
         ]);
 
+        $validated['desa'] = Str::title($validated['desa']);
+        $validated['kecamatan'] = Str::title($validated['kecamatan']);
+        $validated['kota'] = Str::title($validated['kota']);
+        $validated['nama'] = Str::title($validated['nama']);
+        $validated['pekerjaan'] = Str::title($validated['pekerjaan']);
+        $validated['tempat_lahir'] = Str::title($validated['tempat_lahir']);
+
         $penduduk = Penduduk::find($id);
-        $penduduk ->update($validated);
+        $penduduk->update($validated);
 
         try {
-            return redirect()->route('profile.index')->with(['success' => 'Data Profile berhasil diubah']);
+            NotificationPusher::success('Data Profile berhasil diubah');
+            return redirect()->route('profile')->with(['success' => 'Data Profile berhasil diubah']);
         } catch (\Throwable $th) {
-            return redirect()->route('profile.index')->with(['error' => 'Data Profile gagal diubah']);
+            NotificationPusher::error('Data Profile gagal diubah');
+            return redirect()->route('profile')->with(['error' => 'Data Profile gagal diubah']);
         }
     }
 
@@ -79,40 +89,29 @@ class ProfileController extends Controller
 
         $validated = $request->validate([
             'sandi_lama' => 'required',
-            'sandi_baru' => 'required|min:8', // Atur kebutuhan validasi sesuai kebutuhan Anda
+            'sandi_baru' => 'required|min:5',
             'ulang_sandi_baru' => 'required|same:sandi_baru',
+        ], [
+            'sandi_lama.required' => 'Kata Sandi Lama harus diisi',
+            'sandi_baru.required' => 'Kata Sandi Baru harus diisi',
+            'sandi_baru.min' => 'Panjang Kata Sandi Baru minimal 5',
+            'ulang_sandi_baru' => 'Ulangi Kata Sandi harus sama',
         ]);
 
-        if ($request->sandi_lama == $user->password) {
+        if (Hash::check($request->sandi_lama, $user->password)) {
             try {
+                // Update password
                 $user->password = Hash::make($request->sandi_baru);
                 $user->update($validated);
 
-                return redirect()->route('profile')->with(['success' => 'Perubahan berhasila disimpan']);
+                NotificationPusher::success('Perubahan berhasil disimpan');
+                return redirect()->back()->with(['success' => 'Perubahan berhasil disimpan']);
             } catch (\Throwable $th) {
-                return redirect()->route('profile')->with(['error' => 'Gagal menyimpan perubahan']);
+                NotificationPusher::error('Gagal menyimpan perubahan');
+                return redirect()->back()->with(['error' => 'Gagal menyimpan perubahan']);
             }
         } else {
-            return redirect()->back()->with('error', 'Kata sandi lama tidak sesuai.');
+            return redirect()->back()->with('error', 'Kata Sandi Lama tidak sesuai.');
         }
-
-    }
-
-    public function destroy(Request $request): RedirectResponse
-    {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
-        ]);
-
-        $user = $request->user();
-
-        Auth::logout();
-
-        $user->delete();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return Redirect::to('/');
     }
 }
