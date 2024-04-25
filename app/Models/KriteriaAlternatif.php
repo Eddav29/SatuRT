@@ -17,7 +17,6 @@ class KriteriaAlternatif extends Model
     protected $fillable = [
         'kriteria_id',
         'alternatif_id',
-        'penduduk_id',
         'nilai'
     ];
 

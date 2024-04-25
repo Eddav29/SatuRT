@@ -22,7 +22,6 @@ class KriteriaAlternatifFactory extends Factory
         return [
             'kriteria_id' => Kriteria::pluck('kriteria_id')->random(),
             'alternatif_id' => Alternatif::pluck('alternatif_id')->random(),
-            'penduduk_id' => Penduduk::pluck('penduduk_id')->random(),
             'nilai' => $this->faker->randomFloat(2, 1, 100),
         ];
     }
