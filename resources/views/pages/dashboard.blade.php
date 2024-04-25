@@ -94,7 +94,7 @@
                                 @endforeach
                             @else
                                 <div class="p-5 bg-slate-100 rounded-md">
-                                    <p class="text-center">Tidak ada laporan minggu ini</p>
+                                    <p class="text-center">Tidak ada laporan</p>
                                 </div>
                             @endif
                         </div>
@@ -146,8 +146,8 @@
                         <h1 class="text-xl font-bold">Pengumuman</h1>
                     </div>
                 </div>
-                <div class="flex cursor-pointer flex-col gap-y-4 overflow-auto">
-                    @if ($informations->count() > 0)
+                @if ($informations->count() > 0)
+                    <div class="flex cursor-pointer flex-col gap-y-4 overflow-auto">
                         @foreach ($informations as $information)
                             <div @click.stop="open = !open; fetchAnnouncement('{{ $information->informasi_id }}')"
                                 id="{{ $information->informasi_id }}"
@@ -162,12 +162,12 @@
                                 </div>
                             </div>
                         @endforeach
-                    @else
-                        <div class="p-5 bg-slate-100 rounded-md">
-                            <p class="text-center">Tidak ada laporan yang belum disetujui</p>
-                        </div>
-                    @endif
-                </div>
+                    </div>
+                @else
+                    <div class="p-5 rounded-md w-full h-full flex justify-center items-center">
+                        <p class="text-center">Tidak ada laporan</p>
+                    </div>
+                @endif
             </div>
 
             {{-- Modal --}}
@@ -274,8 +274,7 @@
                     .then(response => response.json())
                     .then(data => {
                         document.getElementById('loading').classList.replace('flex', 'hidden')
-                        document.getElementById('announcement-modal').innerHTML = announcementModal(data.data.title,
-                            data.data.created_by, data.data.created_at, data.data.description);
+                        document.getElementById('announcement-modal').innerHTML = announcementModal(data);
                     });
             }
 
@@ -342,9 +341,8 @@
 
             }
 
-            const announcementModal = (title, created_by, created_at, content) => {
-                return `
-            <div
+            const announcementModal = (data) => {
+                return `<div
                     class="bg-white-snow w-full sm:max-w-3xl h-[80%] 2xl:max-w-7xl lg:h-[95%] overflow-hidden rounded-xl p-8 flex flex-col gap-y-5">
                     <div class="flex justify-between items-center">
                         <h1 class="text-lg font-bold">Informasi</h1>
@@ -352,30 +350,59 @@
                             <x-heroicon-o-x-mark class="w-8 h-8" />
                         </button>
                     </div>
-                    <div class="flex flex-col gap-y-2 mt-2 overflow-y-auto no-scrollbar">
-                        <h1 class="text-2xl/7 font-bold">${title}</h1>
+                    <div class="flex flex-col gap-y-5 mt-2 overflow-y-auto">
+                        <h1 class="text-2xl/7 font-bold ">${data.data.title}</h1>
                         <div class="flex flex-col gap-y-2 md:grid md:grid-cols-2 md:grid-rows-1">
                             <div class="text-sm/5">
-                                <h6 class="font-medium">Dibuat oleh: </h6>
-                                <h5>${created_by}</h5>
+                                <h6 class="font-semibold">Dibuat oleh: </h6>
+                                <h5>${data.data.created_by}</h5>
                             </div>
                             <div class="text-sm/5">
-                                <h6 class="font-medium">Dibuat pada: </h6>
-                                <h5>${created_at}</h5>
-                            </div>
-                        </div>
-                        <div class="text-sm/5">
-                            <div>
-                                <h1 class="font-medium">Isi Pengumuman</h1>
+                                ${data.data.updated_at === data.data.created_at ? '<h6 class="font-semibold">Dibuat pada: </h6>' : `<h6 class="font-semibold">Terakhir diperbarui: </h6>`}
+                                        <h5>${data.data.updated_at}</h5>
+                                    </div>
+                                </div>
                                 <div>
-                                    <p class="text-sm/5">
-                                        ${content}
-                                    </p>
+                                    <h1 class="font-semibold">Lampiran</h1>
+                                    ${data.data.file_extension && data.data.file_extension === 'pdf' ? `
+                                    <div class="flex gap-x-2 items-center">
+                                        <svg height="25px" width="25px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve">
+                                            <path style="fill:#E2E5E7;" d="M128,0c-17.6,0-32,14.4-32,32v448c0,17.6,14.4,32,32,32h320c17.6,0,32-14.4,32-32V128L352,0H128z" />
+                                            <path style="fill:#B0B7BD;" d="M384,128h96L352,0v96C352,113.6,366.4,128,384,128z" />
+                                            <polygon style="fill:#CAD1D8;" points="480,224 384,128 480,128 " />
+                                            <path style="fill:#F15642;"
+                                            d="M416,416c0,8.8-7.2,16-16,16H48c-8.8,0-16-7.2-16-16V256c0-8.8,7.2-16,16-16h352c8.8,0,16,7.2,16,16 V416z" />
+                                            <g>
+                                                <path style="fill:#FFFFFF;" d="M101.744,303.152c0-4.224,3.328-8.832,8.688-8.832h29.552c16.64,0,31.616,11.136,31.616,32.48 c0,20.224-14.976,31.488-31.616,31.488h-21.36v16.896c0,5.632-3.584,8.816-8.192,8.816c-4.224,0-8.688-3.184-8.688-8.816V303.152z M118.624,310.432v31.872h21.36c8.576,0,15.36-7.568,15.36-15.504c0-8.944-6.784-16.368-15.36-16.368H118.624z" />
+                                                <path style="fill:#FFFFFF;" d="M196.656,384c-4.224,0-8.832-2.304-8.832-7.92v-72.672c0-4.592,4.608-7.936,8.832-7.936h29.296 c58.464,0,57.184,88.528,1.152,88.528H196.656z M204.72,311.088V368.4h21.232c34.544,0,36.08-57.312,0-57.312H204.72z" />
+                                                <path style="fill:#FFFFFF;"d="M303.872,312.112v20.336h32.624c4.608,0,9.216,4.608,9.216,9.072c0,4.224-4.608,7.68-9.216,7.68 h-32.624v26.864c0,4.48-3.184,7.92-7.664,7.92c-5.632,0-9.072-3.44-9.072-7.92v-72.672c0-4.592,3.456-7.936,9.072-7.936h44.912 c5.632,0,8.96,3.344,8.96,7.936c0,4.096-3.328,8.704-8.96,8.704h-37.248V312.112z" />
+                                            </g>
+                                            <path style="fill:#CAD1D8;"d="M400,432H96v16h304c8.8,0,16-7.2,16-16v-16C416,424.8,408.8,432,400,432z" />
+                                        </svg>
+                                        <div class="flex flex-col" id="preview-file-container">
+                                            <a id="preview-file" href="/file-download/${data.data.file}" class="text-blue-500 py-3 text-sm font-light" target="_blank">${data.data.file}</a>
+                                        </div>
+                                    </div>` : `
+                                    <div x-data="{ openImage: false }">
+                                        <img @click="openImage = !openImage" src="storage/information_images/${data.data.file}" alt="" class="rounded-xl max-h-[30rem] w-full object-cover" draggable="false">
+                                        <div x-show="openImage" class="absolute top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
+                                            <img @click="openImage = false" x-show="openImage" @click.outside="openImage = false" src="storage/information_images/${data.data.file}" alt="" class="rounded-xl w-max h-max lg:max-w-full lg:max-h-full" draggable="false">
+                                            <div class="absolute w-8 h-8 top-10 right-10 cursor-pointer" @click="openImage = false">
+                                                <x-heroicon-o-x-mark class="w-8 h-8" class="text-white-snow absolute" />
+                                            </div>
+                                        </div>
+                                    </div>`}
+                                </div>
+                                <div class="text-sm/5">
+                                    <div>
+                                        <h1 class="font-semibold">Isi Pengumuman</h1>
+                                        <div class="content">
+                                            ${data.data.description}
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>`
+                        </div>`
             }
         </script>
     @endpush

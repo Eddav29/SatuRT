@@ -14,7 +14,7 @@ class KeuanganSeeder extends Seeder
     public function run(): void
     {
         Keuangan::factory()
-            ->count(20)
+            ->count(10)
             ->create();
     }
 }

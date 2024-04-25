@@ -7,172 +7,214 @@
     <div class="p-6 lg:px-14 gap-y-5 mx-auto max-w-screen-2xl md:p-6 2xl:p-10 ">
         <x-toolbar :toolbar_id="$toolbar_id" :active="$active" :toolbar_route="$toolbar_route" />
         <div class="p-6 mt-3 rounded-xl bg-white-snow overflow-hidden">
-            @if (session('success'))
-                <div role="alert" class="rounded border-s-4 border-green-500 bg-white p-4">
-                    <div class="flex items-start gap-4">
-                        <span class="text-green-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" class="h-6 w-6">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </span>
 
-                        <div class="flex-1">
-                            <strong class="block font-medium text-gray-900">Behasil</strong>
-
-                            <p class="mt-1 text-sm text-gray-700">Data berhasil ditambahkan</p>
-                        </div>
-                    </div>
-                </div>
-            @endif
-
-            @if (session('error'))
-                <div role="alert" class="rounded border-s-4 border-red-500 bg-red-50 p-4">
-                    <div class="flex items-center gap-2 text-red-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
-                            <path fill-rule="evenodd"
-                                d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
-                                clip-rule="evenodd" />
-                        </svg>
-                        <strong class="block font-medium"> Terjadi Kesalahan </strong>
-                    </div>
-
-                    <p class="mt-2 text-sm text-red-700">
-                        {{ session('error') }}
-                    </p>
-                </div>
-            @endif
-
-            {{-- Table --}}
-            <section>
-
+            {{-- Form --}}
+            <form method="POST" action="{{ route('pelaporan.update', $pelaporan->pelaporan_id) }}">
+                @csrf
+                @method('PUT')
 
                 <div class="bg-blue-gray p-5 max-lg:mt-5 rounded-md">
                     <h1 class="font-bold md:text-2xl text-xl">Edit Pelaporan</h1>
                 </div>
 
-                <form method="POST" action="{{ url('umkm') }}" class="space-y-4">
+                <section class="space-y-4">
 
                     <div class="mx-3 my-4 gap-5 flex max-lg:flex-col lg:flex-nowrap font-bold">
+                        {{-- NIK --}}
                         <div class="lg:w-1/2">
                             <div class="after:content-['*'] after:ml-0.5 after:text-red-500">NIK</div>
-                            <input type="text" placeholder="Masukkan NIK" name="" id=""
-                                class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
+                            <input type="text" disabled value="{{ $pelaporan->pengajuan->penduduk->nik }}"
+                                placeholder="Masukkan NIK" name="nik" id="nik"
+                                class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
                         </div>
+
+                        {{-- Nama --}}
                         <div class="lg:w-1/2">
                             <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Nama</div>
-                            <input type="text" placeholder="Masukkan Nama" name="" id=""
-                                class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
+                            <input type="text" disabled value="{{ $pelaporan->pengajuan->penduduk->nama }}"
+                                placeholder="Masukkan Nama" name="nama" id="nama"
+                                class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
                         </div>
                     </div>
 
+
                     <div class="mx-3 my-4 gap-5 flex max-lg:flex-col lg:flex-nowrap font-bold">
+                        {{-- Tanggal --}}
                         <div class="lg:w-1/2">
                             <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Tanggal</div>
-                            <input type="date" name="" id=""
+                            <input type="date" name="accepted_at" id="accepted_at"
+                                value="{{ $pelaporan->pengajuan->accepted_at ? \Carbon\Carbon::parse($pelaporan->pengajuan->accepted_at)->format('Y-m-d') : \Carbon\Carbon::now()->format('Y-m-d') }}"
                                 class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
                         </div>
+
+                        {{-- Jenis Laporan --}}
                         <div class="lg:w-1/2">
                             <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Jenis Laporan</div>
-                            <select id="jenis_laporan" name="jenis_laporan"
+                            <select id="jenis_pelaporan" name="jenis_pelaporan"
                                 class="font-normal  mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                                <option value="" selected disabled>Pilih Jenis Laporan</option>
-                                <option value="pengaduan">Pengaduan</option>
-                                <option value="kritik">Kritik</option>
-                                <option value="saran">Saran</option>
-                                <option value="lainnya">Lainnya</option>
+                                <option disabled>Pilih Jenis Laporan</option>
+                                <option value="Pengaduan"
+                                    {{ $pelaporan->jenis_pelaporan === 'Pengaduan' ? 'selected' : '' }}>Pengaduan
+                                </option>
+                                <option value="Kritik" {{ $pelaporan->jenis_pelaporan === 'Kritik' ? 'selected' : '' }}>
+                                    Kritik</option>
+                                <option value="Saran" {{ $pelaporan->jenis_pelaporan === 'Saran' ? 'selected' : '' }}>
+                                    Saran</option>
+                                <option value="Lainnya"
+                                    {{ $pelaporan->jenis_pelaporan === 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
                             </select>
                         </div>
                     </div>
 
+                    {{-- Lampiran --}}
                     <div class="mx-3 my-3 font-bold">
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Lampiran</div>
-                        <label for="lisence_image_url" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-bray-100  hover:border-gray-100 hover:bg-gray-200">
-                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                <svg class="w-8 h-8 mb-4 text-gray-300 dark:text-gray-300" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-                                </svg>
-                                <div id="lisence_image_url-container" class="hidden flex justify-center">
+                        <label for="lisence_image_url" class="relative cursor-pointer">
+                            <div class="w-full h-64 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-bray-100 hover:border-gray-100 hover:bg-gray-200"
+                                ondrop="dropFile(event, 'lisence_image_url')" ondragover="allowDrop(event)">
+                                <img src="{{ asset('storage/resident-report_images/' . $pelaporan->image_url) }}"
+                                    for="lisence_image_url"
+                                    class="w-full h-full object-cover border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-bray-100 hover:border-gray-100 hover:bg-gray-200">
+                                <div id="lisence_image_url-container" class="w-full h-full overflow-hidden hidden">
                                 </div>
-                                <p class="mb-2 text-sm text-gray-300 dark:text-gray-300"><span class="font-semibold">Unggah Foto</span></p>
+                                <input id="lisence_image_url" type="file" onchange="previewImage(this)"
+                                    class="absolute inset-0 opacity-0 cursor-pointer">
                             </div>
-                            <input id="lisence_image_url" type="file" class="hidden" onchange="renderFiles(this.files, 'lisence_image_url')" />
                         </label>
                     </div>
 
-                    <div class="mx-3 my-3 font-bold ">
+                    {{-- Keterangan --}}
+                    <div class="mx-3 my-3">
                         <label for="text-editor"
-                            class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night ">Keterangan
+                            class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">Keterangan
                         </label>
                         @error('keterangan')
                             <small class="text-red-500 text-xs py-3">{{ $message }}</small>
                         @enderror
-                        <textarea name="description" id="text-editor"></textarea>
+                        <textarea id="text-editor" name="keterangan">{{ $pelaporan->pengajuan->keterangan }}</textarea>
                     </div>
 
+                    {{-- Button --}}
                     <div class="mx-3 my-3">
-                        <button type="submit" class="bg-blue-500 hover:bg-blue-800 text-white py-2 px-4 rounded mt-4 mr-2">
+                        <button type="submit"
+                            class="bg-blue-500 hover:bg-blue-800 text-white py-2 px-4 rounded mt-4 mr-2">
                             Simpan
                         </button>
-                        <a href="#" class="text-black border-2 py-3 px-5 rounded-lg mt-4">
+                        <a href="#" onclick="window.history.back()"
+                            class="text-black border-2 py-3 px-5 rounded-lg mt-4">
                             Batalkan
                         </a>
+
                     </div>
-                </form>
+                </section>
         </div>
-        </section>
+        </form>
     </div>
 
     @push('scripts')
-        <script src="https://cdn.ckeditor.com/ckeditor5/41.3.0/classic/ckeditor.js"></script>
+        <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/super-build/ckeditor.js"></script>
         <script>
-            ClassicEditor
-                .create(document.querySelector('#text-editor'), {
-                    ckfinder: {
-                        uploadUrl: "{{ route('file.upload', ['_token' => csrf_token()]) }}"
-                    },
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        </script>
-        <script>
-            function allowDrop(event) {
-                event.preventDefault();
-            }
-
-            function dropFile(event, containerId) {
-                event.preventDefault();
-                const files = event.dataTransfer.files;
-                renderFiles(files, containerId);
-            }
-
-            function renderFiles(files, containerId) {
-                const filePreviewContainer = document.getElementById(containerId + '-container');
-                const fileInput = document.getElementById(containerId);
-
-                // Clear previous previews
-                filePreviewContainer.innerHTML = '';
-
-                for (let i = 0; i < files.length; i++) {
-                    const file = files[i];
-                    const reader = new FileReader();
-                    const filePreviewId = containerId + '-preview-' + i;
-
-                    reader.onload = function(e) {
-                        const filePreview = document.createElement('img');
-                        filePreview.src = e.target.result;
-                        filePreview.id = filePreviewId;
-                        filePreview.classList.add('w-64', 'h-auto');
-                        filePreviewContainer.appendChild(filePreview);
+            CKEDITOR.ClassicEditor.create(document.getElementById("text-editor"), {
+                ckfinder: {
+                    uploadUrl: "{{ route('file.upload', ['_token' => csrf_token()]) }}"
+                },
+                toolbar: {
+                    items: [
+                        'findAndReplace', 'selectAll', '|',
+                        'heading', '|',
+                        'bold', 'italic', 'strikethrough', 'underline', 'subscript', 'superscript',
+                        'removeFormat', '|',
+                        'bulletedList', 'numberedList', '|',
+                        'outdent', 'indent', '|',
+                        'undo', 'redo',
+                        '-',
+                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
+                        'alignment', '|',
+                        'link', 'uploadImage', 'blockQuote', 'insertTable',
+                        '|',
+                        'specialCharacters', 'horizontalLine', '|'
+                    ],
+                    shouldNotGroupWhenFull: true
+                },
+                list: {
+                    properties: {
+                        styles: true,
+                        startIndex: true,
+                        reversed: true
                     }
+                },
+                placeholder: 'Tuliskan sesuatu...',
+                fontFamily: {
+                    options: [
+                        'default',
+                        'Arial, Helvetica, sans-serif',
+                        'Courier New, Courier, monospace',
+                        'Georgia, serif',
+                        'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                        'Tahoma, Geneva, sans-serif',
+                        'Times New Roman, Times, serif',
+                        'Trebuchet MS, Helvetica, sans-serif',
+                        'Verdana, Geneva, sans-serif'
+                    ],
+                    supportAllValues: true
+                },
+                fontSize: {
+                    options: [10, 12, 14, 'default', 18, 20, 22],
+                    supportAllValues: true
+                },
+                removePlugins: [
+                    'AIAssistant',
+                    'CKBox',
+                    'CKFinder',
+                    'EasyImage',
+                    'MultiLevelList',
+                    'RealTimeCollaborativeComments',
+                    'RealTimeCollaborativeTrackChanges',
+                    'RealTimeCollaborativeRevisionHistory',
+                    'PresenceList',
+                    'Comments',
+                    'TrackChanges',
+                    'TrackChangesData',
+                    'RevisionHistory',
+                    'Pagination',
+                    'WProofreader',
+                    'MathType',
+                    'SlashCommand',
+                    'Template',
+                    'DocumentOutline',
+                    'FormatPainter',
+                    'TableOfContents',
+                    'PasteFromOfficeEnhanced',
+                    'CaseChange'
+                ]
+            });
 
-                    reader.readAsDataURL(file);
+            const previewImage = () => {
+                const fileInput = document.querySelector('#file_input');
+                const imagePreview = document.querySelector('#preview-image');
+                const filePreview = document.querySelector('#preview-file');
+
+                if (fileInput.files && fileInput.files[0]) {
+                    if (fileInput.files[0].type !== 'application/pdf') {
+                        !filePreview.classList.contains('hidden') ? filePreview.classList.add('hidden') : '';
+                        imagePreview.classList.remove('hidden');
+                        imagePreview.classList.add('inline-block', 'py-5');
+                    } else {
+                        !imagePreview.classList.contains('hidden') ? imagePreview.classList.add('hidden') : '';
+                        filePreview.textContent = fileInput.files[0].name;
+                        filePreview.classList.remove('hidden');
+                    }
                 }
 
-                // Show the preview container
-                filePreviewContainer.classList.remove('hidden');
+
+                if (fileInput.files[0].type !== 'application/pdf') {
+                    const oFReader = new FileReader();
+                    oFReader.readAsDataURL(fileInput.files[0]);
+
+                    oFReader.onload = function(oFREvent) {
+                        imagePreview.src = oFREvent.target.result;
+                    }
+                }
             }
         </script>
     @endpush

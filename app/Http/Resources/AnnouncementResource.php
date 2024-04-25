@@ -17,9 +17,12 @@ class AnnouncementResource extends JsonResource
     {
         return [
             'id' => $this->informasi_id,
+            'file_extension' => $this->file_extension,
+            'file' => $this->thumbnail_url,
             'title' => $this->judul_informasi,
             'created_by' => $this->penduduk->nama,
-            'created_at' => Carbon::parse($this->created_at)->locale('id_ID')->isoFormat('dddd, DD MMMM YYYY'),
+            'created_at' => Carbon::parse($this->created_at)->locale('id_ID')->isoFormat('dddd, DD MMMM YYYY - HH:mm:ss'),
+            'updated_at' => Carbon::parse($this->updated_at)->locale('id_ID')->isoFormat('dddd, DD MMMM YYYY - HH:mm:ss'),
             'description' => $this->isi_informasi,
         ];
     }

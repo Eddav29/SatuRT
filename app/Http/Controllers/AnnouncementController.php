@@ -16,6 +16,7 @@ class AnnouncementController extends Controller
             ->where('jenis_informasi', 'Pengumuman')
             ->where('informasi_id', $id)
             ->first();
+        $announcement['file_extension'] = pathinfo($announcement->thumbnail_url, PATHINFO_EXTENSION);
 
         if (!$announcement) {
             throw new HttpResponseException(response()->json([

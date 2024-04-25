@@ -116,10 +116,10 @@ Route::resource('kriteria', CriteriaController::class)
 /* Guest and User */
 Route::prefix('profile')->middleware(['auth', 'verified'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-    Route::get('/change-password', [ProfileController::class, 'changePasswordForm'])->name('profile.change-password');
-    Route::post('/change-password', [ProfileController::class, 'changePassword'])->name('profile.change-password.post');
-    Route::get('/complete-data', [ProfileController::class, 'completeDataForm'])->name('profile.complete-data');
-    Route::post('/complete-data', [ProfileController::class, 'completeData'])->name('profile.complete-data.post');
+    Route::get('/change-password/{id}', [ProfileController::class, 'changePasswordForm'])->name('profile.change-password');
+    Route::post('/change-password/{id}', [ProfileController::class, 'changePassword'])->name('profile.change-password.post');
+    Route::get('/complete-data/{id}', [ProfileController::class, 'completeDataForm'])->name('profile.complete-data');
+    Route::post('/complete-data/{id}', [ProfileController::class, 'completeData'])->name('profile.complete-data.post');
 });
 
 Route::middleware('auth')->group(function () {

@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\Penduduk;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\View\View;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Str;
+use App\Services\Notification\NotificationPusher;
 
 class ProfileController extends Controller
 {
@@ -23,120 +24,94 @@ class ProfileController extends Controller
         return response()->view('pages.profile.index');
     }
 
-    public function completeDataForm(): Response
+    public function completeDataForm(string $id): Response
     {
-        // $users = User::find($id);
-        return response()->view('pages.profile.complete-data');
+        $penduduk = Penduduk::find($id);
+
+        return response()->view('pages.profile.complete-data', [
+            'penduduk' => $penduduk,
+        ]);
     }
 
-    public function changePasswordForm(): Response
+    public function changePasswordForm(string $id): Response
     {
-        // $users = User::find($id);
-        return response()->view('pages.profile.change-password');
+        $penduduk = Penduduk::find($id);
+        return response()->view('pages.profile.change-password', [
+            'penduduk' => $penduduk,
+        ]);
     }
 
-    // public function edit(string $id): Response
-    // {
-    //     $breadcrumb = [
-    //         'list' => ['Home', 'Informasi', 'Edit Informasi'],
-    //         'url' => ['home', 'informasi.index', ''],
-    //     ];
-
-    //     $information = Informasi::find($id);
-
-    //     return response()->view('pages.information.edit', [
-    //         'breadcrumb' => $breadcrumb,
-    //         'information' => $information
-    //     ]);
-    // }
-
-    // /**
-    //  * Update the specified resource in storage.
-    //  */
-    // public function update(Request $request, string $id)
-    // {
-    //     $information = Informasi::find($id);
-
-    //     $validated = $request->validate([
-    //         'penduduk_id' => ['required', 'exists:penduduk,penduduk_id'],
-    //         'jenis_informasi' => ['required'],
-    //         'judul_informasi' => ['required', 'string', 'min:3', 'max:255'],
-    //         'isi_informasi' => ['required', 'string', 'min:3'],
-    //         'thumbnail_url' => ['required', 'file'],
-    //     ], [
-    //         'jenis_informasi.required' => 'Jenis informasi harus diisi.',
-    //         'judul_informasi.required' => 'Judul informasi harus diisi.',
-    //         'judul_informasi.min' => 'Judul informasi minimal memiliki panjang :min karakter.',
-    //         'judul_informasi.max' => 'Judul informasi maksimal memiliki panjang :max karakter.',
-    //         'isi_informasi.required' => 'Isi informasi harus diisi.',
-    //         'isi_informasi.min' => 'Isi informasi minimal memiliki panjang :min karakter.',
-    //         'thumbnail_url.required' => 'Thumbnail harus diisi.',
-    //         'thumbnail_url.file' => 'Thumbnail harus berupa gambar.',
-    //     ]);
-
-    //     if ($request->file('thumbnail_url')) {
-    //         Storage::delete('public/information_images/' . $information->thumbnail_url);
-
-    //         if ($validated['jenis_informasi'] == 'Pengumuman') {
-    //             $fileName = $request->file('thumbnail_url')->getClientOriginalName();
-    //             $request->file('thumbnail_url')->storeAs('information_images', $fileName, 'public');
-    //             $validated['thumbnail_url'] = $fileName;
-    //         } else {
-    //             $validated['thumbnail_url'] = $request->file('thumbnail_url')->store('information_images', 'public');
-    //             $validated['thumbnail_url'] = basename($validated['thumbnail_url']);
-    //         }
-    //     }
-
-    //     try {
-    //         $information->update($validated);
-
-    //         return redirect()->route('informasi.index')->with(['success' => 'Perubahan berhasila disimpan']);
-    //     } catch (\Throwable $th) {
-    //         return redirect()->route('informasi.index')->with(['error' => 'Gagal menyimpan perubahan']);
-    //     }
-    // }
-
-    //  public function edit(Request $request): View
-    // {
-    //     return view('pages.profile.edit', [
-    //         'user' => $request->user(),
-    //     ]);
-    // }
-
-    // /**
-    //  * Update the user's profile information.
-    //  */
-    // public function update(ProfileUpdateRequest $request): RedirectResponse
-    // {
-    //     $request->user()->fill($request->validated());
-
-    //     if ($request->user()->isDirty('email')) {
-    //         $request->user()->email_verified_at = null;
-    //     }
-
-    //     $request->user()->save();
-
-    //     return Redirect::route('profile.edit')->with('status', 'profile-updated');
-    // }
-
-    /**
-     * Delete the user's account.
-     */
-    public function destroy(Request $request): RedirectResponse
+    public function completeData(Request $request, string $id): RedirectResponse
     {
-        $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
+        $validated = $request->validate([
+            'agama' => 'required',
+            'desa' => 'required',
+            // 'foto_ktp' => 'required',
+            'golongan_darah' => 'required',
+            'jenis_kelamin' => 'required',
+            'kecamatan' => 'required',
+            'kota' => 'required',
+            'nama' => 'required',
+            'nomor_rt' => 'required',
+            'nomor_rw' => 'required',
+            'pekerjaan' => 'required',
+            'pendidikan_terakhir' => 'required',
+            'status_hubungan_dalam_keluarga' => 'required',
+            'status_perkawinan' => 'required',
+            'status_penduduk' => 'required',
+            'tempat_lahir' => 'required',
+            'tanggal_lahir' => 'required',
         ]);
 
-        $user = $request->user();
+        $validated['desa'] = Str::title($validated['desa']);
+        $validated['kecamatan'] = Str::title($validated['kecamatan']);
+        $validated['kota'] = Str::title($validated['kota']);
+        $validated['nama'] = Str::title($validated['nama']);
+        $validated['pekerjaan'] = Str::title($validated['pekerjaan']);
+        $validated['tempat_lahir'] = Str::title($validated['tempat_lahir']);
 
-        Auth::logout();
+        $penduduk = Penduduk::find($id);
+        $penduduk->update($validated);
 
-        $user->delete();
+        try {
+            NotificationPusher::success('Data Profile berhasil diubah');
+            return redirect()->route('profile')->with(['success' => 'Data Profile berhasil diubah']);
+        } catch (\Throwable $th) {
+            NotificationPusher::error('Data Profile gagal diubah');
+            return redirect()->route('profile')->with(['error' => 'Data Profile gagal diubah']);
+        }
+    }
 
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
+    public function changePassword(Request $request, string $id)
+    {
+        $penduduk = Penduduk::find($id);
+        $user = User::find($penduduk->user_id);
 
-        return Redirect::to('/');
+        $validated = $request->validate([
+            'sandi_lama' => 'required',
+            'sandi_baru' => 'required|min:5',
+            'ulang_sandi_baru' => 'required|same:sandi_baru',
+        ], [
+            'sandi_lama.required' => 'Kata Sandi Lama harus diisi',
+            'sandi_baru.required' => 'Kata Sandi Baru harus diisi',
+            'sandi_baru.min' => 'Panjang Kata Sandi Baru minimal 5',
+            'ulang_sandi_baru' => 'Ulangi Kata Sandi harus sama',
+        ]);
+
+        if (Hash::check($request->sandi_lama, $user->password)) {
+            try {
+                // Update password
+                $user->password = Hash::make($request->sandi_baru);
+                $user->update($validated);
+
+                NotificationPusher::success('Perubahan berhasil disimpan');
+                return redirect()->back()->with(['success' => 'Perubahan berhasil disimpan']);
+            } catch (\Throwable $th) {
+                NotificationPusher::error('Gagal menyimpan perubahan');
+                return redirect()->back()->with(['error' => 'Gagal menyimpan perubahan']);
+            }
+        } else {
+            return redirect()->back()->with('error', 'Kata Sandi Lama tidak sesuai.');
+        }
     }
 }

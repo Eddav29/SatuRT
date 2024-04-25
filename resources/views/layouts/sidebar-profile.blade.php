@@ -30,14 +30,17 @@
                         </x-nav-menu>
                     </div>
                     <div>
-                        <x-nav-menu svgIcon="heroicon-o-key" iconStyle="h-8 w-8" :href="route('profile.change-password')" :active="request()->routeIs('profile.change-password')">
+                        <x-nav-menu svgIcon="heroicon-o-key" iconStyle="h-8 w-8"
+                            :href="route('profile.change-password', Auth::user()->penduduk->penduduk_id ?? '')"
+                            :active="request()->routeIs('profile.change-password')">
                             Ubah Kata Sandi
                         </x-nav-menu>
                     </div>
+
                 </div>
                 <div>
-                    <x-nav-menu svgIcon="heroicon-o-arrow-uturn-left" iconStyle="h-8 w-8" href="#"
-                        onclick="history.back()">
+                    <x-nav-menu svgIcon="heroicon-o-arrow-uturn-left" iconStyle="h-8 w-8"
+                    :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         Kembali
                     </x-nav-menu>
                 </div>
