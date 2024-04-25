@@ -1,14 +1,11 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\CitizenAccountController;
 use App\Http\Controllers\CitizenController;
 use App\Http\Controllers\BusinessUserController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\FamilyCardController;
 use App\Http\Controllers\NewsController;
@@ -17,11 +14,14 @@ use App\Http\Controllers\ResidentReportController;
 use App\Http\Controllers\StorageController;
 use App\Http\Controllers\FinanceReportController;
 use App\Http\Controllers\DocumentRequestController;
-use App\Models\User;
-use Illuminate\Auth\Events\Authenticated;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CriteriaController;
 use App\Http\Controllers\AlternativeController;
+use App\Models\Kriteria;
+use App\Models\KriteriaAlternatif;
+use App\Services\DecisionMakerGenerator\DecisionMakerService;
+use App\Services\DecisionMakerGenerator\Support\EddasService;
+use App\Services\TableGenerator\TableService;
 
 /*
 |--------------------------------------------------------------------------
@@ -171,3 +171,24 @@ Route::resource('data-akun/penduduk', CitizenAccountController::class)
 require __DIR__ . '/auth.php';
 
 Route::get('storage/ktp/{filename}', [StorageController::class, 'storageKTP'])->name('storage.ktp');
+
+
+Route::get('eddas', function () {
+    $decisionMaker = new DecisionMakerService();
+    $eddasService = new EddasService();
+    $table = "<script src='https://cdn.tailwindcss.com'></script>";
+    $table .= "<section>";
+    $table .= $decisionMaker->getKriteriaTable();
+    $table .= $decisionMaker->getAlternatifTable();
+    $table .= $decisionMaker->createTableService()->createTable($decisionMaker->getData());
+    $table .= $decisionMaker->createTableService()->createTable($eddasService->stepDetermineAverange(3));
+    $table .= $decisionMaker->createTableService()->createTable($eddasService->stepDeterminePDA(3));
+    $table .= $decisionMaker->createTableService()->createTable($eddasService->stepDetermineNDA(3));
+    $table .= $decisionMaker->createTableService()->createTable($eddasService->stepDetermineSPSN(3));
+    $table .= $decisionMaker->createTableService()->createTable($eddasService->stepDetermineNormalizeSPSN(3));
+    $table .= $decisionMaker->createTableService()->createTable($eddasService->stepCalculateAssesmentScore(5));
+    $table .= $decisionMaker->createTableService()->createTable($eddasService->stepRanking(4));
+    $table .= "</section>";
+
+    return $table;
+});

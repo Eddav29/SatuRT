@@ -15,9 +15,7 @@ return new class extends Migration
             $table->id('kriteria_alternatif_id');
             $table->unsignedBigInteger('kriteria_id');
             $table->unsignedBigInteger('alternatif_id');
-            $table->uuid('penduduk_id')->index();
             $table->float('nilai');
-            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('kriteria_id')->references('kriteria_id')->on('kriteria');

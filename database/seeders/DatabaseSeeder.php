@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             PersuratanSeeder::class,
             UMKMSeeder::class,
             InformasiSeeder::class,
+            KriteriaAlternatifSeeder::class,
         ]);
     }
 }
