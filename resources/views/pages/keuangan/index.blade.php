@@ -15,7 +15,7 @@
                         </div>
                     </div>
                     <div>
-                        <h1 class="text-sm/5">Total Pemasukan</h1>
+                        <h1 class="text-sm/5">Total Pemasukan Tahun ini</h1>
                         <h1 class="text-base/7 font-semibold"> Rp. {{ number_format($total_pemasukan) }} </h1>
                     </div>
                 </div>
@@ -26,7 +26,7 @@
                         </div>
                     </div>
                     <div>
-                        <h1 class="text-sm/5">Total Pengeluaran</h1>
+                        <h1 class="text-sm/5">Total Pengeluaran Tahun ini</h1>
                         <h1 class="text-base/7 font-semibold"> Rp. {{ number_format($total_pengeluaran) }}</h1>
                     </div>
                 </div>
@@ -37,7 +37,7 @@
                         </div>
                     </div>
                     <div>
-                        <h1 class="text-sm/5">Total Keuangan</h1>
+                        <h1 class="text-sm/5">Saldo</h1>
                         <h1 class="text-base/7 font-semibold"> Rp. {{ number_format($total_keseluruhan) }}</h1>
                     </div>
                 </div>

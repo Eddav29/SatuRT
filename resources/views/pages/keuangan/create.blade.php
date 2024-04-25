@@ -63,10 +63,8 @@
                                 <option value="Pilih Jenis keuangan" @click="selected = 'Pilih Jenis keuangan'"
                                     x-bind:selected="selected === 'Pilih Jenis keuangan'">Pilih Jenis keuangan
                                 </option>
-                                <option value="Pemasukan" @click="selected = 'Pemasukan'"
-                                    x-bind:selected="selected === 'Pemasukan'">Pemasukan</option>
-                                <option value="Pengeluaran" @click="selected = 'Pengeluaran'"
-                                    x-bind:selected="selected === 'Pengeluaran'">Pengeluaran</option>
+                                <option value="Pemasukan" @click="selected = 'Pemasukan'" x-bind:selected="selected === 'Pemasukan'">Pemasukan</option>
+                                <option value="Pengeluaran" @click="selected = 'Pengeluaran'" x-bind:selected="selected === 'Pengeluaran'">Pengeluaran</option>
                             </select>
                         </div>
                     </div>
@@ -116,7 +114,7 @@
                         @error('keterangan')
                             <small class="text-red-500 text-xs py-3">{{ $message }}</small>
                         @enderror
-                        <textarea id="text-editor" name="keterangan" placeholder="Masukkan keterangan" class="placeholder:text-xs placeholder:text-gray-300 placeholder:font-light text-sm"></textarea>
+                        <textarea id="text-editor" name="keterangan">{{ old('keterangan') }}</textarea>
                     </div>
 
                     {{-- Button --}}
@@ -217,17 +215,82 @@
     @endpush
 
     @push('scripts')
-        <script src="https://cdn.ckeditor.com/ckeditor5/41.3.0/classic/ckeditor.js"></script>
+        <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/super-build/ckeditor.js"></script>
         <script>
-            ClassicEditor
-                .create(document.querySelector('#text-editor'), {
-                    ckfinder: {
-                        uploadUrl: "{{ route('file.upload', ['_token' => csrf_token()]) }}"
-                    },
-                })
-                .catch(error => {
-                    console.error(error);
-                });
+            CKEDITOR.ClassicEditor.create(document.getElementById("text-editor"), {
+                ckfinder: {
+                    uploadUrl: "{{ route('file.upload', ['_token' => csrf_token()]) }}"
+                },
+                toolbar: {
+                    items: [
+                        'findAndReplace', 'selectAll', '|',
+                        'heading', '|',
+                        'bold', 'italic', 'strikethrough', 'underline', 'subscript', 'superscript',
+                        'removeFormat', '|',
+                        'bulletedList', 'numberedList', '|',
+                        'outdent', 'indent', '|',
+                        'undo', 'redo',
+                        '-',
+                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
+                        'alignment', '|',
+                        'link', 'uploadImage', 'blockQuote', 'insertTable',
+                        '|',
+                        'specialCharacters', 'horizontalLine', '|'
+                    ],
+                    shouldNotGroupWhenFull: true
+                },
+                list: {
+                    properties: {
+                        styles: true,
+                        startIndex: true,
+                        reversed: true
+                    }
+                },
+                placeholder: 'Tuliskan sesuatu...',
+                fontFamily: {
+                    options: [
+                        'default',
+                        'Arial, Helvetica, sans-serif',
+                        'Courier New, Courier, monospace',
+                        'Georgia, serif',
+                        'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                        'Tahoma, Geneva, sans-serif',
+                        'Times New Roman, Times, serif',
+                        'Trebuchet MS, Helvetica, sans-serif',
+                        'Verdana, Geneva, sans-serif'
+                    ],
+                    supportAllValues: true
+                },
+                fontSize: {
+                    options: [10, 12, 14, 'default', 18, 20, 22],
+                    supportAllValues: true
+                },
+                removePlugins: [
+                    'AIAssistant',
+                    'CKBox',
+                    'CKFinder',
+                    'EasyImage',
+                    'MultiLevelList',
+                    'RealTimeCollaborativeComments',
+                    'RealTimeCollaborativeTrackChanges',
+                    'RealTimeCollaborativeRevisionHistory',
+                    'PresenceList',
+                    'Comments',
+                    'TrackChanges',
+                    'TrackChangesData',
+                    'RevisionHistory',
+                    'Pagination',
+                    'WProofreader',
+                    'MathType',
+                    'SlashCommand',
+                    'Template',
+                    'DocumentOutline',
+                    'FormatPainter',
+                    'TableOfContents',
+                    'PasteFromOfficeEnhanced',
+                    'CaseChange'
+                ]
+            });
 
             const previewImage = () => {
                 const fileInput = document.querySelector('#file_input');

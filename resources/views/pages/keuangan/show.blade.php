@@ -52,9 +52,17 @@
                         </div>
 
                         <div class="md:col-span-2">
-                            <h5 class="font-semibold">Keterangan</h5>
-                            <p>{!! $detailKeuangan->keterangan ?? 'Tidak Ada Data' !!}</p>
+                                <h5 class="font-semibold after:content-['*'] after:ml-0.5 after:text-red-500">Keterangan</h5>
+                            <div class="w-full h-48 p-2.5 rounded border border-neutral-900 border-opacity-30 flex justify-start items-start gap-2.5">
+                                <div class="flex justify-start items-center gap-2.5">
+                                    <div class="text-neutral-900 text-lg font-normal font-['Poppins'] leading-7">
+                                        <p>{!! $detailKeuangan->keterangan ?? 'Tidak Ada Data' !!}</p>
+                                    </div>
+                                    
+                                </div>
+                            </div>
                         </div>
+                        
                     @else
                         <div>
                             <p>Tidak ada data yang ditemukan.</p>
