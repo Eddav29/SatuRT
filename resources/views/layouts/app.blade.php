@@ -38,7 +38,7 @@
                 <header class="p-6 lg:px-14 lg:py-8 sticky top-0 z-[999] flex w-full bg-soft-snow max-lg:drop-shadow">
                     <div class="mx-auto flex items-center justify-between lg:hidden w-full">
                         <button @click.stop="sidebar = !sidebar" class="z-50 w-10 h-10">
-                            <x-heroicon-c-bars-3-center-left />
+                            <x-heroicon-o-bars-3-bottom-left />
                         </button>
                         <div class="lg:hidden" x-data="{ profile: false }">
                             <div class="h-14 w-14 rounded-full overflow-hidden" @click.stop="profile = !profile">
