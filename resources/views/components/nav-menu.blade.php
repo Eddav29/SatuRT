@@ -9,9 +9,8 @@
 @endphp
 
 <a draggable="false"
-    {{ $attributes->merge(['class' => 'inline-flex items-center px-3 py-3 gap-x-3 select-none text-md w-full leading-5 max-md:hover:text-azure-blue hover:scale-105' . $classes . ' ' . $class]) }}>
+    {{ $attributes->merge(['class' => 'inline-flex items-center px-3 py-3 gap-x-3 select-none text-base w-full leading-5 max-md:hover:text-azure-blue hover:scale-105' . $classes . ' ' . $class]) }}>
     @if (isset($svgIcon))
-        {{-- <{{$svgIcon}}/> --}}
         {{ svg($svgIcon, $iconStyle) }}
     @endif
     {{ $slot }}
