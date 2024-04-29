@@ -1,15 +1,15 @@
 <aside
-    class="absolute left-0 top-0 z-[9999] flex h-screen w-[22rem] flex-col overflow-y-hidden bg-soft-snow duration-300 ease-linear lg:static lg:translate-x-0 border border-l px-8"
+    class="absolute left-0 top-0 z-[9999] flex h-screen w-[18rem] md:w-[22rem] flex-col overflow-y-hidden bg-soft-snow duration-300 ease-linear lg:static lg:translate-x-0 border border-l px-4 md:px-8"
     :class="sidebar ? 'translate-x-0' : '-translate-x-full'" @click.outside="sidebar = false">
-    <div class="flex justify-center items-center gap-x-5 w-full py-10">
+    <div class="flex justify-between lg:justify-center items-center gap-x-5 w-full py-10">
         <div class="shrink-0">
             <div>
                 <x-application-logo class="w-auto h-auto text-navy-night " />
             </div>
         </div>
         <div class="w-10 h-10 lg:hidden">
-            <button class="w-10 h-10" @click.stop="sidebar = !sidebar">
-                @svg('heroicon-c-bars-3-center-left')
+            <button id="sidebar-close" class="w-10 h-10" @click.stop="sidebar = !sidebar">
+                @svg('heroicon-o-x-mark')
             </button>
         </div>
     </div>
@@ -18,7 +18,7 @@
     @if (Auth::check())
         @if (Auth::user()->role->role_name === 'Ketua RT')
             <div class="overflow-y-auto pt-10 lg:pt-24 no-scrollbar">
-                <h1 class="text-navy-night/35 ">MAIN MENU</h1>
+                <h1 class="text-navy-night/35 text-xs md:text-base ">MAIN MENU</h1>
 
                 @php
                     $active = '';
@@ -38,18 +38,18 @@
                     <nav>
                         <div>
                             <x-nav-menu :href="route('dashboard')" :active="request()->is('dashboard*')" svgIcon="heroicon-o-squares-2x2"
-                                iconStyle="h-8 w-8">
+                                iconStyle="w-6 h-6 md:h-8 md:w-8">
                                 Dashboard
                             </x-nav-menu>
                         </div>
                         <div>
                             <x-nav-menu svgIcon="heroicon-o-banknotes" :href="route('keuangan.index')" :active="request()->is('keuangan*')"
-                                iconStyle="h-8 w-8">
+                                iconStyle="w-6 h-6 md:h-8 md:w-8">
                                 Keuangan
                             </x-nav-menu>
                         </div>
                         <div @click.prevent="isDataPenduduk = !isDataPenduduk">
-                            <x-nav-menu svgIcon="heroicon-o-user-group" iconStyle="h-8 w-8">
+                            <x-nav-menu svgIcon="heroicon-o-user-group" iconStyle="w-6 h-6 md:h-8 md:w-8">
                                 <div class="inline-flex w-full justify-between items-center">
                                     <p class="px-1">
                                         Data Penduduk
@@ -74,18 +74,18 @@
                         </div>
                         <div>
                             <x-nav-menu :href="route('umkm.index')" :active="request()->is('umkm*')" svgIcon="heroicon-o-building-storefront"
-                                iconStyle="h-8 w-8">
+                                iconStyle="w-6 h-6 md:h-8 md:w-8">
                                 UMKM
                             </x-nav-menu>
                         </div>
                         <div>
                             <x-nav-menu :href="route('persuratan.index')" :active="request()->is('persuratan*')" svgIcon="heroicon-o-document-text"
-                                iconStyle="h-8 w-8">
+                                iconStyle="w-6 h-6 md:h-8 md:w-8">
                                 Permohonan Surat
                             </x-nav-menu>
                         </div>
                         <div @click.prevent="isPendukungKeputusan = !isPendukungKeputusan">
-                            <x-nav-menu svgIcon="heroicon-o-scale" iconStyle="h-8 w-8">
+                            <x-nav-menu svgIcon="heroicon-o-scale" iconStyle="w-6 h-6 md:h-8 md:w-8">
                                 <div class="w-full inline-flex justify-between items-center">
                                     <p class="px-1">
                                         Pendukung Keputusan
@@ -113,13 +113,13 @@
                         </div>
                         <div>
                             <x-nav-menu svgIcon="heroicon-o-microphone" :href="route('informasi.index')" :active="request()->is('informasi*')"
-                                iconStyle="h-8 w-8">
+                                iconStyle="w-6 h-6 md:h-8 md:w-8">
                                 Informasi
                             </x-nav-menu>
                         </div>
                         <div>
-                            <x-nav-menu svgIcon="heroicon-o-megaphone" iconStyle="h-8 w-8" :href="route('pelaporan.index')"
-                                :active="request()->is('pelaporan*')">
+                            <x-nav-menu svgIcon="heroicon-o-megaphone" iconStyle="w-6 h-6 md:h-8 md:w-8"
+                                :href="route('pelaporan.index')" :active="request()->is('pelaporan*')">
                                 Laporan Warga
                             </x-nav-menu>
                         </div>
@@ -134,7 +134,7 @@
                     <nav>
                         <div>
                             <x-nav-menu :href="route('dashboard')" :active="request()->routeIs('dashboard')" svgIcon="heroicon-o-squares-2x2"
-                                iconStyle="h-8 w-8">
+                                iconStyle="w-6 h-6 md:h-8 md:w-8">
                                 Dashboard
                             </x-nav-menu>
                         </div>
@@ -142,25 +142,27 @@
 
                             <x-nav-menu :href="route('data-keluarga.show', [
                                 'keluarga' => Auth::user()->penduduk->kartu_keluarga_id,
-                            ])" svgIcon="heroicon-o-user-group" iconStyle="h-8 w-8">
+                            ])" svgIcon="heroicon-o-user-group"
+                                iconStyle="w-6 h-6 md:h-8 md:w-8">
                                 Data Keluarga
                             </x-nav-menu>
                         </div>
                         <div>
                             <x-nav-menu :href="route('umkm.index')" :active="request()->is('umkm*')" svgIcon="heroicon-o-building-storefront"
-                                iconStyle="h-8 w-8">
+                                iconStyle="w-6 h-6 md:h-8 md:w-8">
                                 UMKM
                             </x-nav-menu>
                         </div>
                         <div>
                             <x-nav-menu :href="route('persuratan.index')" :active="request()->is('persuratan*')" svgIcon="heroicon-o-document-text"
-                                iconStyle="h-8 w-8">
+                                iconStyle="w-6 h-6 md:h-8 md:w-8">
                                 Permohonan Surat
                             </x-nav-menu>
+
                         </div>
                         <div>
-                            <x-nav-menu svgIcon="heroicon-o-megaphone" iconStyle="h-8 w-8" :href="route('pelaporan.index')"
-                                :active="request()->is('pelaporan*')">
+                            <x-nav-menu svgIcon="heroicon-o-megaphone" iconStyle="w-6 h-6 md:h-8 md:w-8"
+                                :href="route('pelaporan.index')" :active="request()->is('pelaporan*')">
                                 LAPOR!
                             </x-nav-menu>
                         </div>
