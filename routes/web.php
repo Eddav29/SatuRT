@@ -95,7 +95,7 @@ Route::resource('persuratan', DocumentRequestController::class)->middleware(['au
     'create' => 'persuratan.create',
 ]);
 
-Route::resource('alternatif', AlternativeController::class)
+Route::resource('pendukung-keputusan/alternatif', AlternativeController::class)
 ->names([
     'index' => 'spk.index',
     'create' => 'spk.create',
@@ -107,7 +107,7 @@ Route::resource('alternatif', AlternativeController::class)
 ])
 ->middleware('auth');
 
-Route::resource('kriteria', CriteriaController::class)
+Route::resource('pendukung-keputusan/kriteria', CriteriaController::class)
 ->names([
     'index' => 'spk.kriteria.index',
 ])

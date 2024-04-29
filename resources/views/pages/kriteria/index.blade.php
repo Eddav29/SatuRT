@@ -48,27 +48,27 @@
                     [
                         'label' => 'ID',
                         'key' => 'kriteria_id',
-                        'style' => 'text-left'
+                        'style' => 'text-left',
                     ],
                     [
                         'label' => 'Nama Kriteria',
                         'key' => 'nama_kriteria',
-                        'style' => 'text-left'
+                        'style' => 'text-left',
                     ],
                     [
                         'label' => 'Jenis Kriteria',
                         'key' => 'jenis_kriteria',
-                        'style' => 'text-left'
+                        'style' => 'text-left',
+                        'customStyle' => [
+                            'Benefit' => 'bg-green-500/20 text-green-500 w-fit py-2 px-3 text-center rounded-md',
+                            'Cost' => 'bg-red-500/20 text-red-500 w-fit py-2 px-3 text-center rounded-md',
+                        ],
                     ],
                     [
                         'label' => 'Bobot',
                         'key' => 'bobot',
-                        'style' => 'text-left'
+                        'style' => 'text-left',
                     ],
-                ]" :aksi="[
-                    'detail' => true,
-                    'edit' => true,
-                    'hapus' => true,
                 ]">
                 </x-datatables>
             </section>
