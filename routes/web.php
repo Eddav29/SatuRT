@@ -104,7 +104,7 @@ Route::get('/persuratan/{id}/approve', [DocumentRequestController::class, 'appro
 // Rute untuk penolakan permohonan surat
 Route::post('/persuratan/{id}/reject', [DocumentRequestController::class, 'reject'])->name('persuratan.reject');
 
-Route::resource('alternatif', AlternativeController::class)
+Route::resource('pendukung-keputusan/alternatif', AlternativeController::class)
 ->names([
     'index' => 'spk.index',
     'create' => 'spk.create',
@@ -116,7 +116,7 @@ Route::resource('alternatif', AlternativeController::class)
 ])
 ->middleware('auth');
 
-Route::resource('kriteria', CriteriaController::class)
+Route::resource('pendukung-keputusan/kriteria', CriteriaController::class)
 ->names([
     'index' => 'spk.kriteria.index',
 ])
