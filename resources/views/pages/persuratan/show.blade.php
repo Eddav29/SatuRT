@@ -11,10 +11,9 @@
                     <h1 class="font-bold md:text-2xl text-xl">Detail Permohonan Surat</h1>
                 </div>
             </section>
-            {{-- Forms Permhonan Surat --}}
+            {{-- Form Permohonan Surat --}}
             <section>
-                <form
-                    class="p-6 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col md:grid md:grid-cols-1 md:auto-rows-auto gap-y-5">
+                <form class="p-6 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col md:grid md:grid-cols-1 md:auto-rows-auto gap-y-5">
                     <div class="md:grid md:grid-cols-4">
                         <h5 class="font-semibold">NIK</h5>
                         <p class="md:col-span-3">{{ $persuratan->pengajuan->penduduk->nik }}</p>
@@ -37,24 +36,20 @@
                     </div>
                     <div class="md:flex md:flex-col">
                         <h5 class="font-semibold">Keterangan</h5>
-                        <textarea
-                            class="w-full h-48 p-2.5 rounded border border-neutral-900 border-opacity-30 justify-start items-start gap-2.5 inline-flex font-normal">{{ $persuratan->pengajuan->keterangan }}</textarea>
+                        <textarea id="textarea" readonly class="w-full h-48 p-2.5 rounded border border-neutral-900 border-opacity-30 justify-start items-start gap-2.5 inline-flex font-normal">{{ $persuratan->pengajuan->keterangan }}</textarea>
                     </div>
 
                     {{-- Tombol Setujui dan Tolak --}}
                     <div class="mt-10 flex gap-x-5">
-                        <button type="submit"
-                            class="bg-green-500 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">
-                            <p>Simpan</p>
-                        </button>
-                        <button type="submit"
-                            class="bg-red-500 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">
-                            <p>Simpan</p>
-                        </button>
+                            <a href="{{ route('persuratan.approve', $persuratan->persuratan_id) }}"  
+                                class="bg-green-500 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">Setuju</a>
+                            <a href="{{ route('persuratan.reject', $persuratan->persuratan_id) }}"  
+                                class="bg-red-500 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">Tolak</a>
+                        </form>
                     </div>
                 </form>
             </section>
-            {{-- Akhir Detail Keuangan --}}
+            {{-- Akhir Detail Permohonan Surat --}}
         </div>
     </div>
 

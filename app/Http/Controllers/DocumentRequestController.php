@@ -15,6 +15,9 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use App\Services\Notification\NotificationPusher;
+use Exception;
 
 class DocumentRequestController extends Controller
 {
@@ -115,4 +118,88 @@ class DocumentRequestController extends Controller
         ]);
     }
 
+    public function approve(Request $request, string $persuratan_id)
+    {
+        try {
+            DB::beginTransaction(); // Mulai transaksi untuk menjaga integritas data
+
+            // Cari permohonan surat berdasarkan ID
+            $persuratan = Persuratan::find($persuratan_id);
+
+            if (!$persuratan) {
+                throw new Exception('Permohonan tidak ditemukan');
+            }
+
+            // Pastikan pengguna memiliki hak untuk menyetujui
+            if (Auth::user()->role->role_name !== 'Ketua RT' && Auth::user()->role->role_name !== 'Admin') {
+                throw new Exception('Anda tidak memiliki izin untuk menyetujui permohonan ini');
+            }
+
+            // Ubah status pengajuan menjadi Disetujui dengan status_id = 2
+            $pengajuan = $persuratan->pengajuan;
+
+            // Pastikan persuratan memiliki pengajuan
+            if (!$pengajuan) {
+                throw new Exception('Pengajuan terkait tidak ditemukan');
+            }
+
+            $pengajuan->update([
+                'status_id' => 2, // Set status menjadi Disetujui
+                'accepted_by' => Auth::user()->id,
+                'accepted_at' => now(), // Waktu saat persetujuan
+            ]);
+
+            DB::commit(); // Selesaikan transaksi
+
+            NotificationPusher::success('Permohonan disetujui.');
+    
+            return redirect()->route('persuratan.index');
+
+        } catch (Exception $e) {
+            DB::rollBack(); // Batalkan transaksi jika terjadi kesalahan
+            return response()->json(['error' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
+        }
+    }
+    public function reject(Request $request, string $persuratan_id)
+    {
+        try {
+            DB::beginTransaction(); // Mulai transaksi untuk menjaga integritas data
+
+            // Cari permohonan surat berdasarkan ID
+            $persuratan = Persuratan::find($persuratan_id);
+
+            if (!$persuratan) {
+                throw new Exception('Permohonan tidak ditemukan');
+            }
+
+            // Pastikan pengguna memiliki hak untuk menyetujui
+            if (Auth::user()->role->role_name !== 'Ketua RT' && Auth::user()->role->role_name !== 'Admin') {
+                throw new Exception('Anda tidak memiliki izin untuk menolak permohonan ini');
+            }
+
+            // Ubah status pengajuan menjadi Disetujui dengan status_id = 2
+            $pengajuan = $persuratan->pengajuan;
+
+            // Pastikan persuratan memiliki pengajuan
+            if (!$pengajuan) {
+                throw new Exception('Pengajuan terkait tidak ditemukan');
+            }
+
+            $pengajuan->update([
+                'status_id' => 3, // Set status menjadi Disetujui
+                'accepted_by' => Auth::user()->id,
+                'accepted_at' => now(), // Waktu saat persetujuan
+            ]);
+
+            DB::commit(); // Selesaikan transaksi
+
+            NotificationPusher::success('Permohonan ditolak.');
+    
+            return redirect()->route('persuratan.index');
+
+        } catch (Exception $e) {
+            DB::rollBack(); // Batalkan transaksi jika terjadi kesalahan
+            return response()->json(['error' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
+        }
+    }
 }

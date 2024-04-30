@@ -93,7 +93,16 @@ Route::resource('persuratan', DocumentRequestController::class)->middleware(['au
     'index' => 'persuratan.index',
     'show' => 'persuratan.show',
     'create' => 'persuratan.create',
+    'store' => 'persuratan.store',
+    'edit' => 'persuratan.edit',
+    'update' => 'persuratan.update',
+    'destroy' => 'persuratan.destroy',
 ]);
+//Route untuk persetujuan permohonan  surat
+Route::get('/persuratan/{id}/approve', [DocumentRequestController::class, 'approve'])->name('persuratan.approve');
+
+// Rute untuk penolakan permohonan surat
+Route::post('/persuratan/{id}/reject', [DocumentRequestController::class, 'reject'])->name('persuratan.reject');
 
 Route::resource('alternatif', AlternativeController::class)
 ->names([
