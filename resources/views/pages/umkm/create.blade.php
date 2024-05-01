@@ -3,6 +3,45 @@
         <x-breadcrumb :list="$breadcrumb['list']" :url="$breadcrumb['url']" />
     </x-slot>
 
+    <div class="p-6 lg:px-14 gap-y-5 mx-auto max-w-screen-2xl md:p-6 2xl:p-10 ">
+        <div class="p-6 rounded-xl bg-white-snow">
+            @if (session('success'))
+                <div role="alert" class="rounded border-s-4 border-green-500 bg-white p-4">
+                    <div class="flex items-start gap-4">
+                        <span class="text-green-600">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                stroke="currentColor" class="h-6 w-6">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </span>
+
+                        <div class="flex-1">
+                            <strong class="block font-medium text-gray-900">Berhasil</strong>
+
+                            <p class="mt-1 text-sm text-gray-700">{{ session('success') }}</p>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
+            @if (session('error'))
+                <div role="alert" class="rounded border-s-4 border-red-500 bg-red-50 p-4">
+                    <div class="flex items-center gap-2 text-red-800">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
+                            <path fill-rule="evenodd"
+                                d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
+                                clip-rule="evenodd" />
+                        </svg>
+                        <strong class="block font-medium"> Terjadi Kesalahan </strong>
+                    </div>
+
+                    <p class="mt-2 text-sm text-red-700">
+                        {{ session('error') }}
+                    </p>
+                </div>
+            @endif
+
     {{-- Content Start --}}
     <div class="p-6 lg:px-14 gap-y-5 mx-auto max-w-screen-2xl md:p-6 2xl:p-10 ">
         <div class="p-6 rounded-xl bg-white-snow">
@@ -14,8 +53,29 @@
             </section>
             {{-- End Header --}}
 
+                        {{-- Alert --}}
+                        @if (session('error'))
+                        <div role="alert" class="rounded border-s-4 border-red-500 bg-red-50 p-4 my-8">
+                            <div class="flex items-center gap-2 text-red-800">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
+                                    <path fill-rule="evenodd"
+                                        d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
+                                        clip-rule="evenodd" />
+                                </svg>
+        
+                                <strong class="block font-medium"> Terjadi Kesalahan </strong>
+                            </div>
+        
+                            <p class="mt-2 text-sm text-red-700">
+                                {{ session('error') }}
+                            </p>
+                        </div>
+                    @endif
+                    {{-- End Alert --}}
+
             <section>
-                <form method="POST" action="{{ url('umkm') }}" class="px-5">
+                <form method="POST" action="{{ route('umkm.store') }}" class="px-5" enctype="multipart/form-data">
+                    @csrf
                     <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                         <div class="mt-5">
                             <label for="penduduk_id"
@@ -31,24 +91,12 @@
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
-                        <input type="hidden" id="umkm_id" name="umkm_id">
-                        <script>
-                            document.addEventListener('DOMContentLoaded', function() {
-                                var chars = '0123456789abcdefghijklmnopqrstuvwxyz';
-                                var randomString = '';
-                                for (var i = 0; i < 36; i++) {
-                                    var randomIndex = Math.floor(Math.random() * chars.length);
-                                    randomString += chars[randomIndex];
-                                }
-                                document.getElementById('umkm_id').value = randomString;
-                            });
-                        </script>
-                        <div>
+                        <div class="mt-5">
                             <label for="nama_umkm"
                                 class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">
                                 Nama UMKM</label>
                             <input class="placeholder-gray-300 w-full rounded-md placeholder:text-xs border-gray-200 p-3 text-sm"
-                                placeholder="Nama UMKM" type="text" id="nama_umkm" />
+                                placeholder="Nama UMKM" type="text" id="nama_umkm" name="nama_umkm" />
                         </div>
                     </div>
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-5">
@@ -57,12 +105,12 @@
                             <select class="form-control w-full rounded-md placeholder:text-xs border-gray-200 p-3 text-sm" id="jenis_umkm"
                                 name="jenis_umkm" required>
                                 <option value="" disabled selected>Jenis UMKM</option>
-                                <option value="Aktif">Makanan</option>
-                                <option value="Nonaktif">Minuman</option>
-                                <option value="Nonaktif">Pakaian</option>
-                                <option value="Nonaktif">Jasa</option>
-                                <option value="Nonaktif">Peralatan</option>
-                                <option value="Nonaktif">Lainnya</option>
+                                <option value="Makanan">Makanan</option>
+                                <option value="Minuman">Minuman</option>
+                                <option value="Pakaian">Pakaian</option>
+                                <option value="Jasa">Jasa</option>
+                                <option value="Peralatan">Peralatan</option>
+                                <option value="Lainnya">Lainnya</option>
                             </select>
                         </div>
                         <div>
@@ -70,7 +118,7 @@
                                 class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">
                                 Alamat</label>
                             <input class="placeholder-gray-300 w-full rounded-md placeholder:text-xs border-gray-200 p-3 text-sm"
-                                placeholder="Alamat" type="text" id="alamat" />
+                                placeholder="Alamat" type="text" id="alamat" name="alamat"/>
                         </div>
                     </div>
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-5">
@@ -79,7 +127,7 @@
                                 class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">
                                 Nomor Telepon</label>
                             <input class="placeholder-gray-300 w-full rounded-md placeholder:text-xs border-gray-200 p-3 text-sm"
-                                placeholder="Nomor Telepon" type="text" id="nomor_telepon" />
+                                placeholder="Nomor Telepon" type="text" id="nomor_telepon" name="nomor_telepon"/>
                         </div>
 
                         <div>
@@ -87,7 +135,7 @@
                                 class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">
                                 Lokasi URL</label>
                             <input class="placeholder-gray-300 w-full rounded-md placeholder:text-xs border-gray-200 p-3 text-sm"
-                                placeholder="Lokasi URL" type="text" id="lokasi_url" />
+                                placeholder="Lokasi URL" type="text" id="lokasi_url" name="lokasi_url"/>
                         </div>
                     </div>
                     <div class="mt-5">
@@ -95,7 +143,7 @@
                             class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">Status
                             UMKM</label>
                         <select id="status"
-                            class="placeholder-gray-300 w-full rounded-md placeholder:text-xs border-gray-200 p-3 text-sm">
+                            class="placeholder-gray-300 w-full rounded-md placeholder:text-xs border-gray-200 p-3 text-sm" name="status">
                             <option value="Aktif">Aktif</option>
                             <option value="Nonaktif">Nonaktif</option>
                         </select>
@@ -120,8 +168,8 @@
                                     <p class="mb-2 text-sm text-gray-300 dark:text-gray-300"><span
                                             class="font-semibold">Unggah Surat Izin Usaha</span></p>
                                 </div>
-                                <input id="lisence_image_url" type="file" class="hidden"
-                                    onchange="renderFiles(this.files, 'lisence_image_url')" />
+                                <input name="lisence_image_url" id="lisence_image_url" type="file" class="hidden"
+                                    onchange="renderFiles(this.files, 'lisence_image_url')" accept="image/*"/>
                             </label>
                         </div>
                     </div>
@@ -144,8 +192,8 @@
                                     <p class="mb-2 text-sm text-gray-300 dark:text-gray-300"><span
                                             class="font-semibold">Unggah Thumbnail</span></p>
                                 </div>
-                                <input id="thumbnail_url" type="file" class="hidden"
-                                    onchange="renderFiles(this.files, 'thumbnail_url')" />
+                                <input name="thumbnail_url" id="thumbnail_url" type="file" class="hidden"
+                                    onchange="renderFiles(this.files, 'thumbnail_url')" accept="image/*"/>
                             </label>
                         </div>
                     </div>
@@ -155,7 +203,7 @@
                         @error('keterangan')
                             <small class="text-red-500 text-xs py-3">{{ $message }}</small>
                         @enderror
-                        <textarea name="description" id="text-editor"></textarea>
+                        <textarea name="keterangan" id="text-editor"></textarea>
                     </div>
 
                     <div class="mt-10 flex gap-x-5">
@@ -174,18 +222,6 @@
     </div>
 
     @push('scripts')
-        <script src="https://cdn.ckeditor.com/ckeditor5/41.3.0/classic/ckeditor.js"></script>
-        <script>
-            ClassicEditor
-                .create(document.querySelector('#text-editor'), {
-                    ckfinder: {
-                        uploadUrl: "{{ route('file.upload', ['_token' => csrf_token()]) }}"
-                    },
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-        </script>
         <script>
             function allowDrop(event) {
                 event.preventDefault();
@@ -223,7 +259,7 @@
                 // Show the preview container
                 filePreviewContainer.classList.remove('hidden');
             }
-        </script>
+        </script> 
     @endpush
     @push('styles')
         <style>
@@ -304,5 +340,113 @@
             }
         </style>
     @endpush
-    {{-- Content End --}}
+
+    @push('scripts')
+        <script src="https://cdn.ckeditor.com/ckeditor5/41.3.1/super-build/ckeditor.js"></script>
+        <script>
+            CKEDITOR.ClassicEditor.create(document.getElementById("text-editor"), {
+                ckfinder: {
+                    uploadUrl: "{{ route('file.upload', ['_token' => csrf_token()]) }}"
+                },
+                toolbar: {
+                    items: [
+                        'findAndReplace', 'selectAll', '|',
+                        'heading', '|',
+                        'bold', 'italic', 'strikethrough', 'underline', 'subscript', 'superscript',
+                        'removeFormat', '|',
+                        'bulletedList', 'numberedList', '|',
+                        'outdent', 'indent', '|',
+                        'undo', 'redo',
+                        '-',
+                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
+                        'alignment', '|',
+                        'link', 'uploadImage', 'blockQuote', 'insertTable',
+                        '|',
+                        'specialCharacters', 'horizontalLine', '|'
+                    ],
+                    shouldNotGroupWhenFull: true
+                },
+                list: {
+                    properties: {
+                        styles: true,
+                        startIndex: true,
+                        reversed: true
+                    }
+                },
+                placeholder: 'Tuliskan sesuatu...',
+                fontFamily: {
+                    options: [
+                        'default',
+                        'Arial, Helvetica, sans-serif',
+                        'Courier New, Courier, monospace',
+                        'Georgia, serif',
+                        'Lucida Sans Unicode, Lucida Grande, sans-serif',
+                        'Tahoma, Geneva, sans-serif',
+                        'Times New Roman, Times, serif',
+                        'Trebuchet MS, Helvetica, sans-serif',
+                        'Verdana, Geneva, sans-serif'
+                    ],
+                    supportAllValues: true
+                },
+                fontSize: {
+                    options: [10, 12, 14, 'default', 18, 20, 22],
+                    supportAllValues: true
+                },
+                removePlugins: [
+                    'AIAssistant',
+                    'CKBox',
+                    'CKFinder',
+                    'EasyImage',
+                    'MultiLevelList',
+                    'RealTimeCollaborativeComments',
+                    'RealTimeCollaborativeTrackChanges',
+                    'RealTimeCollaborativeRevisionHistory',
+                    'PresenceList',
+                    'Comments',
+                    'TrackChanges',
+                    'TrackChangesData',
+                    'RevisionHistory',
+                    'Pagination',
+                    'WProofreader',
+                    'MathType',
+                    'SlashCommand',
+                    'Template',
+                    'DocumentOutline',
+                    'FormatPainter',
+                    'TableOfContents',
+                    'PasteFromOfficeEnhanced',
+                    'CaseChange'
+                ]
+            });
+
+            const previewImage = () => {
+                const fileInput = document.querySelector('#file_input');
+                const imagePreview = document.querySelector('#preview-image');
+                const filePreview = document.querySelector('#preview-file');
+
+                if (fileInput.files && fileInput.files[0]) {
+                    if (fileInput.files[0].type !== 'application/pdf') {
+                        !filePreview.classList.contains('hidden') ? filePreview.classList.add('hidden') : '';
+                        imagePreview.classList.remove('hidden');
+                        imagePreview.classList.add('inline-block', 'py-5');
+                    } else {
+                        !imagePreview.classList.contains('hidden') ? imagePreview.classList.add('hidden') : '';
+                        filePreview.textContent = fileInput.files[0].name;
+                        filePreview.classList.remove('hidden');
+                    }
+                }
+
+
+                if (fileInput.files[0].type !== 'application/pdf') {
+                    const oFReader = new FileReader();
+                    oFReader.readAsDataURL(fileInput.files[0]);
+
+                    oFReader.onload = function(oFREvent) {
+                        imagePreview.src = oFREvent.target.result;
+                    }
+                }
+            }
+        </script>
+    @endpush
+    {{-- Content End--}}
 </x-app-layout>
