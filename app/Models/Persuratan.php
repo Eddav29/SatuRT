@@ -30,13 +30,13 @@ class Persuratan extends Model
     public static function getListJenisSurat()
     {
         return [
-            'Surat Keterangan Domisili',
-            'Surat Keterangan Tidak Mampu',
-            'Surat Keterangan Usaha',
-            'Surat Keterangan Lahir',
-            'Surat Keterangan Kematian',
-            'Surat Keterangan Nikah',
-            'Kartu Tanda Penduduk',
+            'Surat Pengantar KTP',
+            'Surat Pengantar Kartu keluarga',
+            'Surat Pengantar Akta Kelahiran',
+            'Surat Pengantar Akta Kematian',
+            'Surat Pengantar SKCK',
+            'Surat Pengantar Nikah',
+            'Lainnya',
         ];
     }
 }

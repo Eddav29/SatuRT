@@ -4,7 +4,10 @@
     </x-slot>
 
     <div class="p-6 lg:px-12 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col gap-y-5">
-        <div class="p-6 rounded-xl bg-white-snow">
+        @if(Auth::user()->role->role_name !== 'Ketua RT' && Auth::user()->role->role_name !== 'Admin')
+        <x-toolbar :toolbar_id="$toolbar_id" :active="$active" :toolbar_route="$toolbar_route" />
+        @endif
+        <div class="p-6 rounded-xl bg-white-snow mt-6">
             {{-- Detail Permohonan Surat --}}
             <section>
                 <div class="bg-blue-gray p-5 rounded-md">
@@ -27,7 +30,7 @@
                         <p class="md:col-span-3">{{ $persuratan->jenis_surat }}</p>
                     </div>
                     <div class="md:grid md:grid-cols-4">
-                        <h5 class="font-semibold">Tanggal</h5>
+                        <h5 class="font-semibold">Disetujui Tanggal</h5>
                         <p class="md:col-span-3">{{ $persuratan->pengajuan->accepted_at }}</p>
                     </div>
                     <div class="md:grid md:grid-cols-1 md:grid-rows-2">
@@ -40,13 +43,15 @@
                     </div>
 
                     {{-- Tombol Setujui dan Tolak --}}
+                    {{-- Tombol Setuju dan Tolak hanya jika role adalah "Ketua RT" atau "Admin" --}}
+                    @if(Auth::user()->role->role_name === 'Ketua RT' || Auth::user()->role->role_name === 'Admin')
                     <div class="mt-10 flex gap-x-5">
-                            <a href="{{ route('persuratan.approve', $persuratan->persuratan_id) }}"  
-                                class="bg-green-500 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">Setuju</a>
-                            <a href="{{ route('persuratan.reject', $persuratan->persuratan_id) }}"  
+                        <a href="{{ route('persuratan.approve', $persuratan->persuratan_id) }}"  
+                            class="bg-green-500 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">Setuju</a>
+                        <a href="{{ route('persuratan.reject', $persuratan->persuratan_id) }}"  
                                 class="bg-red-500 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">Tolak</a>
-                        </form>
                     </div>
+                    @endif
                 </form>
             </section>
             {{-- Akhir Detail Permohonan Surat --}}

@@ -89,21 +89,35 @@ class DocumentRequestController extends Controller
         }
     }
 
-    public function show(string $id): Response|JsonResponse
-    {
+        public function show(string $id): Response|JsonResponse
+        {
+            $persuratan = Persuratan::with('pengajuan')->find($id);
 
-        $persuratan = Persuratan::with('pengajuan')->find($id);
+            if (!$persuratan) {
+                return response()->json(['error' => 'Permohonan tidak ditemukan'], 404);
+            }
 
-        $breadcrumb = [
-            'list' => ['Home', 'Permohonan Surat', 'Detail Permohonan Surat'],
-            'url' => ['home', 'persuratan.index', ['persuratan.show', $id]],
-        ];
+            $breadcrumb = [
+                'list' => ['Home', 'Permohonan Surat', 'Detail Permohonan Surat'],
+                'url' => ['home', 'persuratan.index', ['persuratan.show', $id]],
+            ];
 
-        return response()->view('pages.persuratan.show', [
-            'breadcrumb' => $breadcrumb,
-            'persuratan' => $persuratan,
-        ]);
-    }
+            $userRole = Auth::user()->role->role_name;
+
+            return response()->view('pages.persuratan.show', [
+                'breadcrumb' => $breadcrumb,
+                'persuratan' => $persuratan,
+                'toolbar_id' => $id,
+                'active' => 'detail',
+                'toolbar_route' => [
+                    'detail' => route('persuratan.show', ['persuratan' => $id]),
+                    'edit' => route('persuratan.edit', ['persuratan' => $id]),
+                    'hapus' => route('persuratan.destroy', ['persuratan' => $id]),
+                ],
+                'canApproveOrReject' => $userRole === 'Ketua RT' || $userRole === 'Admin',
+            ]);
+        }
+
 
     public function create()
     {
@@ -202,4 +216,149 @@ class DocumentRequestController extends Controller
             return response()->json(['error' => 'Terjadi kesalahan: ' . $e->getMessage()], 500);
         }
     }
+
+    public function store(Request $request)
+    {
+        $request->validate([
+            'pemohon' => 'required|exists:penduduk,penduduk_id',
+            'keperluan_lainnya' => 'nullable|string|max:255',
+            'jenis_surat' => 'required|string|max:255',
+        ]);
+    
+        try {
+            DB::beginTransaction();
+    
+            $pengajuan = new Pengajuan();
+            $pengajuan->penduduk_id = $request->input('pemohon');
+            $pengajuan->status_id = 1;
+            $pengajuan->keperluan = $request->input('jenis_surat');
+            $pengajuan->keterangan = $request->input('keperluan_lainnya') ?? 'Tidak ada keterangan'; // Nilai default
+            $pengajuan->save();
+    
+            $persuratan = new Persuratan();
+            $persuratan->pengajuan_id = $pengajuan->pengajuan_id;
+            $persuratan->jenis_surat = $request->input('jenis_surat');
+            $persuratan->pengajuan->created_by = Auth::user()->id;
+            $persuratan->save();
+    
+            DB::commit();
+    
+            return redirect()->route('persuratan.index')->with('success', 'Permohonan berhasil diajukan.');
+        } catch (Exception $e) {
+            DB::rollBack();
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan saat mengajukan permohonan: ' . $e->getMessage())
+                ->withInput();
+        }
+    }
+
+    public function edit(string $id): Response
+    {
+        $persuratan = Persuratan::with('pengajuan')->find($id);
+
+        if (!$persuratan) {
+            return redirect()->route('persuratan.index')->with('error', 'Permohonan tidak ditemukan');
+        }
+
+        // Mendapatkan data penduduk, misalnya semua penduduk atau anggota keluarga tertentu
+        $penduduk = Penduduk::all(); // Anda bisa mengganti ini dengan query yang sesuai untuk mendapatkan daftar penduduk
+
+        // Buat breadcrumb untuk navigasi
+        $breadcrumb = [
+            'list' => ['Home', 'Permohonan Surat', 'Edit Permohonan Surat'],
+            'url' => ['home', 'persuratan.index', ['persuratan.edit', $id]],
+        ];
+
+        return response()->view('pages.persuratan.edit', [
+            'breadcrumb' => $breadcrumb,
+            'persuratan' => $persuratan,
+            'penduduk' => $penduduk, // Kirim variabel penduduk ke tampilan
+            'toolbar_id' => $id,
+                'active' => 'edit',
+                'toolbar_route' => [
+                    'detail' => route('persuratan.show', ['persuratan' => $id]),
+                    'edit' => route('persuratan.edit', ['persuratan' => $id]),
+                    'hapus' => route('persuratan.destroy', ['persuratan' => $id]),
+                ],
+        ]);
+    }
+
+
+    public function update(Request $request, string $id)
+    {
+        // Validasi data yang dikirim
+        $request->validate([
+            'pemohon' => 'required|exists:penduduk,penduduk_id',
+            'jenis_surat' => 'required|string|max:255',
+            'keperluan_lainnya' => 'nullable|string|max:255',
+        ]);
+
+        $persuratan = Persuratan::with('pengajuan')->find($id);
+
+        if (!$persuratan) {
+            return redirect()->route('persuratan.index')->with('error', 'Permohonan tidak ditemukan');
+        }
+
+        try {
+            DB::beginTransaction();
+
+            // Dapatkan pengajuan terkait
+            $pengajuan = $persuratan->pengajuan;
+
+            // Pastikan nilai yang akan diperbarui
+            $pengajuan->penduduk_id = $request->input('pemohon');
+            $pengajuan->keperluan = $request->input('jenis_surat');
+            $pengajuan->keterangan = $request->input('keperluan_lainnya') ?? 'Tidak ada keterangan'; // Jika kosong, berikan nilai default
+            $pengajuan->save();
+
+            // Perbarui data persuratan
+            $persuratan->jenis_surat = $request->input('jenis_surat');
+            $persuratan->save();
+
+            DB::commit(); // Selesaikan transaksi jika tidak ada kesalahan
+
+            return redirect()->route('persuratan.index')->with('success', 'Permohonan berhasil diperbarui.');
+        } catch (Exception $e) {
+            DB::rollBack(); // Batalkan transaksi jika ada kesalahan
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat memperbarui permohonan: ' . $e->getMessage())->withInput(); // Kembalikan input sebelumnya
+        }
+    }
+
+    public function destroy(string $id): JsonResponse | RedirectResponse
+    {
+        $persuratan = Persuratan::find($id);
+    
+        if (!$persuratan) {
+            return response()->json([
+                'code' => 404,
+                'message' => 'Persuratan tidak ditemukan',
+                'timestamp' => now(),
+            ], 404);
+        }
+    
+        try {
+            DB::beginTransaction(); // Mulai transaksi
+    
+            // Hapus entitas yang memiliki hubungan dengan kunci asing terlebih dahulu
+            if ($persuratan->pengajuan) {
+                $persuratan->delete(); // Hapus persuratan terlebih dahulu
+            }
+    
+            DB::commit(); // Selesaikan transaksi jika berhasil
+    
+            return response()->json([
+                'code' => 200,
+                'message' => 'Persuratan berhasil dihapus',
+                'timestamp' => now(),
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollback(); // Batalkan transaksi jika ada kesalahan
+            return response()->json([
+                'code' => 500,
+                'message' => 'Terjadi kesalahan: ' . $e->getMessage(),
+                'timestamp' => now(),
+            ], 500);
+        }
+    }
+    
 }

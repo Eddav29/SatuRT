@@ -15,13 +15,13 @@ return new class extends Migration
             $table->id('persuratan_id');
             $table->uuid('pengajuan_id')->index();
             $table->enum('jenis_surat', [
-                'Surat Keterangan Domisili',
-                'Surat Keterangan Tidak Mampu',
-                'Surat Keterangan Usaha',
-                'Surat Keterangan Lahir',
-                'Surat Keterangan Kematian',
-                'Surat Keterangan Nikah',
-                'Kartu Tanda Penduduk',
+                'Surat Pengantar KTP',
+            'Surat Pengantar Kartu keluarga',
+            'Surat Pengantar Akta Kelahiran',
+            'Surat Pengantar Akta Kematian',
+            'Surat Pengantar SKCK',
+            'Surat Pengantar Nikah',
+            'Lainnya',
             ]);
             $table->string('nomor_surat')->nullable();
             $table->string('dokumen_url')->nullable();
