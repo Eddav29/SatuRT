@@ -7,6 +7,7 @@ use App\Http\Controllers\CitizenController;
 use App\Http\Controllers\BusinessUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InformationController;
+use App\Http\Controllers\InventarisController;
 use App\Http\Controllers\FamilyCardController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProfileController;
@@ -98,6 +99,17 @@ Route::resource('persuratan', DocumentRequestController::class)->middleware(['au
     'update' => 'persuratan.update',
     'destroy' => 'persuratan.destroy',
 ]);
+Route::resource('inventaris', InventarisController::class)->middleware(['auth', 'verified'])->names([
+    'index' => 'inventaris.index',
+    'show' => 'inventaris.show',
+    'update' => 'inventaris.update',
+    'create' => 'inventaris.create',
+    'store' => 'inventaris.store',
+    'edit' => 'inventaris.edit',
+    'destroy' => 'inventaris.destroy',
+]);
+
+
 //Route untuk persetujuan permohonan  surat
 Route::get('/persuratan/{id}/approve', [DocumentRequestController::class, 'approve'])->name('persuratan.approve');
 

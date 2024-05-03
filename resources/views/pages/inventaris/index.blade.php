@@ -3,35 +3,35 @@
         <x-breadcrumb :list="$breadcrumb['list']" :url="$breadcrumb['url']" />
     </x-slot>
 
-
     <div class="p-6 lg:px-14 gap-y-5 mx-auto max-w-screen-2xl md:p-6 2xl:p-10 ">
         <div class="p-6 rounded-xl bg-white-snow overflow-hidden">
+
             {{-- Table --}}
             <section>
                 <x-datatables
-                id="pelaporan_id"
-                url="/pelaporan"
+                id="inventaris_id"
+                url="/inventaris"
                 :columns="[
                     [
-                        'label' => 'ID Laporan',
-                        'key' => 'pelaporan_id',
+                        'label' => 'ID Inventaris',
+                        'key' => 'inventaris_id',
                         'style' => 'text-left'
                     ],
                     [
-                        'label' => 'Pelapor',
-                        'key' => 'pelapor',
+                        'label' => 'Nama',
+                        'key' => 'nama_inventaris',
                         'style' => 'text-left'
                     ],
                     [
-                        'label' => 'Jenis Laporan',
-                        'key' => 'jenis_pelaporan',
+                        'label' => 'Jumlah',
+                        'key' => 'jumlah',
                         'style' => 'text-left'
 
                     ],
                     [
-                        'label' => 'Tanggal',
-                        'key' => 'tanggal',
-                        'style' => 'text-center'
+                        'label' => 'Kondisi',
+                        'key' => 'kondisi',
+                        'style' => 'text-left'
                     ],
                 ]" :aksi="[
                     'detail' => true,
