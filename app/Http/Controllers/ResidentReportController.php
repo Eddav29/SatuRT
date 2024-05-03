@@ -6,6 +6,7 @@ use App\Http\Resources\ResidentReportResource;
 use App\Models\Pelaporan;
 use App\Models\Pengajuan;
 use App\Models\User;
+use App\Services\Notification\NotificationPusher;
 use Carbon\Carbon;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\JsonResponse;
@@ -13,9 +14,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
-use App\Services\Notification\NotificationPusher;
+use Illuminate\Support\Facades\Storage;
 
 class ResidentReportController extends Controller
 {
@@ -128,9 +128,23 @@ class ResidentReportController extends Controller
                 'keterangan' => 'required',
             ]);
 
+            if ($request->image_url) {
+                Storage::delete('public/resident-report_images/' . $pelaporan->image_url);
+
+                $imageFileName = $request->file('image_url')->store('resident-report_images', 'public');
+                $pelaporan['image_url'] = basename($imageFileName);
+            }
+
             try {
-                $pelaporan->update($validated);
-                $pengajuan->update($validated);
+                $pelaporan->update([
+                    'image_url' => $pelaporan['image_url'],
+                    'jenis_pelaporan' => $validated['jenis_pelaporan'],
+                ]);
+
+                $pengajuan->update([
+                    'accepted_at' => $validated['accepted_at'],
+                    'keterangan' => $validated['keterangan'],
+                ]);
 
                 NotificationPusher::success('Perubahan berhasil disimpan');
                 return redirect()->route('pelaporan.show', ['pelaporan' => $id])->with(['success' => 'Perubahan berhasil disimpan']);
@@ -211,7 +225,7 @@ class ResidentReportController extends Controller
                 'detail' => route('pelaporan.show', ['pelaporan' => $id]),
                 'edit' => route('pelaporan.edit', ['pelaporan' => $id]),
                 'hapus' => route('pelaporan.destroy', ['pelaporan' => $id]),
-            ]
+            ],
         ]);
     }
 
@@ -222,8 +236,12 @@ class ResidentReportController extends Controller
         $validated = $request->validate([
             'jenis_pelaporan' => 'required',
             'accepted_at' => 'required|date',
+            'image_url' => 'required|file',
             'keterangan' => 'required|string|max:255',
         ]);
+
+        $imageFileName = $request->file('image_url')->store('resident-report_images', 'public');
+        $pelaporan['image_url'] = basename($imageFileName);
 
         DB::beginTransaction();
 
@@ -237,6 +255,7 @@ class ResidentReportController extends Controller
             Pelaporan::create([
                 'jenis_pelaporan' => $validated['jenis_pelaporan'],
                 'pengajuan_id' => $pengajuan->pengajuan_id,
+                'image_url' => $pelaporan['image_url'],
             ]);
 
             DB::commit();
@@ -266,14 +285,14 @@ class ResidentReportController extends Controller
             return response()->json([
                 'code' => 200,
                 'message' => 'Data berhasil dihapus',
-                'timestamp' => now()
+                'timestamp' => now(),
             ], 200);
         } catch (\Exception $e) {
             DB::rollback();
             return response()->json([
                 'code' => 500,
                 'message' => $e->getMessage(),
-                'timestamp' => now()
+                'timestamp' => now(),
             ], 500);
         }
     }

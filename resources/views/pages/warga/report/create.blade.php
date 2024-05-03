@@ -13,7 +13,7 @@
                     <h1 class="font-bold md:text-2xl text-xl">Tambahkan Pelaporan</h1>
                 </div>
 
-                <form method="POST" action="{{ route('pelaporan.store') }}" class="px-5">
+                <form method="POST" action="{{ route('pelaporan.store') }}" enctype="multipart/form-data" class="px-5">
                     @csrf
 
                     <div class="mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
@@ -61,7 +61,7 @@
                         <img alt="" id="preview-image" class="hidden">
                     </div>
                     <div class="flex flex-col mt-5" :class="selected === 'Pilih Jenis Informasi' ? 'hidden' : ''">
-                        @error('thumbnail_url')
+                        @error('image_url')
                             <small class="text-red-500 text-xs py-3">{{ $message }}</small>
                         @enderror
 
@@ -70,7 +70,7 @@
 
                         <input
                             class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-primary focus:text-gray-700 focus:shadow-inset focus:outline-none"
-                            type="file" id="file_input" name="" onchange="previewImage()"
+                            type="file" id="file_input" name="image_url" onchange="previewImage()"
                             x-bind:accept="selected === 'Pengumuman' ? '' :
                                 'image/*'" />
                     </div>

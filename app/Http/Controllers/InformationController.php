@@ -86,7 +86,7 @@ class InformationController extends Controller
                     $validated['thumbnail_url'] = basename($validated['thumbnail_url']);
                 }
             }
-            
+
             Informasi::create($validated);
 
             NotificationPusher::success('Informasi baru ditambahkan');

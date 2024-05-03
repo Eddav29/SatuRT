@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Penduduk;
 use App\Models\User;
+use App\Services\ImageManager\imageService;
+use App\Services\Notification\NotificationPusher;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
-use App\Services\Notification\NotificationPusher;
 
 class ProfileController extends Controller
 {
@@ -41,12 +42,71 @@ class ProfileController extends Controller
         ]);
     }
 
+    // public function store(Request $request): RedirectResponse
+    // {
+    //     $validator =  Validator::make($request->all(), [
+    //         'nama_umkm' => 'required|string|max:255',
+    //         'jenis_umkm' => 'required|in:Makanan,Minuman,Pakaian,Peralatan,Jasa,Lainnya',
+    //         'keterangan' => 'required|string|max:255',
+    //         'alamat' => 'required|string|max:255',
+    //         'nomor_telepon' => 'required|string|max:255',
+    //         'lokasi_url' => 'required|string|max:255',
+    //         'thumbnail_url' => 'required|file',
+    //         'status' => 'required|in:Aktif,Nonaktif',
+    //         'lisence_image_url' => 'required|file',
+    //         'penduduk_id' => ['required', 'exists:penduduk,penduduk_id']
+    //     ]);
+
+    //     $umkm = $request->all();
+
+    //     try {
+    //         $umkm['nama_umkm'] = Str::title($request['nama_umkm']);
+    //         $umkm['keterangan'] = Str::title($request['keterangan']);
+    //         $umkm['alamat'] = Str::title($request['alamat']);
+    //         $umkm['lokasi_url'] = Str::title($request['lokasi_url']);
+    //         $umkm['nama_umkm'] = Str::title($request['nama_umkm']);
+
+    //         $thumbnailFileName = $request->file('thumbnail_url')->store('business-thumbnail_images', 'public');
+    //         $lisenceFileName = $request->file('lisence_image_url')->store('business-lisence_images', 'public');
+    //         $umkm['thumbnail_url'] = basename($thumbnailFileName);
+    //         $umkm['lisence_image_url'] = basename($lisenceFileName);
+
+    //         // dd($umkm);
+
+    //         DB::beginTransaction();
+    //         $umkm = UMKM::create($umkm);
+    //         if ($request->is('api/*') || $request->wantsJson()) {
+    //             return response()->json([
+    //                 'code' => 201,
+    //                 'message' => 'Data UMKM berhasil disimpan',
+    //                 'timestamp' => now(),
+    //                 'data' => $umkm
+    //             ]);
+    //         }
+    //         DB::commit();
+    //         NotificationPusher::success('Data UMKM berhasil disimpan');
+    //         return redirect()->route('umkm.index');
+    //     } catch (\Exception $e) {
+    //         if ($request->is('api/*') || $request->wantsJson()) {
+    //             return response()->json([
+    //                 'code' => 500,
+    //                 'message' => $e->getMessage(),
+    //                 'timestamp' => now()
+    //             ]);
+    //         }
+    //         dd($e);
+    //         DB::rollBack();
+    //         NotificationPusher::error($e->getMessage());
+    //         return redirect()->back()->withInput();
+    //     }
+    // }
+
     public function completeData(Request $request, string $id): RedirectResponse
     {
         $validated = $request->validate([
             'agama' => 'required',
             'desa' => 'required',
-            // 'foto_ktp' => 'required',
+            'images' => 'required',
             'golongan_darah' => 'required',
             'jenis_kelamin' => 'required',
             'kecamatan' => 'required',
@@ -70,10 +130,24 @@ class ProfileController extends Controller
         $validated['pekerjaan'] = Str::title($validated['pekerjaan']);
         $validated['tempat_lahir'] = Str::title($validated['tempat_lahir']);
 
-        $penduduk = Penduduk::find($id);
-        $penduduk->update($validated);
-
         try {
+            DB::beginTransaction();
+
+            if($request->file('images')){
+                // dd($request->all());
+                $imageName = imageService::uploadImage('storage_ktp', $request);
+                // dd($imageName);
+
+                $validated['foto_ktp'] = route('storage.ktp', ['filename' => $imageName]);
+            }
+
+            dd($validated);
+
+            $penduduk = Penduduk::find($id);
+            $penduduk->update($validated);
+            DB::commit();
+
+            // dd($penduduk->foto_ktp);
             NotificationPusher::success('Data Profile berhasil diubah');
             return redirect()->route('profile')->with(['success' => 'Data Profile berhasil diubah']);
         } catch (\Throwable $th) {

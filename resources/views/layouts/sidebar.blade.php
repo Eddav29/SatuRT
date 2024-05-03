@@ -123,7 +123,12 @@
                                 Laporan Warga
                             </x-nav-menu>
                         </div>
-
+                        <div>
+                            <x-nav-menu svgIcon="heroicon-o-archive-box" iconStyle="w-6 h-6 md:h-8 md:w-8"
+                                :href="route('inventaris.index')" :active="request()->is('inventaris*')">
+                                Inventaris
+                            </x-nav-menu>
+                        </div>
                     </nav>
                 </div>
             </div>

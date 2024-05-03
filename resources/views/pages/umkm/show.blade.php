@@ -44,16 +44,16 @@
                         <h5 class="font-semibold">Status UMKM</h5>
                         <p>{{ $umkm->status }}</p>
                     </div>
-                    <div class="md:col-span-2">
+                    <div class="md:col-span-2 md:h-auto">
                         <h5 class="font-semibold">Surat Izin Usaha</h5>
                         <div x-data="{ openImage: false }">
                             <img @click="openImage = !openImage"
-                                src="{{ asset('assets/images/milad-fakurian-PGdW_bHDbpI-unsplash.jpg') }}"
-                                alt="" class="rounded-xl max-h-[30rem] w-full object-cover" draggable="false">
+                                src="{{ asset('storage/business-lisence_images/'. $umkm->lisence_image_url) }}"
+                                alt="" class="rounded-xl w-full object-cover" draggable="false">
                             <div x-show="openImage"
                                 class="fixed top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center z-[99999999999]">
                                 <img @click="openImage = false" x-show="openImage" @click.outside="openImage = false"
-                                    src="{{ asset('assets/images/milad-fakurian-PGdW_bHDbpI-unsplash.jpg') }}"
+                                    src="{{ asset('storage/business-lisence_images/'.$umkm->lisence_image_url) }}"
                                     alt="" class="rounded-xl w-max h-max lg:max-w-full lg:max-h-full"
                                     draggable="false">
                                 <div class="absolute w-8 h-8 top-10 right-10 cursor-pointer" @click="openImage = false">
@@ -66,12 +66,12 @@
                         <h5 class="font-semibold">Thumbnail</h5>
                         <div x-data="{ openImage: false }">
                             <img @click="openImage = !openImage"
-                                src="{{ asset('assets/images/milad-fakurian-PGdW_bHDbpI-unsplash.jpg') }}"
-                                alt="" class="rounded-xl max-h-[30rem] w-full object-cover" draggable="false">
+                                src="{{ asset('storage/business-thumbnail_images/'.$umkm->thumbnail_url) }}"
+                                alt="" class="rounded-xl w-full object-cover" draggable="false">
                             <div x-show="openImage"
                                 class="fixed top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center z-[99999999999]">
                                 <img @click="openImage = false" x-show="openImage" @click.outside="openImage = false"
-                                    src="{{ asset('assets/images/milad-fakurian-PGdW_bHDbpI-unsplash.jpg') }}"
+                                    src="{{ asset('storage/business-thumbnail_images/'.$umkm->thumbnail_url) }}"
                                     alt="" class="rounded-xl w-max h-max lg:max-w-full lg:max-h-full"
                                     draggable="false">
                                 <div class="absolute w-8 h-8 top-10 right-10 cursor-pointer" @click="openImage = false">
@@ -82,7 +82,7 @@
                     </div>
                     <div class="md:col-span-2">
                         <h5 class="font-semibold">Keterangan</h5>
-                        <p>{{ $umkm->keterangan }}</p>
+                        {!! $umkm->keterangan !!}
                     </div>
                 </div>
             </section>
