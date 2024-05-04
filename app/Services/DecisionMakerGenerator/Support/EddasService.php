@@ -6,9 +6,29 @@ use App\Services\DecisionMakerGenerator\DecisionMakerService;
 
 class EddasService extends DecisionMakerService
 {
+    private array $stepData = [];
+
     public function __construct(bool $normalize = true)
     {
         parent::__construct($normalize);
+        $this->stepData['decisionMatrix'] = parent::getData();
+        $this->calculate();
+    }
+
+    private function calculate()
+    {
+        $this->stepDetermineAverange();
+        $this->stepDeterminePDA();
+        $this->stepDetermineNDA();
+        $this->stepDetermineSPSN();
+        $this->stepDetermineNormalizeSPSN();
+        $this->stepCalculateAssesmentScore();
+        $this->stepRanking();
+    }
+
+    public function getStepData(): array
+    {
+        return $this->stepData;
     }
 
     private function calculatePDA(float $value, float $avg, string $type, int $precision): string
@@ -25,7 +45,7 @@ class EddasService extends DecisionMakerService
         return $this->trimTrailingZeros($trimmedNda);
     }
 
-    public function stepDetermineAverange(int $precision = 3)
+    private function stepDetermineAverange(int $precision = 3)
     {
         $result = [];
         foreach (parent::getKriteria() as $key => $value) {
@@ -37,13 +57,14 @@ class EddasService extends DecisionMakerService
                 'Value' => $this->trimTrailingZeros($average), // Trim trailing zeros using regex
             ];
         }
-        return $result;
+
+        $this->stepData['average'] = $result;
     }
 
-    public function stepDeterminePDA(int $precision = 3)
+    private function stepDeterminePDA(int $precision = 3): void
     {
         $result = [];
-        $average = $this->stepDetermineAverange();
+        $average = $this->stepData['average'];
         foreach (parent::getData() as $row => $value) {
             foreach ($value as $col => $item) {
                 $type = parent::getTipe()[$col];
@@ -52,13 +73,14 @@ class EddasService extends DecisionMakerService
                 $result[$row][$col] = $pda;
             }
         }
-        return $result;
+
+        $this->stepData['pda_nda']['pda'] = $result;
     }
 
-    public function stepDetermineNDA(int $precision = 3)
+    private function stepDetermineNDA(int $precision = 3): void
     {
         $result = [];
-        $average = $this->stepDetermineAverange();
+        $average = $this->stepData['average'];
         foreach (parent::getData() as $row => $value) {
             foreach ($value as $col => $item) {
                 $type = parent::getTipe()[$col];
@@ -67,14 +89,15 @@ class EddasService extends DecisionMakerService
                 $result[$row][$col] = $nda;
             }
         }
-        return $result;
+
+        $this->stepData['pda_nda']['nda'] = $result;
     }
 
-    public function stepDetermineSPSN(int $precision = 3)
+    private function stepDetermineSPSN(int $precision = 3): void
     {
         $result = [];
-        $pda = $this->stepDeterminePDA($precision);
-        $nda = $this->stepDetermineNDA($precision);
+        $pda = $this->stepData['pda_nda']['pda'];
+        $nda = $this->stepData['pda_nda']['nda'];
         foreach ($pda as $row => $value) {
             $sp = 0;
             $sn = 0;
@@ -89,13 +112,14 @@ class EddasService extends DecisionMakerService
                 'SN' => $this->trimTrailingZeros(number_format($sn, $precision, '.', '')),
             ];
         }
-        return $result;
+
+        $this->stepData['spsn'] = $result;
     }
 
-    public function stepDetermineNormalizeSPSN(int $precision = 3)
+    private function stepDetermineNormalizeSPSN(int $precision = 3): void
     {
         $result = [];
-        $spsn = $this->stepDetermineSPSN($precision);
+        $spsn = $this->stepData['spsn'];
         $maxSP = max(array_column($spsn, 'SP'));
         $maxSN = max(array_column($spsn, 'SN'));
         foreach ($spsn as $value) {
@@ -105,26 +129,28 @@ class EddasService extends DecisionMakerService
                 'NSN' => $this->trimTrailingZeros(number_format(1 - $value['SN'] / $maxSN, $precision, '.', '')),
             ];
         }
-        return $result;
+
+        $this->stepData['nspnsn'] = $result;
     }
 
-    public function stepCalculateAssesmentScore(int $precision = 3)
+    private function stepCalculateAssesmentScore(int $precision = 3): void
     {
         $result = [];
-        $spsn = $this->stepDetermineNormalizeSPSN();
+        $spsn = $this->stepData['nspnsn'];
         foreach ($spsn as $value) {
             $result[] = [
                 'Alternatif' => $value['Alternatif'],
                 'AS' => $this->trimTrailingZeros(number_format($value['NSP'] * 0.5 + $value['NSN'] * 0.5, $precision, '.', '')),
             ];
         }
-        return $result;
+
+        $this->stepData['AS'] = $result;
     }
 
-    public function stepRanking(int $precision = 3)
+    private function stepRanking(int $precision = 3): void
     {
         $result = [];
-        $score = $this->stepCalculateAssesmentScore($precision);
+        $score = $this->stepData['AS'];
 
         usort($score, function ($a, $b) {
             return $b['AS'] <=> $a['AS'];
@@ -134,6 +160,7 @@ class EddasService extends DecisionMakerService
             $value['Ranking'] = $key + 1;
             $result[] = $value;
         }
-        return $result;
+
+        $this->stepData['ranking'] = $result;
     }
 }

@@ -136,7 +136,6 @@
                                                 if (data == '{{ $key }}') {
                                                     style += ' {{ $value }}';
                                                 }
-
                                             @endforeach
                                         @endif
                                         return `<div class="${style}">${data}</div>`;
@@ -190,64 +189,15 @@
                                 });
                                 return toolbar;
                             },
-                        @elseif (!$layoutTop2Start && !$layoutTop2End && $layoutTopEnd)
-                            top2Start: function() {
-                                    let toolbar = document.createElement('div');
-                                    toolbar.classList.add('dropdown');
-                                    toolbar.innerHTML = `
-                                <button class="inline-flex items-center justify-center bg-white border px-6 py-4 rounded-lg" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <x-heroicon-o-adjustments-vertical class="w-6 h-6"/> <span class="ml-2">Filters</span>
-                                </button>
-                                <div class="hidden absolute right-0 top-[120%] bg-white border border-gray-300 rounded-xl z-10" aria-labelledby="dropdownMenuButton">
-                                    @foreach ($filter as $item)
-                                        <button class="block px-4 py-2 w-full text-left hover:text-white hover:bg-blue-500
-                                        @if (count($filter) > 1) @if ($loop->first)
-                                                rounded-t-xl
-                                            @elseif ($loop->last)
-                                                rounded-b-xl @endif
-                                        @else
-                                            rounded-xl
-                                        @endif
-                                        "
-                                                x-dt-filter-label="{{ $item['key'] }}" x-dt-filter-column="{{ $item['columnIndex'] }}">
-                                            {{ $item['label'] }}
-                                        </button>
-                                    @endforeach
-
-                                </div>
-                            `;
-                                    toolbar.style.display = 'inline-flex';
-                                    toolbar.style.position = 'relative';
-                                    toolbar.addEventListener('click', function(event) {
-                                        let dropdownMenu = this.querySelector('button')
-                                            .nextElementSibling;
-                                        dropdownMenu.classList.toggle('hidden');
-                                    });
-                                    if ('{{ $layoutTopEnd }}') {
-                                        return toolbar;
-                                    }
-                                    return '';
-                                },
                         @else
                             top2Start: function() {
-                                let search = document.createElement('div');
-                                search.classList.add('w-full', 'my-3');
-                                search.innerHTML = `
-                            <div class="relative items-center max-w-[320px] border border-gray-300 rounded-lg">
-                                <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                                    <x-heroicon-o-magnifying-glass class="w-6 h-6" />
-                                    </div>
-                                <input type="text" class="px-12 py-4 placeholder:text-gray-300 border-none bg-transparent w-full focus:ring-0" placeholder="Search...">
-                            </div>
-                            `;
-                                search.querySelector('input').addEventListener('input', function() {
-                                    $('#{{ $id }}').DataTable().search(this.value)
-                                        .draw();
-                                });
-                                return search;
+                                let toolbar = document.createElement('div');
+                                toolbar.classList.add('w-fit');
+                                return toolbar;
                             },
                         @endif
-                        @if ($layoutTop2End && $layoutTop2Start)
+
+                        @if ($layoutTop2End)
                             top2End: function() {
                                 let search = document.createElement('div');
                                 search.classList.add('w-full', 'my-3', );
@@ -265,30 +215,21 @@
                                 });
                                 return search;
                             },
-                        @elseif (!$layoutTop2End || !$layoutTop2Start)
+                        @elseif (!$layoutTop2End && $layoutTopEnd)
                             top2End: function() {
                                     let toolbar = document.createElement('div');
-                                    toolbar.classList.add('dropdown', );
+                                    toolbar.classList.add('dropdown', 'mb-6');
                                     toolbar.innerHTML = `
-                                <button class="inline-flex items-center justify-center bg-white border px-6 {{ $layoutTop2End ? 'my-2' : 'py-2' }} rounded-lg" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <button class="inline-flex bg-tranparent border px-6 py-4 rounded-lg gap-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <x-heroicon-o-adjustments-vertical class="w-6 h-6"/> <span class="ml-2">Filters</span>
                                 </button>
-                                <div class="hidden absolute right-0 top-[120%] bg-white border border-gray-300 rounded-xl z-10" aria-labelledby="dropdownMenuButton">
+                                <div class="hidden absolute right-0 min-w-[15rem] max-w-[20rem] top-[120%] bg-white-snow border z-10 rounded-lg overflow-hidden p-2" aria-labelledby="dropdownMenuButton">
                                     @foreach ($filter as $item)
-                                        <button class="block px-4 py-2 w-full text-left hover:text-white hover:bg-blue-500
-                                        @if (count($filter) > 1) @if ($loop->first)
-                                                rounded-t-xl
-                                            @elseif ($loop->last)
-                                                rounded-b-xl @endif
-                                        @else
-                                            rounded-xl
-                                        @endif
-                                        "
+                                        <button class="block p-4 w-full text-left hover:text-navy-night hover:bg-blue-gray rounded"
                                                 x-dt-filter-label="{{ $item['key'] }}" x-dt-filter-column="{{ $item['columnIndex'] }}">
                                             {{ $item['label'] }}
                                         </button>
                                     @endforeach
-
                                 </div>
                             `;
                                     toolbar.style.display = 'inline-flex';
@@ -305,25 +246,18 @@
                                 },
                         @endif
                         topStart: '',
+
                         @if ($layoutTopEnd && $layoutTop2Start && $layoutTop2End)
                             topEnd: function() {
                                 let toolbar = document.createElement('div');
                                 toolbar.classList.add('dropdown', 'mb-6');
                                 toolbar.innerHTML = `
-                                <button class="inline-flex bg-white border px-6 py-4 rounded-lg" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button class="inline-flex bg-tranparent border px-6 py-4 rounded-lg gap-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <x-heroicon-o-adjustments-vertical class="w-6 h-6"/> <span class="ml-2">Filters</span>
                                 </button>
-                                <div class="hidden absolute right-0 top-[120%] bg-white border border-gray-300 rounded-xl z-10" aria-labelledby="dropdownMenuButton">
+                                <div class="hidden absolute right-0 min-w-[15rem] max-w-[20rem] top-[120%] bg-white-snow border z-10 rounded-lg overflow-hidden p-2" aria-labelledby="dropdownMenuButton">
                                     @foreach ($filter as $item)
-                                        <button class="block px-4 py-2 w-full text-left hover:text-white hover:bg-blue-500
-                                        @if (count($filter) > 1) @if ($loop->first)
-                                                rounded-t-xl
-                                            @elseif ($loop->last)
-                                                rounded-b-xl @endif
-                                        @else
-                                            rounded-xl
-                                        @endif
-                                        "
+                                        <button class="block p-4 w-full text-left hover:text-navy-night hover:bg-blue-gray rounded"
                                                 x-dt-filter-label="{{ $item['key'] }}" x-dt-filter-column="{{ $item['columnIndex'] }}">
                                             {{ $item['label'] }}
                                         </button>
@@ -342,6 +276,35 @@
                                 }
                                 return '';
                             },
+                        @elseif ($layoutTop2End && $layoutTopEnd)
+                            topEnd: function() {
+                                    let toolbar = document.createElement('div');
+                                    toolbar.classList.add('dropdown', 'mb-6');
+                                    toolbar.innerHTML = `
+                                    <button class="inline-flex bg-tranparent border px-6 py-4 rounded-lg gap-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <x-heroicon-o-adjustments-vertical class="w-6 h-6"/> <span class="ml-2">Filters</span>
+                                </button>
+                                <div class="hidden absolute right-0 min-w-[15rem] max-w-[20rem] top-[120%] bg-white-snow border z-10 rounded-lg overflow-hidden p-2" aria-labelledby="dropdownMenuButton">
+                                    @foreach ($filter as $item)
+                                        <button class="block p-4 w-full text-left hover:text-navy-night hover:bg-blue-gray rounded"
+                                                x-dt-filter-label="{{ $item['key'] }}" x-dt-filter-column="{{ $item['columnIndex'] }}">
+                                            {{ $item['label'] }}
+                                        </button>
+                                    @endforeach
+                                </div>
+                            `;
+                                    toolbar.style.display = 'inline-flex';
+                                    toolbar.style.position = 'relative';
+                                    toolbar.addEventListener('click', function(event) {
+                                        let dropdownMenu = this.querySelector('button')
+                                            .nextElementSibling;
+                                        dropdownMenu.classList.toggle('hidden');
+                                    });
+                                    if ('{{ $layoutTopEnd }}') {
+                                        return toolbar;
+                                    }
+                                    return '';
+                                },
                         @else
                             topEnd: '',
                         @endif
