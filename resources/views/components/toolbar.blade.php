@@ -2,7 +2,7 @@
 
 @if (!empty($toolbar_route))
     <div id="modal-container" x-data="{ isOpen: false }">
-        <div class="p-2 bg-white grid grid-cols-3 md:grid-flow-col md:grid-cols-2 w-full md:w-fit rounded-md">
+        <div class="p-2 bg-white grid grid-cols-3 md:grid-flow-col md:grid-cols-{{count($toolbar_route) > 1 ? '2' : '1' }} w-full md:w-fit rounded-md">
             @isset($toolbar_route['detail'])
                 <a href="{{ $toolbar_route['detail'] }}"
                     class="select-none rounded-md inline-flex justify-center items-center py-3 px-4 md:w-32 @if ($active == 'detail') bg-[#2563EB1A] @endif text-[#2563EB]"
@@ -31,7 +31,7 @@
                         <h2 class="font-bold md:text-xl text-md">Hapus Data</h2>
                     </div>
                     <div class="modal-body">
-                        <p class="md:text-md text-xs">Apakah Anda yakin ingin menghapus data ini?</p>
+                        <p class="md:text-md text-sm">Apakah Anda yakin ingin menghapus data ini?</p>
                         <div class="flex justify-end mt-8 space-x-4">
                             <button type="submit" @click.prevent="isOpen = false"
                                 class="bg-blue-500 text-white px-4 py-2 rounded-md md:text-md text-sm" id="deleteButton"

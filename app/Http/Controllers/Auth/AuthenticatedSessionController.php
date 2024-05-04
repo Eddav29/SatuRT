@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Providers\RouteServiceProvider;
 use App\Services\Authentication\AuthService;
 use App\Services\Notification\NotificationPusher;
 use Illuminate\Auth\AuthenticationException;
@@ -38,7 +39,7 @@ class AuthenticatedSessionController extends Controller
             }
 
             NotificationPusher::success('Login success');
-            return redirect()->intended('dashboard');
+            return response()->redirectToRoute('dashboard');
 
         } catch (\Exception  $e) {
             if ($request->is('api/*') || $request->wantsJson()) {

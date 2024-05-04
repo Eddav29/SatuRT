@@ -51,7 +51,7 @@
                         <h2 class="font-bold md:text-xl text-md">Hapus Data</h2>
                     </div>
                     <div class="modal-body">
-                        <p class="md:text-md text-xs">Apakah Anda yakin ingin menghapus data ini?</p>
+                        <p class="md:text-md text-sm">Apakah Anda yakin ingin menghapus data ini?</p>
                         <div class="flex justify-end mt-8 space-x-4">
                             <button type="submit" @click.prevent="isOpen = false"
                                 class="bg-blue-500 text-white px-4 py-2 rounded-md md:text-md text-sm"
@@ -90,8 +90,11 @@
                 })
                 .then(data => {
                     if (data.code >= 200) {
-                        if (data && data.code >= 200 && data.code < 300) {
+                        if (data && data.code >= 200 && data.code < 303) {
                             pushNotification('success', data.message);
+                            if (data.redirect) {
+                                window.location.href = data.redirect;
+                            }
                             $('#{{ $id }}').DataTable().ajax.reload();
                         } else {
                             pushNotification('error', data.message || 'An error occurred');
@@ -99,7 +102,7 @@
                     }
                 })
                 .catch(error => {
-                    pushNotification('error', error);
+                    pushNotification('error', 'Kesalahan terjadi, silahkan coba lagi');
                 });
         }
 

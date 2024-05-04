@@ -5,16 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Penduduk;
 use App\Services\FamilyManagement\CitizenService;
 use App\Services\FamilyManagement\FamilyCardService;
-use App\Services\ImageManager\imageService;
 use App\Services\Notification\NotificationPusher;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
-use Intervention\Image\Drivers\Gd\Driver;
-use Intervention\Image\ImageManager;
-
 class CitizenController extends Controller
 {
     public function index($keluargaid)
@@ -22,12 +17,12 @@ class CitizenController extends Controller
 
         $user = Auth::user();
         $url = $user->role->role_name === 'Ketua RT' ? ['home', 'data-keluarga.index', 'data-keluarga.index', ['data-anggota.show', [
-            'keluargaid' => $user->penduduk->kartu_keluarga_id,
+            'keluarga' => $user->penduduk->kartu_keluarga_id,
             'anggotum' => $user->penduduk->penduduk_id
         ]]] : ['dashboard', ['data-keluarga.show', [
-            'keluargaid' => $user->penduduk->kartu_keluarga_id,
+            'keluarga' => $user->penduduk->kartu_keluarga_id,
         ]], ['data-keluarga.show', [
-            'keluargaid' => $user->penduduk->kartu_keluarga_id,
+            'keluarga' => $user->penduduk->kartu_keluarga_id,
         ]], ['data-anggota.show', [
             'keluargaid' => $user->penduduk->kartu_keluarga_id,
             'anggotum' => $user->penduduk->penduduk_id
@@ -105,22 +100,15 @@ class CitizenController extends Controller
             'url' => $url
         ];
 
-        $jenis_kelamin = Penduduk::getListJenisKelamin();
-        $agama = Penduduk::getListAgama();
-        $status_hubungan_dalam_keluarga = Penduduk::getListStatusHubunganDalamKeluarga();
-        $status_perkawinan = Penduduk::getListStatusPerkawinan();
-        $pendidikan_terakhir = Penduduk::getListPendidikanTerakhir();
-        $golongan_darah = Penduduk::getListGolonganDarah();
-        $status_penduduk = Penduduk::getListStatusPenduduk();
         return view('pages.data-penduduk.anggota.tambah.index', compact('breadcrumb'))->with([
             'id' => $id,
-            'jenis_kelamin' => $jenis_kelamin,
-            'agama' => $agama,
-            'status_hubungan_dalam_keluarga' => $status_hubungan_dalam_keluarga,
-            'status_perkawinan' => $status_perkawinan,
-            'pendidikan_terakhir' => $pendidikan_terakhir,
-            'golongan_darah' => $golongan_darah,
-            'status_penduduk' => $status_penduduk,
+            'jenis_kelamin' => Penduduk::getListJenisKelamin(),
+            'agama' => Penduduk::getListAgama(),
+            'status_hubungan_dalam_keluarga' => array_diff(Penduduk::getListStatusHubunganDalamKeluarga(), ['Kepala Keluarga']),
+            'status_perkawinan' => Penduduk::getListStatusPerkawinan(),
+            'pendidikan_terakhir' => Penduduk::getListPendidikanTerakhir(),
+            'golongan_darah' => Penduduk::getListGolonganDarah(),
+            'status_penduduk' => Penduduk::getListStatusPenduduk(),
             'familyCard' => FamilyCardService::find($id)
         ]);
     }
@@ -155,7 +143,7 @@ class CitizenController extends Controller
                     'message' => 'Bad Request',
                     'errors' => $validator->errors(),
                     'timestamp' => now()
-                ]);
+                ], 400);
             }
             NotificationPusher::error('Data gagal disimpan');
             return redirect()->back()->withErrors($validator)->withInput();
@@ -163,8 +151,6 @@ class CitizenController extends Controller
 
         try {
             DB::beginTransaction();
-            $imageName = imageService::uploadImage('storage_ktp', $request);
-            $request->merge(['foto_ktp' => route('storage.ktp', ['filename' => $imageName])]);
             $request['kartu_keluarga_id'] = $keluargaid;
             $citizen = CitizenService::create($request);
             if ($request->is('api/*') || $request->wantsJson()) {
@@ -173,7 +159,7 @@ class CitizenController extends Controller
                     'message' => 'Data berhasil disimpan',
                     'timestamp' => now(),
                     'data' => $citizen
-                ]);
+                ], 201);
             }
             DB::commit();
             NotificationPusher::success('Data berhasil disimpan');
@@ -187,7 +173,7 @@ class CitizenController extends Controller
                     'code' => 500,
                     'message' => $e->getMessage(),
                     'timestamp' => now()
-                ]);
+                ], 500);
             }
 
             DB::rollBack();
@@ -220,15 +206,8 @@ class CitizenController extends Controller
             'url' => $url
         ];
 
-        $jenis_kelamin = Penduduk::getListJenisKelamin();
-        $agama = Penduduk::getListAgama();
-        $status_hubungan_dalam_keluarga = Penduduk::getListStatusHubunganDalamKeluarga();
-        $status_perkawinan = Penduduk::getListStatusPerkawinan();
-        $pendidikan_terakhir = Penduduk::getListPendidikanTerakhir();
-        $golongan_darah = Penduduk::getListGolonganDarah();
-        $status_penduduk = Penduduk::getListStatusPenduduk();
         return view('pages.data-penduduk.anggota.edit.index', compact('breadcrumb'))->with([
-            'id' => $keluargaid,
+            'id' => $id,
             'toolbar_id' => $keluargaid,
             'active' => 'edit',
             'toolbar_route' => [
@@ -236,13 +215,13 @@ class CitizenController extends Controller
                 'edit' => route('data-anggota.edit', ['keluargaid' => $keluargaid, 'anggotum' => $id]),
                 'hapus' => route('data-anggota.destroy', ['keluargaid' => $keluargaid, 'anggotum' => $id])
             ],
-            'jenis_kelamin' => $jenis_kelamin,
-            'agama' => $agama,
-            'status_hubungan_dalam_keluarga' => $status_hubungan_dalam_keluarga,
-            'status_perkawinan' => $status_perkawinan,
-            'pendidikan_terakhir' => $pendidikan_terakhir,
-            'golongan_darah' => $golongan_darah,
-            'status_penduduk' => $status_penduduk,
+            'jenis_kelamin' => Penduduk::getListJenisKelamin(),
+            'agama' => Penduduk::getListAgama(),
+            'status_hubungan_dalam_keluarga' => Penduduk::getListStatusHubunganDalamKeluarga(),
+            'status_perkawinan' => Penduduk::getListStatusPerkawinan(),
+            'pendidikan_terakhir' => Penduduk::getListPendidikanTerakhir(),
+            'golongan_darah' => Penduduk::getListGolonganDarah(),
+            'status_penduduk' => Penduduk::getListStatusPenduduk(),
             'citizen' => CitizenService::find($id)
         ]);
     }
@@ -270,6 +249,8 @@ class CitizenController extends Controller
             'images' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
+
+
         if ($validator->fails()) {
             if ($request->is('api/*') || $request->wantsJson()) {
                 return response()->json([
@@ -277,26 +258,15 @@ class CitizenController extends Controller
                     'message' => 'Bad Request',
                     'errors' => $validator->errors(),
                     'timestamp' => now()
-                ]);
+                ], 400);
             }
             NotificationPusher::error('Data gagal disimpan');
             return redirect()->back()->withErrors($validator)->withInput();
         }
-
         try {
             DB::beginTransaction();
-            $citizen = CitizenService::find($id);
             $request['kartu_keluarga_id'] = $keluargaid;
-            if ($request->hasFile('images')) {
-                $imageName = imageService::uploadImage('storage_ktp', $request);
-                $request->merge(['foto_ktp' => route('storage.ktp', ['filename' => $imageName])]);
-                if ($citizen && $citizen->foto_ktp) {
-                    imageService::deleteImage('storage_ktp', $citizen->foto_ktp);
-                }
-            } else {
-                $request->merge(['foto_ktp' => $citizen->foto_ktp]);
-            }
-            $citizen->update($request->all());
+            $citizen = CitizenService::update($id, $request);
             if ($request->is('api/*') || $request->wantsJson()) {
                 return response()->json([
                     'code' => 200,
@@ -314,12 +284,13 @@ class CitizenController extends Controller
                     'code' => 500,
                     'message' => $e->getMessage(),
                     'timestamp' => now()
-                ]);
+                ],500);
             }
             DB::rollBack();
             if (isset($imageName) && file_exists(storage_path('app/' . $imageName))) {
                 unlink(storage_path('app/' . $imageName));
             }
+            dd($e);
             NotificationPusher::error($e->getMessage());
             return redirect()->back()->withInput();
         }
@@ -329,31 +300,32 @@ class CitizenController extends Controller
         try {
             $user = Auth::user();
             $service = CitizenService::find($id);
+            $count = Penduduk::where('kartu_keluarga_id', $service->kartu_keluarga_id)->count();
 
-            if ($service && $service->user_id === $user->id) {  
-                $service->delete();
-
-                return response()->json([
+            if ($service && $service->user_id !== $user->user_id) {
+                CitizenService::delete($id);
+                $response = [
                     'code' => 200,
                     'message' => 'Data berhasil dihapus',
                     'timestamp' => now(),
-                    'redirect' => route('data-keluarga.show', [
-                        'keluarga' => $keluargaid
-                    ])
-                ]);
+                ];
+                if ($count === 1) {
+                    $response['redirect'] = route('data-keluarga.index');
+                }
+                return response()->json($response);
             } else {
                 return response()->json([
                     'code' => 403,
                     'message' => 'Anda tidak memiliki akses untuk menghapus data ini',
                     'timestamp' => now()
-                ]);
+                ], 403);
             }
         } catch (\Exception $e) {
             return response()->json([
                 'code' => 500,
                 'message' => $e->getMessage(),
                 'timestamp' => now()
-            ]);
+            ], 500);
         }
     }
 }

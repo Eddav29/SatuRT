@@ -54,6 +54,7 @@ class AuthService implements AuthServiceInterface
             Auth::guard('web')->logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
+            
             return true;
         } catch (\Exception $e) {
             throw $e;
