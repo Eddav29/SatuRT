@@ -23,6 +23,7 @@ use App\Models\KriteriaAlternatif;
 use App\Services\DecisionMakerGenerator\DecisionMakerService;
 use App\Services\DecisionMakerGenerator\Support\EddasService;
 use App\Services\TableGenerator\TableService;
+use App\Http\Controllers\DecisionSupportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -116,23 +117,26 @@ Route::get('/persuratan/{id}/approve', [DocumentRequestController::class, 'appro
 // Rute untuk penolakan permohonan surat
 Route::post('/persuratan/{id}/reject', [DocumentRequestController::class, 'reject'])->name('persuratan.reject');
 
-Route::resource('pendukung-keputusan/alternatif', AlternativeController::class)
-->names([
-    'index' => 'spk.index',
-    'create' => 'spk.create',
-    'store' => 'spk.store',
-    'show' => 'spk.show',
-    'edit' => 'spk.edit',
-    'update' => 'spk.update',
-    'destroy' => 'spk.destroy'
-])
-->middleware('auth');
+Route::prefix('pendukung-keputusan')->middleware(['auth', 'verified'])->group(function () {
+    Route::resource('alternatif', AlternativeController::class)
+        ->names([
+            'index' => 'spk.index',
+            'create' => 'spk.create',
+            'store' => 'spk.store',
+            'show' => 'spk.show',
+            'edit' => 'spk.edit',
+            'update' => 'spk.update',
+            'destroy' => 'spk.destroy'
+        ]);
 
-Route::resource('pendukung-keputusan/kriteria', CriteriaController::class)
-->names([
-    'index' => 'spk.kriteria.index',
-])
-->middleware('auth');
+    Route::resource('kriteria', CriteriaController::class)
+        ->names([
+            'index' => 'spk.kriteria.index',
+        ]);
+
+    Route::get('hasil-keputusan', [DecisionSupportController::class, 'index'])->name('spk.decision-maker.index');
+    Route::get('hasil-keputusan/detail/metode/{metode}', [DecisionSupportController::class, 'show'])->name('spk.show.method');
+});
 
 /* Guest and User */
 Route::prefix('profile')->middleware(['auth', 'verified'])->group(function () {
@@ -150,66 +154,66 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('data-penduduk/keluarga', FamilyCardController::class)
-->names([
-    'index' => 'data-keluarga.index',
-    'create' => 'data-keluarga.create',
-    'store' => 'data-keluarga.store',
-    'edit' => 'data-keluarga.edit',
-    'update' => 'data-keluarga.update',
-    'destroy' => 'data-keluarga.destroy'
-])
-->middleware([
-    'auth',
-    'checkRole:Ketua RT',
-])->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+    ->names([
+        'index' => 'data-keluarga.index',
+        'create' => 'data-keluarga.create',
+        'store' => 'data-keluarga.store',
+        'edit' => 'data-keluarga.edit',
+        'update' => 'data-keluarga.update',
+        'destroy' => 'data-keluarga.destroy'
+    ])
+    ->middleware([
+        'auth',
+        'checkRole:Ketua RT',
+    ])->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
 
 Route::get('data-penduduk/keluarga/{keluarga}', [FamilyCardController::class, 'show'])->name('data-keluarga.show')->middleware(['auth', 'checkRole:Ketua RT,Penduduk']);
 
 Route::resource('data-penduduk/keluarga/{keluargaid}/anggota', CitizenController::class)
-->names([
-    'index' => 'data-anggota.index',
-    'create' => 'data-anggota.create',
-    'store' => 'data-anggota.store',
-    'show' => 'data-anggota.show',
-    'edit' => 'data-anggota.edit',
-    'update' => 'data-anggota.update',
-    'destroy' => 'data-anggota.destroy'
-])
-->middleware(['auth', 'checkRole:Ketua RT,Penduduk']);
+    ->names([
+        'index' => 'data-anggota.index',
+        'create' => 'data-anggota.create',
+        'store' => 'data-anggota.store',
+        'show' => 'data-anggota.show',
+        'edit' => 'data-anggota.edit',
+        'update' => 'data-anggota.update',
+        'destroy' => 'data-anggota.destroy'
+    ])
+    ->middleware(['auth', 'checkRole:Ketua RT,Penduduk']);
 
 Route::resource('data-akun/penduduk', CitizenAccountController::class)
-->names([
-    'index' => 'data-akun.index',
-    'create' => 'data-akun.create',
-    'store' => 'data-akun.store',
-    'show' => 'data-akun.show',
-    'edit' => 'data-akun.edit',
-    'update' => 'data-akun.update',
-    'destroy' => 'data-akun.destroy'
-])
-->middleware(['auth', 'checkRole:Ketua RT']);
+    ->names([
+        'index' => 'data-akun.index',
+        'create' => 'data-akun.create',
+        'store' => 'data-akun.store',
+        'show' => 'data-akun.show',
+        'edit' => 'data-akun.edit',
+        'update' => 'data-akun.update',
+        'destroy' => 'data-akun.destroy'
+    ])
+    ->middleware(['auth', 'checkRole:Ketua RT']);
 
 require __DIR__ . '/auth.php';
 
 Route::get('storage/ktp/{filename}', [StorageController::class, 'storageKTP'])->name('storage.ktp');
 
 
-Route::get('eddas', function () {
-    $decisionMaker = new DecisionMakerService();
-    $eddasService = new EddasService();
-    $table = "<script src='https://cdn.tailwindcss.com'></script>";
-    $table .= "<section>";
-    $table .= $decisionMaker->getKriteriaTable();
-    $table .= $decisionMaker->getAlternatifTable();
-    $table .= $decisionMaker->createTableService()->createTable($decisionMaker->getData());
-    $table .= $decisionMaker->createTableService()->createTable($eddasService->stepDetermineAverange(3));
-    $table .= $decisionMaker->createTableService()->createTable($eddasService->stepDeterminePDA(3));
-    $table .= $decisionMaker->createTableService()->createTable($eddasService->stepDetermineNDA(3));
-    $table .= $decisionMaker->createTableService()->createTable($eddasService->stepDetermineSPSN(3));
-    $table .= $decisionMaker->createTableService()->createTable($eddasService->stepDetermineNormalizeSPSN(3));
-    $table .= $decisionMaker->createTableService()->createTable($eddasService->stepCalculateAssesmentScore(5));
-    $table .= $decisionMaker->createTableService()->createTable($eddasService->stepRanking(4));
-    $table .= "</section>";
+// Route::get('eddas', function () {
+//     $decisionMaker = new DecisionMakerService();
+//     $eddasService = new EddasService();
+//     $table = "<script src='https://cdn.tailwindcss.com'></script>";
+//     $table .= "<section>";
+//     $table .= $decisionMaker->getKriteriaTable();
+//     $table .= $decisionMaker->getAlternatifTable();
+//     $table .= $decisionMaker->createTableService()->createTable($decisionMaker->getData());
+//     $table .= $decisionMaker->createTableService()->createTable($eddasService->stepDetermineAverange(3));
+//     $table .= $decisionMaker->createTableService()->createTable($eddasService->stepDeterminePDA(3));
+//     $table .= $decisionMaker->createTableService()->createTable($eddasService->stepDetermineNDA(3));
+//     $table .= $decisionMaker->createTableService()->createTable($eddasService->stepDetermineSPSN(3));
+//     $table .= $decisionMaker->createTableService()->createTable($eddasService->stepDetermineNormalizeSPSN(3));
+//     $table .= $decisionMaker->createTableService()->createTable($eddasService->stepCalculateAssesmentScore(5));
+//     $table .= $decisionMaker->createTableService()->createTable($eddasService->stepRanking(4));
+//     $table .= "</section>";
 
-    return $table;
-});
+//     return $table;
+// });

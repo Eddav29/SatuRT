@@ -110,6 +110,11 @@
                                     Kelola Kegiatan
                                 </x-nav-menu>
                             </div>
+                            <div class="pl-11 py-1">
+                                <x-nav-menu :href="route('spk.decision-maker.index')" :active="request()->is('pendukung-keputusan/hasil-keputusan')">
+                                    Hasil
+                                </x-nav-menu>
+                            </div>
                         </div>
                         <div>
                             <x-nav-menu svgIcon="heroicon-o-microphone" :href="route('informasi.index')" :active="request()->is('informasi*')"
@@ -134,7 +139,7 @@
             </div>
         @elseif(Auth::user()->role->role_name === 'Penduduk')
             <div class="overflow-y-auto pt-10 lg:pt-24 no-scrollbar">
-                <h1 class="text-navy-night/35 ">MAIN MENU</h1>
+                <h1 class="text-navy-night/35 text-xs md:text-base">MAIN MENU</h1>
                 <div class="py-5">
                     <nav>
                         <div>

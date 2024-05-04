@@ -11,6 +11,7 @@ use App\Http\Controllers\CitizenAccountController;
 use App\Http\Controllers\CitizenController;
 use App\Http\Controllers\BusinessUserController;
 use App\Http\Controllers\CriteriaController;
+use App\Http\Controllers\DecisionSupportController;
 use App\Http\Controllers\FamilyCardController;
 use App\Http\Controllers\FinanceReportController;
 use App\Http\Controllers\InformationController;
@@ -58,9 +59,10 @@ Route::prefix('v1')->group(function () {
     Route::get('persuratan', [DocumentRequestController::class, 'list']);
     Route::get('inventaris', [InventarisController::class, 'list']);
 
-    Route::get('spk/alternatif', [AlternativeController::class, 'list']);
-    Route::get('spk/kriteria', [CriteriaController::class, 'list']);
+    Route::get('pendukung-keputusan/alternatif', [AlternativeController::class, 'list']);
+    Route::get('pendukung-keputusan/kriteria', [CriteriaController::class, 'list']);
 
+    Route::get('pendukung-keputusan/ranking/metode/{metode}', [DecisionSupportController::class, 'ranking']);
 })->middleware('api');
 
 Route::get('/pengumuman/{id}', [AnnouncementController::class, 'getAnnouncement'])->middleware('api');

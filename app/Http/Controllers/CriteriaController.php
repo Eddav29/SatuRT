@@ -29,11 +29,12 @@ class CriteriaController extends Controller
         }
     }
 
-    public function index(){
+    public function index()
+    {
         $kriteria = Kriteria::all();
         $breadcrumb = [
-            'list' => ['Home', 'SPK'],
-            'url' => ['home', 'spk.kriteria.index'],
+            'list' => ['Home', 'SPK', 'Kriteria'],
+            'url' => ['home', 'spk.kriteria.index', 'spk.kriteria.index'],
         ];
         return response()->view('pages.kriteria.index', [
             'breadcrumb' => $breadcrumb
