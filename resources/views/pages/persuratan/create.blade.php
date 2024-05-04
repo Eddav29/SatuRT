@@ -58,29 +58,22 @@
                         <div class="flex flex-col mt-5">
                             <label for="jenis_keuangan"
                                 class="block font-semibold text-navy-night after:content-['*'] after:ml-0.5 after:text-red-500 w-fit">Keperluan</label>
-                            <select id="jenis_keuangan" name="jenis_keuangan" required
-                                class="placeholder:font-light placeholder:text-xs invalid:ring-1 invalid:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-navy-night text-sm">
-                                <option value="Pilih Jenis keuangan" @click="selected = 'Pilih Jenis keuangan'"
-                                    x-bind:selected="selected === 'Pilih Jenis keuangan'">Pilih Jenis Keperluan
-                                </option>
-                                <option value="Pemasukan" @click="selected = 'Pemasukan'"
-                                    x-bind:selected="selected === 'Pemasukan'">Mengurus Kartu Tanda Penduduk</option>
-                                <option value="Pengeluaran" @click="selected = 'Pengeluaran'"
-                                    x-bind:selected="selected === 'Pengeluaran'">Mengurus Kartu Keluarga</option>
-                                <option value="Pengeluaran" @click="selected = 'Pengeluaran'"
-                                    x-bind:selected="selected === 'Pengeluaran'">Mengurus Akta Kelahiran</option>
-                                <option value="Pengeluaran" @click="selected = 'Pengeluaran'"
-                                    x-bind:selected="selected === 'Pengeluaran'">Mengurus Akta Kematian</option>
-                                <option value="Pengeluaran" @click="selected = 'Pengeluaran'"
-                                    x-bind:selected="selected === 'Pengeluaran'">Mengurus SKCK</option>
-                                <option value="Pengeluaran" @click="selected = 'Pengeluaran'"
-                                    x-bind:selected="selected === 'Pengeluaran'">Mengurus Persyaratan Nikah</option>
-                                <option value="Lainnya" @click="selected = 'Lainnya'"
-                                    x-bind:selected="selected === 'Lainnya'">Lainnya</option>
+                            <select id="jenis_surat" name="jenis_surat" required
+                                class="placeholder:font-light placeholder:text-xs invalid:ring-1 invalid:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-navy-night text-sm"
+                                @change="selected = $event.target.value">
+                                <option value="Pilih Jenis keuangan">Pilih Jenis Keperluan</option>
+                                <option value="Surat Pengantar KTP">Mengurus Kartu Tanda Penduduk</option>
+                                <option value="Surat Pengantar Kartu keluarga">Mengurus Kartu Keluarga</option>
+                                <option value="Surat Pengantar Akta Kelahiran">Mengurus Akta Kelahiran</option>
+                                <option value="Surat Pengantar Akta Kematian">Mengurus Akta Kematian</option>
+                                <option value="Surat Pengantar SKCK">Mengurus SKCK</option>
+                                <option value="Surat Pengantar Nikah">Mengurus Persyaratan Nikah</option>
+                                <option value="Lainnya">Lainnya</option>
                             </select>
-                            <input type="text" placeholder="Masukkan Keperluan" name="keperluan" id="keperluan"
+                            {{-- Input Tambahan untuk Opsi Lainnya --}}
+                            <input type="text" placeholder="Masukkan Keperluan" name="keperluan_lainnya" id="keperluan"
                                 class="placeholder:text-gray-300 placeholder:font-light mt-5 required:ring-1 required:ring-red-500 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder:text-xs text-sm"
-                                :class="selected === 'Lainnya' ? 'text-navy-night text-sm block' : 'hidden'">
+                                x-show="selected === 'Lainnya'">
                         </div>
                     </div>
 

@@ -7,6 +7,7 @@ use App\Http\Controllers\CitizenController;
 use App\Http\Controllers\BusinessUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\InformationController;
+use App\Http\Controllers\InventarisController;
 use App\Http\Controllers\FamilyCardController;
 use App\Http\Controllers\NewsController;
 use App\Http\Controllers\ProfileController;
@@ -22,6 +23,7 @@ use App\Models\KriteriaAlternatif;
 use App\Services\DecisionMakerGenerator\DecisionMakerService;
 use App\Services\DecisionMakerGenerator\Support\EddasService;
 use App\Services\TableGenerator\TableService;
+use App\Http\Controllers\DecisionSupportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -98,29 +100,43 @@ Route::resource('persuratan', DocumentRequestController::class)->middleware(['au
     'update' => 'persuratan.update',
     'destroy' => 'persuratan.destroy',
 ]);
+Route::resource('inventaris', InventarisController::class)->middleware(['auth', 'verified'])->names([
+    'index' => 'inventaris.index',
+    'show' => 'inventaris.show',
+    'update' => 'inventaris.update',
+    'create' => 'inventaris.create',
+    'store' => 'inventaris.store',
+    'edit' => 'inventaris.edit',
+    'destroy' => 'inventaris.destroy',
+]);
+
+
 //Route untuk persetujuan permohonan  surat
 Route::get('/persuratan/{id}/approve', [DocumentRequestController::class, 'approve'])->name('persuratan.approve');
 
 // Rute untuk penolakan permohonan surat
 Route::post('/persuratan/{id}/reject', [DocumentRequestController::class, 'reject'])->name('persuratan.reject');
 
-Route::resource('pendukung-keputusan/alternatif', AlternativeController::class)
-->names([
-    'index' => 'spk.index',
-    'create' => 'spk.create',
-    'store' => 'spk.store',
-    'show' => 'spk.show',
-    'edit' => 'spk.edit',
-    'update' => 'spk.update',
-    'destroy' => 'spk.destroy'
-])
-->middleware('auth');
+Route::prefix('pendukung-keputusan')->middleware(['auth', 'verified'])->group(function () {
+    Route::resource('alternatif', AlternativeController::class)
+        ->names([
+            'index' => 'spk.index',
+            'create' => 'spk.create',
+            'store' => 'spk.store',
+            'show' => 'spk.show',
+            'edit' => 'spk.edit',
+            'update' => 'spk.update',
+            'destroy' => 'spk.destroy'
+        ]);
 
-Route::resource('pendukung-keputusan/kriteria', CriteriaController::class)
-->names([
-    'index' => 'spk.kriteria.index',
-])
-->middleware('auth');
+    Route::resource('kriteria', CriteriaController::class)
+        ->names([
+            'index' => 'spk.kriteria.index',
+        ]);
+
+    Route::get('hasil-keputusan', [DecisionSupportController::class, 'index'])->name('spk.decision-maker.index');
+    Route::get('hasil-keputusan/detail/metode/{metode}', [DecisionSupportController::class, 'show'])->name('spk.show.method');
+});
 
 /* Guest and User */
 Route::prefix('profile')->middleware(['auth', 'verified'])->group(function () {
@@ -138,44 +154,44 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('data-penduduk/keluarga', FamilyCardController::class)
-->names([
-    'index' => 'data-keluarga.index',
-    'create' => 'data-keluarga.create',
-    'store' => 'data-keluarga.store',
-    'edit' => 'data-keluarga.edit',
-    'update' => 'data-keluarga.update',
-    'destroy' => 'data-keluarga.destroy'
-])
-->middleware([
-    'auth',
-    'checkRole:Ketua RT',
-])->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+    ->names([
+        'index' => 'data-keluarga.index',
+        'create' => 'data-keluarga.create',
+        'store' => 'data-keluarga.store',
+        'edit' => 'data-keluarga.edit',
+        'update' => 'data-keluarga.update',
+        'destroy' => 'data-keluarga.destroy'
+    ])
+    ->middleware([
+        'auth',
+        'checkRole:Ketua RT',
+    ])->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
 
 Route::get('data-penduduk/keluarga/{keluarga}', [FamilyCardController::class, 'show'])->name('data-keluarga.show')->middleware(['auth', 'checkRole:Ketua RT,Penduduk']);
 
 Route::resource('data-penduduk/keluarga/{keluargaid}/anggota', CitizenController::class)
-->names([
-    'index' => 'data-anggota.index',
-    'create' => 'data-anggota.create',
-    'store' => 'data-anggota.store',
-    'show' => 'data-anggota.show',
-    'edit' => 'data-anggota.edit',
-    'update' => 'data-anggota.update',
-    'destroy' => 'data-anggota.destroy'
-])
-->middleware(['auth', 'checkRole:Ketua RT,Penduduk']);
+    ->names([
+        'index' => 'data-anggota.index',
+        'create' => 'data-anggota.create',
+        'store' => 'data-anggota.store',
+        'show' => 'data-anggota.show',
+        'edit' => 'data-anggota.edit',
+        'update' => 'data-anggota.update',
+        'destroy' => 'data-anggota.destroy'
+    ])
+    ->middleware(['auth', 'checkRole:Ketua RT,Penduduk']);
 
 Route::resource('data-akun/penduduk', CitizenAccountController::class)
-->names([
-    'index' => 'data-akun.index',
-    'create' => 'data-akun.create',
-    'store' => 'data-akun.store',
-    'show' => 'data-akun.show',
-    'edit' => 'data-akun.edit',
-    'update' => 'data-akun.update',
-    'destroy' => 'data-akun.destroy'
-])
-->middleware(['auth', 'checkRole:Ketua RT']);
+    ->names([
+        'index' => 'data-akun.index',
+        'create' => 'data-akun.create',
+        'store' => 'data-akun.store',
+        'show' => 'data-akun.show',
+        'edit' => 'data-akun.edit',
+        'update' => 'data-akun.update',
+        'destroy' => 'data-akun.destroy'
+    ])
+    ->middleware(['auth', 'checkRole:Ketua RT']);
 
 require __DIR__ . '/auth.php';
 
