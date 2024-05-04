@@ -163,6 +163,8 @@ class DocumentRequestController extends Controller
                 'accepted_at' => now(), // Waktu saat persetujuan
             ]);
 
+            
+
             DB::commit(); // Selesaikan transaksi
 
             NotificationPusher::success('Permohonan disetujui.');

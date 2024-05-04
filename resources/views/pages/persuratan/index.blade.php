@@ -71,6 +71,11 @@
                     'key' => 'accepted_at',
                     'style' => 'text-left'
                 ],
+                [
+                    'label' => 'Dokumen',
+                    'key' => 'dokumen_url',
+                    'style' => 'text-left',
+                ],
                 ]" :aksi="[
                     'detail' => true,
                     'edit' => false,
