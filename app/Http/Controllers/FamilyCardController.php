@@ -6,7 +6,7 @@ use App\Models\KartuKeluarga;
 use App\Models\Penduduk;
 use App\Services\FamilyManagement\CitizenService;
 use App\Services\FamilyManagement\FamilyCardService;
-use App\Services\ImageManager\imageService;
+use App\Services\FileManager\imageService;
 use App\Services\Notification\NotificationPusher;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;

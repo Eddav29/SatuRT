@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Interfaces\HomeService;
+use App\Services\HomeService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 

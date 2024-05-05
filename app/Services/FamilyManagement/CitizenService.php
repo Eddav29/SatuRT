@@ -3,7 +3,7 @@
 namespace App\Services\FamilyManagement;
 
 use App\Models\Penduduk;
-use App\Services\ImageManager\imageService;
+use App\Services\FileManager\imageService;
 use App\Services\Interfaces\DatatablesInterface;
 use App\Services\Interfaces\RecordServiceInterface;
 use Illuminate\Http\Request;
@@ -24,7 +24,7 @@ class CitizenService implements RecordServiceInterface, DatatablesInterface
 
     public static function create(Request $request): Collection | Model
     {
-        $imageName = imageService::uploadFile('storage_ktp', $request);
+        $imageName = ImageService::uploadFile('storage_ktp', $request);
         $request->merge(['foto_ktp' => route('storage.ktp', ['filename' => $imageName])]);
         return Penduduk::create($request->only([
             'kartu_keluarga_id',

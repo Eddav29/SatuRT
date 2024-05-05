@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\ImageManager;
+namespace App\Services\FileManager;
 
 use App\Services\Interfaces\FileServiceInterface;
 use Illuminate\Http\Request;

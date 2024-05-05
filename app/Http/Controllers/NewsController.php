@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Informasi;
 use App\Services\CRUDService;
-use App\Services\Interfaces\NewsService;
+use App\Services\NewsService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
