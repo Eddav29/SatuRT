@@ -125,7 +125,7 @@ class FamilyCardController extends Controller
             $familyCard = FamilyCardService::create($request);
             $request['kartu_keluarga_id'] = $familyCard->kartu_keluarga_id;
 
-            $imageName = imageService::uploadImage('storage_ktp', $request);
+            $imageName = imageService::uploadFile('storage_ktp', $request);
             $request->merge(['foto_ktp' => route('storage.ktp', ['filename' => $imageName])]);
             CitizenService::create($request);
 
