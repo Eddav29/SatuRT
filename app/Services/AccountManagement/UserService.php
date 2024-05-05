@@ -5,14 +5,14 @@ namespace App\Services\AccountManagement;
 use App\Models\Penduduk;
 use App\Models\Role;
 use App\Models\User;
-use App\Services\Interfaces\CRUDServiceInterface;
 use App\Services\Interfaces\DatatablesInterface;
+use App\Services\Interfaces\RecordServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
-class UserService implements CRUDServiceInterface, DatatablesInterface
+class UserService implements RecordServiceInterface, DatatablesInterface
 {
 
     public static function find(string $id): Model
