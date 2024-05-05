@@ -18,6 +18,10 @@ use App\Http\Controllers\DocumentRequestController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CriteriaController;
 use App\Http\Controllers\AlternativeController;
+use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Models\Kriteria;
 use App\Models\KriteriaAlternatif;
 use App\Services\DecisionMakerGenerator\DecisionMakerService;
@@ -47,8 +51,8 @@ Route::get('usaha', [BusinessController::class, 'index'])->name('usaha');
 Route::get('usaha/{id}', [BusinessController::class, 'show'])->name('usaha-detail');
 
 /* RT */
-Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth', 'verified'])->name('dashboard');
-Route::resource('informasi', InformationController::class)->middleware(['auth', 'verified'])->names([
+Route::get('/dashboard', [DashboardController::class, 'index'])->middleware(['auth'])->name('dashboard');
+Route::resource('informasi', InformationController::class)->middleware(['auth'])->names([
     'index' => 'informasi.index',
     'show' => 'informasi.show',
     'create' => 'informasi.create',
@@ -61,7 +65,7 @@ Route::resource('informasi', InformationController::class)->middleware(['auth', 
 Route::post('/file-upload', [InformationController::class, 'upload'])->name('file.upload');
 Route::get('/file-download/{filename}', [InformationController::class, 'download'])->name('file.download');
 
-Route::resource('pelaporan', ResidentReportController::class)->middleware(['auth', 'verified'])->names([
+Route::resource('pelaporan', ResidentReportController::class)->middleware(['auth'])->names([
     'index' => 'pelaporan.index',
     'show' => 'pelaporan.show',
     'update' => 'pelaporan.update',
@@ -71,7 +75,7 @@ Route::resource('pelaporan', ResidentReportController::class)->middleware(['auth
     'destroy' => 'pelaporan.destroy',
 ]);
 
-Route::resource('umkm', BusinessUserController::class)->middleware(['auth', 'verified'])->names([
+Route::resource('umkm', BusinessUserController::class)->middleware(['auth'])->names([
     'index' => 'umkm.index',
     'show' => 'umkm.show',
     'create' => 'umkm.create',
@@ -81,7 +85,7 @@ Route::resource('umkm', BusinessUserController::class)->middleware(['auth', 'ver
     'destroy' => 'umkm.destroy',
 ]);
 
-Route::resource('keuangan', FinanceReportController::class)->middleware(['auth', 'verified'])->names([
+Route::resource('keuangan', FinanceReportController::class)->middleware(['auth'])->names([
     'index' => 'keuangan.index',
     'show' => 'keuangan.show',
     'create' => 'keuangan.create',
@@ -91,7 +95,7 @@ Route::resource('keuangan', FinanceReportController::class)->middleware(['auth',
     'destroy' => 'keuangan.destroy',
 ]);
 
-Route::resource('persuratan', DocumentRequestController::class)->middleware(['auth', 'verified'])->names([
+Route::resource('persuratan', DocumentRequestController::class)->middleware(['auth'])->names([
     'index' => 'persuratan.index',
     'show' => 'persuratan.show',
     'create' => 'persuratan.create',
@@ -100,7 +104,7 @@ Route::resource('persuratan', DocumentRequestController::class)->middleware(['au
     'update' => 'persuratan.update',
     'destroy' => 'persuratan.destroy',
 ]);
-Route::resource('inventaris', InventarisController::class)->middleware(['auth', 'verified'])->names([
+Route::resource('inventaris', InventarisController::class)->middleware(['auth'])->names([
     'index' => 'inventaris.index',
     'show' => 'inventaris.show',
     'update' => 'inventaris.update',
@@ -117,7 +121,7 @@ Route::get('/persuratan/{id}/approve', [DocumentRequestController::class, 'appro
 // Rute untuk penolakan permohonan surat
 Route::post('/persuratan/{id}/reject', [DocumentRequestController::class, 'reject'])->name('persuratan.reject');
 
-Route::prefix('pendukung-keputusan')->middleware(['auth', 'verified'])->group(function () {
+Route::prefix('pendukung-keputusan')->middleware(['auth'])->group(function () {
     Route::resource('alternatif', AlternativeController::class)
         ->names([
             'index' => 'spk.index',
@@ -139,7 +143,7 @@ Route::prefix('pendukung-keputusan')->middleware(['auth', 'verified'])->group(fu
 });
 
 /* Guest and User */
-Route::prefix('profile')->middleware(['auth', 'verified'])->group(function () {
+Route::prefix('profile')->middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::get('/change-password/{id}', [ProfileController::class, 'changePasswordForm'])->name('profile.change-password');
     Route::post('/change-password/{id}', [ProfileController::class, 'changePassword'])->name('profile.change-password.post');

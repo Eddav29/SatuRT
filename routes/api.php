@@ -39,13 +39,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('v1')->group(function () {
-    Route::post('login', [AuthenticatedSessionController::class, 'store']);
-    Route::middleware('auth:sanctum')->group(function () {
-        Route::post('email', [EmailRegistrationController::class, 'store']);
-        Route::delete('logout', [AuthenticatedSessionController::class, 'destroy']);
-        // Route::post('email/verification-notification', [EmailVerificationNotificationController::class, 'store'])->name('email.verification');
-    });
-
 
     Route::get('data-penduduk/keluarga', [FamilyCardController::class, 'list']);
     Route::get('data-penduduk/keluarga/{id}/anggota', [CitizenController::class, 'list']);
