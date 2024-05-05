@@ -4,7 +4,7 @@ namespace App\Services\Implementation;
 
 use App\Models\Informasi;
 use App\Services\CRUDService;
-use App\Services\Interfaces\NewsService;
+use App\Services\NewsService;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;

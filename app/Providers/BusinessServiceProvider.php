@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\Services\Implementation\BusinessServiceImplementation;
-use App\Services\Interfaces\BusinessService;
+use App\Services\BusinessService;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 

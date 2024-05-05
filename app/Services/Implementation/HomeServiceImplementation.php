@@ -4,7 +4,7 @@ namespace App\Services\Implementation;
 
 use App\Models\Informasi;
 use App\Models\UMKM;
-use App\Services\Interfaces\HomeService;
+use App\Services\HomeService;
 use Illuminate\Database\Eloquent\Collection;
 
 class HomeServiceImplementation implements HomeService
