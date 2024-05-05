@@ -20,7 +20,7 @@ class UserSeeder extends Seeder
         $rolePenduduk = Role::where('role_name', 'Penduduk')->first();
         User::factory()->create([
             'username' => 'testrt',
-            'email' => 'testrtr@example.com',
+            'email' => 'testrt@example.com',
             'role_id' => $roleRT->role_id,
         ]);
 

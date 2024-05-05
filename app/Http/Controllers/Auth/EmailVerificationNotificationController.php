@@ -3,10 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Services\Notification\NotificationPusher;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Validator;
 
 class EmailVerificationNotificationController extends Controller
 {
@@ -15,23 +14,12 @@ class EmailVerificationNotificationController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-
-        $validator = Validator::make($request->only('email'), [
-            'email' => 'required|email|exists:users,email'
-        ], [
-            'email.exists' => 'The email does not exist'
-        ]);
-
-        if ($validator->fails()) {
-            throw new \Illuminate\Validation\ValidationException($validator);
-        }
-
         if ($request->user()->hasVerifiedEmail()) {
-            return response()->redirectToRoute('login')->with('error', 'Email already verified');
+            return redirect()->intended(route('dashboard', absolute: false));
         }
 
         $request->user()->sendEmailVerificationNotification();
 
-        return response()->redirectToRoute('login')->with('success', 'Email verification link sent');
+        return back()->with(NotificationPusher::success('Email verification link sent'));
     }
 }

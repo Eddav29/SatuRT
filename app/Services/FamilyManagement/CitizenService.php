@@ -3,6 +3,7 @@
 namespace App\Services\FamilyManagement;
 
 use App\Models\Penduduk;
+use App\Services\ImageManager\imageService;
 use App\Services\Interfaces\CRUDServiceInterface;
 use App\Services\Interfaces\DatatablesInterface;
 use Illuminate\Http\Request;
@@ -23,6 +24,8 @@ class CitizenService implements CRUDServiceInterface, DatatablesInterface
 
     public static function create(Request $request): Collection | Model
     {
+        $imageName = imageService::uploadImage('storage_ktp', $request);
+        $request->merge(['foto_ktp' => route('storage.ktp', ['filename' => $imageName])]);
         return Penduduk::create($request->only([
             'kartu_keluarga_id',
             'nik',
@@ -50,6 +53,20 @@ class CitizenService implements CRUDServiceInterface, DatatablesInterface
     public static function update(string $id, Request $request): Collection | Model
     {
         $citizen = Penduduk::findOrFail($id);
+        if ($request->hasFile('images')) {
+            $imageName = imageService::uploadImage('storage_ktp', $request);
+            $request->merge(['foto_ktp' => route('storage.ktp', ['filename' => $imageName])]);
+            if ($citizen && $citizen->foto_ktp) {
+                imageService::deleteImage('storage_ktp', $citizen->foto_ktp);
+            }
+        } else {
+            $request->merge(['foto_ktp' => $citizen->foto_ktp]);
+        }
+
+        if ($request->status_hubungan_dalam_keluarga === 'Kepala Keluarga') {
+            $leadCitizen = Penduduk::where('kartu_keluarga_id', $citizen->kartu_keluarga_id)->where('status_hubungan_dalam_keluarga', 'Kepala Keluarga')->first();
+            $leadCitizen->update(['status_hubungan_dalam_keluarga' => null]);
+        }
         $citizen->update($request->only([
             'kartu_keluarga_id',
             'nik',
@@ -78,7 +95,15 @@ class CitizenService implements CRUDServiceInterface, DatatablesInterface
     public static function delete(string $id): bool
     {
         try {
-            $citizen = Penduduk::findOrFail($id);
+            $citizen = Penduduk::findOrFail($id)->load('kartuKeluarga');
+            if ($citizen->status_hubungan_dalam_keluarga === 'Kepala Keluarga' && Penduduk::where('kartu_keluarga_id', $citizen->kartuKeluarga->kartu_keluarga_id)->count() > 1) {
+                throw new \Exception('Hapus anggota keluarga terlebih dahulu');
+            } else if (Penduduk::where('kartu_keluarga_id', $citizen->kartuKeluarga->kartu_keluarga_id)->count() === 1) {
+                $citizen->kartuKeluarga->delete();
+            }
+            if ($citizen->user_id !== null) {
+                $citizen->user->delete();
+            }
             $citizen->delete();
             return true;
         } catch (\Exception $e) {

@@ -5,13 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Penduduk;
 use App\Models\Role;
 use App\Services\AccountManagement\UserService;
-use App\Services\FamilyManagement\CitizenService;
+use App\Services\Authentication\AuthService;
 use App\Services\Notification\NotificationPusher;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -56,10 +57,10 @@ class CitizenAccountController extends Controller
                 'digits:16',
                 Rule::exists('penduduk')->where(function ($query) use ($request) {
                     $query->where('nik', $request->nik)
-                        ->where('nama', $request->nama);
+                        ->where('nama', $request->nama)
+                        ->whereNull('user_id');
                 }),
             ],
-            'nama' => 'required|string|exists:penduduk,nama',
             'role_id' => 'required|exists:roles,role_id',
             'username' => 'required|string|unique:users,username',
             'email' => 'required|email|unique:users,email',
@@ -70,10 +71,11 @@ class CitizenAccountController extends Controller
             if ($request->is('api/*') || $request->wantsJson()) {
                 return response()->json([
                     'code' => 422,
-                    'message' => 'Unprocessable Entity',
-                    'errors' => $validator->errors()
+                    'timestamp' => now(),
+                    'message' =>  $validator->errors()
                 ], 422);
             }
+
             if ($validator->errors()->has('nik')) {
                 NotificationPusher::error('Data Penduduk Tidak Ditemukan');
                 return redirect()->back()->withInput();
@@ -82,35 +84,56 @@ class CitizenAccountController extends Controller
             NotificationPusher::error('Data Gagal Ditambahkan');
             return redirect()->back()->withInput()->withErrors($validator);
         }
+
         try {
             DB::beginTransaction();
 
-
             $user = UserService::create($request);
             Penduduk::where('nik', $request->nik)->update(['user_id' => $user->user_id]);
-
             DB::commit();
+            if ($request->role_id === UserService::getRoleId('Ketua RT')) {
+                UserService::changeRole(Auth::user()->user_id, 'Penduduk');
+                $response = AuthService::logout($request);
 
-            if ($request->has('save_and_more')) {
-                NotificationPusher::success('Data Berhasil Ditambahkan');
-                return redirect()->route('data-akun.create');
+                if (!$response) {
+                    throw new AuthenticationException('Logout failed');
+                }
+
+                if ($request->is('api/*') || $request->wantsJson()) {
+                    return response()->json([
+                        'code' => 200,
+                        'timestamp' => now(),
+                        'message' => 'Logout success',
+                    ], 200);
+                }
+                NotificationPusher::success('Hak akses berhasil ditransfer, Silahkan Login Kembali');
+                return response()->redirectTo('/login');
             }
 
-            NotificationPusher::success('Data Berhasil Ditambahkan');
-            return redirect()->route('data-akun.index');
+
+
+            $notificationMessage = 'Data Berhasil Ditambahkan';
+            if ($request->has('save_and_more')) {
+                return redirect()->route('data-akun.create')->with('success', $notificationMessage);
+            }
+
+            return redirect()->route('data-akun.index')->with('success', $notificationMessage);
         } catch (\Exception $e) {
             DB::rollBack();
+
             if ($request->is('api/*') || $request->wantsJson()) {
                 return response()->json([
                     'code' => 500,
-                    'message' => 'Internal Server Error',
-                    'errors' => $e->getMessage()
+                    'timestamp' => now(),
+                    'message' => $e->getMessage()
                 ], 500);
             }
+
             NotificationPusher::error('Data Gagal Ditambahkan');
             return redirect()->back()->withInput();
         }
     }
+
 
     public function show($id)
     {
@@ -154,7 +177,6 @@ class CitizenAccountController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nik' => 'required|numeric|digits:16',
-            'nama' => 'required|string',
             'role_id' => 'required|exists:roles,role_id',
             'username' => 'required|string|unique:users,username,' . $id . ',user_id',
             'email' => 'required|email|unique:users,email,' . $id . ',user_id',
@@ -165,20 +187,37 @@ class CitizenAccountController extends Controller
             if ($request->is('api/*') || $request->wantsJson()) {
                 return response()->json([
                     'code' => 422,
-                    'message' => 'Unprocessable Entity',
+                    'timestamp' => now(),
+                    'message' => 'Kesalahan Validasi',
                     'errors' => $validator->errors()
                 ], 422);
             }
-
             NotificationPusher::error('Data Gagal Diubah');
             return redirect()->back()->withInput()->withErrors($validator);
         }
         try {
             DB::beginTransaction();
-
             UserService::update($id, $request);
-
             DB::commit();
+            if ($request->role_id === UserService::getRoleId('Ketua RT')) {
+                UserService::changeRole(Auth::user()->user_id, 'Penduduk');
+                $response = AuthService::logout($request);
+
+                if (!$response) {
+                    throw new AuthenticationException('Logout failed');
+                }
+
+                if ($request->is('api/*') || $request->wantsJson()) {
+                    return response()->json([
+                        'code' => 200,
+                        'message' => 'Logout success',
+                        'timestamp' => now()
+                    ], 200);
+                }
+
+                NotificationPusher::success('Hak akses berhasil ditransfer, Silahkan Login Kembali');
+                return response()->redirectTo('/login');
+            }
 
             NotificationPusher::success('Data Berhasil Diubah');
             return redirect()->route('data-akun.index');
@@ -187,8 +226,8 @@ class CitizenAccountController extends Controller
             if ($request->is('api/*') || $request->wantsJson()) {
                 return response()->json([
                     'code' => 500,
-                    'message' => 'Internal Server Error',
-                    'errors' => $e->getMessage()
+                    'timestamp' => now(),
+                    'message' => $e->getMessage()
                 ], 500);
             }
             NotificationPusher::error('Data Gagal Diubah');
@@ -200,9 +239,10 @@ class CitizenAccountController extends Controller
     {
         try {
             DB::beginTransaction();
-
+            if (Auth::user()->user_id === $id) {
+                throw new AuthenticationException('Tidak dapat menghapus akun sendiri');
+            }
             $user = UserService::find($id)->load('penduduk');
-            // dd($id, $user);
             if ($user->penduduk->user_id === $id) {
                 Penduduk::where('user_id', $id)->update(['user_id' => null]);
             }
@@ -218,8 +258,8 @@ class CitizenAccountController extends Controller
             DB::rollBack();
             return response()->json([
                 'code' => 500,
-                'message' => 'Internal Server Error',
-                'errors' => $e->getMessage()
+                'timestamp' => now(),
+                'message' => $e->getMessage()
             ], 500);
         }
     }

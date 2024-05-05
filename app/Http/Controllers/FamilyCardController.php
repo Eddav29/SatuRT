@@ -32,22 +32,14 @@ class FamilyCardController extends Controller
             'list' => ['Home', 'Penduduk', 'Data Penduduk', 'Tambah Data Penduduk'],
             'url' => ['home', 'data-keluarga.index', 'data-keluarga.index', 'data-keluarga.create']
         ];
-
-        $jenis_kelamin = Penduduk::getListJenisKelamin();
-        $agama = Penduduk::getListAgama();
-        $status_hubungan_dalam_keluarga = Penduduk::getListStatusHubunganDalamKeluarga();
-        $status_perkawinan = Penduduk::getListStatusPerkawinan();
-        $pendidikan_terakhir = Penduduk::getListPendidikanTerakhir();
-        $golongan_darah = Penduduk::getListGolonganDarah();
-        $status_penduduk = Penduduk::getListStatusPenduduk();
         return view('pages.data-penduduk.keluarga.tambah.index', compact('breadcrumb'))->with([
-            'jenis_kelamin' => $jenis_kelamin,
-            'agama' => $agama,
-            'status_hubungan_dalam_keluarga' => $status_hubungan_dalam_keluarga,
-            'status_perkawinan' => $status_perkawinan,
-            'pendidikan_terakhir' => $pendidikan_terakhir,
-            'golongan_darah' => $golongan_darah,
-            'status_penduduk' => $status_penduduk
+            'jenis_kelamin' => Penduduk::getListJenisKelamin(),
+            'agama' => Penduduk::getListAgama(),
+            'status_hubungan_dalam_keluarga' => ['Kepala Keluarga'],
+            'status_perkawinan' => Penduduk::getListStatusPerkawinan(),
+            'pendidikan_terakhir' => Penduduk::getListPendidikanTerakhir(),
+            'golongan_darah' => Penduduk::getListGolonganDarah(),
+            'status_penduduk' => Penduduk::getListStatusPenduduk()
         ]);
     }
 
@@ -78,8 +70,7 @@ class FamilyCardController extends Controller
             'edit' => route('data-keluarga.edit', ['keluarga' => $id]),
             'hapus' => route('data-keluarga.destroy', ['keluarga' => $id])
         ] : [
-            'detail' => route('data-keluarga.show', ['keluarga' => $id]),
-            'hapus' => route('data-keluarga.destroy', ['keluarga' => $id])
+            'detail' => route('data-keluarga.show', ['keluarga' => $id])
         ];
         return view('pages.data-penduduk.keluarga.detail.index', [
             'id' => $id,

@@ -84,6 +84,15 @@
                 </header>
             @endif
 
+            @if (Auth::user()->email_verified_at == null)
+                <div class="w-full bg-yellow-50 px-14 py-4 flex items-center space-x-5">
+                    <x-heroicon-o-information-circle class="w-6 h-6 text-yellow-500" />
+                    <p class="text-yellow-500">{{ __('Alamat email Anda belum terverifikasi.') }}</p>
+                    <a href="{{ route('verification.send') }}"
+                        class="text-blue-500 hover:text-yellow-600">{{ __('Klik di sini untuk meminta email verifikasi baru.') }}</a>
+                </div>
+            @endif
+
             {{-- Content --}}
             <main>
                 {{ $slot }}
