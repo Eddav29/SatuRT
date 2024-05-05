@@ -4,13 +4,13 @@ namespace App\Services\FamilyManagement;
 
 use App\Models\Penduduk;
 use App\Services\ImageManager\imageService;
-use App\Services\Interfaces\CRUDServiceInterface;
 use App\Services\Interfaces\DatatablesInterface;
+use App\Services\Interfaces\RecordServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
-class CitizenService implements CRUDServiceInterface, DatatablesInterface
+class CitizenService implements RecordServiceInterface, DatatablesInterface
 {
     public static function all(): Collection
     {
@@ -24,7 +24,7 @@ class CitizenService implements CRUDServiceInterface, DatatablesInterface
 
     public static function create(Request $request): Collection | Model
     {
-        $imageName = imageService::uploadImage('storage_ktp', $request);
+        $imageName = imageService::uploadFile('storage_ktp', $request);
         $request->merge(['foto_ktp' => route('storage.ktp', ['filename' => $imageName])]);
         return Penduduk::create($request->only([
             'kartu_keluarga_id',
@@ -54,10 +54,10 @@ class CitizenService implements CRUDServiceInterface, DatatablesInterface
     {
         $citizen = Penduduk::findOrFail($id);
         if ($request->hasFile('images')) {
-            $imageName = imageService::uploadImage('storage_ktp', $request);
+            $imageName = imageService::uploadFile('storage_ktp', $request);
             $request->merge(['foto_ktp' => route('storage.ktp', ['filename' => $imageName])]);
             if ($citizen && $citizen->foto_ktp) {
-                imageService::deleteImage('storage_ktp', $citizen->foto_ktp);
+                imageService::deleteFile('storage_ktp', $citizen->foto_ktp);
             }
         } else {
             $request->merge(['foto_ktp' => $citizen->foto_ktp]);

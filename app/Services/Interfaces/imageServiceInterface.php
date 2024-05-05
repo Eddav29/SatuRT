@@ -4,8 +4,8 @@ namespace App\Services\Interfaces;
 
 use Illuminate\Http\Request;
 
-interface ImageServiceInterface
+interface FileServiceInterface
 {
-    public static function uploadImage($disk, Request $request);
-    public static function deleteImage($disk, $path) : bool;
+    public static function uploadFile($disk, Request $request);
+    public static function deleteFile($disk, $path) : bool;
 }

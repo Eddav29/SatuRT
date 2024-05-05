@@ -4,15 +4,13 @@ namespace App\Services\FamilyManagement;
 
 use App\Models\KartuKeluarga;
 use App\Models\Penduduk;
-use App\Services\Interfaces\CRUDServiceInterface;
 use App\Services\Interfaces\DatatablesInterface;
+use App\Services\Interfaces\RecordServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
-use function PHPSTORM_META\map;
-
-class FamilyCardService implements CRUDServiceInterface, DatatablesInterface
+class FamilyCardService implements RecordServiceInterface, DatatablesInterface
 {
 
     public static function find(string $id): KartuKeluarga
