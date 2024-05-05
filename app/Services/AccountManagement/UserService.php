@@ -94,8 +94,8 @@ class UserService implements RecordServiceInterface, DatatablesInterface
         return Penduduk::with('user')->whereNotNull('user_id')->get();
     }
 
-    public static function getRoleId($id): string
+    public static function getRoleId($name): string
     {
-        return Role::where('role_name', $id)->firstOrFail()->role_id;
+        return Role::where('role_name', $name)->firstOrFail()->role_id;
     }
 }

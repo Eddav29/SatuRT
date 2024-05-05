@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\BusinessService;
 use App\Services\CRUDService;
+use App\Services\Interfaces\BusinessService;
 use Illuminate\Http\Response;
 
 class BusinessController extends Controller

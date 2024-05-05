@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\HomeService;
+use App\Services\Interfaces\HomeService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -19,7 +19,7 @@ class HomeController extends Controller
     {
         $informations = $this->homeService->getFourLastInformation();
         $businesses = $this->homeService->getThreeLastUMKM();
-        
+
         return response()->view('pages.landing-page.home.index', [
             'informations' => $informations,
             'businesses' => $businesses
