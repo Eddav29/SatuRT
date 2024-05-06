@@ -10,10 +10,10 @@ use Intervention\Image\ImageManager;
 
 class imageService implements FileServiceInterface
 {
-    public static function uploadFile($disk, Request $request): string
+    public static function uploadFile(string $disk, Request $request, string $name = 'images'): string
     {
         $manager = new ImageManager(new Driver());
-        $image = $manager->read($request->file('images'));
+        $image = $manager->read($request->file($name));
         $image->toJpeg(80);
         $imageName = $request->images->hashName();
         $image->save(storage_path('app/' . $imageName));
@@ -23,7 +23,7 @@ class imageService implements FileServiceInterface
         return $imageName;
     }
 
-    public static function deleteFile($disk, $path): bool
+    public static function deleteFile(string $disk, string $path): bool
     {
         return Storage::disk($disk)->delete($path);
     }

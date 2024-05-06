@@ -158,6 +158,6 @@ class DashboardController extends Controller
     {
         return Informasi::with(['penduduk'])
             ->where('jenis_informasi', 'Pengumuman')
-            ->whereMonth('updated_at', '>=', date('m') - 1)->get();
+            ->whereMonth('updated_at', '>=', (date('m') - 1))->get();
     }
 }

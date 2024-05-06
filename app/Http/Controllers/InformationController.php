@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Informasi;
+use App\Services\FileManager\FileService;
+use App\Services\ImageManager\imageService;
 use App\Services\Notification\NotificationPusher;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -10,8 +12,13 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\ImageManager;
 use Stevebauman\Purify\Casts\PurifyHtmlOnSet;
 use Stevebauman\Purify\Facades\Purify;
 
@@ -50,12 +57,12 @@ class InformationController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $validated = $request->validate([
+        $validator = Validator::make($request->all(), [
             'penduduk_id' => ['required', 'exists:penduduk,penduduk_id'],
             'jenis_informasi' => ['required'],
             'judul_informasi' => ['required', 'string', 'min:3', 'max:255'],
             'isi_informasi' => ['required', 'string', 'min:3'],
-            'thumbnail_url' => ['required', 'file'],
+            'images' => ['required', 'file', 'mimes:jpeg,png,jpg,pdf,doc,docx,xls,xlsx', 'max:2048'],
         ], [
             'jenis_informasi.required' => 'Jenis informasi harus diisi.',
             'judul_informasi.required' => 'Judul informasi harus diisi.',
@@ -63,34 +70,33 @@ class InformationController extends Controller
             'judul_informasi.max' => 'Judul informasi maksimal memiliki panjang :max karakter.',
             'isi_informasi.required' => 'Isi informasi harus diisi.',
             'isi_informasi.min' => 'Isi informasi minimal memiliki panjang :min karakter.',
-            'thumbnail_url.required' => 'Thumbnail harus diisi.',
-            'thumbnail_url.file' => 'Thumbnail harus berupa gambar.',
+            'images.required' => 'Thumbnail harus diisi.',
+            'images.mimes' => $request['jenis_informasi'] == 'Pengumuman' ? 'File tidak valid.' : 'File harus berupa gambar.',
+            'images.max' => 'File maksimal 2048kb.',
         ]);
 
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
         try {
-            $model = Purify::clean($validated['isi_informasi']);
+            $model = Purify::clean($request['isi_informasi']);
             $cleaned_string = strip_tags(preg_replace('/(<\/p>)/', '$1 ', $model));
             $cleaned_string = preg_replace('/[^\x20-\x7E]/u', ' ', $cleaned_string);
-            $validated['excerpt'] = Str::substr($cleaned_string, 0, 300);
-            $validated['judul_informasi'] = Str::title($validated['judul_informasi']);
+            $request->merge(['excerpt' => Str::substr($cleaned_string, 0, 300)]);
+            $request->merge(['judul_informasi' => Str::title($request['judul_informasi'])]);
 
-
-
-            if ($request->file('thumbnail_url')) {
-                if ($validated['jenis_informasi'] == 'Pengumuman') {
-                    $fileName = $request->file('thumbnail_url')->getClientOriginalName();
-                    $request->file('thumbnail_url')->storeAs('information_images', $fileName, 'public');
-                    $validated['thumbnail_url'] = $fileName;
+            if ($request->file('images')) {
+                if ($request['jenis_informasi'] == 'Pengumuman') {
+                    $request->merge(['thumbnail_url' => $this->checkFile($request)]);
                 } else {
-                    $validated['thumbnail_url'] = $request->file('thumbnail_url')->store('information_images', 'public');
-                    $validated['thumbnail_url'] = basename($validated['thumbnail_url']);
+                    $request->merge(['thumbnail_url' => imageService::uploadFile('public', $request)]);
                 }
             }
 
-            Informasi::create($validated);
+            Informasi::create($request->all());
 
             NotificationPusher::success('Informasi baru ditambahkan');
-
             return redirect()->route('informasi.index')->with(['success' => 'Informasi baru ditambahkan']);
         } catch (\Throwable $th) {
             NotificationPusher::error('Informasi gagal ditambahkan');
@@ -100,19 +106,35 @@ class InformationController extends Controller
 
     public function upload(Request $request)
     {
-        if ($request->hasFile('upload')) {
-            $request->validate([
-                'upload' => ['required', 'file', 'mimes:jpeg,png,jpg,gif,svg'],
-            ]);
+        $validator = Validator::make($request->all(), [
+            'upload' => ['required', 'file', 'mimes:jpeg,png,jpg', 'max:2048'],
+        ], [
+            'upload.required' => 'Thumbnail harus diisi.',
+            'upload.mimes' => 'File harus berupa gambar.',
+            'upload.max' => 'File maksimal 2048kb.',
+        ]);
 
-            $originName = $request->file('upload')->getClientOriginalName();
-            $fileName = pathinfo($originName, PATHINFO_FILENAME);
-            $extension = $request->file('upload')->getClientOriginalExtension();
-            $fileName = $fileName . '_' . time() . '.' . $extension;
-            $request->file('upload')->storeAs('information_images', $fileName, 'public');
+        if ($validator->fails()) {
+            return response()->json(['uploaded' => 0], 400);
+        }
+        try {
+            if ($request->file('upload')) {
+                $manager = new ImageManager(new Driver());
+                $image = $manager->read($request->file('upload'));
+                $image->toJpeg(80);
+                $fileName = Hash::make($request->file('upload')->getClientOriginalName());
+                $image->save(storage_path('app/' . $fileName));
+                Storage::disk('public')->put($fileName, file_get_contents(storage_path('app/' . $fileName)));
+                unlink(storage_path('app/' . $fileName));
 
-            $url = asset('storage/information_images/' . $fileName);
-            return response()->json(['fileName' => $fileName, 'uploaded' => 1, 'url' => $url]);
+                $url = asset('storage/images_storage/' . $fileName);
+                return response()->json(['fileName' => $fileName, 'uploaded' => 1, 'url' => $url], 200);
+            }
+
+            return response()->json(['uploaded' => 0], 400);
+        } catch (\Throwable $th) {
+            NotificationPusher::error('File gagal ditambahkan');
+            return response()->json(['uploaded' => 0], 400);
         }
     }
 
@@ -121,8 +143,17 @@ class InformationController extends Controller
      */
     public function show(string $id): Response
     {
+        $imageExtensions = ['jpg', 'jpeg', 'png'];
+        $fileExtensions = ['pdf', 'doc', 'docx', 'xls', 'xlsx'];
         $information = Informasi::with('penduduk')->find($id);
         $file_extension = pathinfo($information->thumbnail_url, PATHINFO_EXTENSION);
+        $fileType = '';
+
+        if (in_array($file_extension, $imageExtensions)) {
+            $fileType = 'image';
+        } elseif (in_array($file_extension, $fileExtensions)) {
+            $fileType = 'file';
+        }
 
         $breadcrumb = [
             'list' => ['Home', 'Informasi', 'Detail Informasi'],
@@ -134,6 +165,7 @@ class InformationController extends Controller
             'breadcrumb' => $breadcrumb,
             'toolbar_id' => $id,
             'file_extension' => $file_extension,
+            'fileType' => $fileType,
             'active' => 'detail',
             'toolbar_route' => [
                 'detail' => route('informasi.show', ['informasi' => $id]),
@@ -148,17 +180,29 @@ class InformationController extends Controller
      */
     public function edit(string $id): Response
     {
+        $imageExtensions = ['jpg', 'jpeg', 'png'];
+        $fileExtensions = ['pdf', 'doc', 'docx', 'xls', 'xlsx'];
         $breadcrumb = [
             'list' => ['Home', 'Informasi', 'Edit Informasi'],
             'url' => ['home', 'informasi.index', 'informasi.index'],
         ];
 
         $information = Informasi::find($id);
+        $file_extension = pathinfo($information->thumbnail_url, PATHINFO_EXTENSION);
+        $fileType = '';
+
+        if (in_array($file_extension, $imageExtensions)) {
+            $fileType = 'image';
+        } elseif (in_array($file_extension, $fileExtensions)) {
+            $fileType = 'file';
+        }
 
         return response()->view('pages.information.edit', [
             'breadcrumb' => $breadcrumb,
             'information' => $information,
             'toolbar_id' => $id,
+            'file_extension' => $file_extension,
+            'fileType' => $fileType,
             'active' => 'edit',
             'toolbar_route' => [
                 'detail' => route('informasi.show', ['informasi' => $id]),
@@ -175,45 +219,56 @@ class InformationController extends Controller
     {
         $information = Informasi::find($id);
         $request['penduduk_id'] = Auth::user()->penduduk->penduduk_id;
-
-        if ($request->file('thumbnail_url')) {
-            Storage::delete('public/information_images/' . $information->thumbnail_url);
-
-            if ($request['jenis_informasi'] == 'Pengumuman') {
-                $fileName = $request->file('thumbnail_url')->getClientOriginalName();
-                $request->file('thumbnail_url')->storeAs('information_images', $fileName, 'public');
-                $request['thumbnail_url'] = $fileName;
-            } else {
-                $request['thumbnail_url'] = $request->file('thumbnail_url')->store('information_images', 'public');
-                $request['thumbnail_url'] = basename($request['thumbnail_url']);
-            }
-        } else {
-            $request['thumbnail_url'] = $information->thumbnail_url;
-        }
-
-        $validated = $request->validate([
+        $rules = [
             'penduduk_id' => ['required', 'exists:penduduk,penduduk_id'],
             'jenis_informasi' => ['required'],
             'judul_informasi' => ['required', 'string', 'min:3', 'max:255'],
             'isi_informasi' => ['required', 'string', 'min:3'],
-            'thumbnail_url' => ['required']
-        ], [
+        ];
+
+        if ($request->hasFile('images') && $request->jenis_informasi == 'Pengumuman') {
+            $rules['images'] = ['required', 'file', 'mimes:jpeg,png,jpg,pdf,doc,docx,xls,xlsx', 'max:2048'];
+        } elseif ($request->hasFile('images') && $request->jenis_informasi != 'Pengumuman') {
+            $rules['images'] = ['required', 'file', 'mimes:jpeg,png,jpg', 'max:2048'];
+        }
+
+        $validator = Validator::make($request->all(), $rules, [
             'jenis_informasi.required' => 'Jenis informasi harus diisi.',
             'judul_informasi.required' => 'Judul informasi harus diisi.',
             'judul_informasi.min' => 'Judul informasi minimal memiliki panjang :min karakter.',
             'judul_informasi.max' => 'Judul informasi maksimal memiliki panjang :max karakter.',
             'isi_informasi.required' => 'Isi informasi harus diisi.',
             'isi_informasi.min' => 'Isi informasi minimal memiliki panjang :min karakter.',
+            'images.required' => 'Thumbnail harus diisi.',
+            'images.mimes' => $request['jenis_informasi'] == 'Pengumuman' ? 'File tidak valid.' : 'File harus berupa gambar.',
+            'images.max' => 'File maksimal 2048kb.',
         ]);
 
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
         try {
-            $model = Purify::clean($validated['isi_informasi']);
+            $model = Purify::clean($request['isi_informasi']);
             $cleaned_string = strip_tags(preg_replace('/(<\/p>)/', '$1 ', $model));
             $cleaned_string = preg_replace('/[^\x20-\x7E]/u', ' ', $cleaned_string);
-            $validated['excerpt'] = Str::substr($cleaned_string, 0, 300);
-            $validated['judul_informasi'] = Str::title($validated['judul_informasi']);
+            $request->merge(['excerpt' => Str::substr($cleaned_string, 0, 300)]);
+            $request->merge(['judul_informasi' => Str::title($request['judul_informasi'])]);
 
-            $information->update($validated);
+            if ($request->file('images')) {
+                if ($request['jenis_informasi'] == 'Pengumuman') {
+                    $request->merge(['thumbnail_url' => $this->checkFile($request)]);
+                    FileService::deleteFile('public', $information->thumbnail_url);
+                } else {
+                    $request->merge(['thumbnail_url' => imageService::uploadFile('public', $request)]);
+                    imageService::deleteFile('public', $information->thumbnail_url);
+                }
+            } else {
+                $request->merge(['thumbnail_url' => $information->thumbnail_url]);
+            }
+
+
+            $information->update($request->all());
 
             NotificationPusher::success('Data berhasil diperbarui');
             return redirect()->route('informasi.index')->with(['success' => 'Perubahan berhasila disimpan']);
@@ -233,7 +288,20 @@ class InformationController extends Controller
             $information = Informasi::find($id);
 
             if ($information && $information->user_id === $user->id) {
-                $information->delete();
+                $status = '';
+                DB::beginTransaction();
+
+                if ($information->jenis_informasi == 'Pengumuman') {
+                    $status = FileService::deleteFile('storage_announcement', $information->thumbnail_url);
+                } else {
+                    $status = imageService::deleteFile('public', $information->thumbnail_url);
+                }
+
+                if ($status) {
+                    $information->delete();
+                }
+
+                DB::commit();
 
                 return response()->json([
                     'code' => 200,
@@ -257,15 +325,6 @@ class InformationController extends Controller
         }
     }
 
-    public function download(string $fileName)
-    {
-        try {
-            return Storage::download('public/information_images/' . $fileName);
-        } catch (\Throwable $th) {
-            return response()->json(['error' => 'File not found or an error occurred.'], 404);
-        }
-    }
-
     public function list(): JsonResponse
     {
         try {
@@ -285,5 +344,23 @@ class InformationController extends Controller
         } catch (\Throwable $th) {
             return response()->json(['error' => 'An error occurred.'], 500);
         }
+    }
+
+    private function checkFile(Request $request): string
+    {
+        $imageExtensions = ['jpg', 'jpeg', 'png'];
+        $fileExtensions = ['pdf', 'doc', 'docx', 'xls', 'xlsx'];
+        $fileName = '';
+        $extension = $request->file('images')->getClientOriginalExtension();
+
+        if (in_array($extension, $imageExtensions)) {
+            $fileName = imageService::uploadFile('storage_announcement', $request);
+            return $fileName;
+        } elseif (in_array($extension, $fileExtensions)) {
+            $fileName = FileService::uploadFile('/storage_announcement', $request, 'images');
+            return $fileName;
+        }
+
+        return 'File tidak valid';
     }
 }

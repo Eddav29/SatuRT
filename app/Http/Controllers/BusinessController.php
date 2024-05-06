@@ -3,12 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Services\BusinessService;
-use App\Services\CRUDService;
+use App\Services\Interfaces\RepositoryService;
 use Illuminate\Http\Response;
 
 class BusinessController extends Controller
 {
-    private CRUDService $crudBusinessService;
+    private RepositoryService $crudBusinessService;
     private BusinessService $businessService;
 
     public function __construct(BusinessService $businessService)

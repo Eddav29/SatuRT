@@ -38,15 +38,20 @@ return [
 
         'public' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'root' => storage_path('app/public/images_storage'),
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
-            'throw' => false,
         ],
         'storage_ktp' => [
             'driver' => 'local',
             'root' => storage_path('app/storage_ktp'),
-            'url' => env('APP_URL').'/storage/ktp',
+            'url' => env('APP_URL') . '/storage/ktp',
+            'visibility' => 'private',
+        ],
+        'storage_announcement' => [
+            'driver' => 'local',
+            'root' => storage_path('app/storage_announcement'),
+            'url' => env('APP_URL') . '/storage/announcement',
             'visibility' => 'private',
         ],
 

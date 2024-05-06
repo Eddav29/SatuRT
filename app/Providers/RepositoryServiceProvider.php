@@ -7,7 +7,7 @@ use App\Services\Implementation\NewsServiceImplementation;
 use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Support\ServiceProvider;
 
-class CRUDServiceProvider extends ServiceProvider implements DeferrableProvider
+class RepositoryServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     public array $singletons = [
         'business_service' => BusinessServiceImplementation::class,

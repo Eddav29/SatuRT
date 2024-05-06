@@ -2,18 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Informasi;
-use App\Services\CRUDService;
+use App\Services\Interfaces\RepositoryService;
 use App\Services\NewsService;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Session;
 
 class NewsController extends Controller
 {
-    private CRUDService $crudNewsService;
+    private RepositoryService $crudNewsService;
     private NewsService $newsService;
 
     public function __construct(NewsService $newsService)
