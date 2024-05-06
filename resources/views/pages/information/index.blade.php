@@ -17,29 +17,37 @@
                     [
                         'label' => 'Jenis Informasi',
                         'key' => 'jenis_informasi',
-                        'style' => 'text-left',
+                        'style' => 'text-left truncate',
                         'customStyle' => [
-                            'Dokumentasi' => 'w-fit py-2 px-3 text-center rounded-md bg-green-500/30 text-green-500',
-                            'Pengumuman' => 'w-fit py-2 px-3 text-center rounded-md bg-yellow-500/30 text-yellow-800',
-                            'Berita' => 'w-fit py-2 px-3 text-center rounded-md bg-orange-500/30 text-orange-800',
-                            'Artikel' => 'w-fit py-2 px-3 text-center rounded-md bg-blue-500/30 text-blue-800',
+                            'Dokumentasi' =>
+                                'w-[10rem] py-2 px-3 text-center rounded-md bg-green-500/30 text-green-500',
+                            'Pengumuman' =>
+                                'w-[10rem] py-2 px-3 text-center rounded-md bg-yellow-500/30 text-yellow-800',
+                            'Berita' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-orange-500/30 text-orange-800',
+                            'Artikel' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-blue-500/30 text-blue-800',
                         ],
                     ],
                     [
                         'label' => 'Dibuat Pada',
                         'key' => 'created_at',
-                        'style' => 'text-left',
+                        'style' => 'text-left truncate',
                     ],
                     [
                         'label' => 'Terakhir Diubah',
                         'key' => 'updated_at',
-                        'style' => 'text-left',
+                        'style' => 'text-left truncate',
                     ],
                 ]" :aksi="[
                     'detail' => true,
                     'edit' => true,
                     'hapus' => true,
-                ]">
+                ]" :filter="[
+                    ['label' => 'Artikel', 'key' => 'Artikel', 'columnIndex' => 1],
+                    ['label' => 'Pengumuman', 'key' => 'Pengumuman', 'columnIndex' => 1],
+                    ['label' => 'Berita', 'key' => 'Berita', 'columnIndex' => 1],
+                    ['label' => 'Dokumentasi', 'key' => 'Dokumentasi', 'columnIndex' => 1],
+                ]"
+                    :layoutTopEnd="true">
                 </x-datatables>
             </section>
             {{-- End Table --}}
