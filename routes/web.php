@@ -63,9 +63,9 @@ Route::resource('informasi', InformationController::class)->middleware(['auth'])
     'destroy' => 'informasi.destroy',
 ]);
 
-Route::post('/file-upload', [InformationController::class, 'upload'])->name('file.upload');
 
 Route::prefix('file')->middleware(['auth', 'verified'])->group(function () {
+    Route::post('/file-upload', [FileController::class, 'ckeditor_image_upload'])->name('file.upload');
     Route::get('/{path}/{identifier}', [FileController::class, 'show'])->name('file.show');
     Route::get('/{path}/{identifier}/download', [FileController::class, 'download'])->name('file.download');
 });

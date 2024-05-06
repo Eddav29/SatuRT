@@ -46,10 +46,17 @@
                         </div>
                     </div>
                     @if ($information->jenis_informasi != 'Pengumuman')
-                        <div>
-                            <img src="{{ asset('storage/images_storage/' . $information->thumbnail_url) }}"
-                                alt="" class="w-full object-cover rounded-lg">
-                        </div>
+                        @if (!strpos($information->thumbnail_url, 'https://'))
+                            <div>
+                                <img src="{{ $information->thumbnail_url }}" alt=""
+                                    class="w-full object-cover rounded-lg">
+                            </div>
+                        @else
+                            <div>
+                                <img src="{{ asset('storage/images_storage/' . $information->thumbnail_url) }}"
+                                    alt="" class="w-full object-cover rounded-lg">
+                            </div>
+                        @endif
                     @elseif ($information->jenis_informasi == 'Pengumuman' && $fileType == 'image')
                         <div>
                             <img src="{{ route('storage.announcement', ['filename' => $information->thumbnail_url]) }}"

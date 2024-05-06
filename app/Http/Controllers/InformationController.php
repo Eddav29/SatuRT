@@ -104,40 +104,6 @@ class InformationController extends Controller
         }
     }
 
-    public function upload(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'upload' => ['required', 'file', 'mimes:jpeg,png,jpg', 'max:2048'],
-        ], [
-            'upload.required' => 'Thumbnail harus diisi.',
-            'upload.mimes' => 'File harus berupa gambar.',
-            'upload.max' => 'File maksimal 2048kb.',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(['uploaded' => 0], 400);
-        }
-        try {
-            if ($request->file('upload')) {
-                $manager = new ImageManager(new Driver());
-                $image = $manager->read($request->file('upload'));
-                $image->toJpeg(80);
-                $fileName = Hash::make($request->file('upload')->getClientOriginalName());
-                $image->save(storage_path('app/' . $fileName));
-                Storage::disk('public')->put($fileName, file_get_contents(storage_path('app/' . $fileName)));
-                unlink(storage_path('app/' . $fileName));
-
-                $url = asset('storage/images_storage/' . $fileName);
-                return response()->json(['fileName' => $fileName, 'uploaded' => 1, 'url' => $url], 200);
-            }
-
-            return response()->json(['uploaded' => 0], 400);
-        } catch (\Throwable $th) {
-            NotificationPusher::error('File gagal ditambahkan');
-            return response()->json(['uploaded' => 0], 400);
-        }
-    }
-
     /**
      * Display the specified resource.
      */
