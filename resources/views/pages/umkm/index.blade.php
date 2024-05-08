@@ -44,7 +44,7 @@
 
             {{-- Table --}}
             <section>
-                <x-datatables id="umkm_id" url="/umkm" :columns="[
+                <x-datatables :layoutTop2Start="Auth::user()->role->role_name == 'Ketua RT' ? true : false" id="umkm_id" url="/umkm" :columns="[
                         [
                             'label' => 'NIK',
                             'key' => 'nik',
