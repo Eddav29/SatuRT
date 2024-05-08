@@ -18,6 +18,7 @@ class AnnouncementResource extends JsonResource
         return [
             'id' => $this->informasi_id,
             'file_extension' => $this->file_extension,
+            'file_type' => $this->file_type,
             'file' => $this->thumbnail_url,
             'title' => $this->judul_informasi,
             'created_by' => $this->penduduk->nama,
