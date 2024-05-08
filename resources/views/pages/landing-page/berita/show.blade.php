@@ -7,11 +7,24 @@
                         {{ \Carbon\Carbon::parse($information->created_at)->locale('id_ID')->isoFormat('dddd, DD MMMM YYYY') }}
                     </p>
                     <h1 class="text-[1.618rem]/[2.618rem] font-bold">{{ $information->judul_informasi }}</h1>
-                    <p class="text-[1rem]/[1.618rem]">{{ $information->jenis_informasi }}</p>
+                    @if ($information->jenis_informasi === 'Artikel')
+                        <p class="text-[1rem]/[1.618rem] w-fit py-2 px-3 text-center rounded-md bg-blue-500/30 text-blue-800">
+                            {{ $information->jenis_informasi }}</p>
+                    @endif
+                    @if ($information->jenis_informasi === 'Dokumentasi')
+                        <p
+                            class="text-[1rem]/[1.618rem] w-fit py-2 px-3 text-center rounded-md bg-green-500/30 text-green-500">
+                            {{ $information->jenis_informasi }}</p>
+                    @endif
+                    @if ($information->jenis_informasi === 'Berita')
+                        <p
+                            class="text-[1rem]/[1.618rem] w-fit py-2 px-3 text-center rounded-md bg-orange-500/30 text-orange-800">
+                            {{ $information->jenis_informasi }}</p>
+                    @endif
                 </div>
                 <div>
                     <div class="h-[20rem] lg:h-[80vh] overflow-hidden">
-                        <img src="{{ asset('storage/information_images/' . $information->thumbnail_url ?? '') }}"
+                        <img src="{{ !strpos($information->thumbnail_url, 'https://') ? $information->thumbnail_url : asset('storage/images_storage/' . $information->thumbnail_url) }}"
                             alt="" class="w-full h-full object-cover rounded-xl">
                     </div>
                 </div>
@@ -30,7 +43,7 @@
                                         <a href="{{ route('berita-detail', $otherInformation->informasi_id) }}"
                                             class="lg:max-h-[29rem] group">
                                             <div class="relative h-72 lg:h-[15rem]">
-                                                <img src="{{ asset('storage/information_images/' . $otherInformation->thumbnail_url ?? '') }}"
+                                                <img src="{{ !strpos($otherInformation->thumbnail_url, 'https://') ? $otherInformation->thumbnail_url : asset('storage/images_storage/' . $otherInformation->thumbnail_url) }}"
                                                     alt="" class="rounded-xl w-full h-full object-cover">
                                             </div>
                                             <div class="py-3">
@@ -60,7 +73,7 @@
                             <a href="{{ route('berita-detail', $otherInformation->informasi_id) }}"
                                 class="lg:max-h-[29rem] group">
                                 <div class="relative h-72 lg:h-[60%]">
-                                    <img src="{{ asset('storage/information_images/' . $otherInformation->thumbnail_url ?? '') }}"
+                                    <img src="{{ !strpos($otherInformation->thumbnail_url, 'https://') ? $otherInformation->thumbnail_url : asset('storage/images_storage/' . $otherInformation->thumbnail_url) }}"
                                         alt="" class="rounded-xl w-full h-full object-cover">
                                 </div>
                                 <div class="py-3">

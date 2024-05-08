@@ -9,14 +9,16 @@
                  swiper = new Swiper('.swiper', {
                      loop: true,
                      autoplay: {
-                         delay: 3500,
+                         delay: 1500,
                          pauseOnMouseEnter: true,
                          disableOnInteraction: false,
+                         waitForTransition: true
                      },
                      centeredSlides: true,
                      slidesPerView: 'auto',
                      grabCursor: true,
                      spaceBetween: 30,
+                     speed: 1000,
                  });
              }
 

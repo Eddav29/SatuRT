@@ -7,6 +7,7 @@ use App\Http\Controllers\Auth\EmailRegistrationController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\CitizenAccountController;
 use App\Http\Controllers\CitizenController;
 use App\Http\Controllers\BusinessUserController;
@@ -18,6 +19,7 @@ use App\Http\Controllers\InformationController;
 use App\Http\Controllers\InventarisController;
 use App\Http\Controllers\ResidentReportController;
 use App\Http\Controllers\DocumentRequestController;
+use App\Http\Controllers\NewsController;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -56,8 +58,12 @@ Route::prefix('v1')->group(function () {
     Route::get('pendukung-keputusan/kriteria', [CriteriaController::class, 'list']);
 
     Route::get('pendukung-keputusan/ranking/metode/{metode}', [DecisionSupportController::class, 'ranking']);
+
+    Route::get('berita', [NewsController::class, 'paginate']);
+    Route::get('usaha', [BusinessController::class, 'paginate']);
+
+    Route::get('/pengumuman/{id}', [AnnouncementController::class, 'getAnnouncement']);
+    Route::get('/pelaporan/{id}', [ResidentReportController::class, 'getResidentReport']);
+    Route::get('/laporan-keuangan/{id}', [FinanceReportController::class, 'financeReport']);
 })->middleware('api');
 
-Route::get('/pengumuman/{id}', [AnnouncementController::class, 'getAnnouncement'])->middleware('api');
-Route::get('/pelaporan/{id}', [ResidentReportController::class, 'getResidentReport'])->middleware('api');
-Route::get('/laporan-keuangan/{id}', [FinanceReportController::class, 'financeReport'])->middleware('api');
