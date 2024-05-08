@@ -33,7 +33,7 @@
                     [
                         'label' => 'Tanggal',
                         'key' => 'tanggal',
-                        'style' => 'text-center',
+                        'style' => 'text-left',
                     ],
                 ]" :aksi="[
                     'detail' => true,

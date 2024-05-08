@@ -32,7 +32,7 @@ class InventarisController extends Controller
     public function show(string $id)
     {
         $inventaris = Inventaris::find($id);
-      
+
         $breadcrumb = [
             'list' => ['Home', 'Inventaris', 'Detail inventaris'],
             'url' => ['home', 'inventaris.index', ['inventaris.show', $id]],
@@ -67,7 +67,6 @@ class InventarisController extends Controller
             'kondisi' => 'required',
             'jenis' => 'required',
             'sumber' => 'required',
-            'foto_inventaris' => 'required|file',
             'keterangan' => 'required|string|max:255',
         ]);
 
