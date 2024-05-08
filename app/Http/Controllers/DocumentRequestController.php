@@ -17,7 +17,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use App\Services\Notification\NotificationPusher;
+use PDF;
 use Exception;
+use Illuminate\Support\Facades\View;
 
 class DocumentRequestController extends Controller
 {
@@ -162,6 +164,8 @@ class DocumentRequestController extends Controller
                 'accepted_by' => Auth::user()->id,
                 'accepted_at' => now(), // Waktu saat persetujuan
             ]);
+
+            
 
             DB::commit(); // Selesaikan transaksi
 
@@ -360,5 +364,18 @@ class DocumentRequestController extends Controller
             ], 500);
         }
     }
+
+
+    public function generatePdf($id)
+    {
+        $persuratan = Persuratan::findOrFail($id);
+    
+        // Load tampilan Blade dengan data yang diperlukan
+        $pdf = PDF::loadView('pages.pdf.surat', compact('persuratan'));
+    
+        // Unduh file PDF
+        return $pdf->stream('document.pdf'); // Nama file untuk unduhan
+    }
+
     
 }

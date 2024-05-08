@@ -67,7 +67,6 @@ class InventarisController extends Controller
             'kondisi' => 'required',
             'jenis' => 'required',
             'sumber' => 'required',
-            'foto_inventaris' => 'required|file',
             'keterangan' => 'required|string|max:255',
         ]);
 
@@ -210,7 +209,7 @@ class InventarisController extends Controller
             DB::beginTransaction();
 
             $inventaris->delete();
-        
+
             DB::commit();
             return response()->json([
                 'code' => 200,

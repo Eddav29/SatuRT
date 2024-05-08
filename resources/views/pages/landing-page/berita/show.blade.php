@@ -8,7 +8,8 @@
                     </p>
                     <h1 class="text-[1.618rem]/[2.618rem] font-bold">{{ $information->judul_informasi }}</h1>
                     @if ($information->jenis_informasi === 'Artikel')
-                        <p class="text-[1rem]/[1.618rem] w-fit py-2 px-3 text-center rounded-md bg-blue-500/30 text-blue-800">
+                        <p
+                            class="text-[1rem]/[1.618rem] w-fit py-2 px-3 text-center rounded-md bg-blue-500/30 text-blue-800">
                             {{ $information->jenis_informasi }}</p>
                     @endif
                     @if ($information->jenis_informasi === 'Dokumentasi')

@@ -19,45 +19,45 @@
                     class="p-6 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col md:grid md:grid-cols-1 md:auto-rows-auto gap-y-5">
 
                     <div class="lg:mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
-                        <div class="md:grid md:grid-cols-4 flex gap-3">
-                            <h5 class="font-semibold">ID Inventaris</h5>
+                        <div class="md:grid md:grid-cols-4 flex max-lg:flex-auto gap-3">
+                            <h5 class="font-semibold max-lg:w-2/5">ID Inventaris</h5>
                             <p class="md:col-span-3">: {{ $inventaris->inventaris_id }}</p>
                         </div>
-                        <div class="md:grid md:grid-cols-4 flex gap-3">
-                            <h5 class="font-semibold">Nama</h5>
+                        <div class="md:grid md:grid-cols-4 flex max-lg:flex-auto gap-3">
+                            <h5 class="font-semibold max-lg:w-2/5">Nama</h5>
                             <p class="md:col-span-3">: {{ $inventaris->nama_inventaris }}</p>
                         </div>
                     </div>
 
                     <div class="lg:mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
-                        <div class="md:grid md:grid-cols-4 flex gap-3">
-                            <h5 class="font-semibold">Merk</h5>
+                        <div class="md:grid md:grid-cols-4 flex max-lg:flex-auto gap-3">
+                            <h5 class="font-semibold max-lg:w-2/5">Merk</h5>
                             <p class="md:col-span-3">: {{ $inventaris->merk }}</p>
                         </div>
-                        <div class="md:grid md:grid-cols-4 flex gap-3">
-                            <h5 class="font-semibold">Warna</h5>
+                        <div class="md:grid md:grid-cols-4 flex max-lg:flex-auto gap-3">
+                            <h5 class="font-semibold max-lg:w-2/5">Warna</h5>
                             <p class="md:col-span-3">: {{ $inventaris->warna }}</p>
                         </div>
                     </div>
 
                     <div class="lg:mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
-                        <div class="md:grid md:grid-cols-4 flex gap-3">
-                            <h5 class="font-semibold">Jumlah</h5>
+                        <div class="md:grid md:grid-cols-4 flex max-lg:flex-auto gap-3">
+                            <h5 class="font-semibold max-lg:w-2/5">Jumlah</h5>
                             <p class="md:col-span-3">: {{ $inventaris->jumlah }}</p>
                         </div>
-                        <div class="md:grid md:grid-cols-4 flex gap-3">
-                            <h5 class="font-semibold">Kondisi</h5>
+                        <div class="md:grid md:grid-cols-4 flex max-lg:flex-auto gap-3">
+                            <h5 class="font-semibold max-lg:w-2/5">Kondisi</h5>
                             <p class="md:col-span-3">: {{ $inventaris->kondisi }}</p>
                         </div>
                     </div>
 
                     <div class="lg:mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
-                        <div class="md:grid md:grid-cols-4 flex gap-3">
-                            <h5 class="font-semibold">Jenis</h5>
+                        <div class="md:grid md:grid-cols-4 flex max-lg:flex-auto gap-3">
+                            <h5 class="font-semibold max-lg:w-2/5">Jenis</h5>
                             <p class="md:col-span-3">: {{ $inventaris->jenis }}</p>
                         </div>
-                        <div class="md:grid md:grid-cols-4 flex gap-3">
-                            <h5 class="font-semibold">Sumber</h5>
+                        <div class="md:grid md:grid-cols-4 flex max-lg:flex-auto gap-3">
+                            <h5 class="font-semibold max-lg:w-2/5">Sumber</h5>
                             <p class="md:col-span-3">: {{ $inventaris->sumber }}</p>
                         </div>
                     </div>
@@ -73,14 +73,14 @@
                             <h5 class="font-semibold mb-4">Lampiran</h5>
                             <div x-data="{ openImage: false }">
                                 <img @click="openImage = !openImage"
-                                    src="{{ asset('storage/inventaris_images/' . $inventaris->foto_inventaris) }}"
+                                    src="{{ asset('storage/images_storage/inventaris_images/' . $inventaris->foto_inventaris) }}"
                                     alt="" class="rounded-xl max-h-[30rem] w-full object-cover h-48"
                                     draggable="false">
                                 <div x-show="openImage"
                                     class="fixed z-[999999999] top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
                                     <img @click="openImage = false" x-show="openImage"
                                         @click.outside="openImage = false"
-                                        src="{{ asset('storage/inventaris_images/' . $inventaris->foto_inventaris) }}"
+                                        src="{{ asset('storage/images_storage/inventaris_images/' . $inventaris->foto_inventaris) }}"
                                         alt="" class="rounded-xl w-max h-max lg:max-w-full lg:max-h-full"
                                         draggable="false">
                                     <div class="absolute w-8 h-8 top-10 right-10 cursor-pointer"

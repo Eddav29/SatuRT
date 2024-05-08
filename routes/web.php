@@ -124,6 +124,7 @@ Route::get('/persuratan/{id}/approve', [DocumentRequestController::class, 'appro
 
 // Rute untuk penolakan permohonan surat
 Route::post('/persuratan/{id}/reject', [DocumentRequestController::class, 'reject'])->name('persuratan.reject');
+Route::get('/persuratan/{id}/pdf', [DocumentRequestController::class, 'generatePdf'])->name('persuratan.pdf');
 
 Route::prefix('pendukung-keputusan')->middleware(['auth'])->group(function () {
     Route::resource('alternatif', AlternativeController::class)

@@ -52,7 +52,7 @@
                                 class="font-normal  mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
                                 <option value="" selected disabled>Pilih Kondisi Inventaris</option>
                                 <option value="Baik">Baik</option>
-                                <option value="Bagus">Bagus</option>
+                                <option value="Baru">Baru</option>
                                 <option value="Cacat">Cacat</option>
                                 <option value="Cukup">Cukup</option>
                                 <option value="Rusak">Rusak</option>

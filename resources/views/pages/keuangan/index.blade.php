@@ -89,33 +89,38 @@
                     [
                         'label' => 'Judul keuangan',
                         'key' => 'judul',
-                        'style' => 'text-left'
+                        'style' => 'text-left',
                     ],
                     [
                         'label' => 'Jenis keuangan',
                         'key' => 'jenis_keuangan',
-                        'style' => 'text-left'
+                        'style' => 'text-left',
                     ],
                     [
                         'label' => 'Nominal',
                         'key' => 'nominal',
-                        'style' => 'text-left'
+                        'style' => 'text-left',
                     ],
                     [
                         'label' => 'Dibuat Pada',
                         'key' => 'created_at',
-                        'style' => 'text-center'
+                        'style' => 'text-center',
                     ],
                     [
                         'label' => 'Terakhir Diubah',
                         'key' => 'updated_at',
-                        'style' => 'text-center'
+                        'style' => 'text-center',
                     ],
                 ]" :aksi="[
                     'detail' => true,
                     'edit' => true,
                     'hapus' => true,
-                ]">
+                ]"
+                    :filter="[
+                        ['label' => 'Pemasukan', 'key' => 'Pemasukan', 'columnIndex' => 1],
+                        ['label' => 'Pengeluaran', 'key' => 'Diterima', 'columnIndex' => 1],
+                ]"
+                    :layoutTopEnd="true">
                 </x-datatables>
         </div>
     </div>
