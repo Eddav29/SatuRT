@@ -125,14 +125,21 @@
           </div>
           <div class="form-group">
               <label>Alamat:</label>
-              <span class="field">{{ $persuratan->pengajuan->penduduk->alamat }}</span>
+              <span class="field">{{ $persuratan->pengajuan->penduduk-> }}</span>
           </div>
           
           <div class="form-group">
-              <span>
-                  Surat ini dipergunakan untuk mengurus:
-              </span>
+            <span>
+            <strong>Bahwa nama tersebut benar benar warga RT 01 RW 03 dan berkelakuan baik.</strong>
+            </span>
           </div>
+
+          <div class="form-group">
+            <span>
+                Surat ini dipergunakan untuk mengurus:
+            </span>
+          </div>
+
           
           <div class="form-group">
               <span>
@@ -165,6 +172,8 @@
           </div>
       </div>
       
+      <div class="statement">Demikian Surat Pengantar ini dipergunakan sebagaimana mestinya</div>
+
       <div class="signature-section">
           <div class="signature-block">
               <div>Malang,{{ $persuratan->pengajuan->accepted_at }}</div>
