@@ -185,8 +185,8 @@
     @push('scripts')
         <script>
 // Call renderFiles with the old file URLs for both thumbnail and lisence
-const oldThumbnailUrl = "{{ asset('storage/business-thumbnail_images/' . $umkm->thumbnail_url) }}";
-const oldLicenseUrl = "{{ asset('storage/business-lisence_images/' . $umkm->lisence_image_url) }}";
+const oldThumbnailUrl = "{{ asset('storage/images_storage/business-thumbnail_images/' . $umkm->thumbnail_url) }}";
+const oldLicenseUrl = "{{ asset('storage/images_storage/business-lisence_images/' . $umkm->lisence_image_url) }}";
 
 renderFiles([], 'thumbnail_url', oldThumbnailUrl);
 renderFiles([], 'lisence_image_url', oldLicenseUrl);
