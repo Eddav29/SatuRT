@@ -32,7 +32,7 @@ class InventarisController extends Controller
     public function show(string $id)
     {
         $inventaris = Inventaris::find($id);
-
+      
         $breadcrumb = [
             'list' => ['Home', 'Inventaris', 'Detail inventaris'],
             'url' => ['home', 'inventaris.index', ['inventaris.show', $id]],
@@ -210,7 +210,7 @@ class InventarisController extends Controller
             DB::beginTransaction();
 
             $inventaris->delete();
-        
+
             DB::commit();
             return response()->json([
                 'code' => 200,

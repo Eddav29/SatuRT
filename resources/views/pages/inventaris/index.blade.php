@@ -8,36 +8,39 @@
 
             {{-- Table --}}
             <section>
-                <x-datatables
-                id="inventaris_id"
-                url="/inventaris"
-                :columns="[
+                <x-datatables id="inventaris_id" url="/inventaris" :columns="[
                     [
                         'label' => 'ID Inventaris',
                         'key' => 'inventaris_id',
-                        'style' => 'text-left'
+                        'style' => 'text-left',
                     ],
                     [
                         'label' => 'Nama',
                         'key' => 'nama_inventaris',
-                        'style' => 'text-left'
+                        'style' => 'text-left',
                     ],
                     [
                         'label' => 'Jumlah',
                         'key' => 'jumlah',
-                        'style' => 'text-left'
-
+                        'style' => 'text-left',
                     ],
                     [
                         'label' => 'Kondisi',
                         'key' => 'kondisi',
-                        'style' => 'text-left'
+                        'style' => 'text-left',
                     ],
                 ]" :aksi="[
                     'detail' => true,
                     'edit' => true,
                     'hapus' => true,
-                ]">
+                ]" :filter="[
+                    ['label' => 'Cukup', 'key' => 'Cukup', 'columnIndex' => 3],
+                    ['label' => 'Baik', 'key' => 'Baik', 'columnIndex' => 3],
+                    ['label' => 'Bagus', 'key' => 'Bagus', 'columnIndex' => 3],
+                    ['label' => 'Cacat', 'key' => 'Cacat', 'columnIndex' => 3],
+                    ['label' => 'Rusak', 'key' => 'Rusak', 'columnIndex' => 3],
+                ]"
+                    :layoutTopEnd="true">
                 </x-datatables>
             </section>
             {{-- End Table --}}
