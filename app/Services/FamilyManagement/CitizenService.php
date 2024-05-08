@@ -63,6 +63,10 @@ class CitizenService implements RecordServiceInterface, DatatablesInterface
             $request->merge(['foto_ktp' => $citizen->foto_ktp]);
         }
 
+        if ($request->status_hubungan_dalam_keluarga !== 'Kepala Keluarga' && Penduduk::where('kartu_keluarga_id', $citizen->kartu_keluarga_id)->where('status_hubungan_dalam_keluarga', 'Kepala Keluarga')->count() === 1) {
+            throw new \Exception('Kartu Keluarga harus memiliki kepala keluarga');
+        }
+
         if ($request->status_hubungan_dalam_keluarga === 'Kepala Keluarga') {
             $leadCitizen = Penduduk::where('kartu_keluarga_id', $citizen->kartu_keluarga_id)->where('status_hubungan_dalam_keluarga', 'Kepala Keluarga')->first();
             $leadCitizen->update(['status_hubungan_dalam_keluarga' => null]);
