@@ -57,6 +57,7 @@ class UMKM extends Model
         return [
             'Makanan',
             'Minuman',
+            'Makanan dan Minuman',
             'Pakaian',
             'Peralatan',
             'Jasa',
@@ -79,7 +80,7 @@ class UMKM extends Model
         });
 
         $query->when($filters['status'] ?? false, function ($query, $status) {
-            $query->where('status', '==', $status);
+            $query->where('status', '=', $status);
         });
     }
 }

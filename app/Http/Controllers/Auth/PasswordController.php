@@ -3,36 +3,29 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\JsonResponse;
+use App\Services\Notification\NotificationPusher;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 
 class PasswordController extends Controller
 {
-    public function update(Request $request): JsonResponse
+    /**
+     * Update the user's password.
+     */
+    public function update(Request $request): RedirectResponse
     {
-        $validator = Validator::make($request->only('current_password', 'password', 'password_confirmation'), [
-            'current_password' => ['required', 'password'],
+        $validated = $request->validateWithBag('updatePassword', [
+            'current_password' => ['required', 'current_password'],
             'password' => ['required', Password::defaults(), 'confirmed'],
         ]);
 
-        if ($validator->fails()) {
-            throw new \Illuminate\Validation\ValidationException($validator);
-        }
-
-
         $request->user()->update([
-            'password' => Hash::make($validator['password']),
+            'password' => Hash::make($validated['password']),
         ]);
 
-        return response()->json([
-            'code' => 200,
-            'message' => 'Password updated',
-            'timestamp' => now()
-        ], 200);
-
+        NotificationPusher::success('Password updated successfully');
+        return back();
     }
 }

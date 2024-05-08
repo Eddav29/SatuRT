@@ -19,10 +19,12 @@ class HomeController extends Controller
     {
         $informations = $this->homeService->getFourLastInformation();
         $businesses = $this->homeService->getThreeLastUMKM();
-        
+        $leader = $this->homeService->getLeader();
+
         return response()->view('pages.landing-page.home.index', [
             'informations' => $informations,
-            'businesses' => $businesses
+            'businesses' => $businesses,
+            'leader' => $leader
         ]);
     }
 }

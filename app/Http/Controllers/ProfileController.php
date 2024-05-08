@@ -132,22 +132,13 @@ class ProfileController extends Controller
 
         try {
             DB::beginTransaction();
-
             if($request->file('images')){
-                // dd($request->all());
                 $imageName = imageService::uploadImage('storage_ktp', $request);
-                // dd($imageName);
-
                 $validated['foto_ktp'] = route('storage.ktp', ['filename' => $imageName]);
             }
-
-            dd($validated);
-
             $penduduk = Penduduk::find($id);
             $penduduk->update($validated);
             DB::commit();
-
-            // dd($penduduk->foto_ktp);
             NotificationPusher::success('Data Profile berhasil diubah');
             return redirect()->route('profile')->with(['success' => 'Data Profile berhasil diubah']);
         } catch (\Throwable $th) {

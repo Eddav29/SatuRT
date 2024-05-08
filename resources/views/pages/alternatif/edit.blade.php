@@ -3,70 +3,67 @@
         <x-breadcrumb :list="$breadcrumb['list']" :url="$breadcrumb['url']" />
     </x-slot>
 
-    <div class="p-6 lg:px-14 gap-y-5 mx-auto max-w-screen-2xl md:p-6 2xl:p-10 ">
-        <div class="p-6 rounded-xl bg-white-snow">
+    {{-- @dd($alternatif) --}}
+
+    <div class="p-6 lg:px-12 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col gap-y-5">
+        <x-toolbar :toolbar_id="$toolbar_id" :active="$active" :toolbar_route="$toolbar_route" />
+        <div class="p-6 rounded-xl bg-white-snow mt-5">
             {{-- Header --}}
             <section>
                 <div class="bg-blue-gray p-5 rounded-md">
-                    <h1 class="text-2xl font-semibold">Edit Kegiatan</h1>
+                    <h1 class="font-bold md:text-2xl text-xl">Edit Kegiatan</h1>
                 </div>
             </section>
             {{-- End Header --}}
 
-            {{-- Alert --}}
-            @if (session('error'))
-                <div role="alert" class="rounded border-s-4 border-red-500 bg-red-50 p-4 my-8">
-                    <div class="flex items-center gap-2 text-red-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
-                            <path fill-rule="evenodd"
-                                d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
-                                clip-rule="evenodd" />
-                        </svg>
-
-                        <strong class="block font-medium"> Terjadi Kesalahan </strong>
-                    </div>
-
-                    <p class="mt-2 text-sm text-red-700">
-                        {{ session('error') }}
-                    </p>
-                </div>
-            @endif
-            {{-- End Alert --}}
-
             {{-- Form --}}
             <section>
-                <form action="{{ url('spk') }}" method="POST" enctype="multipart/form-data"
-                    class="px-5">
-                    @csrf
-                    <div class="py-6">
-                        <label class="sr-only" for="nama_alternatif"></label>
-                        <p class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">Nama Kegiatan</p>
-                        <input
-                          class="placeholder-gray-300 w-full rounded-lg border-gray-200 p-3 text-sm"
-                          placeholder="Nama Kegiatan"
-                          type="text"
-                          id="nama_alternatif"
-                          value="{{old('nama_alternatif', $alternatif->nama_alternatif)}}"
-                        />
-                      </div>
+                <div x-data="{ title: '' }">
+                    <form action="{{ route('spk.update', $id) }}" method="POST" class="px-5">
+                        @csrf
+                        @method('PUT')
+                        <div class="mt-6">
+                            <label for="nama_alternatif"
+                                class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-medium text-navy-night">
+                                Nama Kegiatan</label>
+                            <input
+                                class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-blue-400 invalid:ring-1 invalid:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder:text-xs text-sm"
+                                placeholder="Nama Kegiatan" type="text" id="nama_alternatif" name="nama_alternatif"
+                                @input="title = $event.target.value"
+                                value="{{ $alternatif[0]->alternatif->nama_alternatif ?? old('nama_alternatif') }}"
+                                required />
+                        </div>
 
-                    {{-- Button --}}
-                    <div class="mt-5 flex gap-x-5">
-                        <button type="submit"
-                            class="bg-azure-blue text-white-snow font-medium px-4 py-2 rounded-md flex justify-center items-center gap-x-3">
-                            <x-heroicon-o-folder-arrow-down class="w-5 h-5" />
-                            <p>Simpan</p>
-                        </button>
-                        <a href="{{ route('spk.index') }}"
-                            class="border border-navy-night/50 rounded-md px-4 py-2 flex justify-center items-center gap-x-3"><x-heroicon-o-arrow-uturn-left
-                                class="w-5 h-5" />
-                            <p>Kembali</p>
-                        </a>
-                    </div>
-                </form>
-                {{-- End Form --}}
+                        @foreach ($alternatif as $criteria)
+                            <div class="mt-3">
+                                <label
+                                    class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-medium text-navy-night text-sm md:text-base break-words"
+                                    x-text="'Bobot ' + title + ' ' + '({{ $criteria->kriteria->nama_kriteria }})'"
+                                    for="nilai_alternatif{{ $criteria->kriteria->kriteria_id }}"></label>
+                                <input
+                                    class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-blue-400 invalid:ring-1 invalid:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder:text-xs text-sm"
+                                    placeholder="Bobot {{ $criteria->kriteria->nama_kriteria }}" type="text"
+                                    id="nilai_alternatif{{ $criteria->kriteria->kriteria_id }}"
+                                    name="nilai_kriteria[{{ $loop->index }}]"
+                                    value="{{ $criteria->nilai ?? old('nilai_kriteria.' . $loop->index) }}" required />
+                            </div>
+                        @endforeach
+
+                        {{-- Button --}}
+                        <div class="mt-10 flex gap-x-5">
+                            <button type="submit"
+                                class="bg-azure-blue text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">
+                                <p>Simpan</p>
+                            </button>
+                            <a href="{{ route('spk.index') }}"
+                                class="border border-navy-night/50 rounded-md px-4 py-2 text-sm flex justify-center items-center gap-x-3">
+                                <p>Kembali</p>
+                            </a>
+                        </div>
+                    </form>
+                </div>
             </section>
+            {{-- End Form --}}
         </div>
     </div>
-
 </x-app-layout>

@@ -3,11 +3,9 @@
 namespace App\Services\DecisionMakerGenerator;
 
 use App\Models\KriteriaAlternatif;
-use App\Services\Interfaces\DecisionMakerInterface;
 use App\Utils\TableGenerator\TableService;
 
-class DecisionMakerService implements DecisionMakerInterface
-{
+class DecisionMakerService {
     private $kriteria;
     private $bobot;
     private $tipe;

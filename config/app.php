@@ -165,7 +165,7 @@ return [
          */
         App\Providers\BusinessServiceProvider::class,
         App\Providers\NewsServiceProvider::class,
-        App\Providers\CRUDServiceProvider::class,
+        App\Providers\RepositoryServiceProvider::class,
         App\Providers\HomeServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,

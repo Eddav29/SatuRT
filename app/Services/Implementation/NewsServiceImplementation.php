@@ -3,7 +3,7 @@
 namespace App\Services\Implementation;
 
 use App\Models\Informasi;
-use App\Services\CRUDService;
+use App\Services\Interfaces\RepositoryService;
 use App\Services\NewsService;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
@@ -11,12 +11,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class NewsServiceImplementation implements CRUDService, NewsService
+class NewsServiceImplementation implements RepositoryService, NewsService
 {
-    public function create(Request $request): Collection
+    public function create(Request $request): Model
     {
         // TODO: Implement create() method.
-        return Collection::make();
+        return new Informasi();
     }
 
     public function update(string $id, Request $request): Collection

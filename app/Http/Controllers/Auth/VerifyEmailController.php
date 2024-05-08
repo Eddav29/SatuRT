@@ -3,35 +3,25 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Models\User;
+use Illuminate\Auth\Events\Verified;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
 
 class VerifyEmailController extends Controller
 {
-    public function __invoke(Request $request, $id, $hash) : RedirectResponse
+    /**
+     * Mark the authenticated user's email address as verified.
+     */
+    public function __invoke(EmailVerificationRequest $request): RedirectResponse
     {
-        $validator = Validator::make(['id' => $id, 'hash' => $hash], [
-            'id' => 'required|uuid|exists:users,user_id',
-            'hash' => 'required|string',
-        ]);
-
-        if ($validator->fails()) {
-
-            throw new \Illuminate\Validation\ValidationException($validator);
-        }
-        $user = User::where('user_id', $id)->first();
-        if (!sha1($user->email) === $hash) {
-            return response()->redirectToRoute('login')->with('error', 'Invalid verification link');
+        if ($request->user()->hasVerifiedEmail()) {
+            return redirect()->intended(route('dashboard', absolute: false));
         }
 
-        if ($user->hasVerifiedEmail()) {
-            return response()->redirectToRoute('login')->with('error', 'Email already verified');
+        if ($request->user()->markEmailAsVerified()) {
+            event(new Verified($request->user()));
         }
 
-        $user->markEmailAsVerified();
-
-        return response()->redirectToRoute('login')->with('success', 'Email verified successfully');
+        return redirect()->intended(route('dashboard', absolute: false));
     }
 }

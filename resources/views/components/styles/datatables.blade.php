@@ -268,24 +268,24 @@
         }
 
         /* table.dataTable th.dt-left,
-        table.dataTable td.dt-left {
-            text-align: left;
-        }
+                    table.dataTable td.dt-left {
+                        text-align: left;
+                    }
 
-        table.dataTable th.dt-center,
-        table.dataTable td.dt-center {
-            text-align: center;
-        }
+                    table.dataTable th.dt-center,
+                    table.dataTable td.dt-center {
+                        text-align: center;
+                    }
 
-        table.dataTable th.dt-right,
-        table.dataTable td.dt-right {
-            text-align: right;
-        }
+                    table.dataTable th.dt-right,
+                    table.dataTable td.dt-right {
+                        text-align: right;
+                    }
 
-        table.dataTable th.dt-justify,
-        table.dataTable td.dt-justify {
-            text-align: justify;
-        } */
+                    table.dataTable th.dt-justify,
+                    table.dataTable td.dt-justify {
+                        text-align: justify;
+                    } */
 
         table.dataTable th.dt-nowrap,
         table.dataTable td.dt-nowrap {
@@ -662,12 +662,12 @@
         }
 
         /* div.dt-layout-cell.dt-start div.dt-info {
-            text-align: left;
-        } */
+                        text-align: left;
+                    } */
 
         /* div.dt-layout-cell table tbody tr td div {
-            text-align: left !important;
-        } */
+                        text-align: left !important;
+                    } */
 
         div.dt-container div.dt-layout-cell.dt-end {
             display: flex;
@@ -705,7 +705,7 @@
         }
 
         div.dt-container .dt-paging {
-            background-color: #ffffff !important;
+            /* background-color: #ffffff !important; */
             padding: 0.75rem;
             border-radius: 0.75rem
         }
@@ -713,23 +713,22 @@
         div.dt-container .dt-paging .dt-paging-button {
             box-sizing: border-box;
             display: inline-block;
-            width: 3em;
-            padding: 0.5em 1em;
-            margin-left: 2px;
+            width: 2.5em;
+            height: 2.5em;
+            margin-left: 0.5em;
             text-align: center;
             text-decoration: none !important;
             cursor: pointer;
             color: inherit !important;
-            border: 1px solid transparent;
-            border-radius: 2px;
-            background: transparent;
+            border: 1px solid rgb(209 213 219);
+            border-radius: 0.5em;
         }
 
         div.dt-container .dt-paging .dt-paging-button.current,
         div.dt-container .dt-paging .dt-paging-button.current:hover {
             color: #0B1215;
-            border: 1px solid rgba(0, 0, 0, 0.3);
-            border-radius: 0.375rem;
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 0.5em;
             background-color: #E8F1FF;
             background: -webkit-gradient(linear,
                     left top,
@@ -763,7 +762,7 @@
         div.dt-container .dt-paging .dt-paging-button.disabled:hover,
         div.dt-container .dt-paging .dt-paging-button.disabled:active {
             cursor: default;
-            color: rgba(0, 0, 0, 0.5) !important;
+            color: rgba(0, 0, 0, 0.2) !important;
             border: 1px solid transparent;
             background: transparent;
             box-shadow: none;
@@ -771,7 +770,8 @@
 
         div.dt-container .dt-paging .dt-paging-button:hover {
             color: #0B1215;
-            border: 1px solid rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+            border-radius: 0.5em;
             background-color: #E8F1FF;
             background: -webkit-gradient(linear,
                     left top,
@@ -983,8 +983,8 @@
                 margin-top: 0.5em;
             }
         }
-                                                                                                                                                                                                                    */
-        *[dir="rtl"] table.dataTable thead th,
+
+        */ *[dir="rtl"] table.dataTable thead th,
         *[dir="rtl"] table.dataTable thead td,
         *[dir="rtl"] table.dataTable tfoot th,
         *[dir="rtl"] table.dataTable tfoot td {

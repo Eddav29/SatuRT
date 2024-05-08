@@ -21,8 +21,7 @@
         function pushNotification(type, message) {
             const notification = document.createElement('div');
             notification.classList.add('notification', 'flex', 'items-center', 'justify-start', 'w-full',
-                'max-w-[350px]',
-                'md:max-w-[450px]', 'z-50', 'py-1', 'px-6', 'bg-white', 'rounded-full');
+                'max-w-[1000px]', 'z-50', 'py-1', 'px-6', 'bg-white', 'rounded-full');
 
             let icon;
             switch (type) {

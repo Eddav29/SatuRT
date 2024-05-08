@@ -2,22 +2,20 @@
 
 namespace App\Services\ImageManager;
 
-use App\Services\Interfaces\ImageServiceInterface;
+use App\Services\Interfaces\FileServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 
-class imageService implements ImageServiceInterface
+class imageService implements FileServiceInterface
 {
-    public static function uploadImage($disk, Request $request): string
+    public static function uploadFile(string $disk, Request $request, string $name = 'images'): string
     {
         $manager = new ImageManager(new Driver());
-        dd($manager->read($request->file('images')));
-        $image = $manager->read($request->file('images'));
+        $image = $manager->read($request->file($name));
         $image->toJpeg(80);
         $imageName = $request->images->hashName();
-        dd($imageName);
         $image->save(storage_path('app/' . $imageName));
         Storage::disk($disk)->put($imageName, file_get_contents(storage_path('app/' . $imageName)));
         unlink(storage_path('app/' . $imageName));
@@ -25,7 +23,7 @@ class imageService implements ImageServiceInterface
         return $imageName;
     }
 
-    public static function deleteImage($disk, $path): bool
+    public static function deleteFile(string $disk, string $path): bool
     {
         return Storage::disk($disk)->delete($path);
     }

@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Interfaces;
 
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
-interface CRUDService
+interface RepositoryService
 {
     public function find(string $id): Model;
 
     public function all(): Collection;
 
-    public function create(Request $request): Collection;
+    public function create(Request $request): Model;
 
     public function update(string $id, Request $request): Collection;
 
