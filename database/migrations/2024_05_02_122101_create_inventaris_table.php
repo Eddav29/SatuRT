@@ -21,7 +21,7 @@ return new class extends Migration
             $table->enum('kondisi', [
                 'Cukup',
                 'Baik',
-                'Bagus',
+                'Baru',
                 'Cacat',
                 'Rusak',
             ]);

@@ -23,6 +23,12 @@
                         'label' => 'Jenis Laporan',
                         'key' => 'jenis_pelaporan',
                         'style' => 'text-left',
+                        'customStyle' => [
+                            'Pengaduan' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-red-500/30 text-red-800',
+                            'Lainnya' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-blue-500/30 text-blue-800',
+                            'Kritik' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-yellow-500/30 text-yellow-800',
+                            'Saran' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-green-500/30 text-green-800',
+                        ],
                     ],
                     [
                         'label' => 'Tanggal',

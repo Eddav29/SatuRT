@@ -61,7 +61,7 @@
                                 <option value="" disabled>Pilih Kondisi Inventaris</option>
                                 <option value="Baik" {{ $inventaris->kondisi === 'Baik' ? 'selected' : '' }}>Baik
                                 </option>
-                                <option value="Bagus" {{ $inventaris->kondisi === 'Bagus' ? 'selected' : '' }}>Bagus
+                                <option value="Baru" {{ $inventaris->kondisi === 'Baru' ? 'selected' : '' }}>Baru
                                 </option>
                                 <option value="Cacat" {{ $inventaris->kondisi === 'Cacat' ? 'selected' : '' }}>Cacat
                                 </option>

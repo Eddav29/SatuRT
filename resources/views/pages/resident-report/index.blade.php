@@ -55,11 +55,17 @@
                         'label' => 'Status',
                         'key' => 'status',
                         'style' => 'text-center',
+                        'customStyle' => [
+                            'Menunggu Persetujuan' =>'w-[10rem] py-2 px-3 text-center rounded-md bg-yellow-500/30 text-yellow-800',
+                            'Diterima' =>'w-[10rem] py-2 px-3 text-center rounded-md bg-green-500/30 text-green-500',
+                            'Ditolak' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-red-500/30 text-orange-800',
+                            'Dibatalkan' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-orange-500/30 text-red-800',
+                        ],
                     ],
                     [
                         'label' => 'Jenis Laporan',
                         'key' => 'jenis_pelaporan',
-                        'style' => 'text-left',
+                        'style' => 'text-center',
                     ],
                     [
                         'label' => 'Tanggal',
