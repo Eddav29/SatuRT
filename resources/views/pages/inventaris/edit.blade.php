@@ -125,7 +125,7 @@
                             <label for="lisence_image_url" class="relative cursor-pointer">
                                 <div class="w-full h-64 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-bray-100 hover:border-gray-100 hover:bg-gray-200"
                                     ondrop="dropFile(event, 'lisence_image_url')" ondragover="allowDrop(event)">
-                                    <img src="{{ asset('storage/inventaris_images/' . $inventaris->foto_inventaris) }}"
+                                    <img src="{{ asset('storage/images_storage/inventaris_images/' . $inventaris->foto_inventaris) }}"
                                         for="lisence_image_url"
                                         class="w-full h-full object-cover border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-bray-100 hover:border-gray-100 hover:bg-gray-200">
                                     <div id="lisence_image_url-container" class="w-full h-full overflow-hidden hidden">

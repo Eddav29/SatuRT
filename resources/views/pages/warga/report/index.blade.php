@@ -8,36 +8,38 @@
         <div class="p-6 rounded-xl bg-white-snow overflow-hidden">
             {{-- Table --}}
             <section>
-                <x-datatables
-                id="pelaporan_id"
-                url="/pelaporan"
-                :columns="[
+                <x-datatables id="pelaporan_id" url="/pelaporan" :columns="[
                     [
                         'label' => 'ID Laporan',
                         'key' => 'pelaporan_id',
-                        'style' => 'text-left'
+                        'style' => 'text-left',
                     ],
                     [
                         'label' => 'Pelapor',
                         'key' => 'pelapor',
-                        'style' => 'text-left'
+                        'style' => 'text-left',
                     ],
                     [
                         'label' => 'Jenis Laporan',
                         'key' => 'jenis_pelaporan',
-                        'style' => 'text-left'
-
+                        'style' => 'text-left',
                     ],
                     [
                         'label' => 'Tanggal',
                         'key' => 'tanggal',
-                        'style' => 'text-center'
+                        'style' => 'text-center',
                     ],
                 ]" :aksi="[
                     'detail' => true,
                     'edit' => true,
                     'hapus' => true,
-                ]">
+                ]" :filter="[
+                    ['label' => 'Pengaduan', 'key' => 'Pengaduan', 'columnIndex' => 2],
+                    ['label' => 'Kritik', 'key' => 'Kritik', 'columnIndex' => 2],
+                    ['label' => 'Saran', 'key' => 'Saran', 'columnIndex' => 2],
+                    ['label' => 'Lainnya', 'key' => 'Lainnya', 'columnIndex' => 2],
+                ]"
+                    :layoutTopEnd="true">
                 </x-datatables>
             </section>
             {{-- End Table --}}

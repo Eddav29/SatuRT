@@ -45,37 +45,38 @@
 
             {{-- Table --}}
             <section>
-                <x-datatables
-                :layoutTop2Start=false
-                id="pelaporan_id"
-                url="/pelaporan"
-                :columns="[
+                <x-datatables :layoutTop2Start=false id="pelaporan_id" url="/pelaporan" :columns="[
                     [
                         'label' => 'Pelapor',
                         'key' => 'pelapor',
-                        'style' =>'text-left'
+                        'style' => 'text-left',
                     ],
                     [
                         'label' => 'Status',
                         'key' => 'status',
-                        'style' => 'text-center'
+                        'style' => 'text-center',
                     ],
                     [
                         'label' => 'Jenis Laporan',
                         'key' => 'jenis_pelaporan',
-                        'style' =>'text-left'
-
+                        'style' => 'text-left',
                     ],
                     [
                         'label' => 'Tanggal',
                         'key' => 'tanggal',
-                        'style' => 'text-center'
+                        'style' => 'text-center',
                     ],
-                ]" :aksi="[
-                    'detail' => true,
-                    'edit' => false,
-                    'hapus' => false,
-                ]">
+                ]"
+                    :aksi="[
+                        'detail' => true,
+                        'edit' => false,
+                        'hapus' => false,
+                    ]" :filter="[
+                        ['label' => 'Pengaduan', 'key' => 'Pengaduan', 'columnIndex' => 2],
+                        ['label' => 'Kritik', 'key' => 'Kritik', 'columnIndex' => 2],
+                        ['label' => 'Saran', 'key' => 'Saran', 'columnIndex' => 2],
+                        ['label' => 'Lainnya', 'key' => 'Lainnya', 'columnIndex' => 2],
+                    ]" :layoutTopEnd="true">
                 </x-datatables>
             </section>
             {{-- End Table --}}

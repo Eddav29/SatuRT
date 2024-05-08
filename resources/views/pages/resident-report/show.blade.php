@@ -44,7 +44,7 @@
                             <h5 class="font-semibold">Lampiran</h5>
                             <div x-data="{ openImage: false }">
                                 <img @click="openImage = !openImage"
-                                    src="{{ asset('storage/resident-report_images/' . $pelaporan->image_url) }}"
+                                    src="{{ asset('storage/images_storage/resident-report_images/' . $pelaporan->image_url) }}"
                                     alt="" class="rounded-xl max-h-[30rem] w-full object-cover"
                                     draggable="false">
                                 <div x-show="openImage"
