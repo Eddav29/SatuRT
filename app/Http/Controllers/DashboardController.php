@@ -147,9 +147,7 @@ class DashboardController extends Controller
 
     public function getFinanceTranpanceReport(): Collection
     {
-        $detail = DetailKeuangan::whereYear('updated_at', date('Y'))
-            ->whereMonth('updated_at', date('m'))
-            ->get();
+        $detail = DetailKeuangan::whereYear('updated_at', date('Y'))->get();
 
         return $detail;
     }
