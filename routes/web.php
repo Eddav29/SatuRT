@@ -45,7 +45,6 @@ use App\Http\Controllers\FileController;
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('berita', [NewsController::class, 'index'])->name('berita');
-Route::post('berita', [NewsController::class, 'index'])->name('berita');
 Route::get('berita/{id}', [NewsController::class, 'show'])->name('berita-detail');
 
 Route::get('usaha', [BusinessController::class, 'index'])->name('usaha');
@@ -206,24 +205,3 @@ require __DIR__ . '/auth.php';
 
 Route::get('storage/ktp/{filename}', [StorageController::class, 'storageKTP'])->name('storage.ktp');
 Route::get('storage/announcement/{filename}', [StorageController::class, 'storageAnnouncement'])->name('storage.announcement');
-
-
-// Route::get('eddas', function () {
-//     $decisionMaker = new DecisionMakerService();
-//     $eddasService = new EddasService();
-//     $table = "<script src='https://cdn.tailwindcss.com'></script>";
-//     $table .= "<section>";
-//     $table .= $decisionMaker->getKriteriaTable();
-//     $table .= $decisionMaker->getAlternatifTable();
-//     $table .= $decisionMaker->createTableService()->createTable($decisionMaker->getData());
-//     $table .= $decisionMaker->createTableService()->createTable($eddasService->stepDetermineAverange(3));
-//     $table .= $decisionMaker->createTableService()->createTable($eddasService->stepDeterminePDA(3));
-//     $table .= $decisionMaker->createTableService()->createTable($eddasService->stepDetermineNDA(3));
-//     $table .= $decisionMaker->createTableService()->createTable($eddasService->stepDetermineSPSN(3));
-//     $table .= $decisionMaker->createTableService()->createTable($eddasService->stepDetermineNormalizeSPSN(3));
-//     $table .= $decisionMaker->createTableService()->createTable($eddasService->stepCalculateAssesmentScore(5));
-//     $table .= $decisionMaker->createTableService()->createTable($eddasService->stepRanking(4));
-//     $table .= "</section>";
-
-//     return $table;
-// });

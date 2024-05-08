@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Informasi;
 use App\Services\Interfaces\RepositoryService;
 use App\Services\NewsService;
 use Illuminate\Http\Response;
 
 class NewsController extends Controller
 {
+    private Informasi $latestInformation;
     private RepositoryService $crudNewsService;
     private NewsService $newsService;
 
@@ -15,20 +17,18 @@ class NewsController extends Controller
     {
         $this->crudNewsService = app('news_service');
         $this->newsService = $newsService;
+        $this->latestInformation = $this->newsService->getLatestNews();
     }
 
     public function index(): Response
     {
-        $newInformation = $this->newsService->getLatestNews();
-        $informations = $this->newsService->getNewsWithPagination($newInformation->informasi_id ?? null, request(['search', 'jfsi'])) ?? null;
         $types = $this->newsService->getAllTypes();
 
         return response()->view(
             'pages.landing-page.berita.index',
             [
-                'informations' => $informations,
-                'newInformation' => $newInformation,
-                'types' => $types
+                'newInformation' => $this->latestInformation,
+                'types' => $types,
             ]
         );
     }
@@ -41,5 +41,19 @@ class NewsController extends Controller
             'information' => $information,
             'otherInformations' => $otherInformations
         ]);
+    }
+
+    public function paginate()
+    {
+        $informasi = Informasi::where('jenis_informasi', '!=', 'Pengumuman')
+            ->filter(request(['search', 'jfsi']))
+            ->orderBy('created_at', 'desc')
+            ->where('informasi_id', '!=', $this->latestInformation->informasi_id)
+            ->paginate(10);
+
+        return response()->json([
+            'status' => 201,
+            'data' => $informasi
+        ], 201);
     }
 }

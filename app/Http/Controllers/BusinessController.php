@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UMKM;
 use App\Services\BusinessService;
 use App\Services\Interfaces\RepositoryService;
 use Illuminate\Http\Response;
@@ -21,9 +22,8 @@ class BusinessController extends Controller
     {
         $statuses = $this->businessService->getAllStatuses();
         $types = $this->businessService->getAllTypes();
-        $businesses = $this->businessService->getBusinessesWithPagination(request(['jenis_umkm', 'status']));
+
         return response()->view('pages.landing-page.usaha.index', [
-            'businesses' => $businesses,
             'statuses' => $statuses,
             'types' => $types
         ]);
@@ -36,4 +36,15 @@ class BusinessController extends Controller
             'business' => $business
         ]);
     }
+
+    public function paginate()
+    {
+        $umkm = UMKM::filter(request(['jenis_umkm', 'status']))->paginate(5);
+
+        return response()->json([
+            'status' => 201,
+            'data' => $umkm
+        ], 201);
+    }
+
 }
