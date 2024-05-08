@@ -43,8 +43,8 @@
                     </div>
                     <div class="md:flex md:flex-col">
                         <h5 class="font-semibold">Unduh Surat Permohonan</h5>
-                        <a href="{{ route('persuratan.download', $persuratan->persuratan_id) }}"  
-                            class="bg-blue-500 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">Unduh PDF</a>
+                        <a href="{{ route('persuratan.pdf', $persuratan->persuratan_id) }}"  
+                            class="bg-blue-500 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3" target="_blank">Unduh PDF</a>
                     </div>                                   
                     {{-- Tombol Setujui dan Tolak --}}
                     {{-- Tombol Setuju dan Tolak hanya jika role adalah "Ketua RT" atau "Admin" --}}

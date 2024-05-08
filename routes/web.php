@@ -115,8 +115,7 @@ Route::get('/persuratan/{id}/approve', [DocumentRequestController::class, 'appro
 
 // Rute untuk penolakan permohonan surat
 Route::post('/persuratan/{id}/reject', [DocumentRequestController::class, 'reject'])->name('persuratan.reject');
-Route::get('/persuratan/{id}/download', [DocumentRequestController::class, 'downloadPDF'])->name('persuratan.download');
-Route::get('/persuratan/{id}/preview', [DocumentRequestController::class, 'previewPDF'])->name('persuratan.preview');
+Route::get('/persuratan/{id}/pdf', [DocumentRequestController::class, 'generatePdf'])->name('persuratan.pdf');
 
 Route::resource('pendukung-keputusan/alternatif', AlternativeController::class)
 ->names([

@@ -17,8 +17,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use App\Services\Notification\NotificationPusher;
-use Exception;
 use PDF;
+use Exception;
+use Illuminate\Support\Facades\View;
 
 class DocumentRequestController extends Controller
 {
@@ -363,22 +364,18 @@ class DocumentRequestController extends Controller
             ], 500);
         }
     }
-    
-    public function downloadPDF($persuratan_id)
+
+
+    public function generatePdf($id)
     {
-        // Temukan permohonan surat berdasarkan ID
-        $persuratan = Persuratan::with('pengajuan.penduduk')->find($persuratan_id);
-
-        if (!$persuratan) {
-            return redirect()->route('persuratan.index')->with('error', 'Permohonan tidak ditemukan.');
-        }
-
-        // Render PDF dari tampilan
-        $pdf = PDF::loadView('pdf.surat', [
-            'persuratan' => $persuratan,
-        ]);
-
-        // Unduh PDF dengan nama file yang sesuai
-        return $pdf->stream('surat-' . $persuratan_id . '.pdf');
+        $persuratan = Persuratan::findOrFail($id);
+    
+        // Load tampilan Blade dengan data yang diperlukan
+        $pdf = PDF::loadView('pages.pdf.surat', compact('persuratan'));
+    
+        // Unduh file PDF
+        return $pdf->stream('document.pdf'); // Nama file untuk unduhan
     }
+
+    
 }
