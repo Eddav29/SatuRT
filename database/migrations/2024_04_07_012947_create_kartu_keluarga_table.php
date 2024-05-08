@@ -16,9 +16,11 @@ return new class extends Migration
             $table->char('nomor_kartu_keluarga', 16)->unique();
             $table->integer('nomor_rt');
             $table->integer('nomor_rw');
+            $table->string('alamat');
             $table->string('desa');
             $table->string('kecamatan');
             $table->string('kota');
+            $table->string('kode_pos');
             $table->softDeletes();
             $table->timestamps();
         });

@@ -24,9 +24,11 @@ class KartuKeluargaFactory extends Factory
             'nomor_kartu_keluarga' => $this->faker->unique()->numerify('################'),
             'nomor_rt' => $this->faker->numberBetween(1, 99),
             'nomor_rw' => $this->faker->numberBetween(1, 99),
+            'alamat' => $this->faker->city(),
             'desa' => $this->faker->city(),
             'kecamatan' => $this->faker->city(),
             'kota' => $this->faker->city(),
+            'kode_pos' => $this->faker->numberBetween(65142, 65142),
         ];
     }
 }

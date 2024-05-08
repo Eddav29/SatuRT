@@ -16,7 +16,7 @@ return new class extends Migration
             $table->uuid('pengajuan_id')->index();
             $table->enum('jenis_surat', [
                 'Surat Pengantar KTP',
-            'Surat Pengantar Kartu keluarga',
+            'Surat Pengantar Kartu Keluarga',
             'Surat Pengantar Akta Kelahiran',
             'Surat Pengantar Akta Kematian',
             'Surat Pengantar SKCK',

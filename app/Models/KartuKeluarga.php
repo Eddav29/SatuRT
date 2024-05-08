@@ -28,9 +28,11 @@ class KartuKeluarga extends Model
         'nomor_kartu_keluarga',
         'nomor_rt',
         'nomor_rw',
+        'alamat',
         'desa',
         'kecamatan',
-        'kota'
+        'kota',
+        'kode_pos'
     ];
 
     protected $hidden = [

@@ -46,36 +46,42 @@
             {{-- Table --}}
             <section>
                 <x-datatables id="persuratan_id" url="/persuratan" :columns="[
-                [
-                    'label' => 'NIK',
-                    'key' => 'nik',
-                    'style' => 'text-left'
-                ],
-                [
-                    'label' => 'Pemohon',
-                    'key' => 'nama',
-                    'style' => 'text-left'
-                ],
-                [
-                    'label' => 'Status',
-                    'key' => 'status',
-                    'style' => 'text-left'
-                ],
-                [
-                    'label' => 'Keperluan',
-                    'key' => 'keperluan',
-                    'style' => 'text-left'
-                ],
-                [
-                    'label' => 'Tanggal',
-                    'key' => 'accepted_at',
-                    'style' => 'text-left'
-                ],
+                    [
+                        'label' => 'NIK',
+                        'key' => 'nik',
+                        'style' => 'text-left',
+                    ],
+                    [
+                        'label' => 'Pemohon',
+                        'key' => 'nama',
+                        'style' => 'text-left',
+                    ],
+                    [
+                        'label' => 'Status',
+                        'key' => 'status',
+                        'style' => 'text-left',
+                    ],
+                    [
+                        'label' => 'Keperluan',
+                        'key' => 'keperluan',
+                        'style' => 'text-left',
+                    ],
+                    [
+                        'label' => 'Tanggal',
+                        'key' => 'accepted_at',
+                        'style' => 'text-left',
+                    ],
                 ]" :aksi="[
                     'detail' => true,
                     'edit' => false,
                     'hapus' => false,
-                ]">
+                ]" :filter="[
+                    ['label' => 'Menunggu Persetujuan', 'key' => 'Menunggu Persetujuan', 'columnIndex' => 2],
+                    ['label' => 'Diterima', 'key' => 'Diterima', 'columnIndex' => 2],
+                    ['label' => 'Ditolak', 'key' => 'Ditolak', 'columnIndex' => 2],
+                    ['label' => 'Dibatalkan', 'key' => 'Dibatalkan', 'columnIndex' => 2],
+                ]"
+                    :layoutTopEnd="true">
                 </x-datatables>
         </div>
     </div>
