@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AnnouncementRequest;
 use App\Http\Resources\AnnouncementResource;
 use App\Models\Informasi;
 use Illuminate\Http\Exceptions\HttpResponseException;
-use Illuminate\Http\Request;
 
 class AnnouncementController extends Controller
 {
@@ -17,6 +15,7 @@ class AnnouncementController extends Controller
             ->where('informasi_id', $id)
             ->first();
         $announcement['file_extension'] = pathinfo($announcement->thumbnail_url, PATHINFO_EXTENSION);
+        $announcement['file_type'] = $this->checkFile($announcement['file_extension']);
 
         if (!$announcement) {
             throw new HttpResponseException(response()->json([
@@ -25,5 +24,19 @@ class AnnouncementController extends Controller
         }
 
         return new AnnouncementResource($announcement);
+    }
+
+    private function checkFile(string $fileExtension): string
+    {
+        $imageExtensions = ['jpg', 'jpeg', 'png'];
+        $fileExtensions = ['pdf', 'doc', 'docx', 'xls', 'xlsx'];
+
+        if (in_array($fileExtension, $imageExtensions)) {
+            return 'image';
+        } elseif (in_array($fileExtension, $fileExtensions)) {
+            return 'file';
+        }
+
+        return '';
     }
 }

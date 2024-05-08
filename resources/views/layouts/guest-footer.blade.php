@@ -1,4 +1,4 @@
-<footer class="w-full max-w-7xl mx-auto lg:mt-60">
+<footer class="w-full max-w-7xl mx-auto lg:mt-40">
     <div class="grid grid-rows-2 grid-cols-1 lg:flex lg:flex-col mt-10 gap-5">
         <div class="grid grid-rows-3 gap-5 lg:grid-rows-1 lg:grid-cols-3 lg:gap-10">
             <div class="flex flex-col gap-2">
