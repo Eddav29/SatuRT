@@ -12,19 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('inventaris', function (Blueprint $table) {
-            $table->id('inventaris_id');
+            $table->uuid('inventaris_id')->primary();
             $table->uuid('penduduk_id')->index();
             $table->string('nama_inventaris');
             $table->string('merk');
             $table->string('warna');
             $table->integer('jumlah');
-            $table->enum('kondisi', [
-                'Cukup',
-                'Baik',
-                'Baru',
-                'Cacat',
-                'Rusak',
-            ]);
             $table->enum('jenis', [
                 'Furnitur',
                 'Elektronik',

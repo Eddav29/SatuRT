@@ -46,7 +46,7 @@
                         ['label' => 'Kritik', 'key' => 'Kritik', 'columnIndex' => 2],
                         ['label' => 'Saran', 'key' => 'Saran', 'columnIndex' => 2],
                         ['label' => 'Lainnya', 'key' => 'Lainnya', 'columnIndex' => 2],
-                    ]" :layoutTopEnd="true">
+                    ]" :layoutTop2End="true">
                 </x-datatables>
             </section>
             {{-- End Table --}}
