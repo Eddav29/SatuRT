@@ -41,11 +41,15 @@
                         <h5 class="font-semibold">Keterangan</h5>
                         <textarea id="textarea" readonly class="w-full h-48 p-2.5 rounded border border-neutral-900 border-opacity-30 justify-start items-start gap-2.5 inline-flex font-normal">{{ $persuratan->pengajuan->keterangan }}</textarea>
                     </div>
-                    <div class="md:flex md:flex-col">
-                        <h5 class="font-semibold">Unduh Surat Permohonan</h5>
-                        <a href="{{ route('persuratan.pdf', $persuratan->persuratan_id) }}"  
-                            class="bg-blue-500 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3" target="_blank">Unduh PDF</a>
-                    </div>                                   
+                    @if ($persuratan->pengajuan->status->nama === 'Diterima')
+                            <a href="{{ route('persuratan.pdf', $persuratan->persuratan_id) }}" 
+                                class="bg-blue-500 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3" 
+                                target="_blank">Unduh PDF</a>
+                        @else
+                            <a 
+                                class="bg-gray-400 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3" 
+                                style="opacity: 0.5; cursor: not-allowed;">Unduh PDF (Belum disetujui)</a>
+                        @endif                                   
                     {{-- Tombol Setujui dan Tolak --}}
                     {{-- Tombol Setuju dan Tolak hanya jika role adalah "Ketua RT" atau "Admin" --}}
                     @if(Auth::user()->role->role_name === 'Ketua RT' || Auth::user()->role->role_name === 'Admin')

@@ -15,9 +15,8 @@
                             :class="method == 'edas' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">EDAS</button>
                         <button class="p-5" @click.prevent="method = 'mabac'; getData(method)"
                             :class="method == 'mabac' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">MABAC</button>
-                        <button class="p-5" @click.prevent="method = 'metode3'; getData(method)"
-                            :class="method == 'metode3' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">Metode
-                            3</button>
+                        <button class="p-5" @click.prevent="method = 'moora'; getData(method)"
+                            :class="method == 'moora' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">MOORA</button>
                         <button class="p-5" @click.prevent="method = 'metode4'; getData(method)"
                             :class="method == 'metode4' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">Metode
                             4</button>
@@ -75,8 +74,15 @@
                     <div id="mabac-container"></div>
                 </div>
 
-                <div x-show="method == 'metode3'">
-                    <div id="metode3-container"></div>
+                <div x-show="method == 'moora'">
+                    <div class="grid grid-cols-2 justify-center items-center mt-10">
+                        <h1 class="text-lg font-bold">Perankingan</h1>
+                        <div class="flex justify-end items-center">
+                            <a href="{{ route('spk.show.method', 'moora') }}"
+                                class="px-4 py-2 text-soft-snow rounded-lg gap-x-5 bg-azure-blue transition-all duration-300">Detail</a>
+                        </div>
+                    </div>
+                    <div id="moora-container"></div>
                 </div>
 
                 <div x-show="method == 'metode4'">

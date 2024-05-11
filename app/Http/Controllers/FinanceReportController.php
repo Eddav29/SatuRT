@@ -59,7 +59,7 @@ class FinanceReportController extends Controller
     {
         try {
             // Ambil semua data dari tabel 'DetailKeuangan'
-            $dataSemuaTahun = DetailKeuangan::all()->map(function ($keuangan) {
+            $dataSemuaTahun = DetailKeuangan::where('created_at', 'desc')->get()->map(function ($keuangan) {
                 return [
                     'detail_keuangan_id' => $keuangan->detail_keuangan_id,
                     'keuangan_id' => $keuangan->keuangan_id,
