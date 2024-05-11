@@ -33,6 +33,8 @@ class FamilyCardService implements RecordServiceInterface, DatatablesInterface
             'desa' => $request->kk_desa,
             'nomor_rt' => $request->kk_nomor_rt,
             'nomor_rw' => $request->kk_nomor_rw,
+            'alamat' => $request->kk_alamat,
+            'kode_pos' => $request->kk_kode_pos
         ]);
     }
 
@@ -46,6 +48,8 @@ class FamilyCardService implements RecordServiceInterface, DatatablesInterface
             'desa' => $request->kk_desa,
             'nomor_rt' => $request->kk_nomor_rt,
             'nomor_rw' => $request->kk_nomor_rw,
+            'alamat' => $request->kk_alamat,
+            'kode_pos' => $request->kk_kode_pos
         ]);
         return $familyCard;
     }
@@ -66,11 +70,12 @@ class FamilyCardService implements RecordServiceInterface, DatatablesInterface
 
     public static function getDatatable($id = null): Collection
     {
-        $penduduk = Penduduk::with(['kartuKeluarga'])
-        ->where('status_hubungan_dalam_keluarga', 'Kepala Keluarga')
-        ->get();
+        $penduduk = Penduduk::join('kartu_keluarga', 'penduduk.kartu_keluarga_id', '=', 'kartu_keluarga.kartu_keluarga_id')
+            ->select('penduduk.kartu_keluarga_id', 'kartu_keluarga.nomor_kartu_keluarga', 'nik', 'nama')
+            ->where('status_hubungan_dalam_keluarga', 'Kepala Keluarga')
+            ->get();
         $penduduk->map(function ($item) {
-            $item->penduduk_count = Penduduk::where('kartu_keluarga_id', $item->kartu_keluarga_id)->count();
+            $item->penduduk_count = Penduduk::where('penduduk.kartu_keluarga_id', $item->kartu_keluarga_id)->count();
         });
         return $penduduk;
     }

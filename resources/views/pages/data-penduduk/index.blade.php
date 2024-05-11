@@ -9,7 +9,7 @@
                 <x-datatables id="kartu_keluarga_id" url="/data-penduduk/keluarga" :columns="[
                     [
                         'label' => 'No. Kartu Keluarga',
-                        'key' => 'kartu_keluarga.nomor_kartu_keluarga',
+                        'key' => 'nomor_kartu_keluarga',
                         'style' => 'text-left'
                     ],
                     [
