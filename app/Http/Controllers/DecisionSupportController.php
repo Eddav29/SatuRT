@@ -6,6 +6,7 @@ use App\Models\Alternatif;
 use App\Services\DecisionMakerGenerator\DecisionMakerService;
 use App\Services\DecisionMakerGenerator\Support\EddasService;
 use App\Services\DecisionMakerGenerator\Support\MabacService;
+use App\Services\DecisionMakerGenerator\Support\MooraService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Nette\Utils\Arrays;
@@ -15,6 +16,7 @@ class DecisionSupportController extends Controller
     private $decisionMakerService;
     private $edasService;
     private $mabacService;
+    private $mooraService;
 
 
     public function __construct()
@@ -22,6 +24,7 @@ class DecisionSupportController extends Controller
         $this->decisionMakerService = new DecisionMakerService();
         $this->edasService = new EddasService();
         $this->mabacService = new MabacService();
+        $this->mooraService = new MooraService();
     }
 
     public function index()
@@ -74,6 +77,20 @@ class DecisionSupportController extends Controller
                     'alternatives' => $alternatives,
                     'breadcrumb' => $breadcrumb
                 ]);
+
+            case 'moora':
+                $breadcrumb = [
+                    'list' => ['Home', 'Pendukung Keputusan', 'Detail', 'MOORA'],
+                    'url' => ['home', 'spk.index', 'spk.index', 'spk.index', 'spk.index'],
+                ];
+
+                return response()->view('pages.spk.moora.show',[
+                    'data'=> $this->getMooraData(),
+                    'criterias' => $criterias,
+                    'weights' => $weights,
+                    'alternatives' => $alternatives,
+                    'breadcrumb' => $breadcrumb
+                ]);
             default:
                 # code...
                 break;
@@ -105,10 +122,12 @@ class DecisionSupportController extends Controller
                     ]
                 );
 
-            case 'metode3':
+            case 'moora':
                 return response()->json([
                     'status' => 201,
-                    'data' => "Sedang dalam pengembangan"
+                    'data' => [
+                        'ranking' => $this->getMooraData()['ranking']
+                    ]
                 ]);
 
             case 'metode4':
@@ -134,6 +153,10 @@ class DecisionSupportController extends Controller
                         [
                             'metode' => "Multi-Attribute Border Approximation Area Comparison (MABAC)",
                             'ranking' => $this->getMabacData()['rankingMatrix']
+                        ],
+                        [
+                            'metode' => "Multi-Objective Optimization by Ratio Analysis (MOORA)",
+                            'ranking' => $this->getMooraData()['ranking']
                         ]
                     ]
                 ]);
@@ -152,4 +175,8 @@ class DecisionSupportController extends Controller
         return $this->edasService->getStepData();
     }
 
+    private function getMooraData(): array
+    {
+        return $this->mooraService->getStepData();
+    }
 }
