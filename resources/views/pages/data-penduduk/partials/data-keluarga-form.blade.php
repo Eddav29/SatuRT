@@ -52,3 +52,21 @@
         <x-input-error :messages="$errors->get('kk_nomor_rt')" class="mt-2" />
     </div>
 </div>
+<div class="mt-5 grid sm:grid-cols-2 grid-cols-1 gap-5 px-5">
+    <div>
+        <x-input-label for="kk_kode_pos" :value="__('Kode Pos')" required="true" />
+
+        <x-text-input id="kk_kode_pos" class="block mt-1 w-full" type="number" min="1" name="kk_kode_pos"
+            value="{{ old('kk_kode_pos', isset($familyCard) ? $familyCard->kode_pos : '') }}"
+            placeholder="Kode Pos" required />
+        <x-input-error :messages="$errors->get('kk_kode_pos')" class="mt-2" />
+    </div>
+    <div>
+        <x-input-label for="kk_alamat" :value="__('Alamat')" required="true" />
+
+        <x-text-input id="kk_alamat" class="block mt-1 w-full" type="text" name="kk_alamat"
+            value="{{ old('kk_alamat', isset($familyCard) ? $familyCard->alamat : '') }}"
+            placeholder="alamat" required />
+        <x-input-error :messages="$errors->get('kk_alamat')" class="mt-2" />
+    </div>
+</div>
