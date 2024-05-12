@@ -14,7 +14,7 @@ class DetailKeuanganSeeder extends Seeder
     public function run(): void
     {
         DetailKeuangan::factory()
-            ->count(50)
+            ->count(1000)
             ->create();
     }
 }
