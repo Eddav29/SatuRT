@@ -307,22 +307,17 @@
                 const announcement = document.querySelectorAll('.announcement');
 
                 yearFilter.addEventListener('change', async (event) => {
+                    monthlyFinanceReport = await fetchFinanceReportChartData(event.target.value);
+
                     let updatedLabels = [];
 
                     if (event.target.value === '5 Tahun Terakhir') {
-                        const now = new Date();
-                        labels = []
-                        for (let index = 4; index >= 0; index--) {
-                            updatedLabels.push(now.getFullYear() - index);
-                        }
+                        updatedLabels = Object.keys(monthlyFinanceReport.incomes);
                     } else {
                         updatedLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
                             'Oct', 'Nov', 'Dec'
                         ];
                     }
-
-
-                    monthlyFinanceReport = await fetchFinanceReportChartData(event.target.value);
 
                     minValue = Math.min(...Object.values(monthlyFinanceReport.incomes), ...Object
                         .values(
@@ -459,30 +454,30 @@
                                 <div>
                                     <h1 class="font-semibold">Lampiran</h1>
                                     ${data.data.file_type === 'file' ? `
-                                                                                                                                    <div class="flex gap-x-2 items-center">
-                                                                                                                                        <div id="file-icon">
-                                                                                                                                            ${generateIcon(data.data.file_extension)}
-                                                                                                                                        </div>
-                                                                                                                                        ${data.data.file_extension === 'pdf' ? `
+                                                                                                                                            <div class="flex gap-x-2 items-center">
+                                                                                                                                                <div id="file-icon">
+                                                                                                                                                    ${generateIcon(data.data.file_extension)}
+                                                                                                                                                </div>
+                                                                                                                                                ${data.data.file_extension === 'pdf' ? `
                                         <div class="flex flex-col" id="preview-file-container">
                                             <a id="preview-file" href="file/pengumuman/${data.data.id}" class="text-blue-500 py-3 text-sm font-light">${data.data.file}</a>
                                         </div>` 
-                                                                                                                        : `
+                                                                                                                                : `
                                         <div class="flex flex-col" id="preview-file-container">
                                             <a id="preview-file" href="file/pengumuman/${data.data.id}/download" class="text-blue-500 py-3 text-sm font-light" target="_blank">${data.data.file}</a>
                                         </div>`}
-                                                                                                                        </div>` : 
+                                                                                                                                </div>` : 
                                         `
-                                                                                                                                    <div x-data="{ openImage: false }">
-                                                                                                                                        <img @click="openImage = !openImage" src="storage/announcement/${data.data.file}" alt="" class="rounded-xl max-h-[30rem] w-full object-cover" draggable="false">
-                                                                                                                                        <div x-show="openImage" class="absolute top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
-                                                                                                                                            <img @click="openImage = false" x-show="openImage" @click.outside="openImage = false" src="storage/announcement/${data.data.file}" alt="" class="rounded-xl w-max h-max lg:max-w-full lg:max-h-full" draggable="false">
-                                                                                                                                            <div class="absolute w-8 h-8 top-10 right-10 cursor-pointer" @click="openImage = false">
-                                                                                                                                                <x-heroicon-o-x-mark class="w-8 h-8" class="text-white-snow absolute" />
+                                                                                                                                            <div x-data="{ openImage: false }">
+                                                                                                                                                <img @click="openImage = !openImage" src="storage/announcement/${data.data.file}" alt="" class="rounded-xl max-h-[30rem] w-full object-cover" draggable="false">
+                                                                                                                                                <div x-show="openImage" class="absolute top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
+                                                                                                                                                    <img @click="openImage = false" x-show="openImage" @click.outside="openImage = false" src="storage/announcement/${data.data.file}" alt="" class="rounded-xl w-max h-max lg:max-w-full lg:max-h-full" draggable="false">
+                                                                                                                                                    <div class="absolute w-8 h-8 top-10 right-10 cursor-pointer" @click="openImage = false">
+                                                                                                                                                        <x-heroicon-o-x-mark class="w-8 h-8" class="text-white-snow absolute" />
+                                                                                                                                                    </div>
+                                                                                                                                                </div>
                                                                                                                                             </div>
-                                                                                                                                        </div>
-                                                                                                                                    </div>
-                                                                                                                        `}
+                                                                                                                                `}
                                 </div>
                                 <div class="text-sm/5">
                                     <div>

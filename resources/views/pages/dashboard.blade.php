@@ -212,6 +212,7 @@
         <script>
             document.addEventListener("DOMContentLoaded", async function() {
                 const yearFilter = document.getElementById('year');
+                let yearList = [];
 
                 yearFilter.value = new Date().getFullYear();
 
@@ -286,22 +287,18 @@
                 const announcement = document.querySelectorAll('.announcement');
 
                 yearFilter.addEventListener('change', async (event) => {
+                    
+                    monthlyFinanceReport = await fetchFinanceReport(event.target.value);
+                    
                     let updatedLabels = [];
 
                     if (event.target.value === '5 Tahun Terakhir') {
-                        const now = new Date();
-                        labels = []
-                        for (let index = 4; index >= 0; index--) {
-                            updatedLabels.push(now.getFullYear() - index);
-                        }
+                        updatedLabels = Object.keys(monthlyFinanceReport.incomes);
                     } else {
                         updatedLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
                             'Oct', 'Nov', 'Dec'
                         ];
                     }
-
-
-                    monthlyFinanceReport = await fetchFinanceReport(event.target.value);
 
                     minValue = Math.min(...Object.values(monthlyFinanceReport.incomes), ...Object
                         .values(
