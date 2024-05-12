@@ -51,6 +51,7 @@ Route::prefix('v1')->group(function () {
     Route::get('pelaporan', [ResidentReportController::class, 'list']);
 
     Route::get('keuangan', [FinanceReportController::class, 'list']);
+    Route::get('keuangan/{year}', [FinanceReportController::class, 'listByYear']);
     Route::get('persuratan', [DocumentRequestController::class, 'list']);
     Route::get('inventaris', [InventarisController::class, 'list']);
 

@@ -25,9 +25,7 @@
                         </div>
                     </div>
                     <div>
-                        <h1 class="text-sm/5">
-                            Pemasukan RT Bulan
-                            April</h1>
+                        <h1 class="text-sm/5">Pemasukan RT Bulan {{ \Carbon\Carbon::now()->translatedFormat('F') }}</h1>
                         <h1 class="text-base/7 font-semibold">Rp. {{ number_format($incomeThisMonth) }}</h1>
                     </div>
                 </div>
@@ -38,9 +36,8 @@
                         </div>
                     </div>
                     <div>
-                        <h1 class="text-sm/5">
-                            Pengeluaran RT Bulan
-                            April</h1>
+                        <h1 class="text-sm/5">Pengeluaran RT Bulan {{ \Carbon\Carbon::now()->translatedFormat('F') }}
+                        </h1>
                         <h1 class="text-base/7 font-semibold">Rp. {{ number_format($expenseThisMonth) }}</h1>
                     </div>
                 </div>
@@ -104,18 +101,46 @@
 
                 {{-- Chart Start --}}
                 <div class="2xl:col-span-4 xl:h-[40rem] text-navy-night">
-                    <div
+                    <div x-data="{ tahun: '{{ date('Y') }}' }"
                         class="overflow-hidden bg-white-snow px-5 py-7 rounded-xl gap-y-5 flex flex-col h-fit xl:h-full">
-                        <div class="flex items-center gap-x-5">
-                            <div
-                                class="flex justify-center items-center p-3 lg:p-2 w-12 h-12 bg-blue-gray rounded-full">
-                                <x-heroicon-o-currency-dollar class="w-12 h-12" />
+                        <div class="grid grid-cols-1 grid-rows-2 gap-y-5 md:grid-rows-1 md:grid-cols-3">
+                            <div class="flex items-center gap-x-5 md:col-span-2">
+                                <div
+                                    class="flex justify-center items-center p-3 lg:p-2 w-12 h-12 bg-blue-gray rounded-full">
+                                    <x-heroicon-o-currency-dollar class="w-12 h-12" />
+                                </div>
+                                <div>
+                                    <h1 class="text-xl/7 font-bold" x-text="'Grafik Keuangan Tahun ' + tahun"></h1>
+                                </div>
                             </div>
-                            <div>
-                                <h1 class="text-xl/7 font-bold">Grafik Keuangan Tahun 2024</h1>
+                            <div class="mt-3 md:justify-self-end md:px-2">
+                                <select id="year" @change="tahun = $event.target.value"
+                                    class="bg-blue-gray/40 rounded-md border-gray-200 w-full md:w-fit">
+                                    @foreach ($fiveYearsAgo as $year)
+                                        <option value="{{ $year }}">{{ $year }}</option>
+                                    @endforeach
+                                    <option value="5 Tahun Terakhir">5 Tahun Terakhir</option>
+                                </select>
                             </div>
                         </div>
-                        <div class="h-[40rem] overflow-x-auto no-scrollbar">
+                        <div class="relative h-[40rem] overflow-x-auto no-scrollbar">
+                            <div id="loading"
+                                class="absolute top-0 left-0 flex justify-center items-center backdrop-blur-sm w-full h-full rounded-xl">
+                                <div role="status">
+                                    <div class="flex items-center justify-center gap-x-5">
+                                        <svg aria-hidden="true" class="w-8 h-8 text-gray-200 animate-spin fill-blue-600"
+                                            viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                            <path
+                                                d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                                fill="currentColor" />
+                                            <path
+                                                d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                                fill="currentFill" />
+                                        </svg>
+                                        <h1 class="text-center">Tunggu sebentar yaaa....</h1>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="w-max sm:w-full h-full">
                                 <canvas class="xl:h-full w-[50rem] sm:w-full" id="myChart"></canvas>
                             </div>
@@ -149,21 +174,41 @@
                 @if (count($informations) > 0)
                     <div class="flex cursor-pointer flex-col gap-y-4 overflow-auto">
                         @foreach ($informations as $information)
-                            <div @click.stop="open = !open; fetchAnnouncement('{{ $information->informasi_id }}')"
-                                class="flex gap-x-5 cursor-pointer bg-slate-100 w-full p-5 rounded-md">
-                                <div>
-                                    <h6 class="text-xs/3 font-medium">
-                                        {{ \Carbon\Carbon::parse($information->created_at)->locale('id_ID')->isoFormat('dddd, DD MMMM YYYY') }}
-                                    </h6>
-                                    <div class="mt-2">
-                                        <h6 class="text-xs font-medium">{{ $information->penduduk->nama }}</h6>
-                                        <h1 class="text-xl font-bold text-navy-night/80 ">
-                                            {{ $information->judul_informasi }}
-                                        </h1>
-                                        <p class="text-xs/6">Klik Untuk Detail</p>
+                            @if ($information instanceof \App\Models\Informasi)
+                                <div @click.stop="open = !open; fetchAnnouncement('{{ $information->informasi_id }}', 'Pengumuman')"
+                                    class="flex gap-x-5 cursor-pointer bg-slate-100 w-full p-5 rounded-md">
+                                    <div>
+                                        <h6 class="text-xs/3 font-medium">
+                                            {{ \Carbon\Carbon::parse($information->created_at)->locale('id_ID')->isoFormat('dddd, DD MMMM YYYY') }}
+                                        </h6>
+                                        <div class="mt-2">
+                                            <h6 class="text-xs font-medium">{{ $information->penduduk->nama }}</h6>
+                                            <h1 class="text-xl font-bold text-navy-night/80 ">
+                                                {{ $information->judul_informasi }}
+                                            </h1>
+                                            <p class="text-xs/6">Klik Untuk Detail</p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
+                            @if ($information instanceof \App\Models\Pelaporan)
+                                <div @click.stop="open = !open; fetchAnnouncement('{{ $information->pelaporan_id }}', 'Pelaporan')"
+                                    class="flex gap-x-5 cursor-pointer bg-slate-100 w-full p-5 rounded-md">
+                                    <div>
+                                        <h6 class="text-xs/3 font-medium">
+                                            {{ \Carbon\Carbon::parse($information->pengajuan->created_at)->locale('id_ID')->isoFormat('dddd, DD MMMM YYYY') }}
+                                        </h6>
+                                        <div class="mt-2">
+                                            <h6 class="text-xs font-medium">
+                                                {{ $information->pengajuan->penduduk->nama }}</h6>
+                                            <h1 class="text-xl font-bold text-navy-night/80 ">
+                                                {{ $information->pengajuan->keperluan }}
+                                            </h1>
+                                            <p class="text-xs/6">Klik Untuk Detail</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
                         @endforeach
                     </div>
                 @else
@@ -186,74 +231,133 @@
     <x-scripts.chartjs></x-scripts.chartjs>
     @push('scripts')
         <script>
-            const monthlyFinanceReport = @json($financeReportMonthly);
-            const minValue = Math.min(Math.min(...Object.values(monthlyFinanceReport.incomes)), Math.min(...Object.values(
-                monthlyFinanceReport.expenses)));
-            const maxValue = Math.max(Math.max(...Object.values(monthlyFinanceReport.incomes)), Math.max(...Object.values(
-                monthlyFinanceReport.expenses)));
+            document.addEventListener("DOMContentLoaded", async function() {
+                const yearFilter = document.getElementById('year');
 
-            const ctx = document.getElementById('myChart');
+                yearFilter.value = new Date().getFullYear();
 
-            const labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+                let monthlyFinanceReport = await fetchFinanceReportChartData(yearFilter.value);
+                document.getElementById('loading').classList.add('hidden');
+                let minValue = Math.min(...Object.values(monthlyFinanceReport.incomes), ...Object.values(
+                    monthlyFinanceReport.expenses));
+                let maxValue = Math.max(...Object.values(monthlyFinanceReport.incomes), ...Object.values(
+                    monthlyFinanceReport.expenses));
 
-            let financialSummary = new Chart(ctx, {
-                type: 'line',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                            label: 'Pendapatan',
-                            data: Object.values(monthlyFinanceReport.incomes),
-                            borderWidth: 5,
-                            fill: false,
-                            pointRadius: 10,
-                            pointBorderColor: 'rgba(13, 110, 253, 0.5)',
-                            pointBackgroundColor: 'rgba(13, 110, 253, 0.5)',
-                            borderColor: 'rgba(13, 110, 253, 0.2)',
-                        },
-                        {
-                            label: "Pengeluaran",
-                            data: Object.values(monthlyFinanceReport.expenses),
-                            borderWidth: 5,
-                            fill: false,
-                            pointRadius: 10,
-                            pointBorderColor: 'rgba(220, 53, 69, 0.5)',
-                            pointBackgroundColor: 'rgba(220, 53, 69, 0.5)',
-                            borderColor: 'rgba(220, 53, 69, 0.3)',
-                        }
-                    ]
-                },
-                options: {
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                        }
+
+                const ctx = document.getElementById('myChart');
+
+                let labels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+                let financialSummary = new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                                label: 'Pendapatan',
+                                data: Object.values(monthlyFinanceReport.incomes),
+                                borderWidth: 5,
+                                fill: false,
+                                pointRadius: 10,
+                                pointBorderColor: 'rgba(13, 110, 253, 0.5)',
+                                pointBackgroundColor: 'rgba(13, 110, 253, 0.5)',
+                                borderColor: 'rgba(13, 110, 253, 0.2)',
+                            },
+                            {
+                                label: "Pengeluaran",
+                                data: Object.values(monthlyFinanceReport.expenses),
+                                borderWidth: 5,
+                                fill: false,
+                                pointRadius: 10,
+                                pointBorderColor: 'rgba(220, 53, 69, 0.5)',
+                                pointBackgroundColor: 'rgba(220, 53, 69, 0.5)',
+                                borderColor: 'rgba(220, 53, 69, 0.3)',
+                            }
+                        ]
                     },
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    tension: 0.2,
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                min: minValue <= 100000 ? minValue : minValue - 1000000,
-                                max: maxValue >= 1000000 ? maxValue : maxValue + 1000000,
-                                stepSize: 5,
-                                callback: function(value, index, values) {
-                                    let formatedValue = value.toLocaleString('id-ID', {
-                                        'style': 'currency',
-                                        'currency': 'IDR'
-                                    });
-                                    return formatedValue.substring(0, 7) + ' jt';
-                                }
+                    options: {
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                            }
+                        },
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        tension: 0.2,
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    min: minValue <= 100000 ? minValue : minValue - 1000000,
+                                    max: maxValue >= 1000000 ? maxValue : maxValue + 1000000,
+                                    stepSize: 5,
+                                    callback: function(value, index, values) {
+                                        let formatedValue = value.toLocaleString('id-ID', {
+                                            'style': 'currency',
+                                            'currency': 'IDR'
+                                        });
+                                        return formatedValue.substring(0, 7) + ' jt';
+                                    }
+                                },
                             },
                         },
                     },
-                },
+                });
+
+
+                const announcement = document.querySelectorAll('.announcement');
+
+                yearFilter.addEventListener('change', async (event) => {
+                    let updatedLabels = [];
+
+                    if (event.target.value === '5 Tahun Terakhir') {
+                        const now = new Date();
+                        labels = []
+                        for (let index = 4; index >= 0; index--) {
+                            updatedLabels.push(now.getFullYear() - index);
+                        }
+                    } else {
+                        updatedLabels = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
+                            'Oct', 'Nov', 'Dec'
+                        ];
+                    }
+
+
+                    monthlyFinanceReport = await fetchFinanceReportChartData(event.target.value);
+
+                    minValue = Math.min(...Object.values(monthlyFinanceReport.incomes), ...Object
+                        .values(
+                            monthlyFinanceReport.expenses));
+                    maxValue = Math.max(...Object.values(monthlyFinanceReport.incomes), ...Object
+                        .values(
+                            monthlyFinanceReport.expenses));
+
+                    financialSummary.data.datasets[0].data = Object.values(monthlyFinanceReport
+                        .incomes);
+                    financialSummary.data.datasets[1].data = Object.values(monthlyFinanceReport
+                        .expenses);
+
+                    financialSummary.options.scales.y.ticks.min = minValue <= 100000 ? minValue :
+                        minValue -
+                        1000000;
+                    financialSummary.options.scales.y.ticks.max = maxValue >= 1000000 ? maxValue :
+                        maxValue + 1000000;
+
+                    financialSummary.data.labels = updatedLabels;
+                    financialSummary.update();
+                });
             });
 
-            function fetchAnnouncement(id) {
+            async function fetchFinanceReportChartData(year) {
                 document.getElementById('loading').classList.replace('hidden', 'flex')
-                fetch(`/api/v1/pengumuman/${id}`)
+                const response = await fetch(`/api/v1/keuangan/${year}`);
+                const data = await response.json();
+                document.getElementById('loading').classList.replace('flex', 'hidden')
+                return data.data;
+            }
+
+            function fetchAnnouncement(id, type) {
+                document.getElementById('loading').classList.replace('hidden', 'flex')
+                fetch(type === 'Pengumuman' ? `/api/v1/pengumuman/${id}` : `/api/v1/pengumuman/${id}`)
                     .then(res => res.json())
                     .then(data => {
                         document.getElementById('loading').classList.replace('flex', 'hidden')
@@ -355,30 +459,30 @@
                                 <div>
                                     <h1 class="font-semibold">Lampiran</h1>
                                     ${data.data.file_type === 'file' ? `
-                                                                            <div class="flex gap-x-2 items-center">
-                                                                                <div id="file-icon">
-                                                                                    ${generateIcon(data.data.file_extension)}
-                                                                                </div>
-                                                                                ${data.data.file_extension === 'pdf' ? `
+                                                                                                                                    <div class="flex gap-x-2 items-center">
+                                                                                                                                        <div id="file-icon">
+                                                                                                                                            ${generateIcon(data.data.file_extension)}
+                                                                                                                                        </div>
+                                                                                                                                        ${data.data.file_extension === 'pdf' ? `
                                         <div class="flex flex-col" id="preview-file-container">
                                             <a id="preview-file" href="file/pengumuman/${data.data.id}" class="text-blue-500 py-3 text-sm font-light">${data.data.file}</a>
                                         </div>` 
-                                                                : `
+                                                                                                                        : `
                                         <div class="flex flex-col" id="preview-file-container">
                                             <a id="preview-file" href="file/pengumuman/${data.data.id}/download" class="text-blue-500 py-3 text-sm font-light" target="_blank">${data.data.file}</a>
                                         </div>`}
-                                                                </div>` : 
+                                                                                                                        </div>` : 
                                         `
-                                                                            <div x-data="{ openImage: false }">
-                                                                                <img @click="openImage = !openImage" src="storage/announcement/${data.data.file}" alt="" class="rounded-xl max-h-[30rem] w-full object-cover" draggable="false">
-                                                                                <div x-show="openImage" class="absolute top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
-                                                                                    <img @click="openImage = false" x-show="openImage" @click.outside="openImage = false" src="storage/announcement/${data.data.file}" alt="" class="rounded-xl w-max h-max lg:max-w-full lg:max-h-full" draggable="false">
-                                                                                    <div class="absolute w-8 h-8 top-10 right-10 cursor-pointer" @click="openImage = false">
-                                                                                        <x-heroicon-o-x-mark class="w-8 h-8" class="text-white-snow absolute" />
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                `}
+                                                                                                                                    <div x-data="{ openImage: false }">
+                                                                                                                                        <img @click="openImage = !openImage" src="storage/announcement/${data.data.file}" alt="" class="rounded-xl max-h-[30rem] w-full object-cover" draggable="false">
+                                                                                                                                        <div x-show="openImage" class="absolute top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
+                                                                                                                                            <img @click="openImage = false" x-show="openImage" @click.outside="openImage = false" src="storage/announcement/${data.data.file}" alt="" class="rounded-xl w-max h-max lg:max-w-full lg:max-h-full" draggable="false">
+                                                                                                                                            <div class="absolute w-8 h-8 top-10 right-10 cursor-pointer" @click="openImage = false">
+                                                                                                                                                <x-heroicon-o-x-mark class="w-8 h-8" class="text-white-snow absolute" />
+                                                                                                                                            </div>
+                                                                                                                                        </div>
+                                                                                                                                    </div>
+                                                                                                                        `}
                                 </div>
                                 <div class="text-sm/5">
                                     <div>
