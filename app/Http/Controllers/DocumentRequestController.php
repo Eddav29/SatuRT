@@ -61,9 +61,9 @@ class DocumentRequestController extends Controller
                         'nama' => $persuratan->pengajuan->penduduk->nama,
                         'status' => $persuratan->pengajuan->status->nama,
                         'keperluan' => $persuratan->pengajuan->keperluan,
-                        'accepted_at' => Carbon::parse($persuratan->pengajuan->accepted_at)->format('d-m-Y'),
-                        'created_at' => Carbon::parse($persuratan->created_at)->format('d-m-Y'),
-                        'updated_at' => Carbon::parse($persuratan->updated_at)->format('d-m-Y'),
+                        'accepted_at' => Carbon::parse($persuratan->pengajuan->accepted_at)->startOfDay()->formatLocalized('%d %B %Y'),
+                        'created_at' => Carbon::parse($persuratan->created_at)->startOfDay()->formatLocalized('%d %B %Y'),
+                        'updated_at' => Carbon::parse($persuratan->updated_at)->startOfDay()->formatLocalized('%d %B %Y'),
                     ];
                 });
             } else {
@@ -75,8 +75,8 @@ class DocumentRequestController extends Controller
                         'nik' => $persuratan->pengajuan->penduduk->nik,
                         'nama' => $persuratan->pengajuan->penduduk->nama,
                         'status' => $persuratan->pengajuan->status->nama,
-                        'created_at' => Carbon::parse($persuratan->created_at)->format('d-m-Y'),
-                        'accepted_at' => Carbon::parse($persuratan->pengajuan->accepted_at)->format('d-m-Y'),
+                        'accepted_at' => Carbon::parse($persuratan->pengajuan->accepted_at)->startOfDay()->formatLocalized('%d %B %Y'),
+                        'created_at' => Carbon::parse($persuratan->created_at)->startOfDay()->formatLocalized('%d %B %Y'),
                         'keperluan' => $persuratan->pengajuan->keperluan,
                     ];
                 });
@@ -377,5 +377,7 @@ class DocumentRequestController extends Controller
         return $pdf->stream('document.pdf'); // Nama file untuk unduhan
     }
 
-    
+    function formatDate($date) {
+        return Carbon::parse($date)->isoFormat('D MMMM YYYY'); // Format tanggal menggunakan Carbon
+    }
 }

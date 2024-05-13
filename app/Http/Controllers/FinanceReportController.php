@@ -58,8 +58,8 @@ class FinanceReportController extends Controller
     public function list(): JsonResponse
     {
         try {
-            // Ambil semua data dari tabel 'DetailKeuangan'
-            $dataSemuaTahun = DetailKeuangan::all()->map(function ($keuangan) {
+             // Ambil semua data dari tabel 'DetailKeuangan'
+            $dataSemuaTahun = DetailKeuangan::orderBy('created_at', 'DESC')->get()->map(function ($keuangan) {
                 return [
                     'detail_keuangan_id' => $keuangan->detail_keuangan_id,
                     'keuangan_id' => $keuangan->keuangan_id,

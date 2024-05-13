@@ -81,6 +81,31 @@
       margin: 0;
   }
 
+  .signature-section {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 30px;
+}
+
+.left-signature,
+.right-signature {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.signature-block {
+    text-align: right;
+}
+
+.signature-space {
+    height: 60px;
+}
+
+.right-signature {
+    align-items: flex-start; /* Mengatur agar tanda tangan Ketua RT sejajar */
+}
+
   </style>
 
   <!-- HTML -->
@@ -101,7 +126,7 @@
           </div>
           <div class="form-group">
               <label>Tempat, Tanggal Lahir:</label>
-              <span class="field">{{ $persuratan->pengajuan->penduduk->tanggal_lahir }}, {{ $persuratan->pengajuan->penduduk->tanggal_lahir }}</span>
+              <span class="field">{{ $persuratan->pengajuan->penduduk->tempat_lahir }}, {{ $persuratan->pengajuan->penduduk->tanggal_lahir }}</span>
           </div>
           <div class="form-group">
               <label>Jenis Kelamin:</label>
@@ -174,14 +199,29 @@
 
       <div class="statement">Demikian Surat Pengantar ini dipergunakan sebagaimana mestinya</div>
 
-      <div class="signature-section">
+      {{-- <div class="signature-section">
           <div class="signature-block">
-              <div>Malang,{{ $persuratan->pengajuan->accepted_at }}</div>
+              <div>Malang,</div>
               <div style="height: 50px;"></div> <!-- Ruang untuk tanda tangan -->
               <div>Solih Kusaeri</div> <!-- Nama Ketua RT -->
           </div>
+      </div> --}}
+      <div class="signature-section">
+        <div class="left-signature">
+          <div class="signature-label">Ketua RW 03,</div>
+          <div class="signature-space"></div> <!-- Ruang untuk tanda tangan -->
+          <div class="signature-sign">..........................</div> <!-- Nama Ketua RW -->
+        </div>
+    
+        <div class="right-signature">
+          <div class="signature-block">
+            <div class="malang-date" >Malang,  {{ $persuratan->pengajuan->accepted_at }}</div>
+            <div class="signature-name">Ketua RT 01,</div>
+            <div class="signature-space"></div> <!-- Ruang untuk tanda tangan -->
+            <div class="signature-sign">Solih Kusaeri</div>
+          </div>
+        </div>
       </div>
-
       <div class="notes">
           <p><strong>Catatan:</strong></p>
           <p>1. Semua pengurusan surat di Kelurahan harus melampirkan Fotokopi KTP / KK / Pelunasan PBB Tahun 2018</p>
@@ -190,3 +230,6 @@
       </div>
 
   </div>
+  <script>
+    // JavaScript untuk memformat tanggal
+</script>
