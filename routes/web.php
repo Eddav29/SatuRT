@@ -165,6 +165,9 @@ Route::prefix('profile')->middleware(['auth'])->group(function () {
     Route::post('/change-password/{id}', [ProfileController::class, 'changePassword'])->name('profile.change-password.post');
     Route::get('/complete-data/{id}', [ProfileController::class, 'completeDataForm'])->name('profile.complete-data');
     Route::post('/complete-data/{id}', [ProfileController::class, 'completeData'])->name('profile.complete-data.post');
+    Route::get('/account', [ProfileController::class, 'account'])->name('profile.account');
+    Route::get('/account/{id}', [ProfileController::class, 'accountForm'])->name('profile.account.get');
+    Route::post('/account', [ProfileController::class, 'accountStore'])->name('profile.account.post');
 });
 
 Route::middleware('auth')->group(function () {

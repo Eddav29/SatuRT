@@ -295,7 +295,7 @@
 
 
                 {{-- Button --}}
-                <div class="mt-10 flex gap-x-5">
+                <div class="mt-3 ml-3 flex gap-x-5">
                     <button type="submit"
                         class="bg-azure-blue text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">
                         Simpan
