@@ -14,17 +14,16 @@ class CitizenController extends Controller
 {
     public function index($keluargaid)
     {
-
         $user = Auth::user();
         $url = $user->role->role_name === 'Ketua RT' ? ['home', 'data-keluarga.index', 'data-keluarga.index', ['data-anggota.show', [
-            'keluarga' => $user->penduduk->kartu_keluarga_id,
+            'keluargaid' => $keluargaid,
             'anggotum' => $user->penduduk->penduduk_id
         ]]] : ['dashboard', ['data-keluarga.show', [
             'keluarga' => $user->penduduk->kartu_keluarga_id,
         ]], ['data-keluarga.show', [
             'keluarga' => $user->penduduk->kartu_keluarga_id,
         ]], ['data-anggota.show', [
-            'keluargaid' => $user->penduduk->kartu_keluarga_id,
+            'keluargaid' => $keluargaid,
             'anggotum' => $user->penduduk->penduduk_id
         ]]];
         $breadcrumb = [
@@ -129,11 +128,12 @@ class CitizenController extends Controller
             'desa' => 'required|string',
             'nomor_rt' => 'required|integer',
             'nomor_rw' => 'required|integer',
+            'status_kehidupan' => $request->filled('status_kehidupan') ? 'required|string|in:Hidup,Meninggal' : '',
             'pendidikan_terakhir' => 'required|string|in:SD,SMP,SMA,D3,S1,S2,S3',
             'golongan_darah' => 'required|string|in:A,B,AB,O',
             'agama' => 'required|string|in:Islam,Kristen,Katolik,Hindu,Budha,Konghucu',
             'status_penduduk' => 'required|string|in:Domisili,Non Domisili',
-            'images' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+            'images' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
 
         if ($validator->fails()) {
@@ -222,6 +222,7 @@ class CitizenController extends Controller
             'pendidikan_terakhir' => Penduduk::getListPendidikanTerakhir(),
             'golongan_darah' => Penduduk::getListGolonganDarah(),
             'status_penduduk' => Penduduk::getListStatusPenduduk(),
+            'status_kehidupan' => Penduduk::getListStatusKehidupan(),
             'citizen' => CitizenService::find($id)
         ]);
     }
@@ -242,6 +243,7 @@ class CitizenController extends Controller
             'desa' => 'required|string',
             'nomor_rt' => 'required|integer',
             'nomor_rw' => 'required|integer',
+            'status_kehidupan' => $request->filled('status_kehidupan') ? 'required|string|in:Hidup,Meninggal' : '',
             'pendidikan_terakhir' => 'required|string|in:SD,SMP,SMA,D3,S1,S2,S3',
             'golongan_darah' => 'required|string|in:A,B,AB,O',
             'agama' => 'required|string|in:Islam,Kristen,Katolik,Hindu,Budha,Konghucu',
@@ -290,7 +292,6 @@ class CitizenController extends Controller
             if (isset($imageName) && file_exists(storage_path('app/' . $imageName))) {
                 unlink(storage_path('app/' . $imageName));
             }
-            dd($e);
             NotificationPusher::error($e->getMessage());
             return redirect()->back()->withInput();
         }

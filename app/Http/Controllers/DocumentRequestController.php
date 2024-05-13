@@ -377,7 +377,4 @@ class DocumentRequestController extends Controller
         return $pdf->stream('document.pdf'); // Nama file untuk unduhan
     }
 
-    function formatDate($date) {
-        return Carbon::parse($date)->isoFormat('D MMMM YYYY'); // Format tanggal menggunakan Carbon
-    }
 }

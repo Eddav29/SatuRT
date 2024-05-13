@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             InformasiSeeder::class,
             KriteriaAlternatifSeeder::class,
             InventarisSeeder::class,
+            InventarisDetailSeeder::class,
         ]);
     }
 }

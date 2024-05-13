@@ -6,7 +6,6 @@ use App\Models\KartuKeluarga;
 use App\Models\Penduduk;
 use App\Services\FamilyManagement\CitizenService;
 use App\Services\FamilyManagement\FamilyCardService;
-use App\Services\ImageManager\imageService;
 use App\Services\Notification\NotificationPusher;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -69,9 +68,7 @@ class FamilyCardController extends Controller
             'detail' => route('data-keluarga.show', ['keluarga' => $id]),
             'edit' => route('data-keluarga.edit', ['keluarga' => $id]),
             'hapus' => route('data-keluarga.destroy', ['keluarga' => $id])
-        ] : [
-            'detail' => route('data-keluarga.show', ['keluarga' => $id])
-        ];
+        ] : [];
         return view('pages.data-penduduk.keluarga.detail.index', [
             'id' => $id,
             'toolbar_id' => $id,
@@ -92,6 +89,8 @@ class FamilyCardController extends Controller
             'kk_desa' => 'required|string',
             'kk_nomor_rt' => 'required|integer',
             'kk_nomor_rw' => 'required|integer',
+            'kk_alamat' => 'required|string',
+            'kk_kode_pos' => 'required|integer|digits:5',
             'nik' => 'required|numeric|digits:16',
             'nama' => 'required|string',
             'tempat_lahir' => 'required|string',
@@ -109,8 +108,9 @@ class FamilyCardController extends Controller
             'golongan_darah' => 'required|string|in:A,B,AB,O',
             'agama' => 'required|string|in:Islam,Kristen,Katolik,Hindu,Budha,Konghucu',
             'status_penduduk' => 'required|string|in:Domisili,Non Domisili',
-            'images' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+            'images' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
         ]);
+
 
         if ($validator->fails()) {
             if ($request->is('api/*') || $request->ajax() || $request->wantsJson()) {
@@ -124,9 +124,6 @@ class FamilyCardController extends Controller
             DB::beginTransaction();
             $familyCard = FamilyCardService::create($request);
             $request['kartu_keluarga_id'] = $familyCard->kartu_keluarga_id;
-
-            $imageName = imageService::uploadFile('storage_ktp', $request);
-            $request->merge(['foto_ktp' => route('storage.ktp', ['filename' => $imageName])]);
             CitizenService::create($request);
 
             if ($request->is('api/*') || $request->ajax() || $request->wantsJson()) {
@@ -187,20 +184,15 @@ class FamilyCardController extends Controller
     public function update(Request $request, $id)
     {
 
-        $validator = Validator::make([
-            'nomor_kartu_keluarga' => $request->nomor_kartu_keluarga,
-            'kk_kota' => $request->kk_kota,
-            'kk_kecamatan' => $request->kk_kecamatan,
-            'kk_desa' => $request->kk_desa,
-            'kk_nomor_rt' => $request->kk_nomor_rt,
-            'kk_nomor_rw' => $request->kk_nomor_rw,
-        ], [
-            'nomor_kartu_keluarga' => 'unique:kartu_keluarga,nomor_kartu_keluarga,' . $id . ',kartu_keluarga_id',
+        $validator = Validator::make($request->all(), [
+            'nomor_kartu_keluarga' => 'required|unique:kartu_keluarga,nomor_kartu_keluarga,' . $id . ',kartu_keluarga_id',
             'kk_kota' => 'required|string',
             'kk_kecamatan' => 'required|string',
             'kk_desa' => 'required|string',
             'kk_nomor_rt' => 'required|integer',
             'kk_nomor_rw' => 'required|integer',
+            'kk_alamat' => 'required|string',
+            'kk_kode_pos' => 'required|integer|digits:5',
         ]);
 
         if ($validator->fails()) {
@@ -224,7 +216,7 @@ class FamilyCardController extends Controller
             }
             DB::commit();
             NotificationPusher::success('Data berhasil diubah');
-            return redirect()->route('data-keluarga.index');
+            return redirect()->route('data-keluarga.show', $id);
         } catch (\Exception $e) {
             if ($request->is('api/*') || $request->ajax() || $request->wantsJson()) {
                 throw $e;

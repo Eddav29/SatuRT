@@ -84,10 +84,43 @@
         <p class="select-none md:text-md text-sm">{{ $citizen->status_penduduk }}</p>
     </div>
 </div>
-<div class="mt-8 flex h-96 items-center justify-center bg-gray-100 font-sans mx-5">
-    <div class="bg-white border border-gray-300 w-full h-full rounded-md flex flex-col items-center">
-        <div id="image-container" class="flex justify-center items-center w-full h-full overflow-hidden">
-            <img id="image" class="w-full h-3/4 object-contain" alt="foto_ktp" src="{{ asset($citizen->foto_ktp) }}"/>
+<div class="mt-8 grid sm:grid-cols-2 grid-cols-1 gap-6 px-5">
+    <div class="flex flex-col justify-center">
+        <h3 class="md:text-lg text-sm font-semibold">Status</h3>
+        <p class="select-none md:text-md text-sm">{{ $citizen->status_kehidupan }}</p>
+    </div>
+</div>
+<div class="mt-8 grid grid-cols-1 px-5">
+    <h3 class="md:text-lg text-sm font-semibold">Foto KTP</h3>
+    <div x-data="{ openImage: false, scale: 1, offsetX: 0, offsetY: 0, filePreview: '{{ asset($citizen->foto_ktp) }}', previewImage: null }" x-init="previewImage = $refs.previewImage">
+        <img @click="openImage = !openImage" :src="filePreview" alt=""
+            class="rounded-xl max-h-[30rem] w-full object-contain" draggable="false">
+        <div x-show="openImage"
+            class="fixed z-[9999999] top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
+            <img x-show="openImage" x-ref="previewImage" :src="filePreview" alt=""
+                class="rounded-xl max-w-full max-h-full">
+            <button type="button" @click.prevent="openImage = false" class="absolute top-10 right-10 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-white" viewBox="0 0 20 20"
+                    fill="currentColor">
+                    <path fill-rule="evenodd"
+                        d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd" />
+                </svg>
+            </button>
+            <div class="absolute bottom-0 w-full">
+                <div class="flex justify-center ">
+                    <div class="rounded-xl bg-white">
+                        <button
+                            @click="if (scale < 5) {scale += 0.1; previewImage.style.transform = `scale(${scale}) translate(${offsetX}px, ${offsetY}px)`;}"
+                            class="bg-white-400 px-3 py-1"><x-heroicon-o-magnifying-glass-plus
+                                class="w-6 h-6 text-black hover:text-gray-600" /></button>
+                        <button
+                            @click="if (scale > 0.2) { scale -= 0.1; previewImage.style.transform = `scale(${scale}) translate(${offsetX}px, ${offsetY}px)`; }"
+                            class="bg-white-400 px-3 py-1"><x-heroicon-o-magnifying-glass-minus
+                                class="w-6 h-6 text-black hover:text-gray-600" /></button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

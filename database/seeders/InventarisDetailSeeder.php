@@ -2,19 +2,19 @@
 
 namespace Database\Seeders;
 
-use App\Models\DetailKeuangan;
+use App\Models\Inventaris_Detail;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class DetailKeuanganSeeder extends Seeder
+class InventarisDetailSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        DetailKeuangan::factory()
-            ->count(1000)
+        Inventaris_Detail::factory()
+            ->count(10)
             ->create();
     }
 }

@@ -9,6 +9,7 @@ use App\Services\Interfaces\RecordServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class CitizenService implements RecordServiceInterface, DatatablesInterface
 {
@@ -24,8 +25,12 @@ class CitizenService implements RecordServiceInterface, DatatablesInterface
 
     public static function create(Request $request): Collection | Model
     {
-        $imageName = imageService::uploadFile('storage_ktp', $request);
-        $request->merge(['foto_ktp' => route('storage.ktp', ['filename' => $imageName])]);
+        if ($request->hasFile('images')) {
+            $imageName = imageService::uploadFile('storage_ktp', $request);
+            $request->merge(['foto_ktp' => route('storage.ktp', ['filename' => $imageName])]);
+        }
+
+        $request->merge(['status_kehidupan' => $request->has('status_kehidupan') ? $request->status_kehidupan : 'Hidup']);
         return Penduduk::create($request->only([
             'kartu_keluarga_id',
             'nik',
@@ -42,6 +47,7 @@ class CitizenService implements RecordServiceInterface, DatatablesInterface
             'desa',
             'nomor_rt',
             'nomor_rw',
+            'status_kehidupan',
             'pekerjaan',
             'pendidikan_terakhir',
             'gologan_darah',
@@ -63,10 +69,18 @@ class CitizenService implements RecordServiceInterface, DatatablesInterface
             $request->merge(['foto_ktp' => $citizen->foto_ktp]);
         }
 
-        if ($request->status_hubungan_dalam_keluarga === 'Kepala Keluarga') {
+        if ($request->status_hubungan_dalam_keluarga !== 'Kepala Keluarga' && Penduduk::where('kartu_keluarga_id', $citizen->kartu_keluarga_id)->where('status_hubungan_dalam_keluarga', 'Kepala Keluarga')->count() === 1 && $citizen->status_hubungan_dalam_keluarga === 'Kepala Keluarga') {
+            throw new \Exception('Kartu Keluarga harus memiliki kepala keluarga');
+        }
+
+        if ($request->status_hubungan_dalam_keluarga === 'Kepala Keluarga' && $citizen->status_hubungan_dalam_keluarga !== 'Kepala Keluarga') {
             $leadCitizen = Penduduk::where('kartu_keluarga_id', $citizen->kartu_keluarga_id)->where('status_hubungan_dalam_keluarga', 'Kepala Keluarga')->first();
             $leadCitizen->update(['status_hubungan_dalam_keluarga' => null]);
         }
+
+        $request->merge(['status_kehidupan' => $request->has('status_kehidupan') ? $request->status_kehidupan : 'Hidup']);
+
+
         $citizen->update($request->only([
             'kartu_keluarga_id',
             'nik',
@@ -83,6 +97,7 @@ class CitizenService implements RecordServiceInterface, DatatablesInterface
             'desa',
             'nomor_rt',
             'nomor_rw',
+            'status_kehidupan',
             'pekerjaan',
             'pendidikan_terakhir',
             'gologan_darah',
@@ -113,6 +128,22 @@ class CitizenService implements RecordServiceInterface, DatatablesInterface
 
     public static function getDatatable($id = null): Collection
     {
-        return Penduduk::where('kartu_keluarga_id', $id)->get();
+        $role = Auth::user()->role->role_name;
+        return $role === "Ketua RT" ? Penduduk::select(
+            'penduduk_id',
+            'nama',
+            'nik',
+            'jenis_kelamin',
+            'status_hubungan_dalam_keluarga'
+            )->where('kartu_keluarga_id', $id)->get()
+            : Penduduk::select(
+                'penduduk_id',
+                'nama',
+                'nik',
+                'jenis_kelamin',
+                'status_hubungan_dalam_keluarga'
+                )->where('kartu_keluarga_id', $id )
+                ->where('status_kehidupan', 'Hidup')->get();
+
     }
 }

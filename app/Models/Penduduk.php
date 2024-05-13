@@ -44,7 +44,8 @@ class Penduduk extends Model
         'nomor_rw',
         'desa',
         'kecamatan',
-        'kota'
+        'kota',
+        'status_kehidupan'
     ];
 
     protected $hidden = [
@@ -108,6 +109,11 @@ class Penduduk extends Model
     public static function getListJenisKelamin()
     {
         return ['Laki-laki', 'Perempuan'];
+    }
+
+    public static function getListStatusKehidupan()
+    {
+        return ['Hidup', 'Meninggal'];
     }
 
 }

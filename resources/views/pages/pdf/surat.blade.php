@@ -90,8 +90,7 @@
 .left-signature,
 .right-signature {
     display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+    flex-direction: row !important;
 }
 
 .signature-block {
@@ -102,9 +101,6 @@
     height: 60px;
 }
 
-.right-signature {
-    align-items: flex-start; /* Mengatur agar tanda tangan Ketua RT sejajar */
-}
 
   </style>
 

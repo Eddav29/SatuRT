@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Resources\FinanceReportResource;
 use App\Models\DetailKeuangan;
 use App\Models\Keuangan;
-use App\Models\Penduduk;
 use Illuminate\Http\Exceptions\HttpResponseException;
 use App\Services\Notification\NotificationPusher;
 use Illuminate\Http\Request;
@@ -15,7 +14,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class FinanceReportController extends Controller
@@ -59,7 +57,7 @@ class FinanceReportController extends Controller
     {
         try {
              // Ambil semua data dari tabel 'DetailKeuangan'
-            $dataSemuaTahun = DetailKeuangan::orderBy('created_at', 'DESC')->get()->map(function ($keuangan) {
+            $dataSemuaTahun = DetailKeuangan::orderBy('update_at', 'DESC')->get()->map(function ($keuangan) {
                 return [
                     'detail_keuangan_id' => $keuangan->detail_keuangan_id,
                     'keuangan_id' => $keuangan->keuangan_id,
@@ -357,5 +355,91 @@ class FinanceReportController extends Controller
         }
 
         return new FinanceReportResource($financeReport);
+    }
+
+    public function listByYear(string $year): JsonResponse
+    {
+        try {
+            $data = $this->filterFinanceTrend($year);
+
+            return response()->json(
+                [
+                    'code' => 200,
+                    'data' => $data
+                ]
+            );
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'code' => 500,
+                'message' => $th->getMessage(),
+                'timestamp' => now()
+            ], 500);
+        }
+    }
+
+    private function filterFinanceTrend(string $year): array
+    {
+        if ($year != '5 Tahun Terakhir') {
+            return $this->getMonthlyFinanceReport($year);
+        }
+
+        return $this->getTotalFinanceFiveYearAgo();
+    }
+
+    private function getMonthlyFinanceReport(string $year): array
+    {
+        $results = DB::select("
+        SELECT jenis_keuangan, MONTH(created_at) as month, SUM(nominal) as nominal
+        FROM detail_keuangan
+        WHERE jenis_keuangan IN ('Pemasukan', 'Pengeluaran') AND YEAR(created_at) = $year
+        GROUP BY jenis_keuangan, MONTH(created_at)");
+
+        $monthly = [];
+
+        $range = range(1, 12);
+
+        foreach ($range as $month) {
+            $monthly['expenses'][$month] = 0;
+            $monthly['incomes'][$month] = 0;
+
+            foreach ($results as $result) {
+                if ($result->month == $month) {
+                    if ($result->jenis_keuangan == 'Pemasukan') {
+                        $monthly['incomes'][$month] = $result->nominal;
+                    } elseif ($result->jenis_keuangan == 'Pengeluaran') {
+                        $monthly['expenses'][$month] = $result->nominal;
+                    }
+                }
+            }
+        }
+
+        return $monthly;
+    }
+
+    private function getTotalFinanceFiveYearAgo(): array
+    {
+        $results = DB::select("
+        SELECT 
+            jenis_keuangan as 'Jenis_Keuangan', 
+            SUM(nominal) as 'Nominal', 
+            YEAR(created_at) as 'YEAR'
+        FROM detail_keuangan
+        WHERE
+            YEAR(created_at) >= YEAR(NOW()) - 4
+        GROUP BY YEAR(created_at), jenis_keuangan
+        ORDER BY YEAR(created_at)");
+
+        $yearly = [];
+
+        foreach ($results as $result) {
+            if ($result->Jenis_Keuangan == 'Pengeluaran') {
+                $yearly['expenses'][$result->YEAR] = $result->Nominal;
+            } else {
+                $yearly['incomes'][$result->YEAR] = $result->Nominal;
+            }
+        }
+
+        return $yearly;
     }
 }

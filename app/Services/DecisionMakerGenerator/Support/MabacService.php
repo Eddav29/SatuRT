@@ -121,7 +121,7 @@ class MabacService extends DecisionMakerService
                     continue;
                 }
 
-                $total += $Q[$i][$j];
+                $total += $Q[$i][$j];   
 
                 $row['Alternatif'] = $alternative[$i + 1];
                 $row['AS'] = $this->trimTrailingZeros(number_format($total, 3, '.', ''));
