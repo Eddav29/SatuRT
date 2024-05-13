@@ -294,7 +294,7 @@ class InformationController extends Controller
     public function list(): JsonResponse
     {
         try {
-            $data = Informasi::all()->map(function ($informasi) {
+            $data = Informasi::orderBy('updated_at', 'desc')->get()->map(function ($informasi) {
                 return [
                     'informasi_id' => $informasi->informasi_id,
                     'judul_informasi' => $informasi->judul_informasi,

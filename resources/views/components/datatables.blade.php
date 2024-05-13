@@ -177,6 +177,7 @@
                             }
                         }
                     ],
+                    order: [],
                     layout: {
                         @if ($layoutTop2Start)
                             top2Start: function() {
