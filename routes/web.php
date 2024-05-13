@@ -111,12 +111,12 @@ Route::resource('persuratan', DocumentRequestController::class)->middleware(['au
 ]);
 Route::resource('inventaris/data-inventaris', InventarisController::class)->middleware(['auth'])->names([
     'index' => 'inventaris.data-inventaris.index',
-    'show' => 'inventaris.show',
-    'update' => 'inventaris.update',
-    'create' => 'inventaris.create',
-    'store' => 'inventaris.store',
-    'edit' => 'inventaris.edit',
-    'destroy' => 'inventaris.destroy',
+    'show' => 'inventaris.data-inventaris.show',
+    'update' => 'inventaris.data-inventaris.update',
+    'create' => 'inventaris.data-inventaris.create',
+    'store' => 'inventaris.data-inventaris.store',
+    'edit' => 'inventaris.data-inventaris.edit',
+    'destroy' => 'inventaris.data-inventaris.destroy',
 ]);
 Route::resource('inventaris/peminjaman', InventarisPeminjamanController::class)->middleware(['auth'])->names([
     'index' => 'inventaris.index',

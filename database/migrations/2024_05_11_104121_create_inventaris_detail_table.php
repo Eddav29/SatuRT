@@ -22,7 +22,7 @@ return new class extends Migration
                 'Hilang',
             ]);
             $table->date('tanggal_pinjam');
-            $table->date('tanggal_kembali');
+            $table->date('tanggal_kembali')->default(null);
             $table->timestamps();
 
             $table->foreign('inventaris_id')->references('inventaris_id')->on('inventaris');

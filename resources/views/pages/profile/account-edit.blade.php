@@ -1,40 +1,38 @@
 <x-profile-layout>
-    <div class="p-6 lg:px-12 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col gap-y-5">
-        <div class="p-6 rounded-xl bg-white-snow">
-            {{-- Header --}}
-            <section>
-                <div
-                    class="p-6 lg:px-14 lg:py-8 sticky top-0 z-[999] flex w-full bg-soft-snow max-lg:drop-shadow lg:hidden">
-                    <div class="mx-auto flex items-center justify-between w-full">
-                        <button @click.stop="sidebar = !sidebar" class="z-50 w-10 h-10">
-                            <x-heroicon-c-bars-3-center-left />
-                        </button>
-                        <div class="lg:hidden" x-data="{ profile: false }">
-                            <div class="h-14 w-14 rounded-full overflow-hidden" @click.stop="profile = !profile">
-                                <img class="h-full w-full object-cover"
-                                    src="{{ asset('assets/images/milad-fakurian-PGdW_bHDbpI-unsplash.jpg') }}"
-                                    alt="">
-                            </div>
-                        </div>
+    {{-- Header --}}
+    <section>
+        <div class="p-6 lg:px-14 lg:py-8 sticky top-0 z-[999] flex w-full bg-soft-snow max-lg:drop-shadow lg:hidden">
+            <div class="mx-auto flex items-center justify-between w-full">
+                <button @click.stop="sidebar = !sidebar" class="z-50 w-10 h-10">
+                    <x-heroicon-c-bars-3-center-left />
+                </button>
+                <div class="lg:hidden" x-data="{ profile: false }">
+                    <div class="h-14 w-14 rounded-full overflow-hidden" @click.stop="profile = !profile">
+                        <img class="h-full w-full object-cover"
+                            src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}">
                     </div>
                 </div>
+            </div>
+        </div>
 
-                <div class="bg-blue-gray p-5 max-lg:mt-5 rounded-md">
-                    <h1 class="text-2xl font-semibold">Ubah Data Akun</h1>
-                </div>
-            </section>
-            {{-- End Header --}}
+    </section>
+    {{-- End Header --}}
+    <div class="p-6 lg:px-12 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col gap-y-5">
+        <div class="p-6 rounded-xl bg-white-snow">
+            <div class="bg-blue-gray p-5 max-lg:mt-5 rounded-md">
+                <h1 class="text-2xl font-semibold">Ubah Data Akun</h1>
+            </div>
 
             {{-- Form --}}
-            <form action="{{ route('profile.account.post') }}" enctype="multipart/form-data"
-                method="POST">
+            <form action="{{ route('profile.account.post') }}" enctype="multipart/form-data" method="POST">
                 @csrf
 
                 <div class="flex flex-col md:grid md:grid-cols-2">
                     <div class="mx-3 my-4 gap-5 flex flex-col font-bold">
                         <div>
                             <div class="after:content-['*'] after:ml-0.5 after:text-red-500">NIK</div>
-                            <input disabled type="text" value="{{ $penduduk->nik }}" placeholder="Masukkan NIK" disabled
+                            <input disabled type="text" value="{{ $penduduk->nik }}" placeholder="Masukkan NIK"
+                                disabled
                                 class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
                             <x-input-error :messages="$errors->get('nik')" class="mt-2" />
                         </div>
@@ -63,8 +61,8 @@
                     <div class="mx-3 my-3 font-bold">
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Foto Profile</div>
                         @if ($penduduk->user->profile)
-                            <img src="{{ asset('storage/images_storage/account_images/' .  Auth::user()->penduduk->user->profile)}}"
-                                class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-gray-100 hover:border-gray-100 hover:bg-gray-200">
+                            <img src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}"
+                                class="object-cover flex flex-col items-center justify-center w-auto h-3/4 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-gray-100 hover:border-gray-100 hover:bg-gray-200">
                         @endif
                         <div class="flex flex-col items-center justify-center pt-5 pb-6">
                             <input
@@ -82,7 +80,7 @@
                         class="bg-azure-blue text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">
                         Simpan
                     </button>
-                    <a href="{{ route('profile') }}"
+                    <a href="{{ route('profile.account') }}"
                         class="border border-navy-night/50 rounded-md px-4 py-2 text-sm flex justify-center items-center gap-x-3">
                         Kembali
                     </a>

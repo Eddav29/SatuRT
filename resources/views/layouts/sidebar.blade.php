@@ -28,13 +28,17 @@
                     @php
                         $active = 'Penduduk';
                     @endphp
+                @elseif (request()->is('inventaris*'))
+                    @php
+                        $active = 'Inventaris';
+                    @endphp
                 @elseif (request()->is('pendukung-keputusan*'))
                     @php
                         $active = 'Pendukung Keputusan';
                     @endphp
                 @endif
 
-                <div x-data="{ isDataPenduduk: {{ $active === 'Penduduk' ? 'true' : 'false' }}, isPendukungKeputusan: {{ $active === 'Pendukung Keputusan' ? 'true' : 'false' }}, isInventaris: {{ $active === 'Inventaris' ? 'true' : 'false'}} }" class="py-5">
+                <div x-data="{ isDataPenduduk: {{ $active === 'Penduduk' ? 'true' : 'false' }}, isPendukungKeputusan: {{ $active === 'Pendukung Keputusan' ? 'true' : 'false' }}, isInventaris: {{ $active === 'Inventaris' ? 'true' : 'false' }} }" class="py-5">
                     <nav>
                         <div>
                             <x-nav-menu :href="route('dashboard')" :active="request()->is('dashboard*')" svgIcon="heroicon-o-squares-2x2"
@@ -111,7 +115,7 @@
                                 </x-nav-menu>
                             </div>
                             <div class="pl-11 py-1">
-                                <x-nav-menu :href="route('spk.decision-maker.index')" :active="request()->is('pendukung-keputusan/hasil-keputusan')">
+                                <x-nav-menu :href="route('spk.decision-maker.index')" :active="request()->is('pendukung-keputusan/hasil-keputusan*')">
                                     Hasil
                                 </x-nav-menu>
                             </div>
@@ -142,7 +146,7 @@
                         </div>
                         <div :class="isInventaris ? 'block' : 'hidden'">
                             <div class="pl-11 py-1">
-                                <x-nav-menu :href="route('inventaris.data-inventaris.index')" :active="request()->is('data-inventaris/*')">
+                                <x-nav-menu :href="route('inventaris.data-inventaris.index')" :active="request()->is('inventaris/data-inventaris')">
                                     Data Inventaris
                                 </x-nav-menu>
                             </div>
@@ -152,7 +156,7 @@
                                 </x-nav-menu>
                             </div>
                         </div>
-                       
+
                     </nav>
                 </div>
             </div>

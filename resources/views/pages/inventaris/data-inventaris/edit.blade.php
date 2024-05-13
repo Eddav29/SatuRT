@@ -54,28 +54,6 @@
                                 class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
                         </div>
                         <div>
-                            <label for="kondisi"
-                                class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Kondisi</label>
-                            <select name="kondisi"
-                                class="font-normal  mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                                <option value="" disabled>Pilih Kondisi Inventaris</option>
-                                <option value="Baik" {{ $inventaris->kondisi === 'Baik' ? 'selected' : '' }}>Baik
-                                </option>
-                                <option value="Baru" {{ $inventaris->kondisi === 'Baru' ? 'selected' : '' }}>Baru
-                                </option>
-                                <option value="Cacat" {{ $inventaris->kondisi === 'Cacat' ? 'selected' : '' }}>Cacat
-                                </option>
-                                <option value="Cukup" {{ $inventaris->kondisi === 'Cukup' ? 'selected' : '' }}>Cukup
-                                </option>
-                                <option value="Rusak" {{ $inventaris->kondisi === 'Rusak' ? 'selected' : '' }}>Rusak
-                                </option>
-
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
-                        <div>
                             <label for="jenis"
                                 class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Jenis</label>
                             <select name="jenis"
@@ -96,6 +74,9 @@
 
                             </select>
                         </div>
+                    </div>
+
+                    <div class="mt-5 gap-5 flex max-lg:flex-col lg:grid">
                         <div>
                             <label for="sumber"
                                 class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Sumber</label>

@@ -115,12 +115,14 @@ class ProfileController extends Controller
             'sandi_baru.required' => 'Kata Sandi Baru harus diisi',
             'sandi_baru.min' => 'Panjang Kata Sandi Baru minimal 5',
             'ulang_sandi_baru' => 'Ulangi Kata Sandi harus sama',
+            'ulang_sandi_baru.same' => 'Ulangi Kata Sandi harus sama dengan Kata Sandi Baru',
         ]);
 
         if (Hash::check($request->sandi_lama, $user->password)) {
             try {
                 // Update password
                 $user->password = Hash::make($request->sandi_baru);
+                $user->password_changed_at = now();
                 $user->update($validated);
 
                 NotificationPusher::success('Perubahan berhasil disimpan');
@@ -130,7 +132,8 @@ class ProfileController extends Controller
                 return redirect()->back()->with(['error' => 'Gagal menyimpan perubahan']);
             }
         } else {
-            return redirect()->back()->with('error', 'Kata Sandi Lama tidak sesuai.');
+            NotificationPusher::error('Kata Sandi Lama tidak sesuai');
+            return redirect()->back()->with('error', 'Kata Sandi Lama tidak sesuai');
         }
     }
 
