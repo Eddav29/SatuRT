@@ -30,7 +30,7 @@
                         <h1 class="text-base/7 font-semibold"> Rp. {{ number_format($total_pengeluaran) }}</h1>
                     </div>
                 </div>
-                <div class="flex flex-col px-5 py-7 gap-y-5 bg-green-200 rounded-xl">
+    <div class="flex flex-col px-5 py-7 gap-y-5 bg-green-200 rounded-xl">
                     <div>
                         <div class="bg-blue-gray rounded-full p-2 w-12 h-12 flex justify-center items-center">
                             <img src="{{ asset('assets/images/keuangan_blue_icon.svg') }}" alt="">

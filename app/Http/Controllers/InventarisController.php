@@ -18,9 +18,9 @@ class InventarisController extends Controller
     {
         $breadcrumb = [
             'list' => ['Home', 'inventaris'],
-            'url' => ['home', 'inventaris.index'],
+            'url' => ['home', 'inventaris.data-inventaris.index'],
         ];
-        return response()->view('pages.inventaris.index', [
+        return response()->view('pages.inventaris.data-inventaris.index', [
             'breadcrumb' => $breadcrumb,
         ]);
     }
@@ -35,18 +35,18 @@ class InventarisController extends Controller
 
         $breadcrumb = [
             'list' => ['Home', 'Inventaris', 'Detail inventaris'],
-            'url' => ['home', 'inventaris.index', ['inventaris.show', $id]],
+            'url' => ['home', 'inventaris.data-inventaris.index', ['inventaris.data-inventaris.show', $id]],
         ];
 
-        return response()->view('pages.inventaris.show', [
+        return response()->view('pages.inventaris.data-inventaris.show', [
             'inventaris' => $inventaris,
             'breadcrumb' => $breadcrumb,
             'toolbar_id' => $id,
             'active' => 'detail',
             'toolbar_route' => [
-                'detail' => route('inventaris.show',  $id),
-                'edit' => route('inventaris.edit',  $id),
-                'hapus' => route('inventaris.destroy',  $id),
+                'detail' => route('inventaris.data-inventaris.show',  $id),
+                'edit' => route('inventaris.data-inventaris.edit',  $id),
+                'hapus' => route('inventaris.data-inventaris.destroy',  $id),
             ],
         ]);
 
@@ -91,10 +91,10 @@ class InventarisController extends Controller
             ]);
 
             NotificationPusher::success('Perubahan berhasil disimpan');
-            return redirect()->route('inventaris.show', $id)->with(['success' => 'Perubahan berhasil disimpan']);
+            return redirect()->route('inventaris.data-inventaris.show', $id)->with(['success' => 'Perubahan berhasil disimpan']);
         } catch (\Throwable $th) {
             NotificationPusher::error('Gagal menyimpan perubahan');
-            return redirect()->route('inventaris.show', $id)->with(['error' => 'Gagal menyimpan perubahan']);
+            return redirect()->route('inventaris.data-inventaris.show', $id)->with(['error' => 'Gagal menyimpan perubahan']);
         }
     }
 
@@ -106,7 +106,7 @@ class InventarisController extends Controller
                     'inventaris_id' => $inventaris->inventaris_id,
                     'nama_inventaris' => $inventaris->nama_inventaris,
                     'jumlah' => $inventaris->jumlah,
-                    'kondisi' => $inventaris->kondisi,
+                    'sumber' => $inventaris->sumber,
                 ];
             });
 
@@ -124,18 +124,18 @@ class InventarisController extends Controller
 
         $breadcrumb = [
             'list' => ['Home', 'Inventaris', 'Edit inventaris'],
-            'url' => ['home', 'inventaris.index', ['inventaris.edit', $id]],
+            'url' => ['home', 'inventaris.data-inventaris.index', ['inventaris.data-inventaris.edit', $id]],
         ];
 
-        return response()->view('pages.inventaris.edit', [
+        return response()->view('pages.inventaris.data-inventaris.edit', [
             'breadcrumb' => $breadcrumb,
             'inventaris' => $inventaris,
             'toolbar_id' => $id,
             'active' => 'edit',
             'toolbar_route' => [
-                'detail' => route('inventaris.show', $id),
-                'edit' => route('inventaris.edit', $id),
-                'hapus' => route('inventaris.destroy', $id),
+                'detail' => route('inventaris.data-inventaris.show', $id),
+                'edit' => route('inventaris.data-inventaris.edit', $id),
+                'hapus' => route('inventaris.data-inventaris.destroy', $id),
             ],
         ]);
     }
@@ -146,9 +146,9 @@ class InventarisController extends Controller
 
         $breadcrumb = [
             'list' => ['Home', 'Inventaris', 'Tambah inventaris'],
-            'url' => ['home', 'inventaris.index', 'inventaris.create'],
+            'url' => ['home', 'inventaris.data-inventaris.index', 'inventaris.data-inventaris.create'],
         ];
-        return response()->view('pages.inventaris.create', [
+        return response()->view('pages.inventaris.data-inventaris.create', [
             'breadcrumb' => $breadcrumb,
             'inventaris' => $inventaris,
         ]);
@@ -193,11 +193,11 @@ class InventarisController extends Controller
             DB::commit();
 
             NotificationPusher::success('Data berhasil disimpan');
-            return redirect()->route('inventaris.index')->with(['success' => 'Data berhasil disimpan']);
+            return redirect()->route('inventaris.data-inventaris.index')->with(['success' => 'Data berhasil disimpan']);
         } catch (\Exception $e) {
             DB::rollback();
             NotificationPusher::error('Gagal menyimpan data: ' . $e->getMessage());
-            return redirect()->route('inventaris.index')->with(['error' => 'Gagal menyimpan data: ' . $e->getMessage()]);
+            return redirect()->route('inventaris.data-inventaris.index')->with(['error' => 'Gagal menyimpan data: ' . $e->getMessage()]);
         }
     }
 

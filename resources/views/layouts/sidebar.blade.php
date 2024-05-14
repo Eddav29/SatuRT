@@ -28,13 +28,17 @@
                     @php
                         $active = 'Penduduk';
                     @endphp
+                @elseif (request()->is('inventaris*'))
+                    @php
+                        $active = 'Inventaris';
+                    @endphp
                 @elseif (request()->is('pendukung-keputusan*'))
                     @php
                         $active = 'Pendukung Keputusan';
                     @endphp
                 @endif
 
-                <div x-data="{ isDataPenduduk: {{ $active === 'Penduduk' ? 'true' : 'false' }}, isPendukungKeputusan: {{ $active === 'Pendukung Keputusan' ? 'true' : 'false' }} }" class="py-5">
+                <div x-data="{ isDataPenduduk: {{ $active === 'Penduduk' ? 'true' : 'false' }}, isPendukungKeputusan: {{ $active === 'Pendukung Keputusan' ? 'true' : 'false' }}, isInventaris: {{ $active === 'Inventaris' ? 'true' : 'false' }} }" class="py-5">
                     <nav>
                         <div>
                             <x-nav-menu :href="route('dashboard')" :active="request()->is('dashboard*')" svgIcon="heroicon-o-squares-2x2"
@@ -111,7 +115,7 @@
                                 </x-nav-menu>
                             </div>
                             <div class="pl-11 py-1">
-                                <x-nav-menu :href="route('spk.decision-maker.index')" :active="request()->is('pendukung-keputusan/hasil-keputusan')">
+                                <x-nav-menu :href="route('spk.decision-maker.index')" :active="request()->is('pendukung-keputusan/hasil-keputusan*')">
                                     Hasil
                                 </x-nav-menu>
                             </div>
@@ -128,12 +132,31 @@
                                 Laporan Warga
                             </x-nav-menu>
                         </div>
-                        <div>
-                            <x-nav-menu svgIcon="heroicon-o-archive-box" iconStyle="w-6 h-6 md:h-8 md:w-8"
-                                :href="route('inventaris.index')" :active="request()->is('inventaris*')">
-                                Inventaris
+                        <div @click.prevent="isInventaris = !isInventaris">
+                            <x-nav-menu svgIcon="heroicon-o-archive-box" iconStyle="w-6 h-6 md:h-8 md:w-8">
+                                <div class="inline-flex w-full justify-between items-center">
+                                    <p class="px-1">
+                                        Inventaris
+                                    </p>
+                                    <div class="w-5 h-5" :class="isInventaris ? 'rotate-180' : ''">
+                                        <x-heroicon-o-chevron-down />
+                                    </div>
+                                </div>
                             </x-nav-menu>
                         </div>
+                        <div :class="isInventaris ? 'block' : 'hidden'">
+                            <div class="pl-11 py-1">
+                                <x-nav-menu :href="route('inventaris.data-inventaris.index')" :active="request()->is('inventaris/data-inventaris')">
+                                    Data Inventaris
+                                </x-nav-menu>
+                            </div>
+                            <div class="pl-11 py-1">
+                                <x-nav-menu :href="url('inventaris/peminjaman')" :active="request()->is('peminjaman/*')">
+                                    Peminjaman Inventaris
+                                </x-nav-menu>
+                            </div>
+                        </div>
+
                     </nav>
                 </div>
             </div>

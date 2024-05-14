@@ -15,6 +15,7 @@ use App\Http\Controllers\ResidentReportController;
 use App\Http\Controllers\StorageController;
 use App\Http\Controllers\FinanceReportController;
 use App\Http\Controllers\DocumentRequestController;
+use App\Http\Controllers\InventarisPeminjamanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CriteriaController;
 use App\Http\Controllers\AlternativeController;
@@ -108,7 +109,16 @@ Route::resource('persuratan', DocumentRequestController::class)->middleware(['au
     'update' => 'persuratan.update',
     'destroy' => 'persuratan.destroy',
 ]);
-Route::resource('inventaris', InventarisController::class)->middleware(['auth'])->names([
+Route::resource('inventaris/data-inventaris', InventarisController::class)->middleware(['auth'])->names([
+    'index' => 'inventaris.data-inventaris.index',
+    'show' => 'inventaris.data-inventaris.show',
+    'update' => 'inventaris.data-inventaris.update',
+    'create' => 'inventaris.data-inventaris.create',
+    'store' => 'inventaris.data-inventaris.store',
+    'edit' => 'inventaris.data-inventaris.edit',
+    'destroy' => 'inventaris.data-inventaris.destroy',
+]);
+Route::resource('inventaris/peminjaman', InventarisPeminjamanController::class)->middleware(['auth'])->names([
     'index' => 'inventaris.index',
     'show' => 'inventaris.show',
     'update' => 'inventaris.update',
@@ -117,6 +127,7 @@ Route::resource('inventaris', InventarisController::class)->middleware(['auth'])
     'edit' => 'inventaris.edit',
     'destroy' => 'inventaris.destroy',
 ]);
+
 
 
 //Route untuk persetujuan permohonan  surat

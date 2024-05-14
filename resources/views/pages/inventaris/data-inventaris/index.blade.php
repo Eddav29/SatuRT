@@ -8,7 +8,7 @@
 
             {{-- Table --}}
             <section>
-                <x-datatables id="inventaris_id" url="/inventaris" :columns="[
+                <x-datatables id="inventaris_id" url="/inventaris/data-inventaris" :columns="[
                     [
                         'label' => 'ID Inventaris',
                         'key' => 'inventaris_id',
@@ -25,15 +25,15 @@
                         'style' => 'text-left',
                     ],
                     [
-                        'label' => 'Kondisi',
-                        'key' => 'kondisi',
+                        'label' => 'Sumber',
+                        'key' => 'sumber',
                         'style' => 'text-left',
                         'customStyle' => [
-                            'Cukup' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-yellow-500/30 text-yellow-800',
-                            'Baik' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-blue-500/30 text-blue-800',
-                            'Baru' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-green-500/30 text-green-800',
-                            'Cacat' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-orange-500/30 text-orange-800',
-                            'Rusak' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-red-500/30 text-red-800',
+                            'Hibah' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-green-500/30 text-green-800',
+                            'Beli' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-blue-700/30 text-blue-800',
+                            'Donasi' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-pink-500/30 text-pink-800',
+                            'Bantuan' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-purple-500/30 text-purple-800',
+                            'Pinjaman' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-orange-500/30 text-orange-800',
                         ],
                     ],
                 ]" :aksi="[
@@ -41,11 +41,11 @@
                     'edit' => true,
                     'hapus' => true,
                 ]" :filter="[
-                    ['label' => 'Cukup', 'key' => 'Cukup', 'columnIndex' => 3],
-                    ['label' => 'Baik', 'key' => 'Baik', 'columnIndex' => 3],
-                    ['label' => 'Baru', 'key' => 'Baru', 'columnIndex' => 3],
-                    ['label' => 'Cacat', 'key' => 'Cacat', 'columnIndex' => 3],
-                    ['label' => 'Rusak', 'key' => 'Rusak', 'columnIndex' => 3],
+                    ['label' => 'Hibah', 'key' => 'Hibah', 'columnIndex' => 3],
+                    ['label' => 'Beli', 'key' => 'Beli', 'columnIndex' => 3],
+                    ['label' => 'Donasi', 'key' => 'Donasi', 'columnIndex' => 3],
+                    ['label' => 'Bantuan', 'key' => 'Bantuan', 'columnIndex' => 3],
+                    ['label' => 'Pinjaman', 'key' => 'Pinjaman', 'columnIndex' => 3],
                 ]"
                     :layoutTopEnd="true">
                 </x-datatables>

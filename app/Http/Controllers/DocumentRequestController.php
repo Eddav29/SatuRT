@@ -57,6 +57,23 @@ class DocumentRequestController extends Controller
                             'updated_at' => Carbon::parse($persuratan->pengajuan->updated_at)->format('d-m-Y | H:i:s'),
                         ];
                     });
+                $pengajuan = Pengajuan::all();
+                $pengajuan->load(
+                    ['status', 'penduduk', 'acceptedBy']
+                );
+
+                $data = Persuratan::all()->map(function ($persuratan) {
+                    return [
+                        'persuratan_id' => $persuratan->persuratan_id,
+                        'nik' => $persuratan->pengajuan->penduduk->nik,
+                        'nama' => $persuratan->pengajuan->penduduk->nama,
+                        'status' => $persuratan->pengajuan->status->nama,
+                        'keperluan' => $persuratan->pengajuan->keperluan,
+                        'accepted_at' => Carbon::parse($persuratan->pengajuan->accepted_at)->startOfDay()->formatLocalized('%d %B %Y'),
+                        'created_at' => Carbon::parse($persuratan->created_at)->startOfDay()->formatLocalized('%d %B %Y'),
+                        'updated_at' => Carbon::parse($persuratan->updated_at)->startOfDay()->formatLocalized('%d %B %Y'),
+                    ];
+                });
             } else {
                 $data = Persuratan::join('pengajuan', 'persuratan.pengajuan_id', '=', 'pengajuan.pengajuan_id')->whereHas('pengajuan', function ($query) {
                     $query->where('penduduk_id', auth()->user()->penduduk->penduduk_id);
@@ -417,6 +434,5 @@ class DocumentRequestController extends Controller
         // Unduh file PDF
         return $pdf->stream('document.pdf'); // Nama file untuk unduhan
     }
-
 
 }

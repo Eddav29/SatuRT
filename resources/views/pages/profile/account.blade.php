@@ -7,7 +7,7 @@
             <div class="lg:hidden" x-data="{ profile: false }">
                 <div class="h-14 w-14 rounded-full overflow-hidden" @click.stop="profile = !profile">
                     <img class="h-full w-full object-cover"
-                        src="{{ asset('assets/images/milad-fakurian-PGdW_bHDbpI-unsplash.jpg') }}" alt="">
+                        src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}">
                 </div>
                 <div class="absolute right-11 p-2" :class="profile ? 'block' : 'hidden'">
                     <div class="flex flex-col overflow-hidden rounded-lg ">
@@ -20,16 +20,13 @@
         </div>
     </header>
 
-
     <div class="p-6 lg:px-12 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col gap-y-5">
         <div class="p-6 rounded-xl bg-white-snow">
-            {{-- Header --}}
             <section>
                 <div class="bg-blue-gray p-5 max-lg:mt-5 rounded-md">
                     <h1 class="text-2xl font-semibold">Akun</h1>
                 </div>
             </section>
-            {{-- End header --}}
 
             {{-- Form --}}
             <section>
@@ -62,8 +59,8 @@
 
                     <div class="font-semibold mt-3">
                         <h5 class="font-semibold">Foto Profile</h5>
-                        <img src="{{ asset('storage/images_storage/account_images/' .  Auth::user()->penduduk->user->profile)}}"
-                            class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-bray-100  hover:border-gray-100 hover:bg-gray-200">
+                        <img src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}"
+                            class="object-cover flex flex-col items-center justify-center w-auto h-3/4 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-bray-100  hover:border-gray-100 hover:bg-gray-200">
                         </img>
                     </div>
                 </div>
