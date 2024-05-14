@@ -14,24 +14,6 @@
             </section>
             {{-- End Header --}}
 
-            {{-- Alert --}}
-            @if (session('error'))
-                <div role="alert" class="rounded border-s-4 border-red-500 bg-red-50 p-4 my-8">
-                    <div class="flex items-center gap-2 text-red-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
-                            <path fill-rule="evenodd"
-                                d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c-1.154 2. Tidak ada masalah."
-                                clip-rule="evenodd" />
-                        </svg>
-                        <strong class="block font-medium"> Terjadi Kesalahan </strong>
-                    </div>
-                    <p class="mt-2 text-sm text-red-700">
-                        {{ session('error') }}
-                    </p>
-                </div>
-            @endif
-            {{-- End Alert --}}
-
             {{-- Form --}}
             <section>
                 <form action="{{ route('keuangan.update', $detailKeuangan->detail_keuangan_id) }}" method="POST"
