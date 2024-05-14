@@ -4,8 +4,8 @@
     </x-slot>
 
     <div class="p-6 lg:px-14 gap-y-5 mx-auto max-w-screen-2xl md:p-6 2xl:p-10 ">
-        @if(Auth::user()->role->role_name !== 'Ketua RT' && Auth::user()->role->role_name !== 'Admin')
-        <x-toolbar :toolbar_id="$toolbar_id" :active="$active" :toolbar_route="$toolbar_route" />
+        @if (Auth::user()->role->role_name !== 'Ketua RT' && Auth::user()->role->role_name !== 'Admin')
+            <x-toolbar :toolbar_id="$toolbar_id" :active="$active" :toolbar_route="$toolbar_route" />
         @endif
         <div class="p-6 rounded-xl bg-white-snow mt-5">
             {{-- Header --}}
@@ -16,30 +16,10 @@
             </section>
             {{-- End Header --}}
 
-            {{-- Alert --}}
-            @if (session('error'))
-                <div role="alert" class="rounded border-s-4 border-red-500 bg-red-50 p-4 my-8">
-                    <div class="flex items-center gap-2 text-red-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
-                            <path fill-rule="evenodd"
-                                d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
-                                clip-rule="evenodd" />
-                        </svg>
-
-                        <strong class="block font-medium"> Terjadi Kesalahan </strong>
-                    </div>
-
-                    <p class="mt-2 text-sm text-red-700">
-                        {{ session('error') }}
-                    </p>
-                </div>
-            @endif
-            {{-- End Alert --}}
-
             {{-- Form --}}
             <section>
-                <form action="{{ route('persuratan.update', $persuratan->persuratan_id) }}" method="POST" enctype="multipart/form-data"
-                    class="px-5">
+                <form action="{{ route('persuratan.update', $persuratan->persuratan_id) }}" method="POST"
+                    enctype="multipart/form-data" class="px-5">
                     @csrf
                     @method('PUT')
 
@@ -50,13 +30,6 @@
                                 class="block font-semibold text-navy-night after:content-['*'] after:ml-0.5 after:text-red-500 w-fit">Pemohon</label>
                             <select id="pemohon" name="pemohon" required
                                 class="placeholder:font-light placeholder:text-xs invalid:ring-1 invalid:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-sm text-navy-night">
-                                {{-- Masukkan opsi pemohon yang ada --}}
-                                @foreach($penduduk as $person)
-                                    <option value="{{ $person->penduduk_id }}"
-                                        {{ $persuratan->pengajuan->penduduk_id == $person->penduduk_id ? 'selected' : '' }}>
-                                        {{ $person->nama }}
-                                    </option>
-                                @endforeach
                             </select>
                         </div>
 
@@ -67,17 +40,31 @@
                             <select id="jenis_surat" name="jenis_surat" required
                                 class="placeholder:font-light placeholder:text-xs invalid:ring-1 invalid:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-sm"
                                 @change="selected = $event.target.value">
-                                <option value="Surat Pengantar KTP" {{ $persuratan->jenis_surat == 'Surat Pengantar KTP' ? 'selected' : '' }}>Mengurus Kartu Tanda Penduduk</option>
-                                <option value="Surat Pengantar Kartu keluarga" {{ $persuratan->jenis_surat == 'Surat Pengantar Kartu keluarga' ? 'selected' : '' }}>Mengurus Kartu Keluarga</option>
-                                <option value="Surat Pengantar Akta Kelahiran" {{ $persuratan->jenis_surat == 'Surat Pengantar Akta Kelahiran' ? 'selected' : '' }}>Mengurus Akta Kelahiran</option>
-                                <option value="Surat Pengantar Akta Kematian" {{ $persuratan->jenis_surat == 'Surat Pengantar Akta Kematian' ? 'selected' : '' }}>Mengurus Akta Kematian</option>
-                                <option value="Surat Pengantar SKCK" {{ $persuratan->jenis_surat == 'Surat Pengantar SKCK' ? 'selected' : '' }}>Mengurus SKCK</option>
-                                <option value="Surat Pengantar Nikah" {{ $persuratan->jenis_surat == 'Surat Pengantar Nikah' ? 'selected' : '' }}>Mengurus Persyaratan Nikah</option>
-                                <option value="Lainnya" {{ $persuratan->jenis_surat == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                                <option value="Surat Pengantar KTP"
+                                    {{ $persuratan->jenis_surat == 'Surat Pengantar KTP' ? 'selected' : '' }}>Mengurus
+                                    Kartu Tanda Penduduk</option>
+                                <option value="Surat Pengantar Kartu keluarga"
+                                    {{ $persuratan->jenis_surat == 'Surat Pengantar Kartu keluarga' ? 'selected' : '' }}>
+                                    Mengurus Kartu Keluarga</option>
+                                <option value="Surat Pengantar Akta Kelahiran"
+                                    {{ $persuratan->jenis_surat == 'Surat Pengantar Akta Kelahiran' ? 'selected' : '' }}>
+                                    Mengurus Akta Kelahiran</option>
+                                <option value="Surat Pengantar Akta Kematian"
+                                    {{ $persuratan->jenis_surat == 'Surat Pengantar Akta Kematian' ? 'selected' : '' }}>
+                                    Mengurus Akta Kematian</option>
+                                <option value="Surat Pengantar SKCK"
+                                    {{ $persuratan->jenis_surat == 'Surat Pengantar SKCK' ? 'selected' : '' }}>Mengurus
+                                    SKCK</option>
+                                <option value="Surat Pengantar Nikah"
+                                    {{ $persuratan->jenis_surat == 'Surat Pengantar Nikah' ? 'selected' : '' }}>
+                                    Mengurus Persyaratan Nikah</option>
+                                <option value="Lainnya" {{ $persuratan->jenis_surat == 'Lainnya' ? 'selected' : '' }}>
+                                    Lainnya</option>
                             </select>
-                            
+
                             {{-- Input Tambahan untuk Opsi Lainnya --}}
-                            <input type="text" placeholder="Masukkan Keperluan" name="keperluan_lainnya" id="keperluan"
+                            <input type="text" placeholder="Masukkan Keperluan" name="keperluan_lainnya"
+                                id="keperluan"
                                 class="placeholder:text-gray-300 placeholder:font-light mt-5 required:ring-1 required:ring-red-500 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder:text-xs text-sm"
                                 x-show="selected === 'Lainnya'" value="{{ $persuratan->pengajuan->keperluan }}">
                         </div>
@@ -104,17 +91,18 @@
         <script>
             document.addEventListener('DOMContentLoaded', async function() {
                 const pemohonSelect = document.getElementById('pemohon');
-                
-                const response = await fetch('/api/v1/data-penduduk/keluarga/{{ Auth::user()->penduduk->kartu_keluarga_id }}/anggota');
+
+                const response = await fetch(
+                    '/api/v1/data-penduduk/keluarga/{{ Auth::user()->penduduk->kartu_keluarga_id }}/anggota');
                 const data = await response.json();
-                
+
                 if (data && data.data) {
                     data.data.forEach(element => {
                         const option = document.createElement('option');
                         option.value = element.penduduk_id;
                         option.textContent = element.nama;
 
-                        if ({{ $persuratan->pengajuan->penduduk_id }} === element.penduduk_id) {
+                        if ('{{ $persuratan->pengajuan->penduduk_id }}' === element.penduduk_id) {
                             option.selected = true;
                         }
 
