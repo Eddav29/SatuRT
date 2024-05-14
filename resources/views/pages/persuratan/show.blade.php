@@ -4,8 +4,8 @@
     </x-slot>
 
     <div class="p-6 lg:px-12 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col gap-y-5">
-        @if(Auth::user()->role->role_name !== 'Ketua RT' && Auth::user()->role->role_name !== 'Admin')
-        <x-toolbar :toolbar_id="$toolbar_id" :active="$active" :toolbar_route="$toolbar_route" />
+        @if (Auth::user()->role->role_name !== 'Ketua RT' && Auth::user()->role->role_name !== 'Admin')
+            <x-toolbar :toolbar_id="$toolbar_id" :active="$active" :toolbar_route="$toolbar_route" />
         @endif
         <div class="p-6 rounded-xl bg-white-snow mt-6">
             {{-- Detail Permohonan Surat --}}
@@ -16,14 +16,15 @@
             </section>
             {{-- Form Permohonan Surat --}}
             <section>
-                <form class="p-6 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col md:grid md:grid-cols-1 md:auto-rows-auto gap-y-5">
+                <form
+                    class="p-6 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col md:grid md:grid-cols-1 md:auto-rows-auto gap-y-5">
                     <div class="md:grid md:grid-cols-4">
                         <h5 class="font-semibold">NIK</h5>
                         <p class="md:col-span-3">{{ $persuratan->pengajuan->penduduk->nik }}</p>
                     </div>
                     <div class="md:grid md:grid-cols-4">
                         <h5 class="font-semibold">Nama</h5>
-                        <p class="md:col-span-3">{{ $persuratan->pengajuan->penduduk->nama }}</p>
+                        <p class="md:col-span-3">{{ $persuratan->pemohon()->nama }}</p>
                     </div>
                     <div class="md:grid md:grid-cols-4">
                         <h5 class="font-semibold">Jenis Surat</h5>
@@ -31,34 +32,40 @@
                     </div>
                     <div class="md:grid md:grid-cols-4">
                         <h5 class="font-semibold">Disetujui Tanggal</h5>
-                        <p class="md:col-span-3">{{ $persuratan->pengajuan->accepted_at }}</p>
+                        <p class="md:col-span-3">
+                            {{ \Carbon\Carbon::parse($persuratan->pengajuan->accepted_at)->format('d-m-Y | H:i:s') }}
+                        </p>
                     </div>
-                    <div class="md:grid md:grid-cols-1 md:grid-rows-2">
-                        <h5 class="font-semibold">Keperluan</h5>
-                        <p class="md:col-span-3">{{ $persuratan->pengajuan->keperluan }}</p>
-                    </div>
+                    @if ($persuratan->jenis_surat === 'Lainnya')
+                        <div class="md:grid md:grid-cols-1 md:grid-rows-2">
+                            <h5 class="font-semibold">Keperluan</h5>
+                            <p class="md:col-span-3">{{ $persuratan->pengajuan->keperluan }}</p>
+                        </div>
+                    @endif
                     <div class="md:flex md:flex-col">
                         <h5 class="font-semibold">Keterangan</h5>
-                        <textarea id="textarea" readonly class="w-full h-48 p-2.5 rounded border border-neutral-900 border-opacity-30 justify-start items-start gap-2.5 inline-flex font-normal">{{ $persuratan->pengajuan->keterangan }}</textarea>
+                        <textarea id="textarea" readonly
+                            class="w-full h-48 p-2.5 rounded border border-neutral-900 border-opacity-30 justify-start items-start gap-2.5 inline-flex font-normal">{{ $persuratan->pengajuan->keterangan }}</textarea>
                     </div>
                     @if ($persuratan->pengajuan->status->nama === 'Diterima')
-                            <a href="{{ route('persuratan.pdf', $persuratan->persuratan_id) }}" 
-                                class="bg-blue-500 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3" 
-                                target="_blank">Unduh PDF</a>
-                        @else
-                            <a 
-                                class="bg-gray-400 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3" 
-                                style="opacity: 0.5; cursor: not-allowed;">Unduh PDF (Belum disetujui)</a>
-                        @endif                                   
+                        <a href="{{ route('persuratan.pdf', $persuratan->persuratan_id) }}"
+                            class="bg-blue-500 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3"
+                            target="_blank">Unduh PDF</a>
+                    @else
+                        <a class="bg-gray-400 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3"
+                            style="opacity: 0.5; cursor: not-allowed;">Unduh PDF (Belum disetujui)</a>
+                    @endif
                     {{-- Tombol Setujui dan Tolak --}}
                     {{-- Tombol Setuju dan Tolak hanya jika role adalah "Ketua RT" atau "Admin" --}}
-                    @if(Auth::user()->role->role_name === 'Ketua RT' || Auth::user()->role->role_name === 'Admin')
-                    <div class="mt-10 flex gap-x-5">
-                        <a href="{{ route('persuratan.approve', $persuratan->persuratan_id) }}"  
-                            class="bg-green-500 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">Setuju</a>
-                        <a href="{{ route('persuratan.reject', $persuratan->persuratan_id) }}"  
+                    @if (
+                        (Auth::user()->role->role_name === 'Ketua RT' || Auth::user()->role->role_name === 'Admin') &&
+                            $persuratan->pengajuan->accepted_by === null)
+                        <div class="mt-10 flex gap-x-5">
+                            <a href="{{ route('persuratan.approve', $persuratan->persuratan_id) }}"
+                                class="bg-green-500 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">Setuju</a>
+                            <a href="{{ route('persuratan.reject', $persuratan->persuratan_id) }}"
                                 class="bg-red-500 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">Tolak</a>
-                    </div>
+                        </div>
                     @endif
                 </form>
             </section>

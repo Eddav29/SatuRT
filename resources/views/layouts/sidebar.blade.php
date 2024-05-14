@@ -175,7 +175,7 @@
 
                             <x-nav-menu :href="route('data-keluarga.show', [
                                 'keluarga' => Auth::user()->penduduk->kartu_keluarga_id,
-                            ])" svgIcon="heroicon-o-user-group"
+                            ])" :active="request()->is('data-penduduk/keluarga*')" svgIcon="heroicon-o-user-group"
                                 iconStyle="w-6 h-6 md:h-8 md:w-8">
                                 Data Keluarga
                             </x-nav-menu>
