@@ -5,22 +5,27 @@
 
     {{-- Content Start --}}
     <div class="p-6 lg:px-14 gap-y-5 mx-auto max-w-screen-2xl md:p-6 2xl:p-10 ">
+        <x-toolbar :toolbar_id="$toolbar_id" :active="$active" :toolbar_route="$toolbar_route" />
         <div class="p-6 mt-3 rounded-xl bg-white-snow overflow-hidden">
 
-            {{-- Table --}}
-            <section>
+            {{-- Form --}}
+            <form method="POST" action="{{ route('inventaris.update', $inventaris->inventaris_id) }}"
+                enctype="multipart/form-data">
+                @csrf
+                @method('PUT')
+
                 <div class="bg-blue-gray p-5 max-lg:mt-5 rounded-md">
-                    <h1 class="font-bold md:text-2xl text-xl">Tambahkan Inventaris</h1>
+                    <h1 class="font-bold md:text-2xl text-xl">Edit inventaris</h1>
                 </div>
 
-                <form method="POST" action="{{ route('inventaris.store') }}" enctype="multipart/form-data" class="px-5">
-                    @csrf
-
+                <section class="space-y-4">
                     <div class="mt-5 gap-5">
                         <div>
                             <label for="nama"
-                                class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Nama Inventaris</label>
+                                class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Nama
+                                Inventaris</label>
                             <input type="text" placeholder="Masukkan Nama" name="nama_inventaris"
+                                value="{{ $inventaris->nama_inventaris }}"
                                 class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
                         </div>
                     </div>
@@ -29,11 +34,13 @@
                         <div>
                             <label for="merk" class="font-semibold">Merk</label>
                             <input type="text" placeholder="Masukkan Merk" name="merk"
+                                value="{{ $inventaris->merk }}"
                                 class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
                         </div>
                         <div>
                             <label for="warna" class="font-semibold">Warna</label>
                             <input type="text" placeholder="Masukkan Warna" name="warna"
+                                value="{{ $inventaris->warna }}"
                                 class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
                         </div>
                     </div>
@@ -43,99 +50,118 @@
                             <label for="jumlah"
                                 class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Jumlah</label>
                             <input type="text" placeholder="Masukkan Jumlah" name="jumlah"
+                                value="{{ $inventaris->jumlah }}"
                                 class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
                         </div>
-                        <div>
-                            <label for="kondisi"
-                                class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Kondisi</label>
-                            <select name="kondisi"
-                                class="font-normal  mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                                <option value="" selected disabled>Pilih Kondisi Inventaris</option>
-                                <option value="Baik">Baik</option>
-                                <option value="Baru">Baru</option>
-                                <option value="Cacat">Cacat</option>
-                                <option value="Cukup">Cukup</option>
-                                <option value="Rusak">Rusak</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
                         <div>
                             <label for="jenis"
                                 class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Jenis</label>
                             <select name="jenis"
                                 class="font-normal  mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                                <option value="" selected disabled>Pilih Jenis Inventaris</option>
-                                <option value="ATK">ATK (Alat Tulis Kantor)</option>
-                                <option value="Elektronik">Elektronik</option>
-                                <option value="Furnitur">Furnitur</option>
-                                <option value="Kendaraan">Kendaraan</option>
-                                <option value="Perlengkapan">Perlengkapan</option>
-                                <option value="Lainnya">Lainnya</option>
+                                <option value="" disabled>Pilih Jenis Inventaris</option>
+                                <option value="ATK" {{ $inventaris->jenis === 'ATK' ? 'selected' : '' }}>ATK (Alat
+                                    Tulis Kantor)</option>
+                                <option value="Elektronik" {{ $inventaris->jenis === 'Elektronik' ? 'selected' : '' }}>
+                                    Elektronik</option>
+                                <option value="Furnitur" {{ $inventaris->jenis === 'Furnitur' ? 'selected' : '' }}>
+                                    Furnitur</option>
+                                <option value="Kendaraan" {{ $inventaris->jenis === 'Kendaraan' ? 'selected' : '' }}>
+                                    Kendaraan</option>
+                                <option value="Perlengkapan"
+                                    {{ $inventaris->jenis === 'Perlengkapan' ? 'selected' : '' }}>Perlengkapan</option>
+                                <option value="Lainnya" {{ $inventaris->jenis === 'Lainnya' ? 'selected' : '' }}>
+                                    Lainnya</option>
+
                             </select>
                         </div>
+                    </div>
+
+                    <div class="mt-5 gap-5 flex max-lg:flex-col lg:grid">
                         <div>
                             <label for="sumber"
                                 class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Sumber</label>
                             <select name="sumber"
                                 class="font-normal  mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                                <option value="" selected disabled>Pilih Sumber Inventaris</option>
-                                <option value="Bantuan">Bantuan</option>
-                                <option value="Beli">Beli</option>
-                                <option value="Donasi">Donasi</option>
-                                <option value="Hibah">Hibah</option>
-                                <option value="Pinjaman">Pinjaman</option>
-                                <option value="Lainnya">Lainnya</option>
+                                <option value="" disabled>Pilih Sumber Inventaris</option>
+                                <option value="Bantuan" {{ $inventaris->sumber === 'Bantuan' ? 'selected' : '' }}>
+                                    Bantuan</option>
+                                <option value="Beli" {{ $inventaris->sumber === 'Beli' ? 'selected' : '' }}>Beli
+                                </option>
+                                <option value="Donasi" {{ $inventaris->sumber === 'Donasi' ? 'selected' : '' }}>Donasi
+                                </option>
+                                <option value="Hibah" {{ $inventaris->sumber === 'Hibah' ? 'selected' : '' }}>Hibah
+                                </option>
+                                <option value="Pinjaman" {{ $inventaris->sumber === 'Pinjaman' ? 'selected' : '' }}>
+                                    Pinjaman</option>
+                                <option value="Lainnya" {{ $inventaris->sumber === 'Lainnya' ? 'selected' : '' }}>
+                                    Lainnya</option>
                             </select>
                         </div>
                     </div>
 
-                    {{-- Field File Upload --}}
-                    <div class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold mt-5">Lampiran</div>
-                    <div>
-                        <img alt="" id="preview-image" class="hidden">
-                    </div>
-                    <div class="flex flex-col mt-5" :class="selected === 'Pilih Jenis Informasi' ? 'hidden' : ''">
-                        @error('image_url')
-                            <small class="text-red-500 text-xs py-3">{{ $message }}</small>
-                        @enderror
+                    {{-- Lampiran --}}
+                    <div class="mx-3 my-3 font-bold">
+                        <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Lampiran</div>
+                        @if ($inventaris->foto_inventaris)
+                            <label for="lisence_image_url" class="relative cursor-pointer">
+                                <div class="w-full h-64 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-bray-100 hover:border-gray-100 hover:bg-gray-200"
+                                    ondrop="dropFile(event, 'lisence_image_url')" ondragover="allowDrop(event)">
+                                    <img src="{{ asset('storage/images_storage/inventaris_images/' . $inventaris->foto_inventaris) }}"
+                                        for="lisence_image_url"
+                                        class="w-full h-full object-cover border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-bray-100 hover:border-gray-100 hover:bg-gray-200">
+                                    <div id="lisence_image_url-container" class="w-full h-full overflow-hidden hidden">
+                                    </div>
+                                </div>
+                            </label>
+                        @endif
 
-                        <p id="preview-file" class="text-blue-500 py-3 hidden"></p>
-                        <img alt="" id="preview-image" class="hidden">
 
-                        <input
-                            class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-primary focus:text-gray-700 focus:shadow-inset focus:outline-none"
-                            type="file" id="file_input" name="foto_inventaris" onchange="previewImage()"
-                            x-bind:accept="selected === 'Pengumuman' ? '' :
-                                'image/*'" />
+                        <div class="flex flex-col mt-5" :class="selected === 'Pilih Jenis Informasi' ? 'hidden' : ''">
+                            @error('foto_inventaris')
+                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                            @enderror
+
+                            <p id="preview-file" class="text-blue-500 py-3 hidden"></p>
+                            <img alt="" id="preview-image" class="hidden">
+
+                            <input
+                                class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-primary focus:text-gray-700 focus:shadow-inset focus:outline-none"
+                                type="file" id="file_input" name="foto_inventaris" onchange="previewImage()"
+                                x-bind:accept="selected === 'Pengumuman' ? '' :
+                                    'image/*'" />
+                        </div>
+                        <div>
+                            <img alt="" id="preview-image" class="hidden">
+                        </div>
                     </div>
+
 
                     {{-- Keterangan --}}
-                    <div class="mt-5">
+                    <div class="mx-3 my-3">
                         <label for="text-editor"
                             class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">Keterangan
                         </label>
                         @error('keterangan')
                             <small class="text-red-500 text-xs py-3">{{ $message }}</small>
                         @enderror
-                        <textarea id="text-editor" name="keterangan"></textarea>
+                        <textarea id="text-editor" name="keterangan">{{ $inventaris->keterangan }}</textarea>
                     </div>
 
                     {{-- Button --}}
-                    <div class="mt-10 flex gap-x-5">
+                    <div class="mx-3 my-3">
                         <button type="submit"
-                            class="bg-azure-blue text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">
-                            <p>Tambah</p>
+                            class="bg-blue-500 hover:bg-blue-800 text-white py-2 px-4 rounded mt-4 mr-2">
+                            Simpan
                         </button>
-                        <a href="{{ route('inventaris.index') }}"
-                            class="border border-navy-night/50 rounded-md px-4 py-2 text-sm flex justify-center items-center gap-x-3">
-                            <p>Kembali</p>
+                        <a href="#" onclick="window.history.back()"
+                            class="text-black border-2 py-3 px-5 rounded-lg mt-4">
+                            Batalkan
                         </a>
+
                     </div>
-                </form>
-            </section>
+                </section>
         </div>
+        </form>
     </div>
 
     @push('scripts')
@@ -215,6 +241,7 @@
                     'CaseChange'
                 ]
             });
+
             const previewImage = () => {
                 const fileInput = document.querySelector('#file_input');
                 const imagePreview = document.querySelector('#preview-image');

@@ -43,7 +43,7 @@
                         <div class="lg:hidden" x-data="{ profile: false }">
                             <div class="h-14 w-14 rounded-full overflow-hidden" @click.stop="profile = !profile">
                                 <img class="h-full w-full object-cover"
-                                    src="{{ asset('assets/images/milad-fakurian-PGdW_bHDbpI-unsplash.jpg') }}"
+                                    src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}"
                                     alt="">
                             </div>
                             <div class="absolute right-11 p-2" :class="profile ? 'block' : 'hidden'">
@@ -66,8 +66,7 @@
                         <div x-data="{ profile: false }" class="cursor-pointer">
                             <div @click.stop="profile = !profile" class="h-14 w-14 rounded-full overflow-hidden">
                                 <img class="h-full w-full object-cover"
-                                    src="{{ asset('assets/images/milad-fakurian-PGdW_bHDbpI-unsplash.jpg') }}"
-                                    alt="">
+                                    src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}">
                             </div>
                             <div class="absolute right-14 p-2" :class="profile ? 'block' : 'hidden'">
                                 <div class="flex flex-col overflow-hidden rounded-lg ">

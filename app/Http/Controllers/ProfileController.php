@@ -9,10 +9,11 @@ use App\Services\Notification\NotificationPusher;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -21,8 +22,12 @@ class ProfileController extends Controller
      */
     public function index(): Response
     {
-        // $users = User::find($id);
         return response()->view('pages.profile.index');
+    }
+
+    public function account(): Response
+    {
+        return response()->view('pages.profile.account');
     }
 
     public function completeDataForm(string $id): Response
@@ -42,64 +47,13 @@ class ProfileController extends Controller
         ]);
     }
 
-    // public function store(Request $request): RedirectResponse
-    // {
-    //     $validator =  Validator::make($request->all(), [
-    //         'nama_umkm' => 'required|string|max:255',
-    //         'jenis_umkm' => 'required|in:Makanan,Minuman,Pakaian,Peralatan,Jasa,Lainnya',
-    //         'keterangan' => 'required|string|max:255',
-    //         'alamat' => 'required|string|max:255',
-    //         'nomor_telepon' => 'required|string|max:255',
-    //         'lokasi_url' => 'required|string|max:255',
-    //         'thumbnail_url' => 'required|file',
-    //         'status' => 'required|in:Aktif,Nonaktif',
-    //         'lisence_image_url' => 'required|file',
-    //         'penduduk_id' => ['required', 'exists:penduduk,penduduk_id']
-    //     ]);
-
-    //     $umkm = $request->all();
-
-    //     try {
-    //         $umkm['nama_umkm'] = Str::title($request['nama_umkm']);
-    //         $umkm['keterangan'] = Str::title($request['keterangan']);
-    //         $umkm['alamat'] = Str::title($request['alamat']);
-    //         $umkm['lokasi_url'] = Str::title($request['lokasi_url']);
-    //         $umkm['nama_umkm'] = Str::title($request['nama_umkm']);
-
-    //         $thumbnailFileName = $request->file('thumbnail_url')->store('business-thumbnail_images', 'public');
-    //         $lisenceFileName = $request->file('lisence_image_url')->store('business-lisence_images', 'public');
-    //         $umkm['thumbnail_url'] = basename($thumbnailFileName);
-    //         $umkm['lisence_image_url'] = basename($lisenceFileName);
-
-    //         // dd($umkm);
-
-    //         DB::beginTransaction();
-    //         $umkm = UMKM::create($umkm);
-    //         if ($request->is('api/*') || $request->wantsJson()) {
-    //             return response()->json([
-    //                 'code' => 201,
-    //                 'message' => 'Data UMKM berhasil disimpan',
-    //                 'timestamp' => now(),
-    //                 'data' => $umkm
-    //             ]);
-    //         }
-    //         DB::commit();
-    //         NotificationPusher::success('Data UMKM berhasil disimpan');
-    //         return redirect()->route('umkm.index');
-    //     } catch (\Exception $e) {
-    //         if ($request->is('api/*') || $request->wantsJson()) {
-    //             return response()->json([
-    //                 'code' => 500,
-    //                 'message' => $e->getMessage(),
-    //                 'timestamp' => now()
-    //             ]);
-    //         }
-    //         dd($e);
-    //         DB::rollBack();
-    //         NotificationPusher::error($e->getMessage());
-    //         return redirect()->back()->withInput();
-    //     }
-    // }
+    public function accountForm(string $id): Response
+    {
+        $penduduk = Penduduk::find($id);
+        return response()->view('pages.profile.account-edit', [
+            'penduduk' => $penduduk,
+        ]);
+    }
 
     public function completeData(Request $request, string $id): RedirectResponse
     {
@@ -132,7 +86,7 @@ class ProfileController extends Controller
 
         try {
             DB::beginTransaction();
-            if($request->file('images')){
+            if ($request->file('images')) {
                 $imageName = imageService::uploadFile('storage_ktp', $request);
                 $validated['foto_ktp'] = route('storage.ktp', ['filename' => $imageName]);
             }
@@ -161,12 +115,14 @@ class ProfileController extends Controller
             'sandi_baru.required' => 'Kata Sandi Baru harus diisi',
             'sandi_baru.min' => 'Panjang Kata Sandi Baru minimal 5',
             'ulang_sandi_baru' => 'Ulangi Kata Sandi harus sama',
+            'ulang_sandi_baru.same' => 'Ulangi Kata Sandi harus sama dengan Kata Sandi Baru',
         ]);
 
         if (Hash::check($request->sandi_lama, $user->password)) {
             try {
                 // Update password
                 $user->password = Hash::make($request->sandi_baru);
+                $user->password_changed_at = now();
                 $user->update($validated);
 
                 NotificationPusher::success('Perubahan berhasil disimpan');
@@ -176,7 +132,47 @@ class ProfileController extends Controller
                 return redirect()->back()->with(['error' => 'Gagal menyimpan perubahan']);
             }
         } else {
-            return redirect()->back()->with('error', 'Kata Sandi Lama tidak sesuai.');
+            NotificationPusher::error('Kata Sandi Lama tidak sesuai');
+            return redirect()->back()->with('error', 'Kata Sandi Lama tidak sesuai');
         }
     }
+
+    public function accountStore(Request $request): RedirectResponse
+    {
+        $userid = Auth::user()->penduduk->user->user_id;
+        $user = User::find($userid);
+        // dd($request->all());
+
+        $validated = $request->validate([
+            'username' => 'required',
+            'email' => 'required|email',
+        ]);
+
+        if ($request->profile) {
+            Storage::delete('public/account_images/' . $user->profile);
+
+            $imageFileName = $request->file('profile')->store('account_images', 'public');
+            $user['profile'] = basename($imageFileName);
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $user->update([
+                'username' => $validated['username'],
+                'email' => $validated['email'],
+                'profile' => $user['profile'],
+            ]);
+
+            DB::commit();
+
+            NotificationPusher::success('Data berhasil disimpan');
+            return redirect()->route('profile.account')->with(['success' => 'Data berhasil disimpan']);
+        } catch (\Exception $e) {
+            DB::rollback();
+            NotificationPusher::error('Gagal menyimpan data: ' . $e->getMessage());
+            return redirect()->route('profile.account')->with(['error' => 'Gagal menyimpan data: ' . $e->getMessage()]);
+        }
+    }
+
 }

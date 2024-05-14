@@ -39,4 +39,9 @@ class Persuratan extends Model
             'Lainnya',
         ];
     }
+
+    public function pemohon(): Penduduk
+    {
+        return Penduduk::find($this->pemohon);
+    }
 }

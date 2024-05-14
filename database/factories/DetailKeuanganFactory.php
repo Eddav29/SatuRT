@@ -25,10 +25,10 @@ class DetailKeuanganFactory extends Factory
             'nominal' => $this->faker->numberBetween(100000, 1000000),
             'keterangan' => $this->faker->sentence(),
             'created_at' => Carbon::createFromTimestamp(
-                $this->faker->dateTimeBetween('2023-01-01', now())->getTimestamp()
+                $this->faker->dateTimeBetween('2019-01-01', now())->getTimestamp()
             ),
             'updated_at' => Carbon::createFromTimestamp(
-                $this->faker->dateTimeBetween('2023-01-01', now())->getTimestamp()
+                $this->faker->dateTimeBetween('2019-01-01', now())->getTimestamp()
             ),
         ];
     }

@@ -12,8 +12,7 @@
                         <div class="lg:hidden" x-data="{ profile: false }">
                             <div class="h-14 w-14 rounded-full overflow-hidden" @click.stop="profile = !profile">
                                 <img class="h-full w-full object-cover"
-                                    src="{{ asset('assets/images/milad-fakurian-PGdW_bHDbpI-unsplash.jpg') }}"
-                                    alt="">
+                                    src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}">
                             </div>
                         </div>
                     </div>
@@ -26,7 +25,8 @@
             {{-- End Header --}}
 
             {{-- Form --}}
-            <form action="{{ route('profile.complete-data.post', $penduduk->penduduk_id) }}" enctype="multipart/form-data" method="POST">
+            <form action="{{ route('profile.complete-data.post', $penduduk->penduduk_id) }}"
+                enctype="multipart/form-data" method="POST">
                 @csrf
 
                 <div class="mx-3 my-4 gap-5 flex max-lg:flex-col lg:flex-nowrap font-bold">
@@ -161,15 +161,15 @@
                         <input type="text" value="{{ $penduduk->kota }}" placeholder="Masukkan Kota"
                             name="kota" id="kota"
                             class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                            <x-input-error :messages="$errors->get('kota')" class="mt-2" />
-                        </div>
+                        <x-input-error :messages="$errors->get('kota')" class="mt-2" />
+                    </div>
                     <div class="lg:w-1/2">
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Kecamatan</div>
                         <input type="text" value="{{ $penduduk->kecamatan }}" placeholder="Masukkan Kecamatan"
                             name="kecamatan" id="kecamatan"
                             class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                            <x-input-error :messages="$errors->get('kecamatan')" class="mt-2" />
-                        </div>
+                        <x-input-error :messages="$errors->get('kecamatan')" class="mt-2" />
+                    </div>
                 </div>
 
                 <div class="mx-3 my-3 gap-5 flex max-lg:flex-col lg:flex-nowrap font-bold">
@@ -178,23 +178,23 @@
                         <input type="text" value="{{ $penduduk->desa }}" placeholder="Masukkan Desa/Kelurahan"
                             name="desa" id="desa"
                             class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                            <x-input-error :messages="$errors->get('desa')" class="mt-2" />
-                        </div>
+                        <x-input-error :messages="$errors->get('desa')" class="mt-2" />
+                    </div>
                     <div class="lg:w-1/2 flex flex-nowrap gap-3">
                         <div class="lg:w-1/2">
                             <div class="after:content-['*'] after:ml-0.5 after:text-red-500">RW</div>
                             <input type="text" value="{{ $penduduk->nomor_rw }}" placeholder="Masukkan RW"
                                 name="nomor_rw" id="nomor_rw"
                                 class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                                <x-input-error :messages="$errors->get('nomor_rw')" class="mt-2" />
-                            </div>
+                            <x-input-error :messages="$errors->get('nomor_rw')" class="mt-2" />
+                        </div>
                         <div class="lg:w-1/2">
                             <div class="after:content-['*'] after:ml-0.5 after:text-red-500">RT</div>
                             <input type="text" value="{{ $penduduk->nomor_rt }}" placeholder="Masukkan RT"
                                 name="nomor_rt" id="nomor_rt"
                                 class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                                <x-input-error :messages="$errors->get('nomor_rt')" class="mt-2" />
-                            </div>
+                            <x-input-error :messages="$errors->get('nomor_rt')" class="mt-2" />
+                        </div>
                     </div>
                 </div>
 
@@ -283,8 +283,10 @@
                 <div class="mx-3 my-3 font-bold">
                     <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Foto KTP</div>
                     @if ($penduduk->foto_ktp)
-                        <img src="{{ $penduduk->foto_ktp }}"
-                            class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-gray-100 hover:border-gray-100 hover:bg-gray-200">
+                        <div class="flex items-center justify-center">
+                            <img src="{{ $penduduk->foto_ktp }}"
+                                class="flex flex-col items-center justify-center max-lg:w-full w-1/2 h-auto border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-gray-100 hover:border-gray-100 hover:bg-gray-200">
+                        </div>
                     @endif
                     <div class="flex flex-col items-center justify-center pt-5 pb-6">
                         <input
@@ -295,7 +297,7 @@
 
 
                 {{-- Button --}}
-                <div class="mt-10 flex gap-x-5">
+                <div class="mt-3 ml-3 flex gap-x-5">
                     <button type="submit"
                         class="bg-azure-blue text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">
                         Simpan

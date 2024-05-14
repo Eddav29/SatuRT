@@ -46,19 +46,8 @@
                             <p class="md:col-span-3">: {{ $inventaris->jumlah }}</p>
                         </div>
                         <div class="md:grid md:grid-cols-4 flex max-lg:flex-auto gap-3">
-                            <h5 class="font-semibold max-lg:w-2/5">Kondisi</h5>
-                            <p class="md:col-span-3">: {{ $inventaris->kondisi }}</p>
-                        </div>
-                    </div>
-
-                    <div class="lg:mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
-                        <div class="md:grid md:grid-cols-4 flex max-lg:flex-auto gap-3">
                             <h5 class="font-semibold max-lg:w-2/5">Jenis</h5>
                             <p class="md:col-span-3">: {{ $inventaris->jenis }}</p>
-                        </div>
-                        <div class="md:grid md:grid-cols-4 flex max-lg:flex-auto gap-3">
-                            <h5 class="font-semibold max-lg:w-2/5">Sumber</h5>
-                            <p class="md:col-span-3">: {{ $inventaris->sumber }}</p>
                         </div>
                     </div>
 

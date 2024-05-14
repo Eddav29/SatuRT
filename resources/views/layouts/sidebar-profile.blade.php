@@ -11,8 +11,7 @@
                     <div x-data="{ profile: false }" class="cursor-pointer flex items-center my-3">
                         <div @click.stop="profile = !profile" class="h-14 w-14 rounded-full overflow-hidden">
                             <img class="h-full w-full object-cover"
-                                src="{{ asset('assets/images/milad-fakurian-PGdW_bHDbpI-unsplash.jpg') }}"
-                                alt="">
+                                src="{{ asset('storage/images_storage/account_images/' .  Auth::user()->penduduk->user->profile)}}">
                         </div>
                         <div class="px-4 flex flex-col justify-center h-full">
                             <div>
@@ -27,6 +26,13 @@
                         <x-nav-menu svgIcon="heroicon-o-identification" iconStyle="h-8 w-8" :href="route('profile')"
                             :active="request()->routeIs('profile') || request()->routeIs('profile.complete-data')">
                             Biodata
+                        </x-nav-menu>
+                    </div>
+                    <div>
+                        <x-nav-menu svgIcon="heroicon-o-user" iconStyle="h-8 w-8"
+                            :href="route('profile.account', Auth::user()->penduduk->penduduk_id ?? '')"
+                            :active="request()->routeIs('profile.account') || request()->routeIs('profile.account.get')">
+                            Akun
                         </x-nav-menu>
                     </div>
                     <div>

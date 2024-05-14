@@ -7,7 +7,7 @@
             <div class="lg:hidden" x-data="{ profile: false }">
                 <div class="h-14 w-14 rounded-full overflow-hidden" @click.stop="profile = !profile">
                     <img class="h-full w-full object-cover"
-                        src="{{ asset('assets/images/milad-fakurian-PGdW_bHDbpI-unsplash.jpg') }}" alt="">
+                        src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}">
                 </div>
                 <div class="absolute right-11 p-2" :class="profile ? 'block' : 'hidden'">
                     <div class="flex flex-col overflow-hidden rounded-lg ">
@@ -108,9 +108,11 @@
 
                     <div class="font-semibold md:col-span-2">
                         <h5 class="font-semibold">Foto KTP</h5>
-                        <img src="{{ Auth::user()->penduduk->foto_ktp ?? '' }}"
-                            class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-bray-100  hover:border-gray-100 hover:bg-gray-200">
-                        </img>
+                        <div class="flex items-center justify-center">
+                            <img src="{{ Auth::user()->penduduk->foto_ktp ?? '' }}"
+                                class="flex flex-col items-center justify-center max-lg w-1/2 h-auto border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-bray-100  hover:border-gray-100 hover:bg-gray-200">
+                            </img>
+                        </div>
                     </div>
                 </div>
             </section>
