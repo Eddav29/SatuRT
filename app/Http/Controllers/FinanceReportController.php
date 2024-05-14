@@ -56,8 +56,8 @@ class FinanceReportController extends Controller
     public function list(): JsonResponse
     {
         try {
-             // Ambil semua data dari tabel 'DetailKeuangan'
-            $dataSemuaTahun = DetailKeuangan::orderBy('update_at', 'DESC')->get()->map(function ($keuangan) {
+            // Ambil semua data dari tabel 'DetailKeuangan'
+            $dataSemuaTahun = DetailKeuangan::orderBy('updated_at', 'DESC')->get()->map(function ($keuangan) {
                 return [
                     'detail_keuangan_id' => $keuangan->detail_keuangan_id,
                     'keuangan_id' => $keuangan->keuangan_id,
@@ -85,7 +85,7 @@ class FinanceReportController extends Controller
             });
 
             // Hitung total keseluruhan dari data terakhir di 'Keuangan'
-            $totalKeseluruhan = Keuangan::orderBy('tanggal', 'desc')->first()->total_keuangan;
+            $totalKeseluruhan = Keuangan::latest()->first()->total_keuangan;
 
             return response()->json([
                 'data' => $dataSemuaTahun,
@@ -95,6 +95,7 @@ class FinanceReportController extends Controller
             ]);
 
         } catch (\Throwable $th) {
+            dd($th);
             return response()->json(['error' => 'Terjadi kesalahan.'], 500);
         }
     }
@@ -104,10 +105,11 @@ class FinanceReportController extends Controller
     public function store(Request $request): RedirectResponse
     {
         // Mendapatkan nilai ID terbesar dari tabel 'keuangan'
-        $oldKeuangan = Keuangan::where('tanggal', 'DESC')->first();
+        $oldKeuangan = Keuangan::latest()->first();
         $keuanganId = $oldKeuangan ? $oldKeuangan->keuangan_id : 0;
         $pendudukId = Auth::user()->penduduk->penduduk_id;
         $total_keuangan = $oldKeuangan ? $oldKeuangan->total_keuangan : 0;
+        // dd($total_keuangan);
 
         DB::beginTransaction();
 
@@ -125,6 +127,7 @@ class FinanceReportController extends Controller
         }
 
         $request['keuangan_id'] = $keuanganId;
+
 
         // Validasi data yang diterima dari permintaan
         $validator = Validator::make($request->all(), [
