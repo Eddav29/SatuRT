@@ -23,14 +23,17 @@
             @else
                 {{ $fileSize }} B
             @endif,</span>
+        @isset($maxFiles)
+            <span>Maximun file upload: {{ $maxFiles }},</span>
+        @endisset
         <span>Extension: {{ $accept }}</span>
     </div>
-    <div class="bg-white border border-gray-300 w-full h-full rounded-md flex flex-col items-center"
+    <div class="bg-white border border-gray-300 w-full h-96 rounded-md flex flex-col items-center"
         x-data="{{ $randFunction }}()">
-        <div id="drop-area" class="relative w-full bg-blue-100 py-10" @dragover.prevent @drop.prevent="">
+        <div id="drop-area" class="relative w-full h-full py-10" @dragover.prevent @drop.prevent="">
             <input type="file" name="{{ $name }}" id="images"
                 @if ($multiple) multiple @endif x-ref="fileInput" @change="handleFileUpload($event)"
-                class="absolute top-0 w-full h-full opacity-0 cursor-pointer">
+                class="absolute top-0 w-full h-full opacity-0 z-10 cursor-pointer ">
             <div class="flex flex-col justify-center items-center w-full h-full space-y-6">
                 <div class="bg-blue-100 rounded-full p-4">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-500" fill="none"
@@ -46,9 +49,65 @@
                     <span class="font-bold">Browse</span>
                 </label>
             </div>
+            @if (!$multiple)
+                <div class="w-full h-full absolute z-20 top-0" x-show="filesList !== null">
+                    <template x-if="filesList !== null">
+                        <div class="w-auto h-full flex flex-col items-center relative border border-black rounded-md"
+                            x-data="{ showTooltip: false }" @mouseover="showTooltip = true"
+                            @mouseleave="showTooltip = !showTooltip">
+                            <template x-if="filesList.type.includes('image')">
+                                <img @click="showImage(0)" :src="filesList?.url" alt="image"
+                                    class="object-contain w-full h-full">
+                            </template>
+                            <template x-if="filesList.type.includes('pdf')">
+                                <img src="http://127.0.0.1:8000/assets/images/icon-pdf.png" alt=""
+                                    @click="window.open(filesList.url, '_blank')" class="object-contain w-full h-full">
+                            </template>
+                            <template x-if="filesList.type.includes('text')">
+                                <a :href="filesList.url" download :title="filesList.name" target="_blank">
+                                    <img src="http://127.0.0.1:8000/assets/images/icon-txt.png" alt="Text File"
+                                        class="object-contain w-full h-full">
+                                </a>
+                            </template>
+                            <template x-if="filesList.type.includes('spreadsheet')">
+                                <a :href="filesList.url" download :title="filesList.name" target="_blank">
+                                    <img src="http://127.0.0.1:8000/assets/images/icon-excel.png" alt="Excel File"
+                                        class="object-contain w-full h-full">
+                                </a>
+                            </template>
+                            <template x-if="filesList.type.includes('word')">
+                                <a :href="filesList.url" download :title="filesList.name" target="_blank">
+                                    <img src="http://127.0.0.1:8000/assets/images/icon-word.png" alt="Word Document"
+                                        class="object-contain w-full h-full">
+                                </a>
+                            </template>
+                            <template x-if="filesList.type.includes('presentation')">
+                                <a :href="filesList.url" download :title="filesList.name" target="_blank">
+                                    <img src="http://127.0.0.1:8000/assets/images/icon-ppt.png"
+                                        alt="PowerPoint Presentation" class="object-contain w-full h-full">
+                                </a>
+                            </template>
+                            <template x-else>
+                                <a :href="filesList.url" download :title="filesList.name" target="_blank">
+                                    <img src="http://127.0.0.1:8000/assets/images/icon-file.png" alt="File"
+                                        class="object-contain w-full h-full">
+                                </a>
+                            </template>
+                            <p class="text-sm truncate overflow-ellipsis px-2" x-text="filesList.name"></p>
+                            <div :class="{ 'hidden': !showTooltip }"
+                                class="absolute -top-6 bg-gray-700 text-[.7rem] font-thin text-white rounded-full px-2 line-clamp-1 max-w-80 w-max">
+                                <span x-text="filesList.name"></span>
+                            </div>
+                            <button class="absolute -top-0 -right-0 z-[999999999]" @click="removeFile(0)">
+                                <x-heroicon-c-x-circle class="w-6 h-6 text-gray-700 hover:text-gray-500" />
+                            </button>
+                        </div>
+                    </template>
+                </div>
+            @endif
         </div>
-        <div class="w-full flex flex-wrap items-center justify-start gap-5 py-6 px-4">
-            @if ($multiple)
+        @if ($multiple)
+            <div class="w-full flex flex-wrap items-center justify-start gap-5 py-6 px-4" x-show="filesList.length > 0"
                 <template x-for="(file, index) in filesList" :key="index">
                     <div class="w-24 h-24 flex flex-col relative border border-black rounded-md" x-data="{ showTooltip: false }"
                         @mouseover="showTooltip = true" @mouseleave="showTooltip = !showTooltip">
@@ -101,60 +160,8 @@
                         </button>
                     </div>
                 </template>
-            @else
-                <template x-if="filesList !== null">
-                    <div class="w-24 h-24 flex flex-col relative border border-black rounded-md" x-data="{ showTooltip: false }"
-                        @mouseover="showTooltip = true" @mouseleave="showTooltip = !showTooltip">
-                        <template x-if="filesList.type.includes('image')">
-                            <img @click="showImage(0)" :src="filesList.url" alt="image"
-                                class="object-contain w-full h-full">
-                        </template>
-                        <template x-if="filesList.type.includes('pdf')">
-                            <img src="http://127.0.0.1:8000/assets/images/icon-pdf.png" alt=""
-                                @click="window.open(filesList.url, '_blank')" class="object-contain w-full h-full">
-                        </template>
-                        <template x-if="filesList.type.includes('text')">
-                            <a :href="filesList.url" download :title="filesList.name" target="_blank">
-                                <img src="http://127.0.0.1:8000/assets/images/icon-txt.png" alt="Text File"
-                                    class="object-contain w-full h-full">
-                            </a>
-                        </template>
-                        <template x-if="filesList.type.includes('spreadsheet')">
-                            <a :href="filesList.url" download :title="filesList.name" target="_blank">
-                                <img src="http://127.0.0.1:8000/assets/images/icon-excel.png" alt="Excel File"
-                                    class="object-contain w-full h-full">
-                            </a>
-                        </template>
-                        <template x-if="filesList.type.includes('word')">
-                            <a :href="filesList.url" download :title="filesList.name" target="_blank">
-                                <img src="http://127.0.0.1:8000/assets/images/icon-word.png" alt="Word Document"
-                                    class="object-contain w-full h-full">
-                            </a>
-                        </template>
-                        <template x-if="filesList.type.includes('presentation')">
-                            <a :href="filesList.url" download :title="filesList.name" target="_blank">
-                                <img src="http://127.0.0.1:8000/assets/images/icon-ppt.png"
-                                    alt="PowerPoint Presentation" class="object-contain w-full h-full">
-                            </a>
-                        </template>
-                        <template x-else>
-                            <a :href="filesList.url" download :title="filesList.name" target="_blank">
-                                <img src="http://127.0.0.1:8000/assets/images/icon-file.png" alt="File"
-                                    class="object-contain w-full h-full">
-                            </a>
-                        </template>
-                        <p class="text-sm truncate overflow-ellipsis px-2" x-text="filesList.name"></p>
-                        <div :class="{ 'hidden': !showTooltip }"
-                            class="absolute -top-6 bg-gray-700 text-[.7rem] font-thin text-white rounded-full px-2 line-clamp-1 max-w-80 w-max">
-                            <span x-text="filesList.name"></span>
-                        </div>
-                        <button class="absolute -top-0 -right-0 z-[999999999]" @click="removeFile(0)">
-                            <x-heroicon-c-x-circle class="w-6 h-6 text-gray-700 hover:text-gray-500" />
-                        </button>
-                    </div>
-                </template>
-            @endif
-        </div>
+            </div>
+        @endif
         <div>
             <div x-show="openImage" x-cloak
                 class="fixed z-[9999999999] top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
@@ -204,7 +211,7 @@
                 ["{!! str_replace(',', "','", $accept) !!}"]
             @else
                 []
-            @endif,
+            @endif ,
             size: @if ($fileSize >= 1000)
                 {{ $fileSize / 1000 }} * 1024 * 1024
             @elseif ($fileSize < 1000 && $fileSize >= 100) {{ $fileSize }} * 1024
@@ -291,6 +298,10 @@
             },
 
             handleFileUpload(event) {
+                if (this.maxFiles > 0 && this.filesList.length >= this.maxFiles) {
+                    pushNotification('error', 'Maximum file upload limit reached.');
+                    return;
+                }
                 @if ($multiple)
                     this.handleMultipleFileUpload(event);
                 @else
