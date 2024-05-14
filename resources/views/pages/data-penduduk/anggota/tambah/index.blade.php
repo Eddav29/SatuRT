@@ -3,8 +3,6 @@
     <x-slot name="breadcrumb">
         <x-breadcrumb :list="$breadcrumb['list']" :url="$breadcrumb['url']" />
     </x-slot>
-
-
     <section class="bg-white mx-6 md:mx-14 my-10 p-6">
         <form action="{{ route('data-anggota.store', [
             'keluargaid' => $id,

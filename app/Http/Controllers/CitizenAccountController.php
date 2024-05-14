@@ -44,7 +44,7 @@ class CitizenAccountController extends Controller
             'url' => ['dashboard', 'data-akun.index', 'data-akun.create']
         ];
         return view('pages.data-akun.tambah.index', compact('breadcrumb'))->with([
-            'role' => ['Penduduk']
+            'role' => Role::where('role_name', '!=', 'Ketua RT')->get()
         ]);
     }
 

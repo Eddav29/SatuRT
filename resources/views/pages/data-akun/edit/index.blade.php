@@ -2,7 +2,7 @@
     <x-slot name="breadcrumb">
         <x-breadcrumb :list="$breadcrumb['list']" :url="$breadcrumb['url']" />
     </x-slot>
-    
+
     <section class="p-6 lg:px-12 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col gap-y-5">
         <div>
             <x-toolbar :toolbar_id="$toolbar_id" :active="$active" :toolbar_route="$toolbar_route"/>
@@ -11,7 +11,7 @@
             @csrf
             @method('PATCH')
             <div class="space-y-6">
-                <x-heading text="Edit Data Kartu Keluarga" />
+                <x-heading text="Edit Data Akun Penduduk" />
                 @include('pages.data-akun.partials.data-akun-form')
             </div>
 
