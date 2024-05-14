@@ -93,7 +93,7 @@ class Penduduk extends Model
 
     public static function getListStatusPerkawinan()
     {
-        return ['Kawin', 'Belum Kawin', 'Cerai'];
+        return ['Kawin', 'Belum Kawin', 'Cerai Hidup', 'Cerai Mati'];
     }
 
     public static function getListPendidikanTerakhir()
