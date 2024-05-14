@@ -206,59 +206,13 @@
     </div>
 </div>
 
-<div class="mt-5 flex items-center justify-center bg-gray-100 font-sans mx-5">
-    <div class="bg-white border border-gray-300 w-full h-full rounded-md flex flex-col items-center"
-        x-data="{ openImage: false, filePreview: null, offsetX: 0, offsetY: 0, scale: 1, previewImage: null }" x-init="previewImage = $refs.previewImage ">
-        <div id="drop-area" class="relative w-full bg-blue-100 py-10" @dragover.prevent
-            @drop.prevent="filePreview = URL.createObjectURL($event.dataTransfer.files[0])">
-            <input type="file" name="images" id="images" multiple="multiple"
-                @change="filePreview = URL.createObjectURL($event.target.files[0])"
-                class="absolute top-0 w-full h-full opacity-0 cursor-pointer">
-            <div class="flex flex-col justify-center items-center w-full h-full space-y-6">
-                <div class="bg-blue-100 rounded-full p-4">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-blue-500" fill="none"
-                        viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12">
-                        </path>
-                    </svg>
-                </div>
-                <h3 class="text-md font-normal text-blue-500">Drag &amp; drop files here</h3>
-                <span class="text-sm">- OR -</span>
-                <label for="images" class="cursor-pointer">
-                    <span class="font-bold">Browse</span>
-                </label>
-            </div>
-        </div>
-        <div>
-            <img @click="openImage = !openImage" :src="filePreview" alt=""
-                class="rounded-xl max-h-[30rem] w-full object-contain" draggable="false">
-            <div x-show="openImage"
-                class="fixed z-[9999999] top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center">
-                <img x-show="openImage" x-ref="previewImage"
-                    :src="filePreview" alt="" class="rounded-xl max-w-full max-h-full">
-                <button type="button" @click.prevent="openImage = false" class="absolute top-10 right-10 cursor-pointer">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 text-white" viewBox="0 0 20 20"
-                        fill="currentColor">
-                        <path fill-rule="evenodd"
-                            d="M5.293 5.293a1 1 0 011.414 0L10 8.586l3.293-3.293a1 1 0 111.414 1.414L11.414 10l3.293 3.293a1 1 0 01-1.414 1.414L10 11.414l-3.293 3.293a1 1 0 01-1.414-1.414L8.586 10 5.293 6.707a1 1 0 010-1.414z"
-                            clip-rule="evenodd" />
-                    </svg>
-                </button>
-                <div class="absolute bottom-0 w-full">
-                    <div class="flex justify-center ">
-                        <div class="rounded-xl bg-white">
-                            <button @click="if (scale < 5) {scale += 0.1; previewImage.style.transform = `scale(${scale}) translate(${offsetX}px, ${offsetY}px)`;}"
-                                class="bg-white-400 px-3 py-1"><x-heroicon-o-magnifying-glass-plus
-                                    class="w-6 h-6 text-black hover:text-gray-600" /></button>
-                            <button @click="if (scale > 0.2) { scale -= 0.1; previewImage.style.transform = `scale(${scale}) translate(${offsetX}px, ${offsetY}px)`; }"
-                                class="bg-white-400 px-3 py-1"><x-heroicon-o-magnifying-glass-minus
-                                    class="w-6 h-6 text-black hover:text-gray-600" /></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <x-input-error :messages="$errors->get('images')" class="mt-2" />
+<div class="mt-5 grid grid-cols-1 gap-5 px-5">
+    <div>
+        <x-input-label for="images" :value="__('Foto Kartu Tanda Penduduk')" />
+        @isset($citizen->foto_ktp)
+        <x-input-file name="images" :accept="$extension" :default="$citizen->foto_ktp"/>
+        @else
+            <x-input-file name="images" :accept="$extension" />
+        @endisset
     </div>
 </div>

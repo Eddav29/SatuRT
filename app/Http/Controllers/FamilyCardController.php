@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\KartuKeluarga;
 use App\Models\Penduduk;
 use App\Services\FamilyManagement\CitizenService;
 use App\Services\FamilyManagement\FamilyCardService;
@@ -38,7 +37,8 @@ class FamilyCardController extends Controller
             'status_perkawinan' => Penduduk::getListStatusPerkawinan(),
             'pendidikan_terakhir' => Penduduk::getListPendidikanTerakhir(),
             'golongan_darah' => Penduduk::getListGolonganDarah(),
-            'status_penduduk' => Penduduk::getListStatusPenduduk()
+            'status_penduduk' => Penduduk::getListStatusPenduduk(),
+            'extension' => 'jpg,jpeg,png'
         ]);
     }
 
@@ -75,7 +75,7 @@ class FamilyCardController extends Controller
             'active' => 'detail',
             'toolbar_route' => $toolbar_route,
             'familyCard' => FamilyCardService::find($id),
-            'breadcrumb' => $breadcrumb
+            'breadcrumb' => $breadcrumb,
         ]);
     }
 

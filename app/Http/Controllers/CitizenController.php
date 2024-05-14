@@ -108,7 +108,8 @@ class CitizenController extends Controller
             'pendidikan_terakhir' => Penduduk::getListPendidikanTerakhir(),
             'golongan_darah' => Penduduk::getListGolonganDarah(),
             'status_penduduk' => Penduduk::getListStatusPenduduk(),
-            'familyCard' => FamilyCardService::find($id)
+            'familyCard' => FamilyCardService::find($id),
+            'extension' => 'jpg,jpeg,png'
         ]);
     }
 
@@ -223,7 +224,8 @@ class CitizenController extends Controller
             'golongan_darah' => Penduduk::getListGolonganDarah(),
             'status_penduduk' => Penduduk::getListStatusPenduduk(),
             'status_kehidupan' => Penduduk::getListStatusKehidupan(),
-            'citizen' => CitizenService::find($id)
+            'citizen' => CitizenService::find($id),
+            'extension' => 'jpg,jpeg,png'
         ]);
     }
 
@@ -252,7 +254,6 @@ class CitizenController extends Controller
         ]);
 
 
-
         if ($validator->fails()) {
             if ($request->is('api/*') || $request->wantsJson()) {
                 return response()->json([
@@ -265,6 +266,7 @@ class CitizenController extends Controller
             NotificationPusher::error('Data gagal disimpan');
             return redirect()->back()->withErrors($validator)->withInput();
         }
+
         try {
             DB::beginTransaction();
             $request['kartu_keluarga_id'] = $keluargaid;
