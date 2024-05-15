@@ -162,7 +162,7 @@
         {{-- Announcement --}}
         <section x-data="{ open: false }">
             <div
-                class="overflow-hidden bg-white-snow px-5 py-7 text-navy-night rounded-xl gap-y-5 flex flex-col h-[35rem] mt-5">
+                class="overflow-hidden bg-white-snow px-5 py-7 text-navy-night rounded-xl gap-y-5 flex flex-col h-[35rem] mt-5 2xl:mt-0">
                 <div class="flex items-center gap-x-5">
                     <div class="flex justify-center items-center p-3 w-12 h-12 lg:p-2 bg-blue-gray rounded-full">
                         <x-heroicon-o-information-circle class="w-12 h-12" />
@@ -352,11 +352,12 @@
 
             function fetchAnnouncement(id, type) {
                 document.getElementById('loading').classList.replace('hidden', 'flex')
-                fetch(type === 'Pengumuman' ? `/api/v1/pengumuman/${id}` : `/api/v1/pengumuman/${id}`)
+                fetch(type === 'Pengumuman' ? `/api/v1/pengumuman/${id}` : `/api/v1/pelaporan/${id}`)
                     .then(res => res.json())
                     .then(data => {
                         document.getElementById('loading').classList.replace('flex', 'hidden')
-                        document.getElementById('announcement-modal').innerHTML = announcementModal(data);
+                        document.getElementById('announcement-modal').innerHTML = type === 'Pengumuman' ? announcementModal(
+                            data) : residentReportModal(data);
                     })
             }
 
@@ -454,30 +455,30 @@
                                 <div>
                                     <h1 class="font-semibold">Lampiran</h1>
                                     ${data.data.file_type === 'file' ? `
-                                                                                                                                            <div class="flex gap-x-2 items-center">
-                                                                                                                                                <div id="file-icon">
-                                                                                                                                                    ${generateIcon(data.data.file_extension)}
-                                                                                                                                                </div>
-                                                                                                                                                ${data.data.file_extension === 'pdf' ? `
+                                                                                                                                                                            <div class="flex gap-x-2 items-center">
+                                                                                                                                                                                <div id="file-icon">
+                                                                                                                                                                                    ${generateIcon(data.data.file_extension)}
+                                                                                                                                                                                </div>
+                                                                                                                                                                                ${data.data.file_extension === 'pdf' ? `
                                         <div class="flex flex-col" id="preview-file-container">
                                             <a id="preview-file" href="file/pengumuman/${data.data.id}" class="text-blue-500 py-3 text-sm font-light">${data.data.file}</a>
                                         </div>` 
-                                                                                                                                : `
+                                                                                                                                                                : `
                                         <div class="flex flex-col" id="preview-file-container">
                                             <a id="preview-file" href="file/pengumuman/${data.data.id}/download" class="text-blue-500 py-3 text-sm font-light" target="_blank">${data.data.file}</a>
                                         </div>`}
-                                                                                                                                </div>` : 
+                                                                                                                                                                </div>` : 
                                         `
-                                                                                                                                            <div x-data="{ openImage: false }">
-                                                                                                                                                <img @click="openImage = !openImage" src="storage/announcement/${data.data.file}" alt="" class="rounded-xl max-h-[30rem] w-full object-cover" draggable="false">
-                                                                                                                                                <div x-show="openImage" class="absolute top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
-                                                                                                                                                    <img @click="openImage = false" x-show="openImage" @click.outside="openImage = false" src="storage/announcement/${data.data.file}" alt="" class="rounded-xl w-max h-max lg:max-w-full lg:max-h-full" draggable="false">
-                                                                                                                                                    <div class="absolute w-8 h-8 top-10 right-10 cursor-pointer" @click="openImage = false">
-                                                                                                                                                        <x-heroicon-o-x-mark class="w-8 h-8" class="text-white-snow absolute" />
-                                                                                                                                                    </div>
-                                                                                                                                                </div>
-                                                                                                                                            </div>
-                                                                                                                                `}
+                                                                                                                                                                            <div x-data="{ openImage: false }">
+                                                                                                                                                                                <img @click="openImage = !openImage" src="storage/announcement/${data.data.file}" alt="" class="rounded-xl max-h-[30rem] w-full object-cover" draggable="false">
+                                                                                                                                                                                <div x-show="openImage" class="absolute top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
+                                                                                                                                                                                    <img @click="openImage = false" x-show="openImage" @click.outside="openImage = false" src="storage/announcement/${data.data.file}" alt="" class="rounded-xl w-max h-max lg:max-w-full lg:max-h-full" draggable="false">
+                                                                                                                                                                                    <div class="absolute w-8 h-8 top-10 right-10 cursor-pointer" @click="openImage = false">
+                                                                                                                                                                                        <x-heroicon-o-x-mark class="w-8 h-8" class="text-white-snow absolute" />
+                                                                                                                                                                                    </div>
+                                                                                                                                                                                </div>
+                                                                                                                                                                            </div>
+                                                                                                                                                                `}
                                 </div>
                                 <div class="text-sm/5">
                                     <div>
@@ -489,6 +490,71 @@
                                 </div>
                             </div>
                         </div>`
+            }
+
+            const residentReportModal = (data) => {
+                const image_url = data.data.attachment.includes('http') || data.data.includes('https') ? data.data
+                    .attachment : `storage/images_storage/resident-report_images/${data.data.attachment}`
+                return `
+                <div
+                    class="bg-white-snow w-full sm:max-w-3xl 2xl:max-w-7xl text-navy-night h-[80%] lg:h-[95%] overflow-hidden rounded-xl p-8 flex flex-col gap-y-5">
+                    <div class="flex justify-between items-center">
+                        <h1 class="text-xl font-bold">Laporan Warga</h1>
+                        <button @click="open = !open">
+                            <x-heroicon-o-x-mark class="w-8 h-8" />
+                        </button>
+                    </div>
+                    <div class="flex flex-col mt-2 gap-y-2 overflow-auto no-scrollbar">
+                        <h1 class="text-2xl/7 font-bold">${data.data.jenis_laporan}</h1>
+                        <div class="flex flex-col gap-y-2 md:grid md:grid-cols-2 md:grid-rows-1">
+                            <div class="text-sm/5">
+                                <h6 class="font-medium">Pelapor: </h6>
+                                <h5>${data.data.created_by}</h5>
+                            </div>
+                            <div class="text-sm/5">
+                                <h6 class="font-medium">Dibuat pada: </h6>
+                                <h5>${data.data.created_at}</h5>
+                            </div>
+                            <div class="text-sm/5">
+                                <h6 class="font-medium">Status Pengajuan: </h6>
+                                <h5 class="w-fit py-2 px-3 rounded-lg ${data.data.status === 'Menunggu Persetujuan' ? 'bg-yellow-200 text-yellow-950' : data.data.status === 'Diterima' ? 'bg-green-200 text-green-950' : data.data.status === 'Ditolak' ? 'bg-red-200 text-red-950' : data.data.status === 'Dibatalkan' ? 'bg-red-200 text-red-950' : ''}">${data.data.status}</h5>
+                            </div>
+                        </div>
+                        <div class="text-sm/5">
+                            <div>
+                                <h1 class="font-medium">Lampiran</h1>
+                                <div x-data="{ openImage: false }">
+                                    <img @click="openImage = !openImage"
+                                        src="${data.data.attachment.includes('http') || data.data.attachment.includes('https') ? data.data.attachment : `{{ asset('storage/images_storage/resident-report_images/${data.data.attachment}') }}`}"
+                                        alt="" class="rounded-xl max-h-[30rem] w-full object-cover"
+                                        draggable="false">
+                                    <div x-show="openImage"
+                                        class="absolute top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
+                                        <img @click="openImage = false" x-show="openImage"
+                                            @click.outside="openImage = false"
+                                            src="${data.data.attachment.includes('http') || data.data.attachment.includes('https') ? data.data.attachment : `{{ asset('storage/images_storage/resident-report_images/${data.data.attachment}') }}`}"
+                                            alt="" class="rounded-xl w-max h-max lg:max-w-full lg:max-h-full"
+                                            draggable="false">
+                                        <div class="absolute w-8 h-8 top-10 right-10 cursor-pointer"
+                                            @click="openImage = false">
+                                            <x-heroicon-o-x-mark class="w-8 h-8" class="text-white-snow absolute" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <h1 class="font-medium text-sm/7 ">Keperluan</h1>
+                            <div>
+                                <p class="text-sm/5">
+                                    ${data.data.purposes}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                `
+
             }
 
             const generateIcon = (file_extension) => {

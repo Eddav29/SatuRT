@@ -25,7 +25,7 @@ class PelaporanFactory extends Factory
                 'Saran',
                 'Lainnya'
             ]),
-            'image_url' => $this->faker->word(),
+            'image_url' => $this->faker->imageUrl(),
         ];
     }
 }
