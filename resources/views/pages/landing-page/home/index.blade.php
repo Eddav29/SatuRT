@@ -90,7 +90,7 @@
                             <div class="swiper-slide overflow-hidden">
                                 <a href="{{ url('usaha/' . $business->umkm_id) }}" class="flex flex-col">
                                     <div>
-                                        <img src="{{ asset('storage/images_storage/' . $business->thumbnail_url) }}"
+                                        <img src="{{ !strpos($business->thumbnail_url, 'https://') ? $business->thumbnail_url : asset('storage/images_storage/' . $business->thumbnail_url) }}"
                                             alt="" class="h-[15rem] w-full object-cover rounded-lg">
                                     </div>
                                     <div>
