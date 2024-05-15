@@ -17,6 +17,7 @@ use App\Http\Controllers\FamilyCardController;
 use App\Http\Controllers\FinanceReportController;
 use App\Http\Controllers\InformationController;
 use App\Http\Controllers\InventarisController;
+use App\Http\Controllers\InventarisPeminjamanController;
 use App\Http\Controllers\ResidentReportController;
 use App\Http\Controllers\DocumentRequestController;
 use App\Http\Controllers\NewsController;
@@ -54,6 +55,7 @@ Route::prefix('v1')->group(function () {
     Route::get('keuangan/{year}', [FinanceReportController::class, 'listByYear']);
     Route::get('persuratan', [DocumentRequestController::class, 'list']);
     Route::get('inventaris/data-inventaris', [InventarisController::class, 'list']);
+    Route::get('inventaris/peminjaman', [InventarisPeminjamanController::class, 'list']);
 
     Route::get('pendukung-keputusan/alternatif', [AlternativeController::class, 'list']);
     Route::get('pendukung-keputusan/kriteria', [CriteriaController::class, 'list']);

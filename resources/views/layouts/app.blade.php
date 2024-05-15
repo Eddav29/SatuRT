@@ -42,9 +42,13 @@
                         </button>
                         <div class="lg:hidden" x-data="{ profile: false }">
                             <div class="h-14 w-14 rounded-full overflow-hidden" @click.stop="profile = !profile">
-                                <img class="h-full w-full object-cover"
-                                    src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}"
-                                    alt="">
+                                @if (Auth::user()->penduduk->user->profile)
+                                    <img src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}"
+                                        class="h-full w-full object-cover">
+                                @else
+                                    <img src="{{ asset('assets/images/default.png') }}"
+                                        class="h-full w-full object-cover">
+                                @endif
                             </div>
                             <div class="absolute right-11 p-2" :class="profile ? 'block' : 'hidden'">
                                 <div class="flex flex-col overflow-hidden rounded-lg ">
@@ -65,8 +69,13 @@
                         </div>
                         <div x-data="{ profile: false }" class="cursor-pointer">
                             <div @click.stop="profile = !profile" class="h-14 w-14 rounded-full overflow-hidden">
-                                <img class="h-full w-full object-cover"
-                                    src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}">
+                                @if (Auth::user()->penduduk->user->profile)
+                                    <img src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}"
+                                        class="h-full w-full object-cover">
+                                @else
+                                    <img src="{{ asset('assets/images/default.png') }}"
+                                        class="h-full w-full object-cover">
+                                @endif
                             </div>
                             <div class="absolute right-14 p-2" :class="profile ? 'block' : 'hidden'">
                                 <div class="flex flex-col overflow-hidden rounded-lg ">

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Ramsey\Uuid\Rfc4122\UuidV4;
 
 class Persuratan extends Model
 {
@@ -11,9 +12,16 @@ class Persuratan extends Model
 
     protected $table = 'persuratan';
     protected $primaryKey = 'persuratan_id';
-    protected $keyType = 'int';
-    public $incrementing = true;
+    protected $keyType = 'String';
+    public $incrementing = false;
     public $timestamps = false;
+
+    public static function boot(){
+        parent::boot();
+        self::creating(function ($model) {
+            $model->persuratan_id = UuidV4::uuid4()->toString();
+        });
+    }
 
     protected $fillable = [
         'pengajuan_id',
@@ -39,6 +47,7 @@ class Persuratan extends Model
             'Lainnya',
         ];
     }
+
 
     public function pemohon(): Penduduk
     {

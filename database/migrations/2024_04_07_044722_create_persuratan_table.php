@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('persuratan', function (Blueprint $table) {
-            $table->id('persuratan_id');
+            $table->uuid('persuratan_id')->primary();
             $table->uuid('pengajuan_id')->index();
             $table->enum('jenis_surat', [
                 'Surat Pengantar KTP',
@@ -23,9 +23,7 @@ return new class extends Migration
             'Surat Pengantar Nikah',
             'Lainnya',
             ]);
-            $table->string('nomor_surat')->nullable();
-            $table->string('dokumen_url')->nullable();
-
+            $table->string('pemohon')->nullable(false);
             $table->foreign('pengajuan_id')->references('pengajuan_id')->on('pengajuan');
         });
     }

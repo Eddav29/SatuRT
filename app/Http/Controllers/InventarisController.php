@@ -64,7 +64,6 @@ class InventarisController extends Controller
             'merk' => 'required',
             'warna' => 'required',
             'jumlah' => 'required|integer',
-            'kondisi' => 'required',
             'jenis' => 'required',
             'sumber' => 'required',
             'keterangan' => 'required|string|max:255',
@@ -83,7 +82,6 @@ class InventarisController extends Controller
                 'merk' => $validated['merk'],
                 'warna' => $validated['warna'],
                 'jumlah' => $validated['jumlah'],
-                'kondisi' => $validated['kondisi'],
                 'jenis' => $validated['jenis'],
                 'sumber' => $validated['sumber'],
                 'foto_inventaris' => $inventaris['foto_inventaris'],
@@ -101,9 +99,8 @@ class InventarisController extends Controller
     public function list(): JsonResponse
     {
         try {
-            $data = Inventaris::all()->map(function ($inventaris) {
+            $data = Inventaris::orderBy('updated_at', 'DESC')->get()->map(function ($inventaris) {
                 return [
-                    'inventaris_id' => $inventaris->inventaris_id,
                     'nama_inventaris' => $inventaris->nama_inventaris,
                     'jumlah' => $inventaris->jumlah,
                     'sumber' => $inventaris->sumber,
@@ -164,7 +161,6 @@ class InventarisController extends Controller
         $validated = $request->validate([
             'nama_inventaris' => 'required',
             'jumlah' => 'required|integer',
-            'kondisi' => 'required',
             'jenis' => 'required',
             'sumber' => 'required',
             'foto_inventaris' => 'required|file',
@@ -183,7 +179,6 @@ class InventarisController extends Controller
                 'merk' => $merk,
                 'warna' => $warna,
                 'jumlah' => $validated['jumlah'],
-                'kondisi' => $validated['kondisi'],
                 'jenis' => $validated['jenis'],
                 'sumber' => $validated['sumber'],
                 'foto_inventaris' => $inventaris['foto_inventaris'],

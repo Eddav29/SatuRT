@@ -9,6 +9,7 @@ use App\Models\Keuangan;
 use App\Models\Pelaporan;
 use App\Models\Penduduk;
 use App\Models\Persuratan;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\Auth;
 
@@ -78,19 +79,24 @@ class DashboardController extends Controller
 
     public function getBalanceRT(): int
     {
-        $keuangan = Keuangan::orderBy('tanggal', 'desc')->first();
+        $keuangan = Keuangan::latest()->first();
+
 
         return $keuangan->total_keuangan;
     }
 
     public function getListOfAnnouncements(): Collection
     {
-        return Informasi::where('jenis_informasi', 'Pengumuman')->get();
+        return Informasi::where('jenis_informasi', 'Pengumuman')->orderBy('updated_at', 'desc')->get();
     }
 
     public function getListOfResidentReports(): Collection
     {
-        return Pelaporan::with(['pengajuan', 'pengajuan.penduduk'])->get();
+        return Pelaporan::join('pengajuan', 'pelaporan.pengajuan_id', '=', 'pengajuan.pengajuan_id')
+            ->with(['pengajuan', 'pengajuan.penduduk'])
+            ->whereDate('pengajuan.updated_at', Carbon::today())
+            ->orderBy('pengajuan.updated_at', 'desc')
+            ->get();
     }
 
     public function getTotalFamilyMembers(string $kk_number): int
@@ -135,6 +141,14 @@ class DashboardController extends Controller
         $reports = Pelaporan::with(['pengajuan', 'pengajuan.penduduk'])->where('jenis_pelaporan', 'Pengaduan')->get();
 
         $informations = $informations->merge($reports);
+
+        $informations = $informations->sortByDesc(function ($information) {
+            if ($information instanceof Pelaporan) {
+                return $information->pengajuan->updated_at;
+            } else {
+                return $information->updated_at;
+            }
+        });
 
         return $informations;
     }

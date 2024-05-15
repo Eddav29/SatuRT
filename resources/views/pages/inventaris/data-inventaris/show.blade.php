@@ -84,7 +84,7 @@
 
                     {{-- Tombol Kembali --}}
                     <div class="mt-5 flex gap-x-5">
-                        <a type="kembali" href="{{ route('inventaris.index') }}"
+                        <a type="kembali" href="{{ route('inventaris.data-inventaris.index') }}"
                             class="bg-azure-blue text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">
                             <p>Kembali</p>
                         </a>

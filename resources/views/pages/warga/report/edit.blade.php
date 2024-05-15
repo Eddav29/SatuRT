@@ -18,91 +18,96 @@
                     <h1 class="font-bold md:text-2xl text-xl">Edit Pelaporan</h1>
                 </div>
 
-                <section class="space-y-4">
+                <section>
 
-                    <div class="mx-3 my-4 gap-5 flex max-lg:flex-col lg:flex-nowrap font-bold">
-                        {{-- NIK --}}
-                        <div class="lg:w-1/2">
-                            <div class="after:content-['*'] after:ml-0.5 after:text-red-500">NIK</div>
-                            <input type="text" disabled value="{{ $pelaporan->pengajuan->penduduk->nik }}"
-                                placeholder="Masukkan NIK" name="nik" id="nik"
-                                class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                        </div>
-
-                        {{-- Nama --}}
-                        <div class="lg:w-1/2">
-                            <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Nama</div>
-                            <input type="text" disabled value="{{ $pelaporan->pengajuan->penduduk->nama }}"
+                    <div class="mt-4 mx-3 mb-3 gap-5 flex flex-col font-bold">
+                        {{-- Judul --}}
+                        <div>
+                            <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Judul Laporan</div>
+                            <input type="text" value="{{ $pelaporan->pengajuan->keperluan }}"
                                 placeholder="Masukkan Nama" name="nama" id="nama"
                                 class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
                         </div>
                     </div>
 
+                    <div class="flex flex-col md:grid md:grid-cols-2">
 
-                    <div class="mx-3 my-4 gap-5 flex max-lg:flex-col lg:flex-nowrap font-bold">
-                        {{-- Tanggal --}}
-                        <div class="lg:w-1/2">
-                            <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Tanggal</div>
-                            <input type="date" name="accepted_at" id="accepted_at"
-                                value="{{ $pelaporan->pengajuan->accepted_at ? \Carbon\Carbon::parse($pelaporan->pengajuan->accepted_at)->format('Y-m-d') : \Carbon\Carbon::now()->format('Y-m-d') }}"
-                                class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
+                        <div class="mx-3 my-3 gap-5 flex flex-col font-bold">
+                            {{-- NIK --}}
+                            <div>
+                                <div class="after:content-['*'] after:ml-0.5 after:text-red-500">NIK</div>
+                                <input type="text" disabled value="{{ $pelaporan->pengajuan->penduduk->nik }}"
+                                    placeholder="Masukkan NIK" name="nik" id="nik"
+                                    class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
+                            </div>
+
+                            {{-- Nama --}}
+                            <div>
+                                <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Nama</div>
+                                <input type="text" disabled value="{{ $pelaporan->pengajuan->penduduk->nama }}"
+                                    placeholder="Masukkan Nama" name="nama" id="nama"
+                                    class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
+                            </div>
+
+                            {{-- Tanggal --}}
+                            <div>
+                                <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Tanggal</div>
+                                <input type="date" name="accepted_at" id="accepted_at"
+                                    value="{{ $pelaporan->pengajuan->accepted_at ? \Carbon\Carbon::parse($pelaporan->pengajuan->accepted_at)->format('Y-m-d') : \Carbon\Carbon::now()->format('Y-m-d') }}"
+                                    class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
+                            </div>
+
+                            {{-- Jenis Laporan --}}
+                            <div>
+                                <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Jenis Laporan</div>
+                                <select id="jenis_pelaporan" name="jenis_pelaporan"
+                                    class="font-normal  mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
+                                    <option disabled>Pilih Jenis Laporan</option>
+                                    <option value="Pengaduan"
+                                        {{ $pelaporan->jenis_pelaporan === 'Pengaduan' ? 'selected' : '' }}>Pengaduan
+                                    </option>
+                                    <option value="Kritik" {{ $pelaporan->jenis_pelaporan === 'Kritik' ? 'selected' : '' }}>
+                                        Kritik</option>
+                                    <option value="Saran" {{ $pelaporan->jenis_pelaporan === 'Saran' ? 'selected' : '' }}>
+                                        Saran</option>
+                                    <option value="Lainnya"
+                                        {{ $pelaporan->jenis_pelaporan === 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                                </select>
+                            </div>
                         </div>
 
-                        {{-- Jenis Laporan --}}
-                        <div class="lg:w-1/2">
-                            <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Jenis Laporan</div>
-                            <select id="jenis_pelaporan" name="jenis_pelaporan"
-                                class="font-normal  mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                                <option disabled>Pilih Jenis Laporan</option>
-                                <option value="Pengaduan"
-                                    {{ $pelaporan->jenis_pelaporan === 'Pengaduan' ? 'selected' : '' }}>Pengaduan
-                                </option>
-                                <option value="Kritik" {{ $pelaporan->jenis_pelaporan === 'Kritik' ? 'selected' : '' }}>
-                                    Kritik</option>
-                                <option value="Saran" {{ $pelaporan->jenis_pelaporan === 'Saran' ? 'selected' : '' }}>
-                                    Saran</option>
-                                <option value="Lainnya"
-                                    {{ $pelaporan->jenis_pelaporan === 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
-                            </select>
-                        </div>
-                    </div>
+                        {{-- Lampiran --}}
+                        <div class="mx-3 my-3 font-bold">
+                            <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Lampiran</div>
 
-                    {{-- Lampiran --}}
-                    <div class="mx-3 my-3 font-bold">
-                        <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Lampiran</div>
-                        @if ($pelaporan->image_url)
-                            <label for="lisence_image_url" class="relative cursor-pointer">
-                                <div class="w-full h-64 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-bray-100 hover:border-gray-100 hover:bg-gray-200"
-                                    ondrop="dropFile(event, 'lisence_image_url')" ondragover="allowDrop(event)">
-                                    <img src="{{ asset('storage/images_storage/resident-report_images/' . $pelaporan->image_url) }}"
-                                        for="lisence_image_url"
-                                        class="w-full h-full object-cover border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-bray-100 hover:border-gray-100 hover:bg-gray-200">
-                                    <div id="lisence_image_url-container" class="w-full h-full overflow-hidden hidden">
+                            @if ($pelaporan->image_url)
+                                <label for="lisence_image_url" class="relative cursor-pointer">
+                                    <div class="h-64 rounded-lg flex items-center justify-center"
+                                        ondrop="dropFile(event, 'lisence_image_url')" ondragover="allowDrop(event)">
+                                        <img src="{{ asset('storage/images_storage/resident-report_images/' . $pelaporan->image_url) }}"
+                                            for="lisence_image_url"
+                                            class="w-auto h-full object-cover border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-bray-100 hover:border-gray-100 hover:bg-gray-200">
+                                        <div id="lisence_image_url-container" class="w-full h-full overflow-hidden hidden">
+                                        </div>
                                     </div>
-                                </div>
-                            </label>
-                        @endif
+                                </label>
+                            @endif
 
 
-                        <div class="flex flex-col mt-5" :class="selected === 'Pilih Jenis Informasi' ? 'hidden' : ''">
-                            @error('image_url')
-                            <small class="text-red-500 text-xs py-3">{{ $message }}</small>
-                            @enderror
+                            <div class="flex flex-col mt-5">
+                                @error('image_url')
+                                    <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                                @enderror
 
-                            <p id="preview-file" class="text-blue-500 py-3 hidden"></p>
-                            <img alt="" id="preview-image" class="hidden">
+                                {{-- <p id="preview-file" class="text-blue-500 py-3 hidden"></p>
+                                <img alt="" id="preview-image" class="hidden"> --}}
 
-                            <input
-                            class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-primary focus:text-gray-700 focus:shadow-inset focus:outline-none"
-                            type="file" id="file_input" name="image_url" onchange="previewImage()"
-                            x-bind:accept="selected === 'Pengumuman' ? '' :
-                            'image/*'" />
-                        </div>
-                        <div>
-                            <img alt="" id="preview-image" class="hidden">
+                                <input
+                                    class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-primary focus:text-gray-700 focus:shadow-inset focus:outline-none"
+                                    type="file" id="file_input" name="image_url" onchange="previewImage()">
+                            </div>
                         </div>
                     </div>
-
 
                     {{-- Keterangan --}}
                     <div class="mx-3 my-3">
@@ -114,20 +119,19 @@
                         @enderror
                         <textarea id="text-editor" name="keterangan">{{ $pelaporan->pengajuan->keterangan }}</textarea>
                     </div>
-
-                    {{-- Button --}}
-                    <div class="mx-3 my-3">
-                        <button type="submit"
-                            class="bg-blue-500 hover:bg-blue-800 text-white py-2 px-4 rounded mt-4 mr-2">
-                            Simpan
-                        </button>
-                        <a href="#" onclick="window.history.back()"
-                            class="text-black border-2 py-3 px-5 rounded-lg mt-4">
-                            Batalkan
-                        </a>
-
-                    </div>
                 </section>
+
+                {{-- Button --}}
+                <div class="mx-3 my-3">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-800 text-white py-2 px-4 rounded mt-4 mr-2">
+                        Simpan
+                    </button>
+                    <a href="#" onclick="window.history.back()"
+                        class="text-black border-2 py-3 px-5 rounded-lg mt-4">
+                        Batalkan
+                    </a>
+
+                </div>
         </div>
         </form>
     </div>

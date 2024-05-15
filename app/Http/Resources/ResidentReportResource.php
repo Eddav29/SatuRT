@@ -19,7 +19,7 @@ class ResidentReportResource extends JsonResource
             'id' => $this->pelaporan_id,
             'jenis_laporan' => $this->jenis_pelaporan,
             'attachment' => $this->image_url,
-            'accepted_by' => $this->pengajuan->acceptedBy->nama,
+            'accepted_by' => $this->pengajuan->acceptedBy->nama ?? '-',
             'accepted_at' => Carbon::parse($this->pengajuan->accepted_at)->locale('id_ID')->isoFormat('dddd, DD MMMM YYYY'),
             'created_at' => Carbon::parse($this->pengajuan->created_at)->locale('id_ID')->isoFormat('dddd, DD MMMM YYYY'),
             'created_by' => $this->pengajuan->penduduk->nama,
