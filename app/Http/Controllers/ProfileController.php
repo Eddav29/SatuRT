@@ -88,7 +88,7 @@ class ProfileController extends Controller
             DB::beginTransaction();
             if ($request->file('images')) {
                 $imageName = imageService::uploadFile('storage_ktp', $request);
-                $validated['foto_ktp'] = route('storage.ktp', ['filename' => $imageName]);
+                $validated['foto_ktp'] = $imageName;
             }
             $penduduk = Penduduk::find($id);
             $penduduk->update($validated);

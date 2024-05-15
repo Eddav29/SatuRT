@@ -92,5 +92,5 @@
 </div>
 <div class="mt-8 grid grid-cols-1 px-5">
     <h3 class="select-none md:text-lg text-sm font-semibold">Foto Kartu Tanda Penduduk</h3>
-    <x-image-preview :file="$citizen->foto_ktp" />
+    <x-image-preview :file="route('storage.ktp', $citizen->foto_ktp)" />
 </div>

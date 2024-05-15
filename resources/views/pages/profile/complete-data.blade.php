@@ -289,7 +289,7 @@
                     <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Foto KTP</div>
                     @if ($penduduk->foto_ktp)
                         <div class="flex items-center justify-center">
-                            <img src="{{ $penduduk->foto_ktp }}"
+                            <img src="{{ route('storage.ktp', $penduduk->foto_ktp) }}"
                                 class="flex flex-col items-center justify-center max-lg:w-full w-1/2 h-auto border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-gray-100 hover:border-gray-100 hover:bg-gray-200">
                         </div>
                     @endif
@@ -326,7 +326,7 @@
         <script>
             document.addEventListener('DOMContentLoaded', function() {
                 var fileInput = document.getElementById('file_input');
-                var pendudukFotoKtp = <?php echo json_encode($penduduk->foto_ktp); ?>;
+                var pendudukFotoKtp = <?php echo json_encode(route('storage.ktp', $penduduk->foto_ktp)); ?>;
 
                 if (value === null) {
                     fileInput.value = pendudukFotoKtp;

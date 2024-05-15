@@ -27,7 +27,7 @@ class CitizenService implements RecordServiceInterface, DatatablesInterface
     {
         if ($request->hasFile('images')) {
             $imageName = imageService::uploadFile('storage_ktp', $request);
-            $request->merge(['foto_ktp' => route('storage.ktp', ['filename' => $imageName])]);
+            $request->merge(['foto_ktp' => $imageName]);
         }
 
         $request->merge(['status_kehidupan' => $request->has('status_kehidupan') ? $request->status_kehidupan : 'Hidup']);
@@ -61,7 +61,7 @@ class CitizenService implements RecordServiceInterface, DatatablesInterface
         $citizen = Penduduk::findOrFail($id);
         if ($request->hasFile('images')) {
             $imageName = imageService::uploadFile('storage_ktp', $request);
-            $request->merge(['foto_ktp' => route('storage.ktp', ['filename' => $imageName])]);
+            $request->merge(['foto_ktp' => $imageName]);
             if ($citizen && $citizen->foto_ktp) {
                 imageService::deleteFile('storage_ktp', $citizen->foto_ktp);
             }

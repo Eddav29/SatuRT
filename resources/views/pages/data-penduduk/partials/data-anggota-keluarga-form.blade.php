@@ -210,7 +210,7 @@
     <div>
         <x-input-label for="images" :value="__('Foto Kartu Tanda Penduduk')" />
         @isset($citizen->foto_ktp)
-        <x-input-file name="images" :accept="$extension" :default="$citizen->foto_ktp"/>
+        <x-input-file name="images" :accept="$extension" :default="route('storage.ktp', $citizen->foto_ktp)"/>
         @else
             <x-input-file name="images" :accept="$extension" />
         @endisset
