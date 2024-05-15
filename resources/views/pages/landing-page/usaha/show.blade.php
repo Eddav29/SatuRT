@@ -10,7 +10,7 @@
                     <h6 class="text-[1rem]/[1.618rem]">{{ $business->jenis_umkm }}</h6>
                 </div>
                 <div class="h-60 lg:h-[40rem]">
-                    <img src="https://source.unsplash.com/random/?market" alt=""
+                    <img src="{{ !strpos($business->thumbnail_url, 'https://') ? $business->thumbnail_url : asset('storage/images_storage/' . $business->thumbnail_url) }}" alt=""
                         class="w-full h-full object-cover rounded-xl">
                 </div>
                 <div>

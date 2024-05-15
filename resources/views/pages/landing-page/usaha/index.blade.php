@@ -264,7 +264,7 @@
                             <a href="usaha/${umkm.umkm_id}"
                                 class="grid grid-cols-2 gap-x-3 group">
                                 <div>
-                                    <img src="{{ asset('storage/images_storage/${umkm.thumbnail_url}') }}" alt=""
+                                    <img src="${!umkm.thumbnail_url.startsWith('https://') ? 'storage/images_storage/' + umkm.thumbnail_url : umkm.thumbnail_url}" alt=""
                                         class="w-full object-cover rounded-xl aspect-[2/3]">
                                 </div>
                                 <div class="flex flex-col gap-y-3">
