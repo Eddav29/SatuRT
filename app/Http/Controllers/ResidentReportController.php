@@ -123,6 +123,7 @@ class ResidentReportController extends Controller
             $pengajuan = Pengajuan::find($pelaporan->pengajuan_id);
 
             $validated = $request->validate([
+                'keperluan' => 'required',
                 'accepted_at' => 'required|date',
                 'jenis_pelaporan' => 'required',
                 'keterangan' => 'required',
@@ -142,6 +143,7 @@ class ResidentReportController extends Controller
                 ]);
 
                 $pengajuan->update([
+                    'keperluan' => $validated['keperluan'],
                     'accepted_at' => $validated['accepted_at'],
                     'keterangan' => $validated['keterangan'],
                 ]);
@@ -159,7 +161,8 @@ class ResidentReportController extends Controller
     {
         try {
             if (Auth::user()->role->role_name == 'Ketua RT') {
-                $data = Pelaporan::all()->map(function ($pelaporan) {
+                $data = Pelaporan::join('pengajuan', 'pelaporan.pengajuan_id', '=', 'pengajuan.pengajuan_id')
+                    ->orderBy('pengajuan.updated_at', 'desc')->get()->map(function ($pelaporan) {
                     return [
                         'pelaporan_id' => $pelaporan->pelaporan_id,
                         'pelapor' => $pelaporan->pengajuan->penduduk->nama,
@@ -175,20 +178,26 @@ class ResidentReportController extends Controller
             } else {
                 $data = Pelaporan::whereHas('pengajuan', function ($query) {
                     $query->where('penduduk_id', auth()->user()->penduduk->penduduk_id);
-                })->with('pengajuan')->get()->map(function ($pelaporan) {
-                    return [
-                        'pelaporan_id' => $pelaporan->pelaporan_id,
-                        'pelapor' => $pelaporan->pengajuan->penduduk->nama,
-                        'jenis_pelaporan' => $pelaporan->jenis_pelaporan,
-                        'tanggal' => Carbon::parse($pelaporan->pengajuan->accepted_at)->format('d-m-Y'),
-                    ];
-                });
+                })
+                    ->join('pengajuan', 'pelaporan.pengajuan_id', '=', 'pengajuan.pengajuan_id')
+                    ->orderBy('pengajuan.updated_at', 'desc')
+                    ->with('pengajuan')
+                    ->get()
+                    ->map(function ($pelaporan) {
+                        return [
+                            'pelaporan_id' => $pelaporan->pelaporan_id,
+                            'pelapor' => $pelaporan->pengajuan->penduduk->nama,
+                            'jenis_pelaporan' => $pelaporan->jenis_pelaporan,
+                            'tanggal' => Carbon::parse($pelaporan->pengajuan->accepted_at)->format('d-m-Y'),
+                        ];
+                    });
 
                 return response()->json([
                     'data' => $data,
                 ]);
             }
         } catch (\Throwable $th) {
+            dd($th);
             return response()->json(['error' => 'An error occurred.'], 500);
         }
     }
@@ -234,6 +243,7 @@ class ResidentReportController extends Controller
         $pendudukId = Auth::user()->penduduk->penduduk_id;
 
         $validated = $request->validate([
+            'keperluan' => 'required',
             'jenis_pelaporan' => 'required',
             'accepted_at' => 'required|date',
             'image_url' => 'required|file',
@@ -247,6 +257,7 @@ class ResidentReportController extends Controller
 
         try {
             $pengajuan = Pengajuan::create([
+                'keperluan' => $validated['keperluan'],
                 'accepted_at' => $validated['accepted_at'],
                 'keterangan' => $validated['keterangan'],
                 'penduduk_id' => $pendudukId,

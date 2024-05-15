@@ -10,11 +10,6 @@
             <section>
                 <x-datatables id="inventaris_id" url="/inventaris/data-inventaris" :columns="[
                     [
-                        'label' => 'ID Inventaris',
-                        'key' => 'inventaris_id',
-                        'style' => 'text-left',
-                    ],
-                    [
                         'label' => 'Nama',
                         'key' => 'nama_inventaris',
                         'style' => 'text-left',
@@ -46,6 +41,7 @@
                     ['label' => 'Donasi', 'key' => 'Donasi', 'columnIndex' => 3],
                     ['label' => 'Bantuan', 'key' => 'Bantuan', 'columnIndex' => 3],
                     ['label' => 'Pinjaman', 'key' => 'Pinjaman', 'columnIndex' => 3],
+                    ['label' => 'Semua', 'key' => '', 'columnIndex' => 3],
                 ]"
                     :layoutTopEnd="true">
                 </x-datatables>

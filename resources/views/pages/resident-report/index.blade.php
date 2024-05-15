@@ -20,10 +20,10 @@
                         'key' => 'status',
                         'style' => 'text-center',
                         'customStyle' => [
-                            'Menunggu Persetujuan' =>'w-[10rem] py-2 px-3 text-center rounded-md bg-yellow-500/30 text-yellow-800',
-                            'Diterima' =>'w-[10rem] py-2 px-3 text-center rounded-md bg-green-500/30 text-green-500',
-                            'Ditolak' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-red-500/30 text-orange-800',
-                            'Dibatalkan' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-orange-500/30 text-red-800',
+                            'Menunggu Persetujuan' =>'w-[14rem] py-2 px-3 text-center rounded-md bg-yellow-500/30 text-yellow-800',
+                            'Diterima' =>'w-[14rem] py-2 px-3 text-center rounded-md bg-green-500/30 text-green-500',
+                            'Ditolak' => 'w-[14rem] py-2 px-3 text-center rounded-md bg-red-500/30 text-orange-800',
+                            'Dibatalkan' => 'w-[14rem] py-2 px-3 text-center rounded-md bg-orange-500/30 text-red-800',
                         ],
                     ],
                     [
@@ -46,7 +46,9 @@
                         ['label' => 'Kritik', 'key' => 'Kritik', 'columnIndex' => 2],
                         ['label' => 'Saran', 'key' => 'Saran', 'columnIndex' => 2],
                         ['label' => 'Lainnya', 'key' => 'Lainnya', 'columnIndex' => 2],
-                    ]" :layoutTop2End="true">
+                        ['label' => 'Semua', 'key' => '', 'columnIndex' => 2],
+                    ]" :layoutTop2End="true"
+                    :layoutTopEnd="true">
                 </x-datatables>
             </section>
             {{-- End Table --}}
