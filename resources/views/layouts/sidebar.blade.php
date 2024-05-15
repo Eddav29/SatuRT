@@ -151,7 +151,7 @@
                                 </x-nav-menu>
                             </div>
                             <div class="pl-11 py-1">
-                                <x-nav-menu :href="url('inventaris/peminjaman')" :active="request()->is('peminjaman/*')">
+                                <x-nav-menu :href="route('inventaris.peminjaman.index')" :active="request()->is('inventaris/peminjaman')">
                                     Peminjaman Inventaris
                                 </x-nav-menu>
                             </div>

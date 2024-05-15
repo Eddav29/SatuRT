@@ -119,13 +119,13 @@ Route::resource('inventaris/data-inventaris', InventarisController::class)->midd
     'destroy' => 'inventaris.data-inventaris.destroy',
 ]);
 Route::resource('inventaris/peminjaman', InventarisPeminjamanController::class)->middleware(['auth'])->names([
-    'index' => 'inventaris.index',
-    'show' => 'inventaris.show',
-    'update' => 'inventaris.update',
-    'create' => 'inventaris.create',
-    'store' => 'inventaris.store',
-    'edit' => 'inventaris.edit',
-    'destroy' => 'inventaris.destroy',
+    'index' => 'inventaris.peminjaman.index',
+    'show' => 'inventaris.peminjaman.show',
+    'update' => 'inventaris.peminjaman.update',
+    'create' => 'inventaris.peminjaman.create',
+    'store' => 'inventaris.peminjaman.store',
+    'edit' => 'inventaris.peminjaman.edit',
+    'destroy' => 'inventaris.peminjaman.destroy',
 ]);
 
 
