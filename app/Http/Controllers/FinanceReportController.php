@@ -284,27 +284,29 @@ class FinanceReportController extends Controller
             $detailKeuangan->update($request->only(['judul', 'keuangan_id', 'jenis_keuangan', 'asal_keuangan', 'nominal', 'keterangan']));
 
             // Ambil data 'keuangan' terkait
-            $keuangan = Keuangan::find($idKeuangan);
-
-            if (!$keuangan) {
-                DB::rollBack(); // Batalkan transaksi jika tidak ada data
-                return redirect()->back()->withErrors(['keuangan_id' => 'Data keuangan tidak ditemukan'])->withInput();
-            }
+            $keuangan = Keuangan::latest()->first();
 
             // Dapatkan nominal baru dari permintaan
             $newNominal = $request->input('nominal');
 
             // Hitung selisih nominal
             $difference = $newNominal - $oldNominal;
+            $total_keuangan = $keuangan->total_keuangan;
 
             // Perbarui total_keuangan berdasarkan jenis keuangan
             if ($detailKeuangan->jenis_keuangan == "Pemasukan") {
-                $keuangan->total_keuangan += $difference; // Tambahkan selisih ke total sebelumnya
+                $total_keuangan += $difference; // Tambahkan selisih ke total sebelumnya
             } else {
-                $keuangan->total_keuangan -= $difference; // Kurangi selisih dari total sebelumnya
+                $total_keuangan -= $difference; // Kurangi selisih dari total sebelumnya
             }
 
-            $keuangan->save(); // Simpan perubahan di 'keuangan'
+            Keuangan::create([
+                'penduduk_id' => $keuangan->penduduk_id,
+                'total_keuangan' => $total_keuangan,
+                'tanggal' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]); // Simpan perubahan di 'keuangan'
 
             DB::commit(); // Selesaikan transaksi
 

@@ -19,7 +19,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ResidentReportController extends Controller
 {
-    public function getResidentReport(string $id): ResidentReportResource
+    public function getResidentReport(int $id): ResidentReportResource
     {
         $residentReport = Pelaporan::with(['pengajuan', 'pengajuan.penduduk', 'pengajuan.status', 'pengajuan.acceptedBy'])->find($id);
 
