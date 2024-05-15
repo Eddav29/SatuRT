@@ -52,9 +52,9 @@ class DocumentRequestController extends Controller
                             'nama' => $persuratan->pemohon()->nama,
                             'status' => $persuratan->pengajuan->status->nama,
                             'keperluan' => $persuratan->pengajuan->keperluan,
-                            'accepted_at' => Carbon::parse($persuratan->pengajuan->accepted_at)->format('d-m-Y | H:i:s'),
-                            'created_at' => Carbon::parse($persuratan->pengajuan->created_at)->format('d-m-Y | H:i:s'),
-                            'updated_at' => Carbon::parse($persuratan->pengajuan->updated_at)->format('d-m-Y | H:i:s'),
+                            'accepted_at' => Carbon::parse($persuratan->pengajuan->accepted_at)->format('d-m-Y'),
+                            'created_at' => Carbon::parse($persuratan->pengajuan->created_at)->format('d-m-Y'),
+                            'updated_at' => Carbon::parse($persuratan->pengajuan->updated_at)->format('d-m-Y'),
                         ];
                     });
                 $pengajuan = Pengajuan::all();
@@ -83,8 +83,8 @@ class DocumentRequestController extends Controller
                         'nik' => $persuratan->pemohon()->nik,
                         'nama' => $persuratan->pemohon()->nama,
                         'status' => $persuratan->pengajuan->status->nama,
-                        'created_at' => Carbon::parse($persuratan->pengajuan->created_at)->format('d-m-Y | H:i:s'),
-                        'accepted_at' => Carbon::parse($persuratan->pengajuan->accepted_at)->format('d-m-Y | H:i:s'),
+                        'created_at' => Carbon::parse($persuratan->pengajuan->created_at)->format('d-m-Y'),
+                        'accepted_at' => Carbon::parse($persuratan->pengajuan->accepted_at)->format('d-m-Y'),
                         'keperluan' => $persuratan->pengajuan->keperluan,
                     ];
                 });

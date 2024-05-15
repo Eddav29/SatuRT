@@ -11,8 +11,13 @@
                         </button>
                         <div class="lg:hidden" x-data="{ profile: false }">
                             <div class="h-14 w-14 rounded-full overflow-hidden" @click.stop="profile = !profile">
-                                <img class="h-full w-full object-cover"
-                                    src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}">
+                                @if (Auth::user()->penduduk->user->profile)
+                                    <img src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}"
+                                        class="h-full w-full object-cover">
+                                @else
+                                    <img src="{{ asset('assets/images/default.png') }}"
+                                        class="h-full w-full object-cover">
+                                @endif
                             </div>
                         </div>
                     </div>

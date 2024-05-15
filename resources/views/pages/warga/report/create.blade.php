@@ -16,6 +16,15 @@
                 <form method="POST" action="{{ route('pelaporan.store') }}" enctype="multipart/form-data" class="px-5">
                     @csrf
 
+                    <div class="mt-5 gap-5">
+                        <div>
+                            <label for="keperluan"
+                                class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Judul Laporan</label>
+                            <input type="text" placeholder="Masukkan Judul Laporan" name="keperluan"
+                                class="placeholder:font-normal required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
+                        </div>
+                    </div>
+
                     <div class="mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
                         <div>
                             <label for="nik"
@@ -37,7 +46,7 @@
                         <div>
                             <label for="tanggal"
                                 class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Tanggal</label>
-                            <input type="date" name="accepted_at" id="accepted_at"
+                            <input type="date" name="accepted_at" id="accepted_at" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"
                                 class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
                         </div>
                         <div>
@@ -57,7 +66,18 @@
 
                     {{-- Field File Upload --}}
                     <div class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold mt-5">Lampiran</div>
-                    <div>
+
+                    <div class="mt-5">
+                        <div>
+                            @isset($pelaporan->image_url)
+                            <x-input-file name="image_url" :default="$pelaporan->image_url"/>
+                            @else
+                                <x-input-file name="image_url" />
+                            @endisset
+                        </div>
+                    </div>
+
+                    {{-- <div>
                         <img alt="" id="preview-image" class="hidden">
                     </div>
                     <div class="flex flex-col mt-5">
@@ -70,10 +90,8 @@
 
                         <input
                             class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-primary focus:text-gray-700 focus:shadow-inset focus:outline-none"
-                            type="file" id="file_input" name="image_url" onchange="previewImage()"
-                            {{-- x-bind:accept="image/" --}}
-                            >
-                    </div>
+                            type="file" id="file_input" name="image_url" onchange="previewImage()">
+                    </div> --}}
 
                     {{-- Keterangan --}}
                     <div class="mt-5">

@@ -8,8 +8,12 @@
                 </button>
                 <div class="lg:hidden" x-data="{ profile: false }">
                     <div class="h-14 w-14 rounded-full overflow-hidden" @click.stop="profile = !profile">
-                        <img class="h-full w-full object-cover"
-                            src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}">
+                        @if (Auth::user()->penduduk->user->profile)
+                            <img src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}"
+                                class="h-full w-full object-cover">
+                        @else
+                            <img src="{{ asset('assets/images/default.png') }}" class="h-full w-full object-cover">
+                        @endif
                     </div>
                 </div>
             </div>
@@ -60,8 +64,11 @@
                     {{-- Foto Profile --}}
                     <div class="mx-3 my-3 font-bold">
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Foto Profile</div>
-                        @if ($penduduk->user->profile)
+                        @if (Auth::user()->penduduk->user->profile)
                             <img src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}"
+                                class="object-cover flex flex-col items-center justify-center w-auto h-3/4 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-gray-100 hover:border-gray-100 hover:bg-gray-200">
+                        @else
+                            <img src="{{ asset('assets/images/default.png') }}"
                                 class="object-cover flex flex-col items-center justify-center w-auto h-3/4 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-gray-100 hover:border-gray-100 hover:bg-gray-200">
                         @endif
                         <div class="flex flex-col items-center justify-center pt-5 pb-6">

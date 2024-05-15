@@ -101,7 +101,6 @@ class InventarisController extends Controller
         try {
             $data = Inventaris::all()->map(function ($inventaris) {
                 return [
-                    'inventaris_id' => $inventaris->inventaris_id,
                     'nama_inventaris' => $inventaris->nama_inventaris,
                     'jumlah' => $inventaris->jumlah,
                     'sumber' => $inventaris->sumber,

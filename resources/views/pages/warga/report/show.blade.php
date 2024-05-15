@@ -10,13 +10,17 @@
             {{-- Table --}}
             <section>
                 <div class="bg-blue-gray p-5 rounded-md">
-                    <h1 class="font-bold md:text-2xl text-xl">Detail Permohonan Surat</h1>
+                    <h1 class="font-bold md:text-2xl text-xl">Detail Pelaporan</h1>
                 </div>
             </section>
             {{-- Forms Permhonan Surat --}}
             <section>
                 <form
                     class="p-6 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col md:grid md:grid-cols-1 md:auto-rows-auto gap-y-5">
+                    <div class="md:grid md:grid-cols-4">
+                        <h5 class="font-semibold">Judul Laporan</h5>
+                        <p class="md:col-span-3">{{ $pelaporan->pengajuan->keperluan }}</p>
+                    </div>
                     <div class="md:grid md:grid-cols-4">
                         <h5 class="font-semibold">Pelapor</h5>
                         <p class="md:col-span-3">{{ $pelaporan->pengajuan->penduduk->nama }}</p>
@@ -36,7 +40,7 @@
                     <div class="lg:grid lg:grid-cols-5 lg:gap-3">
                         <div class="lg:col-span-3">
                             <h5 class="font-semibold mb-4">Laporan</h5>
-                            <div class="border-2 rounded-lg h-48">
+                            <div class="p-3 max-lg:h-auto border-2 rounded-lg h-48 h-[17rem] overflow-y-auto">
                                 <p>{!! $pelaporan->pengajuan->keterangan !!}</p>
                             </div>
                         </div>
@@ -45,7 +49,7 @@
                             <div x-data="{ openImage: false }">
                                 <img @click="openImage = !openImage"
                                     src="{{ asset('storage/images_storage/resident-report_images/' . $pelaporan->image_url) }}"
-                                    alt="" class="rounded-xl h-48 max-h-[30rem] w-full object-cover"
+                                    alt="" class="rounded-xl h-auto max-h-[17rem] w-full object-cover border-2"
                                     draggable="false">
                                 <div x-show="openImage"
                                     class="fixed z-[999999999] top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
