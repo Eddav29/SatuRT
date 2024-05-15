@@ -109,56 +109,56 @@
         @if ($multiple)
             <div class="w-full flex flex-wrap items-center justify-start gap-5 py-6 px-4" x-show="filesList.length > 0"
                 <template x-for="(file, index) in filesList" :key="index">
-                    <div class="w-24 h-24 flex flex-col relative border border-black rounded-md" x-data="{ showTooltip: false }"
-                        @mouseover="showTooltip = true" @mouseleave="showTooltip = !showTooltip">
-                        <template x-if="file.type.includes('image') || file.type.includes('svg')">
-                            <img @click="showImage(index)" :src="file.url" alt="image"
+                <div class="w-24 h-24 flex flex-col relative border border-black rounded-md" x-data="{ showTooltip: false }"
+                    @mouseover="showTooltip = true" @mouseleave="showTooltip = !showTooltip">
+                    <template x-if="file.type.includes('image') || file.type.includes('svg')">
+                        <img @click="showImage(index)" :src="file.url" alt="image"
+                            class="object-contain w-full h-full">
+                    </template>
+                    <template x-if="file.type.includes('pdf')">
+                        <img src="http://127.0.0.1:8000/assets/images/icon-pdf.png" alt=""
+                            @click="window.open(file.url, '_blank')" class="object-contain w-full h-full">
+                    </template>
+                    <template x-if="file.type.includes('text')">
+                        <a :href="file.url" download :title="file.name" target="_blank">
+                            <img src="http://127.0.0.1:8000/assets/images/icon-txt.png" alt="Text File"
                                 class="object-contain w-full h-full">
-                        </template>
-                        <template x-if="file.type.includes('pdf')">
-                            <img src="http://127.0.0.1:8000/assets/images/icon-pdf.png" alt=""
-                                @click="window.open(file.url, '_blank')" class="object-contain w-full h-full">
-                        </template>
-                        <template x-if="file.type.includes('text')">
-                            <a :href="file.url" download :title="file.name" target="_blank">
-                                <img src="http://127.0.0.1:8000/assets/images/icon-txt.png" alt="Text File"
-                                    class="object-contain w-full h-full">
-                            </a>
-                        </template>
-                        <template x-if="file.type.includes('spreadsheet')">
-                            <a :href="file.url" download :title="file.name" target="_blank">
-                                <img src="http://127.0.0.1:8000/assets/images/icon-excel.png" alt="Excel File"
-                                    class="object-contain w-full h-full">
-                            </a>
-                        </template>
-                        <template x-if="file.type.includes('word')">
-                            <a :href="file.url" download :title="file.name" target="_blank">
-                                <img src="http://127.0.0.1:8000/assets/images/icon-word.png" alt="Word Document"
-                                    class="object-contain w-full h-full">
-                            </a>
-                        </template>
-                        <template x-if="file.type.includes('presentation')">
-                            <a :href="file.url" download :title="file.name" target="_blank">
-                                <img src="http://127.0.0.1:8000/assets/images/icon-ppt.png"
-                                    alt="PowerPoint Presentation" class="object-contain w-full h-full">
-                            </a>
-                        </template>
-                        <template
-                            x-if="!(file.type.includes('image') || file.type.includes('pdf') || file.type.includes('text') || file.type.includes('spreadsheet') || file.type.includes('word') || file.type.includes('presentation'))">
-                            <a :href="file.url" download :title="file.name" target="_blank">
-                                <img src="http://127.0.0.1:8000/assets/images/icon-file.png" alt="File"
-                                    class="object-contain w-full h-full">
-                            </a>
-                        </template>
-                        <p class="text-sm truncate overflow-ellipsis px-2" x-text="file.name"></p>
-                        <div :class="{ 'hidden': !showTooltip }"
-                            class="absolute -top-6 bg-gray-700 text-[.7rem] font-thin text-white rounded-full px-2 line-clamp-1 max-w-80 w-max">
-                            <span x-text="file.name"></span>
-                        </div>
-                        <button class="absolute -top-2 -right-2 z-[999999999]" @click="removeFile(index)">
-                            <x-heroicon-c-x-circle class="w-6 h-6 text-gray-700 hover:text-gray-500" />
-                        </button>
+                        </a>
+                    </template>
+                    <template x-if="file.type.includes('spreadsheet')">
+                        <a :href="file.url" download :title="file.name" target="_blank">
+                            <img src="http://127.0.0.1:8000/assets/images/icon-excel.png" alt="Excel File"
+                                class="object-contain w-full h-full">
+                        </a>
+                    </template>
+                    <template x-if="file.type.includes('word')">
+                        <a :href="file.url" download :title="file.name" target="_blank">
+                            <img src="http://127.0.0.1:8000/assets/images/icon-word.png" alt="Word Document"
+                                class="object-contain w-full h-full">
+                        </a>
+                    </template>
+                    <template x-if="file.type.includes('presentation')">
+                        <a :href="file.url" download :title="file.name" target="_blank">
+                            <img src="http://127.0.0.1:8000/assets/images/icon-ppt.png" alt="PowerPoint Presentation"
+                                class="object-contain w-full h-full">
+                        </a>
+                    </template>
+                    <template
+                        x-if="!(file.type.includes('image') || file.type.includes('pdf') || file.type.includes('text') || file.type.includes('spreadsheet') || file.type.includes('word') || file.type.includes('presentation'))">
+                        <a :href="file.url" download :title="file.name" target="_blank">
+                            <img src="http://127.0.0.1:8000/assets/images/icon-file.png" alt="File"
+                                class="object-contain w-full h-full">
+                        </a>
+                    </template>
+                    <p class="text-sm truncate overflow-ellipsis px-2" x-text="file.name"></p>
+                    <div :class="{ 'hidden': !showTooltip }"
+                        class="absolute -top-6 bg-gray-700 text-[.7rem] font-thin text-white rounded-full px-2 line-clamp-1 max-w-80 w-max">
+                        <span x-text="file.name"></span>
                     </div>
+                    <button class="absolute -top-2 -right-2 z-[999999999]" @click="removeFile(index)">
+                        <x-heroicon-c-x-circle class="w-6 h-6 text-gray-700 hover:text-gray-500" />
+                    </button>
+                </div>
                 </template>
             </div>
         @endif
@@ -239,7 +239,12 @@
             },
             async _urlToFile(url) {
                 try {
-                    const response = await fetch(url);
+                    console.log(url);   
+                    const response = await fetch(url, {
+                        headers: {
+                            'Access-Control-Allow-Origin': '*'
+                        }
+                    });
                     const blob = await response.blob();
                     return new File([blob], url.split('/').pop(), {
                         type: blob.type,
