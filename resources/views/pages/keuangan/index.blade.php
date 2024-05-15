@@ -97,7 +97,7 @@
                         'style' => 'text-left',
                         'customStyle' => [
                             'Pemasukan' =>'w-[10rem] py-2 px-3 text-center rounded-md bg-green-500/30 ',
-                            'Pengeluaran' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-yellow-500/30 ',
+                            'Pengeluaran' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-red-500/30 ',
                         ],
                     ],
                     [
@@ -122,7 +122,7 @@
                 ]"
                     :filter="[
                         ['label' => 'Pemasukan', 'key' => 'Pemasukan', 'columnIndex' => 1],
-                        ['label' => 'Pengeluaran', 'key' => 'Diterima', 'columnIndex' => 1],
+                        ['label' => 'Pengeluaran', 'key' => 'Pengeluaran', 'columnIndex' => 1],
                 ]"
                     :layoutTopEnd="true">
                 </x-datatables>
