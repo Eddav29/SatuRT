@@ -27,7 +27,7 @@ return new class extends Migration {
             $table->string('alamat');
             $table->string('nomor_telepon');
             $table->string('lokasi_url');
-            $table->string('thumbnail_url');
+            $table->text('thumbnail_url');
             $table->enum('status', ['Aktif', 'Nonaktif']);
             $table->string('lisence_image_url');
             $table->timestamps();
