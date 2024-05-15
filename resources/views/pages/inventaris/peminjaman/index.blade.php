@@ -8,41 +8,25 @@
 
             {{-- Table --}}
             <section>
-                <x-datatables id="id_inventaris_detail" url="/inventaris/peminjaman" :columns="[
+                <x-datatables id="inventaris_detail_id" url="/inventaris/peminjaman" :columns="[
                     [
-                        'label' => 'ID Peminjaman',
-                        'key' => 'inventaris_detail_id',
-                        'style' => 'text-left',
-                    ],
-                    [
-                        'label' => 'ID Inventaris',
-                        'key' => 'inventaris_id',
+                        'label' => 'Nama Barang',
+                        'key' => 'nama_inventaris',
                         'style' => 'text-left',
                     ],
                     [
                         'label' => 'Nama Penduduk',
-                        'key' => 'penduduk_id',
+                        'key' => 'nama',
                         'style' => 'text-left',
                     ],
                     [
-                        'label' => 'Jumlah',
-                        'key' => 'jumlah',
+                        'label' => 'Status',
+                        'key' => 'status',
                         'style' => 'text-left',
-                    ],
-                    [
-                        'label' => 'Kondisi',
-                        'key' => 'kondisi',
-                        'style' => 'text-left',
-                    ],
-                    [
-                        'label' => 'Tanggal Pinjam',
-                        'key' => 'tanggal_pinjam',
-                        'style' => 'text-left',
-                    ],
-                    [
-                        'label' => 'Tanggal Kembali',
-                        'key' => 'tanggal_kembali',
-                        'style' => 'text-left',
+                        'customStyle' => [
+                            'dipinjam' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-yellow-500/30 text-yellow-800',
+                            'dikembalikan' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-green-500/30 text-green-800',
+                        ],
                     ],
                 ]" :aksi="[
                     'detail' => true,

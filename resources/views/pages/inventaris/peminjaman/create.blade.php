@@ -107,13 +107,7 @@
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
-                        <div>
-                            <label for="tanggal_kembali" class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">Tanggal Kembali</label>
-                            <input class="placeholder-gray-300 w-full rounded-md placeholder:text-xs border-gray-200 p-3 text-sm" placeholder="Tanggal Kembali" type="date" id="tanggal_kembali" name="tanggal_kembali" />
-                            @error('tanggal_kembali')
-                                <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
+                        
                     </div>
 
                     <div class="mt-10 flex gap-x-5">

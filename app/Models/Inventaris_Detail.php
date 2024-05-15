@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Ramsey\Uuid\Rfc4122\UuidV4;
 
 class Inventaris_Detail extends Model
 {
@@ -11,14 +12,23 @@ class Inventaris_Detail extends Model
 
     protected $table = 'inventaris_detail';
     protected $primaryKey = 'inventaris_detail_id';
-    protected $keyType = 'int';
-    public $incrementing = true;
+    protected $keyType = 'String';
+    public $incrementing = false;
+
+    public static function boot(){
+        parent::boot();
+        self::creating(function ($model) {
+            $model->inventaris_detail_id = UuidV4::uuid4()->toString();
+        });
+        
+    }
 
     protected $fillable = [
         'inventaris_id',
         'penduduk_id',
         'jumlah',
         'kondisi',
+        'status',
         'tanggal_pinjam',
         'tanggal_kembali',
     ];

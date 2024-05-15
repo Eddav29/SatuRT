@@ -19,16 +19,12 @@
                 <div class="p-6 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col md:grid md:grid-cols-2 gap-5">
                     @if ($peminjaman)
                         <div>
-                            <h5 class="font-semibold">ID Peminjaman</h5>
-                            <p>{{ $peminjaman->inventaris_detail_id ?? 'Tidak Ada Data' }}</p>
+                            <h5 class="font-semibold">Nama Barang</h5>
+                            <p>{{ $peminjaman->inventaris->nama_inventaris ?? 'Tidak Ada Data' }}</p>
                         </div>
                         <div>
-                            <h5 class="font-semibold">ID Inventaris</h5>
-                            <p>{{ $peminjaman->inventaris_id ?? 'Tidak Ada Data' }}</p>
-                        </div>
-                        <div>
-                            <h5 class="font-semibold">ID Penduduk</h5>
-                            <p>{{ $peminjaman->penduduk_id ?? 'Tidak Ada Data' }}</p>
+                            <h5 class="font-semibold">Nama Penduduk</h5>
+                            <p>{{ $peminjaman->penduduk->nama ?? 'Tidak Ada Data' }}</p>
                         </div>
                         <div>
                             <h5 class="font-semibold">Jumlah</h5>
@@ -54,16 +50,6 @@
                             <h5 class="font-semibold">Terakhir Diubah</h5>
                             <p>{{ $peminjaman->updated_at ?? 'Tidak Ada Data' }}</p>
                         </div>
-                        <div class="md:col-span-2">
-                            <h5 class="font-semibold">Keterangan</h5>
-                            <div class="w-full h-48 p-2.5 rounded border border-neutral-900 border-opacity-30 flex justify-start items-start gap-2.5">
-                                <div class="flex justify-start items-center gap-2.5">
-                                    <div class="text-neutral-900 text-lg font-normal font-['Poppins'] leading-7">
-                                        <p>{!! $peminjaman->keterangan ?? 'Tidak Ada Data' !!}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                     @else
                         <div>
                             <p>Tidak ada data yang ditemukan.</p>
@@ -71,6 +57,7 @@
                     @endif
                 </div>
             </section>
+
         </div>
     </div>
 </x-app-layout>

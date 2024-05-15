@@ -127,7 +127,8 @@ Route::resource('inventaris/peminjaman', InventarisPeminjamanController::class)-
     'edit' => 'inventaris.peminjaman.edit',
     'destroy' => 'inventaris.peminjaman.destroy',
 ]);
-
+//route penyelesaian peminjaman
+Route::get('/inventaris/peminjaman/selesaikan/{id}', [InventarisPeminjamanController::class ,'selesaikan'])->name('inventaris.peminjaman.selesaikan');
 
 
 //Route untuk persetujuan permohonan  surat

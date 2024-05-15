@@ -29,8 +29,6 @@ class PersuratanFactory extends Factory
                 'Surat Pengantar Nikah',
                 'Lainnya',
             ]),
-            'nomor_surat' => $this->faker->word(),
-            'dokumen_url' => $this->faker->word(),
             'pemohon' => Penduduk::pluck('penduduk_id')->random(),
         ];
     }

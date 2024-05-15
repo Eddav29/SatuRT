@@ -99,7 +99,7 @@ class InventarisController extends Controller
     public function list(): JsonResponse
     {
         try {
-            $data = Inventaris::all()->map(function ($inventaris) {
+            $data = Inventaris::orderBy('updated_at', 'DESC')->get()->map(function ($inventaris) {
                 return [
                     'inventaris_id' => $inventaris->inventaris_id,
                     'nama_inventaris' => $inventaris->nama_inventaris,

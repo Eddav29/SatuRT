@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('inventaris_detail', function (Blueprint $table) {
-            $table->id('inventaris_detail_id');
+            $table->uuid('inventaris_detail_id')->primary();
             $table->uuid('inventaris_id')->index();
             $table->uuid('penduduk_id')->index();
             $table->integer('jumlah');
@@ -20,6 +20,10 @@ return new class extends Migration
                 'Normal',
                 'Rusak',
                 'Hilang',
+            ]);
+            $table->enum('status', [
+                'dipinjam',
+                'dikembalikan'
             ]);
             $table->date('tanggal_pinjam');
             $table->date('tanggal_kembali')->default(null);

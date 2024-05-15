@@ -4,7 +4,8 @@
     </x-slot>
 
     <div class="p-6 lg:px-14 gap-y-5 mx-auto max-w-screen-2xl md:p-6 2xl:p-10">
-        <div class="p-6 rounded-xl bg-white-snow">
+        <x-toolbar :toolbar_id="$toolbar_id" :active="$active" :toolbar_route="$toolbar_route" />        
+        <div class="p-6 rounded-xl bg-white-snow mt-5">
             @if (session('success'))
                 <div role="alert" class="rounded border-s-4 border-green-500 bg-white p-4">
                     <div class="flex items-start gap-4">
@@ -122,6 +123,9 @@
                         <a href="{{ route('inventaris.peminjaman.index') }}" class="border border-navy-night/50 rounded-md px-4 py-2 text-sm flex justify-center items-center gap-x-3">
                             <p>Kembali</p>
                         </a>
+                        <a href="{{ route('inventaris.peminjaman.selesaikan', $peminjaman->inventaris_detail_id) }}" class="bg-green-600 text-white-snow border border-navy-night/50 rounded-md px-4 py-2 text-sm flex justify-center items-center gap-x-3">
+                            <p>Selesaikan</p>
+                        </a>                        
                     </div>
                 </form>
             </section>
