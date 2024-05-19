@@ -220,7 +220,7 @@
                     <hr>
                     <div class="flex flex-col gap-y-5">
                         Keterangan:
-                        <p>\(gf{kl} = 1 \) jika \(c_{kl} >= {}^C_{-} \) dan \(f_{kl} = 0 \) jika \(c_{kl} < {}^C_{-} \)
+                        <p>\(f_{kl} = 1 \) jika \(c_{kl} >= {}^C_{-} \) dan \(f_{kl} = 0 \) jika \(c_{kl} < {}^C_{-} \)
                                 </p>
                     </div>
                 </x-decision-support-table>
