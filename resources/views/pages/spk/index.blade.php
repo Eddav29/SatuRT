@@ -9,8 +9,8 @@
         <div x-data="{ method: 'edas' }" class="p-6 rounded-xl bg-white-snow overflow-hidden">
 
             <section>
-                <div class="overflow-x-auto no-scrollbar">
-                    <div class="grid grid-cols-6 w-max gap-5 py-5">
+                <div class="overflow-x-auto">
+                    <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 w-max gap-5 py-5">
                         <button class="p-5" @click.prevent="method = 'edas'; getData(method)"
                             :class="method == 'edas' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">EDAS</button>
                         <button class="p-5" @click.prevent="method = 'mabac'; getData(method)"
@@ -23,6 +23,8 @@
                         <button class="p-5" @click.prevent="method = 'metode5'; getData(method)"
                             :class="method == 'metode5' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">Metode
                             5</button>
+                        <button class="p-5" @click.prevent="method = 'electre'; getData(method)"
+                            :class="method == 'electre' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">ELECTRE</button>
                         <button class="p-5" @click.prevent="method = 'all'; getData(method)"
                             :class="method == 'all' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">Semua</button>
                     </div>
@@ -53,7 +55,7 @@
                                     @foreach ($rankingEdas as $rank)
                                         <tr>
                                             <td class="p-5">{{ $rank['Alternatif'] }}</td>
-                                            <td class="p-5">{{ $rank['AS'] }}</td>
+                                            <td class="p-5">{{ $rank['Score'] }}</td>
                                             <td class="p-5">{{ $rank['Ranking'] }}</td>
                                         </tr>
                                     @endforeach
@@ -93,6 +95,19 @@
                     <div id="metode5-container"></div>
                 </div>
 
+                <div x-show="method == 'electre'">
+                    <div class="grid grid-cols-2 justify-center items-center mt-10">
+                        <h1 class="text-lg font-bold">Perankingan</h1>
+                        <div class="flex justify-end items-center">
+                            <a href="{{ route('spk.show.method', 'electre') }}"
+                                class="px-4 py-2 text-soft-snow rounded-lg gap-x-5 bg-azure-blue transition-all duration-300">Detail</a>
+                        </div>
+                    </div>
+                    <div id="electre-container">
+
+                    </div>
+                </div>
+
                 <div x-show="method == 'all'">
                     <div id="all-container"></div>
                 </div>
@@ -122,7 +137,7 @@
                             rows += `
                             <tr>
                                 <td class="p-5">${rank.Alternatif}</td>
-                                <td class="p-5">${rank.AS}</td>
+                                <td class="p-5">${rank.Score}</td>
                                 <td class="p-5">${rank.Ranking}</td>
                                 <td class="p-5">${metode.metode}</td>
                             </tr>
@@ -134,7 +149,7 @@
                         rows += `
                         <tr>
                             <td class="p-5">${alternative.Alternatif}</td>
-                            <td class="p-5">${alternative.AS}</td>
+                            <td class="p-5">${alternative.Score}</td>
                             <td class="p-5">${alternative.Ranking}</td>
                         </tr>
                     `;

@@ -121,10 +121,10 @@ class MabacService extends DecisionMakerService
                     continue;
                 }
 
-                $total += $Q[$i][$j];   
+                $total += $Q[$i][$j];
 
                 $row['Alternatif'] = $alternative[$i + 1];
-                $row['AS'] = $this->trimTrailingZeros(number_format($total, 3, '.', ''));
+                $row['S'] = $this->trimTrailingZeros(number_format($total, 3, '.', ''));
             }
 
             $scores[] = $total;
@@ -133,7 +133,7 @@ class MabacService extends DecisionMakerService
         }
 
         usort($S, function ($a, $b) {
-            return $b['AS'] <=> $a['AS'];
+            return $b['S'] <=> $a['S'];
         });
 
         foreach ($S as $key => $value) {

@@ -25,7 +25,7 @@ class DecisionMakerService {
         $this->bobot = $data->pluck('kriteria.bobot', 'kriteria_id')->toArray();
         $this->tipe = $data->pluck('kriteria.jenis_kriteria', 'kriteria_id')->toArray();
         foreach ($data as $item) {
-            $this->data[$item['alternatif_id'] ][$item['kriteria_id']] = $item['nilai'];
+            $this->data[$item['alternatif_id'] ][$item['kriteria_id']] = $this->trimTrailingZeros($item['nilai']);
         }
         if ($nomalize) {
             $this->_normalizedBobot();
