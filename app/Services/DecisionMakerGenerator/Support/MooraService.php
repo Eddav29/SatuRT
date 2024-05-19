@@ -33,17 +33,17 @@ class MooraService extends DecisionMakerService{
         $matrix = $this->stepData['decisionMatrix'];
         $rowCount = count($matrix);
         $colCount = count($matrix[1]);
-    
+
         $sumOfSquares = array_fill(0, $colCount, 0);
         for ($j = 0; $j < $colCount; $j++) {
             for ($i = 0; $i < $rowCount; $i++) {
                 $sumOfSquares[$j] += pow($matrix[$i+1][$j+1], 2);
 
             }
-            $sumOfSquares[$j] =  
+            $sumOfSquares[$j] =
             $this->trimTrailingZeros(number_format(sqrt($sumOfSquares[$j]), 3, '.', ''));
         }
-        
+
         for ($i = 0; $i < $rowCount; $i++) {
             $normalizedMatrix = [];
             for ($j = 0; $j < $colCount; $j++) {
@@ -52,9 +52,9 @@ class MooraService extends DecisionMakerService{
             }
             $n[] = $normalizedMatrix;
         }
-    
+
         $this->stepData['normalizedMatrix'] = $n;
-        
+
     }
 
     private function optimizeValueAttribute(){
@@ -83,47 +83,47 @@ class MooraService extends DecisionMakerService{
             $row = [];
             $benefit = 0;
             $cost = 0;
-    
+
             for ($j = 0; $j < count($matrix[$i]); $j++) {
                 if ($type[$j+1] === 'Benefit') {
-                    $benefit += $matrix[$i][$j]; 
+                    $benefit += $matrix[$i][$j];
                 } else {
                     $cost += ($matrix[$i][$j]);
                 }
             }
-    
+
             $row = [
                 'Alternatif' => $alternatif[$i+1],
                 'Nilai Benefit' => $benefit,
                 'Nilai Cost' => $cost,
                 'Yi(Benefit-Cost)' => $this->trimTrailingZeros(number_format(($benefit - $cost), 3, '.', ''))
- 
+
             ];
-    
+
             $result[] = $row;
         }
-    
+
         $this->stepData['nilaiY(i)'] = $result;
     }
-    
+
     private function stepRanking(): void {
         $result = [];
         $yi = $this->stepData['nilaiY(i)'];
-        
+
         usort($yi, function ($a, $b) {
             return $b['Yi(Benefit-Cost)'] <=> $a['Yi(Benefit-Cost)'];
         });
-        
+
         foreach ($yi as $key => $value) {
             $result[] = [
-                'Alternatif' => $value['Alternatif'], 
-                'AS' => $value['Yi(Benefit-Cost)'],
-                'Ranking' => $value['Ranking'] = $key +1, 
+                'Alternatif' => $value['Alternatif'],
+                'Yi(Benefit-Cost)' => $value['Yi(Benefit-Cost)'],
+                'Ranking' => $value['Ranking'] = $key +1,
             ];
         }
-    
+
         $this->stepData['ranking'] = $result;
     }
-    
-    
+
+
 }

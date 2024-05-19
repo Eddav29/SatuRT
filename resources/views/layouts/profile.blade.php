@@ -22,7 +22,7 @@
 </head>
 
 <body class="font-poppins antialiased bg-soft-snow">
-    <div x-data="{ sidebar: false }" class="h-screen flex overflow-hidden">
+    <div x-data="{ sidebar: false }" class="h-screen flex overflow-hidden" x-cloak>
         <x-notification />
         @include('layouts.sidebar-profile')
 
