@@ -32,9 +32,9 @@ class MabacService extends DecisionMakerService
         $criteriaType = parent::getTipe();
         $X = [];
 
-        for ($i = 0; $i < count($matrix); $i++) {
+        for ($i = 0; $i < count($matrix[1]); $i++) {
             $row = [];
-            for ($j = 0; $j < count($matrix[1]); $j++) {
+            for ($j = 0; $j < count($matrix); $j++) {
                 $value = 0;
                 if ($criteriaType[$j + 1] === 'Benefit') {
                     $value = $this->trimTrailingZeros(number_format(($this->integerData()[$i + 1][$j + 1] - $min[$j]) / ($max[$j] - $min[$j]), 3, '.', ''));
@@ -73,9 +73,10 @@ class MabacService extends DecisionMakerService
         $row = [];
         $G = [];
 
-        for ($i = 0; $i < count($weightedMatrix); $i++) {
+        
+        for ($i = 0; $i < count($weightedMatrix[1]); $i++) {
             $product = $weightedMatrix[$i][$i];
-            for ($j = 0; $j < count($weightedMatrix[$i]); $j++) {
+            for ($j = 0; $j < count($weightedMatrix); $j++) {
                 if ($i == $j) {
                     continue;
                 }
@@ -83,7 +84,7 @@ class MabacService extends DecisionMakerService
             }
             $row[] = $this->trimTrailingZeros(number_format(pow($product, 1 / $total_alternative), 3, '.', ''));
         }
-
+        
         $G[] = $row;
 
         $this->stepData['borderForecastAreaMatrix'] = $G;
@@ -115,11 +116,8 @@ class MabacService extends DecisionMakerService
 
         for ($i = 0; $i < count($Q); $i++) {
             $row = [];
-            $total = $Q[$i][$i];
-            for ($j = 0; $j < count($Q[$i]); $j++) {
-                if ($i == $j) {
-                    continue;
-                }
+            $total = 0;
+            for ($j = 0; $j < count($Q[0]); $j++) {
 
                 $total += $Q[$i][$j];
 
@@ -140,6 +138,7 @@ class MabacService extends DecisionMakerService
             $S[$key]['Ranking'] = $key + 1;
         }
 
+
         $this->stepData['rankingMatrix'] = $S;
     }
 
@@ -156,10 +155,10 @@ class MabacService extends DecisionMakerService
     private function transposeMatrix($data): array
     {
         $array = [];
-        for ($i = 0; $i < count($data); $i++) {
+        for ($i = 1; $i <= count($data[1]); $i++) {
             $row = [];
             for ($j = 0; $j < count($data); $j++) {
-                $row[] = $data[$j + 1][$i + 1];
+                $row[] = $data[$j + 1][$i];
             }
             $array[] = $row;
         }
