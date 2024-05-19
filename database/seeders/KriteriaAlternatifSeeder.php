@@ -18,7 +18,7 @@ class KriteriaAlternatifSeeder extends Seeder
         $kriteria = [
             [
                 'nama_kriteria' => 'Relevansi',
-                'bobot' => 30,
+                'bobot' => 35,
                 'jenis_kriteria' => 'Benefit',
             ],
             [
@@ -33,7 +33,7 @@ class KriteriaAlternatifSeeder extends Seeder
             ],
             [
                 'nama_kriteria' => 'Biaya',
-                'bobot' => 20,
+                'bobot' => 15,
                 'jenis_kriteria' => 'Cost',
             ],
             [
@@ -54,19 +54,25 @@ class KriteriaAlternatifSeeder extends Seeder
             ['nama_alternatif' => 'Bakti Sosial'],
             ['nama_alternatif' => 'Jalan Sehat'],
             ['nama_alternatif' => 'Pelatihan Masyarakat'],
+            ['nama_alternatif' => 'Bersih Desa'],
+            ['nama_alternatif' => 'Pagelaran Seni & Budaya'],
+            ['nama_alternatif' => 'Persiapan Hari Besar Islam'],
         ];
         foreach ($alternatif as $alternatif) {
             Alternatif::factory()
                 ->count(1)
                 ->create($alternatif);
         }
-            $tableData = [
-                [8, 9, 9, 7, 7],
-                [5, 8, 2, 1, 3],
-                [6, 9, 5, 2, 6],
-                [7, 7, 6, 8, 1],
-                [9, 10, 3, 10, 4],
-            ];
+        $tableData = [
+            [5, 5, 4, 2, 3],
+            [4, 4, 4, 5, 5],
+            [4, 4, 4, 4, 3],
+            [5, 5, 4, 2, 4],
+            [3, 3, 3, 5, 1],
+            [4, 5, 5, 3, 2],
+            [3, 3, 4, 3, 2],
+            [3, 4, 5, 3, 3],
+        ];
         foreach (Kriteria::all() as $kriteria) {
             foreach (Alternatif::all() as $alternatif) {
                 KriteriaAlternatif::factory()
@@ -75,7 +81,7 @@ class KriteriaAlternatifSeeder extends Seeder
                         'kriteria_id' => $kriteria->kriteria_id,
                         'alternatif_id' => $alternatif->alternatif_id,
                         'nilai' => $tableData[$alternatif->alternatif_id - 1][$kriteria->kriteria_id - 1],
-                ]);
+                    ]);
             }
         }
     }

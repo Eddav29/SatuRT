@@ -29,17 +29,21 @@
                         </div>
 
                         @foreach ($criterias as $criteria)
-                            <div class="mt-3">
-                                <label
-                                    class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-medium text-navy-night text-sm md:text-base break-words"
-                                    x-text="'Bobot ' + title + ' ' + '({{ $criteria->nama_kriteria }})'"
-                                    for="nilai_alternatif{{ $criteria->kriteria_id }}"></label>
-                                <input
-                                    class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-blue-400 invalid:ring-1 invalid:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 placeholder:text-xs text-sm"
-                                    placeholder="Bobot {{ $criteria->nama_kriteria }}" type="text"
-                                    id="nilai_alternatif{{ $criteria->kriteria_id }}"
-                                    name="nilai_kriteria[{{ $loop->index }}]"
-                                    value="{{ old('nilai_kriteria.' . $loop->index) }}" required />
+                            <div x-data="{ open: false }" class="mt-3 relative">
+                                <div class="flex items-center">
+                                    <label
+                                        class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-medium text-navy-night text-sm md:text-base break-words max-w-[15rem] md:max-w-[40rem] lg:max-w-[27rem] xl:max-w-[43rem] 2xl:max-w-[83rem]"
+                                        x-text="'Bobot ' + title + ' terhadap kriteria ' + '({{ $criteria->nama_kriteria }})'"
+                                        for="nilai_alternatif{{ $criteria->kriteria_id }}"></label>
+                                    <button x-on:click="open = !open" type="button"
+                                        class="ml-3 w-7 h-7 text-azure-blue">
+                                        @svg('heroicon-o-information-circle')
+                                    </button>
+                                </div>
+                                <x-select-criteria-input
+                                    lastCriteria="{{ $loop->index < count($criterias) - 2 ? false : true }}"
+                                    :criteriaName="$criteria->nama_kriteria" name="nilai_kriteria[{{ $loop->index }}]"
+                                    id="kriteria{{ $criteria->kriteria_id }}" />
                             </div>
                         @endforeach
 
@@ -60,5 +64,17 @@
             </section>
         </div>
     </div>
+
+    @push('scripts')
+        <script>
+            let options = document.querySelectorAll('select option');
+
+            options.forEach(option => {
+                if (option.value == 5) {
+                    option.setAttribute('selected', 'selected');
+                }
+            })
+        </script>
+    @endpush
 
 </x-app-layout>
