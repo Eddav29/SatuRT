@@ -20,10 +20,8 @@
                         <button class="p-5" @click.prevent="method = 'metode4'; getData(method)"
                             :class="method == 'metode4' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">Metode
                             4</button>
-                        <button class="p-5" @click.prevent="method = 'metode5'; getData(method)"
-                            :class="method == 'metode5' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">SAW</button>
-                            :class="method == 'metode5' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">Metode
-                            5</button>
+                        <button class="p-5" @click.prevent="method = 'saw'; getData(method)"
+                            :class="method == 'saw' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">SAW</button>
                         <button class="p-5" @click.prevent="method = 'electre'; getData(method)"
                             :class="method == 'electre' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">ELECTRE</button>
                         <button class="p-5" @click.prevent="method = 'all'; getData(method)"
@@ -100,7 +98,7 @@
                                 class="px-4 py-2 text-soft-snow rounded-lg gap-x-5 bg-azure-blue transition-all duration-300">Detail</a>
                         </div>
                     </div>
-                    <div id="saw-container"></div>
+                    <div id="saw-container">
                 </div>
 
                 <div x-show="method == 'electre'">
