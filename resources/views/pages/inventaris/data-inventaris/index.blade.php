@@ -9,6 +9,7 @@
             {{-- Table --}}
             <section>
                 <x-datatables id="inventaris_id" url="/inventaris/data-inventaris" :columns="[
+                    
                     [
                         'label' => 'Nama',
                         'key' => 'nama_inventaris',
