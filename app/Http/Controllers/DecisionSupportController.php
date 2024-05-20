@@ -2,15 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Alternatif;
 use App\Services\DecisionMakerGenerator\DecisionMakerService;
 use App\Services\DecisionMakerGenerator\Support\EddasService;
 use App\Services\DecisionMakerGenerator\Support\ElectreService;
 use App\Services\DecisionMakerGenerator\Support\MabacService;
 use App\Services\DecisionMakerGenerator\Support\MooraService;
+use App\Services\DecisionMakerGenerator\Support\SAWService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Nette\Utils\Arrays;
 
 class DecisionSupportController extends Controller
 {
@@ -18,7 +16,7 @@ class DecisionSupportController extends Controller
     private $edasService;
     private $mabacService;
     private $mooraService;
-    private $electreService;
+    private $sawService;    private $electreService;
 
 
     public function __construct()
@@ -27,6 +25,7 @@ class DecisionSupportController extends Controller
         $this->edasService = new EddasService();
         $this->mabacService = new MabacService();
         $this->mooraService = new MooraService();
+        $this->sawService = new SAWService();
         $this->electreService = new ElectreService();
     }
 
@@ -45,7 +44,7 @@ class DecisionSupportController extends Controller
                 $item['Score'] = $item['AS'];
                 unset($item['AS']);
                 return $item;
-            }, $rankingEdas),
+            }, $rankingEdas,),
         ]);
     }
 
@@ -68,7 +67,7 @@ class DecisionSupportController extends Controller
                     'criterias' => $criterias,
                     'weights' => $weights,
                     'alternatives' => $alternatives,
-                    'breadcrumb' => $breadcrumb
+                    'breadcrumb' => $breadcrumb,
                 ]);
             case 'mabac':
 
@@ -82,7 +81,7 @@ class DecisionSupportController extends Controller
                     'criterias' => $criterias,
                     'weights' => $weights,
                     'alternatives' => $alternatives,
-                    'breadcrumb' => $breadcrumb
+                    'breadcrumb' => $breadcrumb,
                 ]);
 
             case 'moora':
@@ -91,8 +90,22 @@ class DecisionSupportController extends Controller
                     'url' => ['home', 'spk.index', 'spk.index', 'spk.index', 'spk.index'],
                 ];
 
-                return response()->view('pages.spk.moora.show', [
-                    'data' => $this->getMooraData(),
+                return response()->view('pages.spk.moora.show',  [
+                    'data'  => $this->getMooraData(),
+                    'criterias' => $criterias,
+                    'weights' => $weights,
+                    'alternatives' => $alternatives,
+                    'breadcrumb' => $breadcrumb,
+                ]);
+
+            case 'saw':
+                $breadcrumb = [
+                    'list' => ['Home', 'Pendukung Keputusan', 'Detail', 'SAW'],
+                    'url' => ['home', 'spk.index', 'spk.index', 'spk.index', 'spk.index'],
+                ];
+
+                return response()->view('pages.spk.saw.show', [
+                    'data' => $this->getSAWData(),
                     'criterias' => $criterias,
                     'weights' => $weights,
                     'alternatives' => $alternatives,
@@ -110,8 +123,9 @@ class DecisionSupportController extends Controller
                     'criterias' => $criterias,
                     'weights' => $weights,
                     'alternatives' => $alternatives,
-                    'breadcrumb' => $breadcrumb
+                    'breadcrumb' => $breadcrumb,
                 ]);
+
             default:
                 # code...
                 break;
@@ -132,8 +146,8 @@ class DecisionSupportController extends Controller
                                 $item['Score'] = $item['AS'];
                                 unset($item['AS']);
                                 return $item;
-                            }, $this->getEdasData()['ranking'])
-                        ]
+                            }, $this->getEdasData()['ranking']),
+                        ],
                     ]
                 );
 
@@ -142,6 +156,8 @@ class DecisionSupportController extends Controller
                     [
                         'status' => 201,
                         'data' => [
+                            'ranking' => $this->getMabacData()['rankingMatrix'],
+                        ],
                             'ranking' => array_map(function ($item) {
                                 $item['Score'] = $item['S'];
                                 unset($item['S']);
@@ -155,6 +171,8 @@ class DecisionSupportController extends Controller
                 return response()->json([
                     'status' => 201,
                     'data' => [
+                        'ranking' => $this->getMooraData()['ranking'],
+                    ],
                         'ranking' => array_map(function ($item) {
                             $item['Score'] = $item['Yi(Benefit-Cost)'];
                             unset($item['Yi(Benefit-Cost)']);
@@ -163,16 +181,10 @@ class DecisionSupportController extends Controller
                     ]
                 ]);
 
-            case 'metode4':
+            case 'saw':
                 return response()->json([
                     'status' => 201,
-                    'data' => "Sedang dalam pengembangan"
-                ]);
-
-            case 'metode5':
-                return response()->json([
-                    'status' => 201,
-                    'data' => "Sedang dalam pengembangan"
+                    'data' => "Sedang dalam pengembangan",
                 ]);
 
             case 'electre':
@@ -194,6 +206,7 @@ class DecisionSupportController extends Controller
                     'data' => [
                         [
                             'metode' => "Evaluation Based on Distance From Average Solution (EDAS)",
+                            'ranking' => $this->getEdasData()['ranking'],
                             'ranking' => array_map(function ($item) {
                                 $item['Score'] = $item['AS'];
                                 unset($item['AS']);
@@ -202,6 +215,7 @@ class DecisionSupportController extends Controller
                         ],
                         [
                             'metode' => "Multi-Attribute Border Approximation Area Comparison (MABAC)",
+                            'ranking' => $this->getMabacData()['rankingMatrix'],
                             'ranking' => array_map(function ($item) {
                                 $item['Score'] = $item['S'];
                                 unset($item['S']);
@@ -210,6 +224,9 @@ class DecisionSupportController extends Controller
                         ],
                         [
                             'metode' => "Multi-Objective Optimization by Ratio Analysis (MOORA)",
+                            'ranking' => $this->getMooraData()['ranking'],
+                        ],
+                    ],
                             'ranking' => array_map(function ($item) {
                                 $item['Score'] = $item['Yi(Benefit-Cost)'];
                                 unset($item['Yi(Benefit-Cost)']);
@@ -244,6 +261,11 @@ class DecisionSupportController extends Controller
     private function getMooraData(): array
     {
         return $this->mooraService->getStepData();
+    }
+
+    private function getSAWData(): array
+    {
+        return $this->sawService->getStepData();
     }
 
     private function getElectreData(): array
