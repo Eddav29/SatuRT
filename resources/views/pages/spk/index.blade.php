@@ -17,9 +17,8 @@
                             :class="method == 'mabac' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">MABAC</button>
                         <button class="p-5" @click.prevent="method = 'moora'; getData(method)"
                             :class="method == 'moora' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">MOORA</button>
-                        <button class="p-5" @click.prevent="method = 'metode4'; getData(method)"
-                            :class="method == 'metode4' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">Metode
-                            4</button>
+                        <button class="p-5" @click.prevent="method = 'aras'; getData(method)"
+                            :class="method == 'aras' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">ARAS</button>
                         <button class="p-5" @click.prevent="method = 'saw'; getData(method)"
                             :class="method == 'saw' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">SAW</button>
                         <button class="p-5" @click.prevent="method = 'electre'; getData(method)"
@@ -86,8 +85,15 @@
                     <div id="moora-container"></div>
                 </div>
 
-                <div x-show="method == 'metode4'">
-                    <div id="metode4-container"></div>
+                <div x-show="method == 'aras'">
+                    <div class="grid grid-cols-2 justify-center items-center mt-10">
+                        <h1 class="text-lg font-bold">Perankingan</h1>
+                        <div class="flex justify-end items-center">
+                            <a href="{{ route('spk.show.method', 'aras') }}"
+                                class="px-4 py-2 text-soft-snow rounded-lg gap-x-5 bg-azure-blue transition-all duration-300">Detail</a>
+                        </div>
+                    </div>
+                    <div id="aras-container"></div>
                 </div>
 
                 <div x-show="method == 'saw'">
