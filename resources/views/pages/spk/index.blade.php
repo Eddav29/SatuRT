@@ -99,6 +99,8 @@
                         </div>
                     </div>
                     <div id="saw-container">
+
+                    </div>
                 </div>
 
                 <div x-show="method == 'electre'">
