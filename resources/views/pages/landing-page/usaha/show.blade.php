@@ -68,7 +68,7 @@
                                 <tr>
                                     <td>Maps</td>
                                     <td class=" mx-5 p-3 inline-flex">:</td>
-                                    <td></td>
+                                    <td><a class="text-blue-500 hover:underline" href="{{ $business->lokasi_url }}">{{ $business->nama_umkm }}</a></td>
                                 </tr>
                             </table>
                         </div>

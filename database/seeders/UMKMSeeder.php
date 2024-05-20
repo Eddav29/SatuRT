@@ -31,7 +31,7 @@ class UMKMSeeder extends Seeder
             ],
             [
                 'penduduk_id' => Penduduk::with('user')->whereNotNull('user_id')->get()->random()->penduduk_id,
-                'nama_umkm' => 'WARTEG BINTANG RASA',
+                'nama_umkm' => 'Warteg Bintang Rasa',
                 'jenis_umkm' => 'Makanan dan Minuman',
                 'keterangan' => 'Warung Tegal',
                 'alamat' => 'Jl. Terusan Piranha Atas No.70 A, Tunjungsekar, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142',
@@ -91,7 +91,7 @@ class UMKMSeeder extends Seeder
             ],
             [
                 'penduduk_id' => Penduduk::with('user')->whereNotNull('user_id')->get()->random()->penduduk_id,
-                'nama_umkm' => 'cokelat klasik piranha atas',
+                'nama_umkm' => 'Cokelat Klasik Piranha Atas',
                 'jenis_umkm' => 'Minuman',
                 'keterangan' => 'Restoran',
                 'alamat' => 'Jl. Terusan Ikan Piranha Atas No.18, Tunjungsekar, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142',
@@ -115,7 +115,7 @@ class UMKMSeeder extends Seeder
             ],
             [
                 'penduduk_id' => Penduduk::with('user')->whereNotNull('user_id')->get()->random()->penduduk_id,
-                'nama_umkm' => 'service alat2 barbershop',
+                'nama_umkm' => 'Service Alat-alat Barbershop',
                 'jenis_umkm' => 'Jasa',
                 'keterangan' => 'Layanan Produk Barbershop',
                 'alamat' => 'Jl. Terusan Piranha Atas No.30, Tunjungsekar, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142',
@@ -139,7 +139,7 @@ class UMKMSeeder extends Seeder
             ],
             [
                 'penduduk_id' => Penduduk::with('user')->whereNotNull('user_id')->get()->random()->penduduk_id,
-                'nama_umkm' => 'SABLON PLASTIK SATUAN',
+                'nama_umkm' => 'Sablon Plastik Satuan',
                 'jenis_umkm' => 'Jasa',
                 'keterangan' => 'Toko Sablon Plastik',
                 'alamat' => 'Cumi-cumi no.7A. kel. Tunjungsekar kec. Lowokwaru Malang, RT.03 Rw01, Dusun kagrengan, ngijo, Kec. Karang Ploso, Kabupaten Malang, Jawa Timur 65142',
@@ -151,7 +151,7 @@ class UMKMSeeder extends Seeder
             ],
             [
                 'penduduk_id' => Penduduk::with('user')->whereNotNull('user_id')->get()->random()->penduduk_id,
-                'nama_umkm' => 'Rama trans sewa mobil malang',
+                'nama_umkm' => 'Rama Trans Sewa Mobil Malang',
                 'jenis_umkm' => 'Jasa',
                 'keterangan' => 'Agen Sewa Mobil',
                 'alamat' => 'Jl. Ikan Cumi-Cumi No.4, Tunjungsekar, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142',
@@ -185,19 +185,6 @@ class UMKMSeeder extends Seeder
                 'lisence_image_url' => '1714997937.elina-emurlaeva-mAWWkKnxf6g-unsplash.jpg',
                 'lokasi_url' => 'https://maps.app.goo.gl/DJdoqQynRNcYeLpk7'
             ],
-            [
-                'penduduk_id' => Penduduk::with('user')->whereNotNull('user_id')->get()->random()->penduduk_id,
-                'nama_umkm' => 'Jl. Terusan Piranha Atas No.84, Tunjungsekar, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142',
-                'jenis_umkm' => 'Makanan dan Minuman',
-                'keterangan' => 'Toko Es Krim',
-                'alamat' => 'Jl. Terusan Piranha Atas No.84, Tunjungsekar, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142',
-                'nomor_telepon' => '',
-                'status' => 'Aktif',
-                'thumbnail_url' => 'https://lh5.googleusercontent.com/p/AF1QipNmcliHzFtRVYQiC2CrxYTxYk92OuytL-RQXNrZ=w408-h577-k-no',
-                'lisence_image_url' => '1714997937.elina-emurlaeva-mAWWkKnxf6g-unsplash.jpg',
-                'lokasi_url' => 'https://maps.app.goo.gl/TarhoRrJxuyWd6La9'
-            ],
-
         ];
 
         foreach ($data as $umkm) {
