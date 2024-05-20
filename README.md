@@ -7,7 +7,7 @@
 <br />
 <div align="center">
   <a href="https://github.com/Eddav29/satuRT">
-    <img src="./public/assets/images/satuRT.png" alt="Logo" height="80">
+    <img src="./public/assets/images/SatuRT.png" alt="Logo" height="80">
   </a>
 
   <h3 align="center">SatuRT</h3>
