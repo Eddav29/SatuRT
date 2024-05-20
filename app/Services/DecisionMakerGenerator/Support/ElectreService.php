@@ -169,7 +169,11 @@ class ElectreService extends DecisionMakerService
         $matrixConcordance = $this->stepData['matrixConcordance']['C'];
         $matrixConcordanceResult = 0;
         foreach ($matrixConcordance as $i => $rowI) {
-            $matrixConcordanceResult += array_sum($rowI);
+            foreach ($rowI as $j => $value) {
+                if ($i !== $j) {
+                    $matrixConcordanceResult += $value;
+                }
+            }
         }
         $this->stepData['thresholdMatrixConcordance'][][] = parent::trimTrailingZeros(number_format($matrixConcordanceResult/((count($matrixConcordance) * (count($matrixConcordance) - 1))), $precision, '.', ''));
     }
@@ -178,7 +182,11 @@ class ElectreService extends DecisionMakerService
         $matrixDiscordance = $this->stepData['matrixDiscordance']['D'];
         $matrixDiscordanceResult = 0;
         foreach ($matrixDiscordance as $i => $rowI) {
-            $matrixDiscordanceResult += array_sum($rowI);
+            foreach ($rowI as $j => $value) {
+                if ($i !== $j) {
+                    $matrixDiscordanceResult += $value;
+                }
+            }
         }
         $this->stepData['thresholdMatrixDiscordance'][][] = parent::trimTrailingZeros(number_format($matrixDiscordanceResult/((count($matrixDiscordance) * (count($matrixDiscordance) - 1))), $precision, '.', ''));
     }
