@@ -15,7 +15,7 @@ class imageService implements FileServiceInterface
         $manager = new ImageManager(new Driver());
         $image = $manager->read($request->file($name));
         $image->toJpeg(80);
-        $imageName = $request->images->hashName();
+        $imageName = $request->file($name)->hashName();
         $image->save(storage_path('app/' . $imageName));
         Storage::disk($disk)->put($imageName, file_get_contents(storage_path('app/' . $imageName)));
         unlink(storage_path('app/' . $imageName));

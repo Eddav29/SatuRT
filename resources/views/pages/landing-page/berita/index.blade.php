@@ -39,12 +39,12 @@
                             </p>
                         </div>
                         <div
-                            class="absolute bottom-3 text-soft-snow left-3 z-10 text-[1.618rem]/[2.618rem] font-semibold">
+                            class="absolute bottom-3 text-navy-night left-3 z-10 text-[1.618rem]/[2.618rem] font-semibold">
                             @php
                                 $judul = Str::limit($newInformation->judul_informasi, 50, '...');
                             @endphp
                             <h1
-                                class="mix-blend-exclusion group-hover:underline lg:text-[2.618rem]/[3.618rem] group-hover:text-navy-night duration-300">
+                                class="group-hover:underline lg:text-[2.618rem]/[3.618rem] group-hover:text-navy-night duration-300">
                                 {{ $judul }}</h1>
                         </div>
                     </div>

@@ -94,12 +94,12 @@
                                             alt="" class="h-[15rem] w-full object-cover rounded-lg">
                                     </div>
                                     <div>
-                                        <div class="flex justify-between items-center mt-3">
+                                        <div class="flex flex-col justify-between mt-3">
                                             <h1 class="font-bold text-[1.618rem]/[2.618rem]">
                                                 {{ strlen($business->nama_umkm) > 18 ? substr($business->nama_umkm, 0, 16) . '...' : $business->nama_umkm }}
                                             </h1>
                                             <div aria-label="MSMS-Type"
-                                                class="px-6 py-3 bg-green-light text-navy-night rounded-2xl">
+                                                class="px-3 py-2 bg-green-light my-2 text-navy-night rounded-md text-xs w-fit">
                                                 {{ $business->jenis_umkm }}
                                             </div>
                                         </div>

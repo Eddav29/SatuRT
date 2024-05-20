@@ -37,22 +37,22 @@
                             mengeksplorasi dan mendukung berbagai usaha lokal yang menawarkan produk dan jasa unik,
                             dibuat dengan dedikasi dan kecintaan.</p>
                         <div class="grid grid-rows-1 grid-cols-2 gap-x-5 max-lg:hidden">
-                            <img src="https://source.unsplash.com/random/?market" alt=""
+                            <img src="https://source.unsplash.com/random/500x501?market" alt=""
                                 class="rounded-xl max-h-60 w-full object-cover">
-                            <img src="https://source.unsplash.com/random/?market" alt=""
+                            <img src="https://source.unsplash.com/random/500x502?market" alt=""
                                 class="rounded-xl max-h-60 w-full object-cover">
                         </div>
                     </div>
                     <div class="flex flex-col gap-y-3">
                         <div class="grid grid-rows-1 grid-cols-2 gap-x-3 lg:hidden">
-                            <img src="https://source.unsplash.com/random/?market" alt=""
+                            <img src="https://source.unsplash.com/random/500x501?market" alt=""
                                 class="rounded-xl max-h-60 w-full object-cover">
-                            <img src="https://source.unsplash.com/random/?market" alt=""
+                            <img src="https://source.unsplash.com/random/500x502?market" alt=""
                                 class="rounded-xl max-h-60 w-full object-cover">
                         </div>
                         <div>
-                            <img src="https://source.unsplash.com/random/?market" alt=""
-                                class="rounded-xl w-full object-cover max-h-60 lg:max-h-80 ">
+                            <img src="https://source.unsplash.com/random/500x503?market" alt=""
+                                class="rounded-xl w-full object-cover h-[15rem] lg:h-[30rem]">
                         </div>
                     </div>
                 </div>
@@ -98,7 +98,7 @@
         <section>
             <div class="grid auto-rows-fr grid-cols-1">
                 <ul id="umkm-list-container"
-                    class="grid grid-cols-1 gap-y-10 auto-rows-[minmax(12rem,1fr)] md:grid-cols-2 lg:gap-x-32 lg:gap-y-10">
+                    class="grid grid-cols-1 gap-y-10 auto-rows-[minmax(12rem,1fr)] lg:grid-cols-2 lg:gap-x-32 lg:gap-y-10">
                 </ul>
             </div>
         </section>
@@ -258,20 +258,21 @@
 
 
             const card = (umkm) => {
-                console.log(umkm)
+                console.log(umkm);
                 return `
                 <li>
                             <a href="usaha/${umkm.umkm_id}"
-                                class="grid grid-cols-2 gap-x-3 group">
+                                class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-x-3 group">
                                 <div>
                                     <img src="${!umkm.thumbnail_url.startsWith('https://') ? 'storage/images_storage/' + umkm.thumbnail_url : umkm.thumbnail_url}" alt=""
-                                        class="w-full object-cover rounded-xl aspect-[2/3]">
+                                        class="w-full h-[20rem] object-cover rounded-xl aspect-[2/3]">
                                 </div>
-                                <div class="flex flex-col gap-y-3">
+                                <div class="flex flex-col gap-y-2 md:col-span-2 lg:col-span-1">
                                     <div>
                                         <h1 class="font-bold text-[1.618rem]/[2.618rem] group-hover:underline">
                                             ${strLimit(umkm.nama_umkm, 50, '...')}</h1>
                                     </div>
+                                    <div aria-label="MSMS-Type" class="px-3 py-2 bg-green-light text-navy-night rounded-md text-base w-fit">${umkm.jenis_umkm}</div>
                                     <div>
                                         <h1 class="font-medium text-[1rem]/[1.618rem]">Deskripsi:</h1>
                                         <p class="text-[1rem]/[1.618rem]">${strLimit(umkm.keterangan, 100, '...')}</p>
@@ -295,7 +296,7 @@
             }
 
             const strLimit = (string, limit, ending = '...') => {
-                return string <= limit ? string : (string.substring(0, limit) + ending)
+                return string.length <= limit ? string : (string.substring(0, limit) + ending)
             }
         </script>
     @endpush
