@@ -10,7 +10,7 @@
 
             <section>
                 <div class="overflow-x-auto">
-                    <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 w-max gap-5 py-5">
+                    <div class="grid grid-cols-7 w-max gap-5 py-5">
                         <button class="p-5" @click.prevent="method = 'edas'; getData(method)"
                             :class="method == 'edas' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">EDAS</button>
                         <button class="p-5" @click.prevent="method = 'mabac'; getData(method)"
