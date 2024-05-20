@@ -109,7 +109,7 @@ class ElectreService extends DecisionMakerService
                     }
                     $discordanceMatrix['D'.$i.$j] = $result;
                     $indexCriteria[] = [
-                        'Kriteria' => 'C'.$i.$j,
+                        'Kriteria' => 'D'.$i.$j,
                         'Index' => implode(',', $index)
                     ];
                 }
