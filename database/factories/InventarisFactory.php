@@ -21,7 +21,7 @@ class InventarisFactory extends Factory
             'merk' => $this->faker->company,
             'warna' => $this->faker->colorName,
             'jumlah' => $this->faker->numberBetween(1, 10),
-            'jenis' => $this->faker->randomElement(['Furnitur', 'Elektronik', 'ATK', 'Kendaraan', 'Perlengkapan', 'Lainnya']),
+            'jenis' => $this->faker->randomElement(['Furnitur', 'Elektronik', 'ATK', 'Kendaraan', 'Perlengkapan']),
             'sumber' => $this->faker->randomElement(['Hibah', 'Beli', 'Donasi', 'Bantuan', 'Pinjaman', 'Lainnya']),
             'keterangan' => $this->faker->text,
             'foto_inventaris' => $this->faker->imageUrl(),

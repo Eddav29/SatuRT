@@ -5,26 +5,6 @@
 
     <div class="p-6 lg:px-14 gap-y-5 mx-auto max-w-screen-2xl md:p-6 2xl:p-10 ">
         <div class="p-6 rounded-xl bg-white-snow">
-            @if (session('success'))
-                <div role="alert" class="rounded border-s-4 border-green-500 bg-white p-4">
-                    <div class="flex items-start gap-4">
-                        <span class="text-green-600">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                stroke="currentColor" class="h-6 w-6">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </span>
-
-                        <div class="flex-1">
-                            <strong class="block font-medium text-gray-900">Berhasil</strong>
-
-                            <p class="mt-1 text-sm text-gray-700">{{ session('success') }}</p>
-                        </div>
-                    </div>
-                </div>
-            @endif
-
             @if (session('error'))
                 <div role="alert" class="rounded border-s-4 border-red-500 bg-red-50 p-4">
                     <div class="flex items-center gap-2 text-red-800">
@@ -148,7 +128,7 @@
                             <option value="Nonaktif">Nonaktif</option>
                         </select>
                     </div>
-
+{{-- 
                     
                     <div class="mt-5">
                         <p class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">
@@ -196,6 +176,29 @@
                                 <input name="thumbnail_url" id="thumbnail_url" type="file" class="hidden"
                                     onchange="renderFiles(this.files, 'thumbnail_url')" accept="image/*"/>
                             </label>
+                        </div>
+                    </div> --}}
+
+
+                    <div class="mt-5">
+                        <div>
+                            <x-input-label for="lisence_image_url" :value="__('Foto Surat Izin Usaha')" />
+                            @isset($umkm->lisence_image_url)
+                            <x-input-file name="lisence_image_url"  :accept="$extension" :default="$umkm->lisence_image_url"/>
+                            @else
+                                <x-input-file name="lisence_image_url" :accept="$extension"/>
+                            @endisset
+                        </div>
+                    </div>
+
+                    <div class="mt-5">
+                        <div>
+                            <x-input-label for="thumbnail_url" :value="__('Thumbnail')" />
+                            @isset($umkm->thumbnail_url)
+                            <x-input-file name="thumbnail_url" :accept="$extension" :default="$umkm->thumbnail_url"/>
+                            @else
+                                <x-input-file name="thumbnail_url" :accept="$extension"/>
+                            @endisset
                         </div>
                     </div>
 

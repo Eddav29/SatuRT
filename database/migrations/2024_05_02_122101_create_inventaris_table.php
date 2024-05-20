@@ -31,8 +31,7 @@ return new class extends Migration
                 'Beli',
                 'Donasi',
                 'Bantuan',
-                'Pinjaman',
-                'Lainnya',
+                'Pinjaman'
             ]);
             $table->string('keterangan');
             $table->string('foto_inventaris');

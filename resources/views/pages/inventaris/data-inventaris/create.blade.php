@@ -13,7 +13,7 @@
                     <h1 class="font-bold md:text-2xl text-xl">Tambahkan Inventaris</h1>
                 </div>
 
-                <form method="POST" action="{{ route('inventaris.store') }}" enctype="multipart/form-data" class="px-5">
+                <form method="POST" action="{{ route('inventaris.data-inventaris.store') }}" enctype="multipart/form-data" class="px-5">
                     @csrf
 
                     <div class="mt-5 gap-5">
@@ -73,7 +73,6 @@
                                 <option value="Donasi">Donasi</option>
                                 <option value="Hibah">Hibah</option>
                                 <option value="Pinjaman">Pinjaman</option>
-                                <option value="Lainnya">Lainnya</option>
                             </select>
                         </div>
                     </div>
@@ -115,7 +114,7 @@
                             class="bg-azure-blue text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">
                             <p>Tambah</p>
                         </button>
-                        <a href="{{ route('inventaris.index') }}"
+                        <a href="{{ route('inventaris.data-inventaris.index') }}"
                             class="border border-navy-night/50 rounded-md px-4 py-2 text-sm flex justify-center items-center gap-x-3">
                             <p>Kembali</p>
                         </a>

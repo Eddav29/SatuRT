@@ -108,52 +108,24 @@
                     </div>
 
                     <div class="mt-5">
-                        <p class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">
-                            Surat Izin Usaha</p>
-                        <div class="flex items-center justify-center w-full">
-                            <label for="lisence_image_url"
-                                class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-bray-100  hover:border-gray-100 hover:bg-gray-200">
-                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                    <svg class="w-8 h-8 mb-4 text-gray-300 dark:text-gray-300" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                                    </svg>
-                                    <div id="lisence_image_url-container" class="hidden flex justify-center">
-                                        <!-- Preview container for license image -->
-                                    </div>
-                                    <p class="mb-2 text-sm text-gray-300 dark:text-gray-300"><span
-                                            class="font-semibold">Unggah Surat Izin Usaha</span></p>
-                                </div>
-                                <input id="lisence_image_url" name="lisence_image_url" type="file" class="hidden"
-                                    onchange="renderFiles(this.files, 'lisence_image_url')" value="{{$umkm->lisence_image_url}}" accept="image/*" />
-                            </label>
+                        <div>
+                            <x-input-label for="lisence_image_url" :value="__('Foto Surat Izin Usaha')" />
+                            @isset($umkm->lisence_image_url)
+                            <x-input-file name="lisence_image_url"  :accept="$extension" :default="route('storage.lisence', $umkm->lisence_image_url)"/>
+                            @else
+                                <x-input-file name="lisence_image_url" :accept="$extension"/>
+                            @endisset
                         </div>
                     </div>
 
                     <div class="mt-5">
-                        <p class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">
-                            Thumbnail</p>
-                        <div class="flex items-center justify-center w-full">
-                            <label for="thumbnail_url"
-                                class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 dark:hover:bg-bray-100  hover:border-gray-100 hover:bg-gray-200">
-                                <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                                    <svg class="w-8 h-8 mb-4 text-gray-300 dark:text-gray-300" aria-hidden="true"
-                                        xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2" />
-                                    </svg>
-                                    <div id="thumbnail_url-container" class="hidden flex justify-center">
-                                    
-                                    </div>
-                                    <p class="mb-2 text-sm text-gray-300 dark:text-gray-300"><span
-                                            class="font-semibold">Unggah Thumbnail</span></p>
-                                </div>
-                                <input id="thumbnail_url" name="thumbnail_url" type="file" class="hidden"
-                                    onchange="renderFiles(this.files, 'thumbnail_url')" accept="image/*" value="{{$umkm->thumbnail_url}}" />
-                            </label>
+                        <div>
+                            <x-input-label for="thumbnail_url" :value="__('Thumbnail')" />
+                            @isset($umkm->thumbnail_url)
+                            <x-input-file name="thumbnail_url" :accept="$extension" :default="route('public', $umkm->thumbnail_url)"/>
+                            @else
+                                <x-input-file name="thumbnail_url" :accept="$extension"/>
+                            @endisset
                         </div>
                     </div>
 
@@ -182,52 +154,6 @@
         </section>
     </div>
 
-    @push('scripts')
-        <script>
-// Call renderFiles with the old file URLs for both thumbnail and lisence
-const oldThumbnailUrl = "{{ asset('storage/images_storage/business-thumbnail_images/' . $umkm->thumbnail_url) }}";
-const oldLicenseUrl = "{{ asset('storage/images_storage/business-lisence_images/' . $umkm->lisence_image_url) }}";
-
-renderFiles([], 'thumbnail_url', oldThumbnailUrl);
-renderFiles([], 'lisence_image_url', oldLicenseUrl);
-
-function renderFiles(files, containerId, oldFileUrl = null) {
-    const filePreviewContainer = document.getElementById(containerId + '-container');
-    const fileInput = document.getElementById(containerId);
-
-    // Clear previous previews
-    filePreviewContainer.innerHTML = '';
-
-    // Render the old file if there is one
-    if (oldFileUrl) {
-        const oldFilePreview = document.createElement('img');
-        oldFilePreview.src = oldFileUrl;
-        oldFilePreview.classList.add('w-64', 'h-auto');
-        filePreviewContainer.appendChild(oldFilePreview);
-    }
-
-    for (let i = 0; i < files.length; i++) {
-        const file = files[i];
-        const reader = new FileReader();
-        const filePreviewId = containerId + '-preview-' + i;
-
-        reader.onload = function(e) {
-            const filePreview = document.createElement('img');
-            filePreview.src = e.target.result;
-            filePreview.id = filePreviewId;
-            filePreview.classList.add('w-64', 'h-auto');
-            filePreviewContainer.appendChild(filePreview);
-        }
-
-        reader.readAsDataURL(file);
-    }
-
-    // Show the preview container
-    filePreviewContainer.classList.remove('hidden');
-}
-
-        </script>
-    @endpush
     @push('styles')
     <style>
         .ck-editor__editable_inline {

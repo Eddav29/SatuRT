@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Penduduk;
 use App\Models\UMKM;
+use App\Services\ImageManager\imageService;
 use App\Services\Notification\NotificationPusher;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
@@ -35,7 +36,7 @@ class BusinessUserController extends Controller
         try {
 
             if (Auth::user()->role->role_name === 'Ketua RT') {
-                $data = UMKM::all()->map(function ($umkm) {
+                $data = UMKM::orderBy('updated_at', 'desc')->get()->map(function ($umkm) {
                     return [
                         'nik' => $umkm->penduduk->nik,
                         'nama' => $umkm->penduduk->nama,
@@ -82,7 +83,8 @@ class BusinessUserController extends Controller
         ];
         return response()->view('pages.umkm.create', [
             'breadcrumb' => $breadcrumb,
-            'penduduk' => $penduduk
+            'penduduk' => $penduduk,
+            'extension' => 'jpg,jpeg,png',
         ]);
     }
 
@@ -97,29 +99,45 @@ class BusinessUserController extends Controller
             'alamat' => 'required|string|max:255',
             'nomor_telepon' => 'required|string|max:255',
             'lokasi_url' => 'required|string|max:255',
-            'thumbnail_url' => 'required|file',
+            'thumbnail_url' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'status' => 'required|in:Aktif,Nonaktif',
-            'lisence_image_url' => 'required|file',
+            'lisence_image_url' => 'required|image|mimes:jpeg,png,jpg|max:2048',
             'penduduk_id' => ['required', 'exists:penduduk,penduduk_id']
         ]);
 
         $umkm = $request->all();
-        
-        
+        if ($validator->fails()) {
+            if ($request->is('api/*') || $request->wantsJson()) {
+                return response()->json([
+                    'code' => 400,
+                    'message' => 'Bad Request',
+                    'errors' => $validator->errors(),
+                    'timestamp' => now()
+                ], 400);
+            }
+            NotificationPusher::error('Data gagal disimpan');
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
         try {
             $umkm['nama_umkm'] = Str::title($request['nama_umkm']);
             $umkm['keterangan'] = Str::title($request['keterangan']);
             $umkm['alamat'] = Str::title($request['alamat']);
             $umkm['nama_umkm'] = Str::title($request['nama_umkm']);
+
             
-            $thumbnailFileName = $request->file('thumbnail_url')->store('business-thumbnail_images', 'public');
-            $lisenceFileName = $request->file('lisence_image_url')->store('business-lisence_images', 'public');
-            $umkm['thumbnail_url'] = basename($thumbnailFileName);
-            $umkm['lisence_image_url'] = basename($lisenceFileName);
-            
-            // dd($umkm);
+            if ($request->hasFile('lisence_image_url')) {
+                $imageName = imageService::uploadFile('storage_lisence', $request, 'lisence_image_url');
+                // dd($imageName,$request->all(),route('storage.lisence', ['filename' => $imageName]));
+                // dd($imageName);
+                $umkm['lisence_image_url'] = $imageName;
+                // dd($umkm['lisence_image_url']);
+
+            }
+            $umkm['thumbnail_url'] = imageService::uploadFile('public', $request, 'thumbnail_url');
 
             DB::beginTransaction();
+            // dd($umkm);
             $umkm = UMKM::create($umkm);
             if ($request->is('api/*') || $request->wantsJson()) {
                 return response()->json([
@@ -140,8 +158,11 @@ class BusinessUserController extends Controller
                     'timestamp' => now()
                 ]);
             }
-            dd($e);
-            DB::rollBack();
+            // dd($e);
+            // DB::rollBack();
+            // if (isset($imageName) && file_exists(storage_path('app/' . $imageName))) {
+                // }
+            //     unlink(storage_path('app/' . $imageName));
             NotificationPusher::error($e->getMessage());
             return redirect()->back()->withInput();
         }
@@ -189,28 +210,29 @@ class BusinessUserController extends Controller
                 'detail' => route('umkm.show', ['umkm' => $id]),
                 'edit' => route('umkm.edit', ['umkm' => $id]),
                 'hapus' => route('umkm.destroy', ['umkm' => $id]),
-            ]
+            ],
+            'extension' => 'jpg,jpeg,png',
         ]);
     }
 
     public function update(Request $request, string $id)
     {
-        $validator = Validator::make( $request->all(),[
+        $validator = Validator::make($request->all(), [
             'nama_umkm' => 'required|string|max:255',
             'jenis_umkm' => 'required|in:Makanan,Minuman,Pakaian,Peralatan,Jasa,Lainnya',
             'keterangan' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
             'nomor_telepon' => 'required|string|max:255',
             'lokasi_url' => 'required|string|max:255',
-            'thumbnail_url' => 'nullable|file',
+            'thumbnail_url' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'status' => 'required|in:Aktif,Nonaktif',
-            'lisence_image_url' => 'nullable|file',
+            'lisence_image_url' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'penduduk_id' => ['required', 'exists:penduduk,penduduk_id']
         ]);
 
         // dd($validator);
-        if($validator->fails()){
-            if($request->is('api/*')||$request->wantsJson()){
+        if ($validator->fails()) {
+            if ($request->is('api/*') || $request->wantsJson()) {
                 return response()->json([
                     'code' => 400,
                     'message' => 'Bad Request',
@@ -219,11 +241,11 @@ class BusinessUserController extends Controller
                 ]);
             }
             NotificationPusher::error('data gagal disimpan');
-            
+
             return redirect()->back()->withErrors($validator)->withInput();
         }
         $umkmUpdate = $request->all();
-        try{
+        try {
 
             $umkmUpdate['nama_umkm'] = Str::title($request['nama_umkm']);
             $umkmUpdate['keterangan'] = Str::title($request['keterangan']);
@@ -232,26 +254,25 @@ class BusinessUserController extends Controller
             DB::beginTransaction();
             $umkm = UMKM::find($id);
 
-            if($request->file('lisence_image_url')){
-                if(!empty($umkm->lisence_image_url)){
-                    Storage::delete('public/business-lisence_images/' . $umkm->lisence_image_url);
+            if ($request->file('lisence_image_url')) {
+                if (!empty($umkm->lisence_image_url)) {
+                    imageService::deleteFile('storage_lisence',$umkm->lisence_image_url);
                 }
-                $lisenceFileName = $request->file('lisence_image_url')->store('business-lisence_images', 'public');
-                $umkmUpdate['lisence_image_url'] = basename($lisenceFileName);
+                $imageName = imageService::uploadFile('storage_lisence', $request, 'lisence_image_url');
+                $umkmUpdate['lisence_image_url'] = $imageName;
             }
-            if($request->file('thumbnail_url')){
-                if(!empty($umkm->thumbnail_url)){
-                    Storage::delete('public/business-thumbnail_images/' . $umkm->thumbnail_url);
+            if ($request->file('thumbnail_url')) {
+                if (!empty($umkm->thumbnail_url)) {
+                    imageService::deleteFile('public', $umkm->thumbnail_url);
                 }
-                $thumbnailFileName = $request->file('thumbnail_url')->store('business-thumbnail_images', 'public');
-                $umkmUpdate['thumbnail_url'] = basename($thumbnailFileName);
+                $umkmUpdate['thumbnail_url'] = imageService::uploadFile('public', $request, 'thumbnail_url');
             }
 
 
             $umkm->update($umkmUpdate);
-            if($request->is('api/*')|| $request->wantsJson()){  
+            if ($request->is('api/*') || $request->wantsJson()) {
                 return response()->json([
-                    'code'=> 200,
+                    'code' => 200,
                     'message' => 'Data berhasil diupdate',
                     'timestamp' => now(),
                     'data' => $umkm
@@ -260,10 +281,10 @@ class BusinessUserController extends Controller
             DB::commit();
             NotificationPusher::success('Data Berhasil diupdate');
             return redirect()->route('umkm.index')->with(['success' => 'Perubahan berhasil']);
-        }catch (\Exception $e){
-            if($request->is('api/*')|| $request->wantsJson()){
+        } catch (\Exception $e) {
+            if ($request->is('api/*') || $request->wantsJson()) {
                 return response()->json([
-                    'code'=> 500,
+                    'code' => 500,
                     'message' => $e->getMessage(),
                     'timestamp' => now(),
                 ]);
@@ -272,9 +293,6 @@ class BusinessUserController extends Controller
             NotificationPusher::error($e->getMessage());
             return redirect()->back()->withInput();
         }
-
-
-
     }
 
     public function destroy(string $id)

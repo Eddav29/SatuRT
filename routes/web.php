@@ -221,3 +221,5 @@ require __DIR__ . '/auth.php';
 
 Route::get('storage/ktp/{filename}', [StorageController::class, 'storageKTP'])->name('storage.ktp');
 Route::get('storage/announcement/{filename}', [StorageController::class, 'storageAnnouncement'])->name('storage.announcement');
+Route::get('storage/lisence/{filename}', [StorageController::class, 'storageLisence'])->name('storage.lisence');
+Route::get('public/images_storage/{filename}', [StorageController::class, 'storagePublic'])->name('public');

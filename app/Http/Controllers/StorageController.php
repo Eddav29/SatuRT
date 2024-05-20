@@ -29,4 +29,24 @@ class StorageController extends Controller
             abort(404, 'File not found');
         }
     }
+    public function storageLisence(string $filename)
+    {
+        if (Storage::disk('storage_lisence')->exists($filename)) {
+            $file = Storage::disk('storage_lisence')->get($filename);
+            $contentType = Storage::disk('storage_lisence')->mimeType($filename);
+            return response($file, 200)->header('Content-Type', $contentType);
+        } else {
+            abort(404, 'File not found');
+        }
+    }
+
+    public function storagePublic(string $filename){
+        if(Storage::disk('public')->exists($filename)){
+            $file = Storage::disk('public')->get($filename);
+            $contentType = Storage::disk('public')->mimeType($filename);
+            return response($file, 200)->header('Content-Type', $contentType);
+        } else {
+            abort(404, 'File not found');
+        }
+    }
 }

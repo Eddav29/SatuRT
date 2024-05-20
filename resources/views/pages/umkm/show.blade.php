@@ -46,39 +46,11 @@
                     </div>
                     <div class="md:col-span-2 md:h-auto">
                         <h5 class="font-semibold">Surat Izin Usaha</h5>
-                        <div x-data="{ openImage: false }">
-                            <img @click="openImage = !openImage"
-                                src="{{ asset('storage/images_storage/business-lisence_images/'. $umkm->lisence_image_url) }}"
-                                alt="" class="rounded-xl w-full object-cover" draggable="false">
-                            <div x-show="openImage"
-                                class="fixed top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center z-[99999999999]">
-                                <img @click="openImage = false" x-show="openImage" @click.outside="openImage = false"
-                                    src="{{ asset('storage/images_storage/business-lisence_images/'.$umkm->lisence_image_url) }}"
-                                    alt="" class="rounded-xl w-max h-max lg:max-w-full lg:max-h-full"
-                                    draggable="false">
-                                <div class="absolute w-8 h-8 top-10 right-10 cursor-pointer" @click="openImage = false">
-                                    <x-heroicon-o-x-mark class="w-8 h-8" class="text-white-snow absolute" />
-                                </div>
-                            </div>
-                        </div>
+                        <x-image-preview :file="route('storage.lisence', $umkm->lisence_image_url)" />
                     </div>
                     <div class="md:col-span-2">
                         <h5 class="font-semibold">Thumbnail</h5>
-                        <div x-data="{ openImage: false }">
-                            <img @click="openImage = !openImage"
-                                src="{{ asset('storage/images_storage/business-thumbnail_images/'.$umkm->thumbnail_url) }}"
-                                alt="" class="rounded-xl w-full object-cover" draggable="false">
-                            <div x-show="openImage"
-                                class="fixed top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center z-[99999999999]">
-                                <img @click="openImage = false" x-show="openImage" @click.outside="openImage = false"
-                                    src="{{ asset('storage/images_storage/business-thumbnail_images/'.$umkm->thumbnail_url) }}"
-                                    alt="" class="rounded-xl w-max h-max lg:max-w-full lg:max-h-full"
-                                    draggable="false">
-                                <div class="absolute w-8 h-8 top-10 right-10 cursor-pointer" @click="openImage = false">
-                                    <x-heroicon-o-x-mark class="w-8 h-8" class="text-white-snow absolute" />
-                                </div>
-                            </div>
-                        </div>
+                        <x-image-preview :file="route('public', $umkm->thumbnail_url)" />
                     </div>
                     <div class="md:col-span-2">
                         <h5 class="font-semibold">Keterangan</h5>

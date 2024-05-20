@@ -9,7 +9,7 @@
         <div class="p-6 mt-3 rounded-xl bg-white-snow overflow-hidden">
 
             {{-- Form --}}
-            <form method="POST" action="{{ route('inventaris.update', $inventaris->inventaris_id) }}"
+            <form method="POST" action="{{ route('inventaris.data-inventaris.update', $inventaris->inventaris_id) }}"
                 enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
@@ -93,8 +93,6 @@
                                 </option>
                                 <option value="Pinjaman" {{ $inventaris->sumber === 'Pinjaman' ? 'selected' : '' }}>
                                     Pinjaman</option>
-                                <option value="Lainnya" {{ $inventaris->sumber === 'Lainnya' ? 'selected' : '' }}>
-                                    Lainnya</option>
                             </select>
                         </div>
                     </div>

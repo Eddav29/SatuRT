@@ -54,6 +54,12 @@ return [
             'url' => env('APP_URL') . '/storage/announcement',
             'visibility' => 'private',
         ],
+        'storage_lisence' => [
+            'driver' => 'local',
+            'root' => storage_path('app/storage_lisence'),
+            'url' => env('APP_URL') . '/storage/lisence',
+            'visibility' => 'private',
+        ],
 
         's3' => [
             'driver' => 's3',
