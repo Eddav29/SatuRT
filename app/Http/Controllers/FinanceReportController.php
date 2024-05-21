@@ -85,7 +85,7 @@ class FinanceReportController extends Controller
             });
 
             // Hitung total keseluruhan dari data terakhir di 'Keuangan'
-            $totalKeseluruhan = Keuangan::latest()->first()->total_keuangan;
+            $totalKeseluruhan = Keuangan::latest()->first()->total_keuangan ?? 0;
 
             return response()->json([
                 'data' => $dataSemuaTahun,
@@ -95,7 +95,7 @@ class FinanceReportController extends Controller
             ]);
 
         } catch (\Throwable $th) {
-            dd($th);
+            
             return response()->json(['error' => 'Terjadi kesalahan.'], 500);
         }
     }
