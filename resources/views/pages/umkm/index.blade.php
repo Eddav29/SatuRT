@@ -9,11 +9,11 @@
             {{-- Table --}}
             <section>
                 <x-datatables :layoutTop2Start="Auth::user()->role->role_name == 'Ketua RT' ? true : false" id="umkm_id" url="/umkm" :columns="[
-                        [
-                            'label' => 'NIK',
-                            'key' => 'nik',
-                            'style' => 'text-left'
-                        ],
+                        // [
+                        //     'label' => 'NIK',
+                        //     'key' => 'nik',
+                        //     'style' => 'text-left'
+                        // ],
                         [
                             'label' => 'Pemilik',
                             'key' => 'nama',
@@ -50,13 +50,14 @@
                         'edit' => true,
                         'hapus' => true,
                     ]" :filter="[
-                    ['label' => 'Makanan', 'key' => 'Makanan', 'columnIndex' => 3],
-                    ['label' => 'Minuman', 'key' => 'Minuman', 'columnIndex' => 3],
-                    ['label' => 'Makanan dan Minuman', 'key' => 'Makanan dan Minuman', 'columnIndex' => 3],
-                    ['label' => 'Pakaian', 'key' => 'Pakaian', 'columnIndex' => 3],
-                    ['label' => 'Peralatan', 'key' => 'Peralatan', 'columnIndex' => 3],
-                    ['label' => 'Jasa', 'key' => 'Jasa', 'columnIndex' => 3],
-                    ['label' => 'Lainnya', 'key' => 'Lainnya', 'columnIndex' => 3],
+                    ['label' => 'Makanan', 'key' => 'Makanan', 'columnIndex' => 2],
+                    ['label' => 'Minuman', 'key' => 'Minuman', 'columnIndex' => 2],
+                    ['label' => 'Makanan dan Minuman', 'key' => 'Makanan dan Minuman', 'columnIndex' => 2],
+                    ['label' => 'Pakaian', 'key' => 'Pakaian', 'columnIndex' => 2],
+                    ['label' => 'Peralatan', 'key' => 'Peralatan', 'columnIndex' => 2],
+                    ['label' => 'Jasa', 'key' => 'Jasa', 'columnIndex' => 2],
+                    ['label' => 'Lainnya', 'key' => 'Lainnya', 'columnIndex' => 2],
+                    ['label' => 'Semua', 'key' => '', 'columnIndex' => 2],
                     ]"
                     :layoutTopEnd="true">
                 </x-datatables>

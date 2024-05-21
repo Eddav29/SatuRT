@@ -45,7 +45,9 @@ class DocumentRequestController extends Controller
 
             if (Auth::user()->role->role_name === 'Ketua RT') {
                 $data = Persuratan::join('pengajuan', 'persuratan.pengajuan_id', '=', 'pengajuan.pengajuan_id')
-                    ->orderBy('pengajuan.updated_at', 'desc')->with('pengajuan')->get()->map(function ($persuratan) {
+                    ->orderBy('pengajuan.updated_at', 'desc')
+                    ->where('pengajuan.status_id', '!=', '4')
+                    ->with('pengajuan')->get()->map(function ($persuratan) {
                         return [
                             'persuratan_id' => $persuratan->persuratan_id,
                             'nik' => $persuratan->pemohon()->nik,

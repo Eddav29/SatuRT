@@ -26,6 +26,11 @@
                         ],
                     ],
                     [
+                        'label' => 'Status',
+                        'key' => 'status',
+                        'style' => 'text-left',
+                    ],
+                    [
                         'label' => 'Tanggal',
                         'key' => 'tanggal',
                         'style' => 'text-left',
@@ -35,11 +40,11 @@
                     'edit' => true,
                     'hapus' => true,
                 ]" :filter="[
-                    ['label' => 'Pengaduan', 'key' => 'Pengaduan', 'columnIndex' => 2],
-                    ['label' => 'Kritik', 'key' => 'Kritik', 'columnIndex' => 2],
-                    ['label' => 'Saran', 'key' => 'Saran', 'columnIndex' => 2],
-                    ['label' => 'Lainnya', 'key' => 'Lainnya', 'columnIndex' => 2],
-                    ['label' => 'Semua', 'key' => '', 'columnIndex' => 2],
+                    ['label' => 'Pengaduan', 'key' => 'Pengaduan', 'columnIndex' => 1],
+                    ['label' => 'Kritik', 'key' => 'Kritik', 'columnIndex' => 1],
+                    ['label' => 'Saran', 'key' => 'Saran', 'columnIndex' => 1],
+                    ['label' => 'Lainnya', 'key' => 'Lainnya', 'columnIndex' => 1],
+                    ['label' => 'Semua', 'key' => '', 'columnIndex' => 1],
                 ]"
                     :layoutTopEnd="true">
                 </x-datatables>

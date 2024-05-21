@@ -32,11 +32,11 @@
                         'key' => 'created_at',
                         'style' => 'text-left truncate',
                     ],
-                    [
-                        'label' => 'Terakhir Diubah',
-                        'key' => 'updated_at',
-                        'style' => 'text-left truncate',
-                    ],
+                    // [
+                    //     'label' => 'Terakhir Diubah',
+                    //     'key' => 'updated_at',
+                    //     'style' => 'text-left truncate',
+                    // ],
                 ]" :aksi="[
                     'detail' => true,
                     'edit' => true,
