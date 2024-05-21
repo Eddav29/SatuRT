@@ -79,10 +79,7 @@ class DashboardController extends Controller
 
     public function getBalanceRT(): int
     {
-        $keuangan = Keuangan::latest()->first();
-
-
-        return $keuangan->total_keuangan;
+        return Keuangan::orderBy('keuangan_id','DESC')->first()->total_keuangan ?? 0;
     }
 
     public function getListOfAnnouncements(): Collection

@@ -105,16 +105,6 @@
                         'key' => 'nominal',
                         'style' => 'text-left',
                     ],
-                    [
-                        'label' => 'Dibuat Pada',
-                        'key' => 'created_at',
-                        'style' => 'text-center',
-                    ],
-                    [
-                        'label' => 'Terakhir Diubah',
-                        'key' => 'updated_at',
-                        'style' => 'text-center',
-                    ],
                 ]" :aksi="[
                     'detail' => true,
                     'edit' => true,
