@@ -21,8 +21,7 @@ class UMKMFactory extends Factory
             'penduduk_id' => Penduduk::pluck('penduduk_id')->random(),
             'nama_umkm' => $this->faker->word(),
             'jenis_umkm' => $this->faker->randomElement([
-                'Makanan',
-                'Minuman',
+                'Makanan dan Minuman',
                 'Pakaian',
                 'Peralatan',
                 'Jasa',

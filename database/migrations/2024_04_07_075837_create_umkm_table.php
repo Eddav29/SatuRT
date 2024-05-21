@@ -15,8 +15,6 @@ return new class extends Migration {
             $table->uuid('penduduk_id')->index();
             $table->string('nama_umkm');
             $table->enum('jenis_umkm', [
-                'Makanan',
-                'Minuman',
                 'Makanan dan Minuman',
                 'Pakaian',
                 'Peralatan',

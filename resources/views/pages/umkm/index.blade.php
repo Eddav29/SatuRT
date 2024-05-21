@@ -28,8 +28,6 @@
                             'label' => 'Jenis Usaha',
                             'key' => 'jenis_umkm',
                             'customStyle' => [
-                                'Makanan' => 'px-4 py-2 text-center rounded-md bg-yellow-100 text-yellow-800',
-                                'Minuman' => 'px-4 py-2 text-center rounded-md bg-purple-100 text-purple-800',
                                 'Makanan dan Minuman' => 'px-4 py-2 text-center rounded-md bg-orange-100 text-orange-800',
                                 'Pakaian' => 'px-4 py-2 text-center rounded-md bg-blue-100 text-blue-800',
                                 'Peralatan' => 'px-4 py-2 text-center rounded-md bg-pink-100 text-pink-800',
@@ -50,8 +48,6 @@
                         'edit' => true,
                         'hapus' => true,
                     ]" :filter="[
-                    ['label' => 'Makanan', 'key' => 'Makanan', 'columnIndex' => 2],
-                    ['label' => 'Minuman', 'key' => 'Minuman', 'columnIndex' => 2],
                     ['label' => 'Makanan dan Minuman', 'key' => 'Makanan dan Minuman', 'columnIndex' => 2],
                     ['label' => 'Pakaian', 'key' => 'Pakaian', 'columnIndex' => 2],
                     ['label' => 'Peralatan', 'key' => 'Peralatan', 'columnIndex' => 2],

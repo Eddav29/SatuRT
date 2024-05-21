@@ -44,7 +44,7 @@ class UMKMSeeder extends Seeder
             [
                 'penduduk_id' => Penduduk::with('user')->whereNotNull('user_id')->get()->random()->penduduk_id,
                 'nama_umkm' => 'Isi Ulang Air Minum ¨Darma Water¨',
-                'jenis_umkm' => 'Minuman',
+                'jenis_umkm' => 'Makanan dan Minuman',
                 'keterangan' => 'Toko',
                 'alamat' => 'Jl. Terusan Piranha Atas No.94, Tunjungsekar, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142',
                 'nomor_telepon' => '087722094868',
@@ -56,7 +56,7 @@ class UMKMSeeder extends Seeder
             [
                 'penduduk_id' => Penduduk::with('user')->whereNotNull('user_id')->get()->random()->penduduk_id,
                 'nama_umkm' => 'Komol Kopi',
-                'jenis_umkm' => 'Minuman',
+                'jenis_umkm' => 'Makanan dan Minuman',
                 'keterangan' => 'Cafe dan Resto Kopi Spesial',
                 'alamat' => 'Jl. Terusan Piranha Atas No.111B, Tunjungsekar, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142',
                 'nomor_telepon' => '',
@@ -80,7 +80,7 @@ class UMKMSeeder extends Seeder
             [
                 'penduduk_id' => Penduduk::with('user')->whereNotNull('user_id')->get()->random()->penduduk_id,
                 'nama_umkm' => 'Cakedbit Premium Cookies',
-                'jenis_umkm' => 'Makanan',
+                'jenis_umkm' => 'Makanan dan Minuman',
                 'keterangan' => 'Toko Roti',
                 'alamat' => '3JCP+425, Jl. Ikan Piranha Atas Gg. IVA, Tunjungsekar, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142',
                 'nomor_telepon' => '082301714768',
@@ -92,7 +92,7 @@ class UMKMSeeder extends Seeder
             [
                 'penduduk_id' => Penduduk::with('user')->whereNotNull('user_id')->get()->random()->penduduk_id,
                 'nama_umkm' => 'Cokelat Klasik Piranha Atas',
-                'jenis_umkm' => 'Minuman',
+                'jenis_umkm' => 'Makanan dan Minuman',
                 'keterangan' => 'Restoran',
                 'alamat' => 'Jl. Terusan Ikan Piranha Atas No.18, Tunjungsekar, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142',
                 'nomor_telepon' => '',
