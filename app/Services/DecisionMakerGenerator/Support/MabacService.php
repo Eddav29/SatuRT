@@ -36,10 +36,10 @@ class MabacService extends DecisionMakerService
             $row = [];
             for ($j = 0; $j < count($matrix); $j++) {
                 $value = 0;
-                if ($criteriaType[$j + 1] === 'Benefit') {
-                    $value = $this->trimTrailingZeros(number_format(($this->integerData()[$i + 1][$j + 1] - $min[$j]) / ($max[$j] - $min[$j]), 3, '.', ''));
+                if ($criteriaType[$j] === 'Benefit') {
+                    $value = $this->trimTrailingZeros(number_format(($this->integerData()[$i][$j] - $min[$j]) / ($max[$j] - $min[$j]), 3, '.', ''));
                 } else {
-                    $value = $this->trimTrailingZeros(number_format(($this->integerData()[$i + 1][$j + 1] - $max[$j]) / ($min[$j] - $max[$j]), 3, '.', ''));
+                    $value = $this->trimTrailingZeros(number_format(($this->integerData()[$i][$j] - $max[$j]) / ($min[$j] - $max[$j]), 3, '.', ''));
                 }
                 $row[] = $value;
             }
@@ -58,7 +58,7 @@ class MabacService extends DecisionMakerService
         for ($i = 0; $i < count($normalizeMatrix); $i++) {
             $row = [];
             for ($j = 0; $j < count($normalizeMatrix[$i]); $j++) {
-                $row[] = $this->trimTrailingZeros(number_format((($weight[$j + 1] / 100) * $normalizeMatrix[$i][$j]) + ($weight[$j + 1] / 100), 3, '.', ''));
+                $row[] = $this->trimTrailingZeros(number_format((($weight[$j] / 100) * $normalizeMatrix[$i][$j]) + ($weight[$j] / 100), 3, '.', ''));
             }
             $V[] = $row;
         }
@@ -73,7 +73,7 @@ class MabacService extends DecisionMakerService
         $row = [];
         $G = [];
 
-        
+
         for ($i = 0; $i < count($weightedMatrix[1]); $i++) {
             $product = $weightedMatrix[$i][$i];
             for ($j = 0; $j < count($weightedMatrix); $j++) {
@@ -84,7 +84,7 @@ class MabacService extends DecisionMakerService
             }
             $row[] = $this->trimTrailingZeros(number_format(pow($product, 1 / $total_alternative), 3, '.', ''));
         }
-        
+
         $G[] = $row;
 
         $this->stepData['borderForecastAreaMatrix'] = $G;
@@ -121,7 +121,7 @@ class MabacService extends DecisionMakerService
 
                 $total += $Q[$i][$j];
 
-                $row['Alternatif'] = $alternative[$i + 1];
+                $row['Alternatif'] = $alternative[$i];
                 $row['S'] = $this->trimTrailingZeros(number_format($total, 3, '.', ''));
             }
 
@@ -135,7 +135,7 @@ class MabacService extends DecisionMakerService
         });
 
         foreach ($S as $key => $value) {
-            $S[$key]['Ranking'] = $key + 1;
+            $S[$key]['Ranking'] = $key+1;
         }
 
 
@@ -155,10 +155,10 @@ class MabacService extends DecisionMakerService
     private function transposeMatrix($data): array
     {
         $array = [];
-        for ($i = 1; $i <= count($data[1]); $i++) {
+        for ($i = 0; $i < count($data[1]); $i++) {
             $row = [];
             for ($j = 0; $j < count($data); $j++) {
-                $row[] = $data[$j + 1][$i];
+                $row[] = $data[$j][$i];
             }
             $array[] = $row;
         }

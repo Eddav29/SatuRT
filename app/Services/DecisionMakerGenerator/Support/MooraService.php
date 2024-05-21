@@ -37,7 +37,7 @@ class MooraService extends DecisionMakerService{
         $sumOfSquares = array_fill(0, $colCount, 0);
         for ($j = 0; $j < $colCount; $j++) {
             for ($i = 0; $i < $rowCount; $i++) {
-                $sumOfSquares[$j] += pow($matrix[$i+1][$j+1], 2);
+                $sumOfSquares[$j] += pow($matrix[$i][$j], 2);
 
             }
             $sumOfSquares[$j] =
@@ -47,7 +47,7 @@ class MooraService extends DecisionMakerService{
         for ($i = 0; $i < $rowCount; $i++) {
             $normalizedMatrix = [];
             for ($j = 0; $j < $colCount; $j++) {
-                $value = $this->trimTrailingZeros(number_format(($matrix[$i+1][$j+1] / $sumOfSquares[$j]),3,'.',''));
+                $value = $this->trimTrailingZeros(number_format(($matrix[$i][$j] / $sumOfSquares[$j]),3,'.',''));
                 $normalizedMatrix[] = $value;
             }
             $n[] = $normalizedMatrix;
@@ -65,7 +65,7 @@ class MooraService extends DecisionMakerService{
         for ($i = 0; $i < count($normalizedMatrix); $i++) {
             $row = [];
             for ($j = 0; $j < count($normalizedMatrix[$i]); $j++) {
-                $row[] = $this->trimTrailingZeros(number_format((($weight[$j + 1]) * $normalizedMatrix[$i][$j]), 3, '.', ''));
+                $row[] = $this->trimTrailingZeros(number_format((($weight[$j]) * $normalizedMatrix[$i][$j]), 3, '.', ''));
             }
             $value[] = $row;
         }
@@ -85,7 +85,7 @@ class MooraService extends DecisionMakerService{
             $cost = 0;
 
             for ($j = 0; $j < count($matrix[$i]); $j++) {
-                if ($type[$j+1] === 'Benefit') {
+                if ($type[$j] === 'Benefit') {
                     $benefit += $matrix[$i][$j];
                 } else {
                     $cost += ($matrix[$i][$j]);
@@ -93,7 +93,7 @@ class MooraService extends DecisionMakerService{
             }
 
             $row = [
-                'Alternatif' => $alternatif[$i+1],
+                'Alternatif' => $alternatif[$i],
                 'Nilai Benefit' => $benefit,
                 'Nilai Cost' => $cost,
                 'Yi(Benefit-Cost)' => $this->trimTrailingZeros(number_format(($benefit - $cost), 3, '.', ''))
@@ -118,7 +118,7 @@ class MooraService extends DecisionMakerService{
             $result[] = [
                 'Alternatif' => $value['Alternatif'],
                 'Yi(Benefit-Cost)' => $value['Yi(Benefit-Cost)'],
-                'Ranking' => $value['Ranking'] = $key +1,
+                'Ranking' => $value['Ranking'] = $key + 1,
             ];
         }
 

@@ -5,7 +5,8 @@ namespace App\Services\DecisionMakerGenerator;
 use App\Models\KriteriaAlternatif;
 use App\Utils\TableGenerator\TableService;
 
-class DecisionMakerService {
+class DecisionMakerService
+{
     private $kriteria;
     private $bobot;
     private $tipe;
@@ -17,15 +18,32 @@ class DecisionMakerService {
     public function __construct(bool $nomalize = true)
     {
         $data = KriteriaAlternatif::with('kriteria', 'alternatif')
-        ->orderBy('alternatif_id')
-        ->orderBy('kriteria_id')
-        ->get();
-        $this->kriteria = $data->pluck('kriteria.nama_kriteria', 'kriteria_id')->toArray();
-        $this->alternatif = $data->pluck('alternatif.nama_alternatif', 'alternatif_id')->toArray();
-        $this->bobot = $data->pluck('kriteria.bobot', 'kriteria_id')->toArray();
-        $this->tipe = $data->pluck('kriteria.jenis_kriteria', 'kriteria_id')->toArray();
-        foreach ($data as $item) {
-            $this->data[$item['alternatif_id'] ][$item['kriteria_id']] = $this->trimTrailingZeros($item['nilai']);
+            ->orderBy('alternatif_id')
+            ->orderBy('kriteria_id')
+            ->get();
+        // Mengumpulkan kriteria dan alternatif dalam bentuk array
+        $this->kriteria = $data->pluck('kriteria.nama_kriteria', 'kriteria_id')->unique()->values()->all();
+        $this->alternatif = $data->pluck('alternatif.nama_alternatif', 'alternatif_id')->unique()->values()->all();
+        $this->bobot = $data->pluck('kriteria.bobot', 'kriteria_id')->values()->all();
+        $this->tipe = $data->pluck('kriteria.jenis_kriteria', 'kriteria_id')->values()->all();
+
+        // Inisialisasi array data
+        $this->data = [];
+
+        // Loop melalui data untuk mengisi matriks
+        $alternatifIds = array_keys($data->groupBy('alternatif_id')->toArray());
+        $kriteriaIds = array_keys($data->groupBy('kriteria_id')->toArray());
+
+        for ($i = 0; $i < count($alternatifIds); $i++) {
+            for ($j = 0; $j < count($kriteriaIds); $j++) {
+                $alternatifId = $alternatifIds[$i];
+                $kriteriaId = $kriteriaIds[$j];
+                // Cari item yang sesuai dengan alternatifId dan kriteriaId
+                $item = $data->where('alternatif_id', $alternatifId)->where('kriteria_id', $kriteriaId)->first();
+                if ($item) {
+                    $this->data[$i][$j] = $this->trimTrailingZeros($item['nilai']);
+                }
+            }
         }
         if ($nomalize) {
             $this->_normalizedBobot();
@@ -131,17 +149,17 @@ class DecisionMakerService {
         return count($this->tipe);
     }
 
-    public function createTableService() : TableService
+    public function createTableService(): TableService
     {
         return $this->tableService;
     }
 
-    public function getKriteriaTable() :string
+    public function getKriteriaTable(): string
     {
         foreach ($this->kriteria as $key => $value) {
             $data[] = [
                 'Kriteria' => $value,
-                'Alias' => 'K'.$key,
+                'Alias' => 'K' . $key,
                 'Bobot' => $this->bobot[$key]
             ];
         }
@@ -149,18 +167,18 @@ class DecisionMakerService {
         return $this->tableService->createTable($data);
     }
 
-    public function getAlternatifTable() : string
+    public function getAlternatifTable(): string
     {
         foreach ($this->alternatif as $key => $value) {
             $data[] = [
                 'Alternatif' => $value,
-                'Alias' => 'A'. $key
+                'Alias' => 'A' . $key
             ];
         }
         return $this->tableService->createTable($data);
     }
 
-    public function getScoreMatrixData() : string
+    public function getScoreMatrixData(): string
     {
         return $this->tableService->createTable($this->data);
     }
@@ -174,5 +192,4 @@ class DecisionMakerService {
     {
         return preg_replace('/[^0-9]/', '', $value);
     }
-
 }

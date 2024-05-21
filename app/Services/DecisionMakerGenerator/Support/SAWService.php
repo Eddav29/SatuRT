@@ -27,7 +27,7 @@ class SAWService extends DecisionMakerService
         $this->stepPreferenceValue();
         $this->stepRanking();
     }
- 
+
     private function stepNormalization()
     {
         $matrix = $this->stepData['decisionMatrix'];
@@ -56,10 +56,10 @@ class SAWService extends DecisionMakerService
             $row = [];
             for ($j = 0; $j < count($matrix[1]); $j++) {
                 $value = 0;
-                if ($criteriaType[$j + 1] === 'Benefit') {
-                    $value = $this->trimTrailingZeros(number_format(($matrix[$i+1][$j+1]) / ($max[$j + 1]), 3, '.', ''));
+                if ($criteriaType[$j] === 'Benefit') {
+                    $value = $this->trimTrailingZeros(number_format(($matrix[$i][$j]) / ($max[$j]), 3, '.', ''));
                 } else {
-                    $value = $this->trimTrailingZeros(number_format(($min[$j + 1]) / ($matrix[$i+1][$j+1]), 3, '.', ''));
+                    $value = $this->trimTrailingZeros(number_format(($min[$j]) / ($matrix[$i][$j]), 3, '.', ''));
                 }
                 $row[] = $value;
             }
@@ -82,7 +82,7 @@ class SAWService extends DecisionMakerService
 
             for ($j = 0; $j < count($matrix[1]); $j++) {
                 $value = 0;
-                $value = $matrix[$i][$j] * $weights[$j + 1];
+                $value = $matrix[$i][$j] * $weights[$j];
                 $preferenceValue += $value;
                 $baris[] = $this->trimTrailingZeros(number_format($value, 3, '.', ''));
             }
@@ -90,7 +90,7 @@ class SAWService extends DecisionMakerService
             $X[] = $baris;
 
             $row = [
-                'Alternatif' => $alternatif[$i + 1],
+                'Alternatif' => $alternatif[$i],
                 'Nilai Preferensi' => $this->trimTrailingZeros(number_format($preferenceValue, 3, '.', '')),
             ];
 

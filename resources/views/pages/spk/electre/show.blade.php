@@ -13,7 +13,7 @@
 
             <section>
                 <x-decision-support-table :emptyColumn="true" stepTitle="Matriks Keputusan (X)" :columns="$criterias"
-                    :withAlternative="true" :alternatives="$alternatives" :data="$data['decisionMatrix']" startIndex="1">
+                    :withAlternative="true" :alternatives="$alternatives" :data="$data['decisionMatrix']" startIndex="0">
                     <p class="break-words">Pada Langkah pertama dilakukan evaluasi alternatif “m” dengan “n” kriteria.
                     </p>
                     <p>$$X = \begin{array}{c}
@@ -44,7 +44,7 @@
 
             <section>
                 <x-decision-support-table :emptyColumn="true" stepTitle="Matriks Normalisasi (R)" :columns="$criterias"
-                    startIndex="1" :withAlternative="true" :alternatives="$alternatives" :data="$data['normalizationR']">
+                    startIndex="0" :withAlternative="true" :alternatives="$alternatives" :data="$data['normalizationR']">
                     <p class="break-words">Normalisasi diperoleh dengan menggunakan rumus:</p>
                     <div class="flex flex-col gap-y-2">
                         <p class="border border-black p-2 w-full">$$r_{ij} = \frac{X_{ij}}{\sqrt{\sum\limits_{i=1}^m
@@ -69,7 +69,7 @@
 
             <section>
                 <x-decision-support-table :emptyColumn="true" stepTitle="Pembobotan Matriks Normalisasi"
-                    :columns="$criterias" :withWeight="true" :weights="$weights" startIndex="1" :withAlternative="true"
+                    :columns="$criterias" :withWeight="true" :weights="$weights" startIndex="0" :withAlternative="true"
                     :alternatives="$alternatives" :data="$data['weightedNormalizationR']">
                     <p class="break-words">Pembobotan pada matriks yang telah dinormalisasi:</p>
                     <div class="flex flex-col gap-y-2">
@@ -142,7 +142,7 @@
 
             <section>
                 <x-decision-support-table :emptyColumn="true" stepTitle="Menentukan Matriks Concordance"
-                    :columns="$alternatives" startIndex="1" :withAlternative="true" :alternatives="$alternatives" :data="$data['matrixConcordance']['C']">
+                    :columns="$alternatives" startIndex="0" :withAlternative="true" :alternatives="$alternatives" :data="$data['matrixConcordance']['C']">
                     <p class="break-words">Menentukan nilai matriks :</p>
                     <div class="flex flex-col gap-y-2">
                         <p class="border border-black p-2 w-full">$$
@@ -162,7 +162,7 @@
 
             <section>
                 <x-decision-support-table :emptyColumn="true" stepTitle="Menentukan Matriks Discordance"
-                    :columns="$alternatives" startIndex="1" :withAlternative="true" :alternatives="$alternatives" :data="$data['matrixDiscordance']['D']">
+                    :columns="$alternatives" startIndex="0" :withAlternative="true" :alternatives="$alternatives" :data="$data['matrixDiscordance']['D']">
                     <p class="break-words">Menentukan nilai normalisasi dari SP dan SN pada semua alternatif menggunakan
                         rumus:</p>
                     <div class="flex flex-col gap-y-2">
@@ -206,7 +206,7 @@
 
             <section>
                 <x-decision-support-table :emptyColumn="true" stepTitle="Matriks Dominan Concordance (F)"
-                    :columns="$alternatives" startIndex="1" :withAlternative="true" :alternatives="$alternatives" :data="$data['matrixDominantConcordance']['F']">
+                    :columns="$alternatives" startIndex="0" :withAlternative="true" :alternatives="$alternatives" :data="$data['matrixDominantConcordance']['F']">
                     <p class="break-words">Menentukan matriks dominan concordance:</p>
                     <div class="flex flex-col gap-y-2">
                         <p class="border border-black p-2 w-full">$$F =
@@ -228,7 +228,7 @@
 
             <section>
                 <x-decision-support-table :emptyColumn="true" stepTitle="Matriks Dominan Discordance (G)"
-                    :columns="$alternatives" startIndex="1" :withAlternative="true" :alternatives="$alternatives" :data="$data['matrixDominantDiscordance']['G']">
+                    :columns="$alternatives" startIndex="0" :withAlternative="true" :alternatives="$alternatives" :data="$data['matrixDominantDiscordance']['G']">
                     <p class="break-words">Menentukan matriks dominan discordance:</p>
                     <div class="flex flex-col gap-y-2">
                         <p class="border border-black p-2 w-full">$$G =
@@ -250,7 +250,7 @@
 
             <section>
                 <x-decision-support-table :emptyColumn="true" stepTitle="Matriks Dominan Agregate (E)" :columns="$alternatives"
-                    startIndex="1" :withAlternative="true" :alternatives="$alternatives" :data="$data['aggregateMatrix']['E']">
+                    startIndex="0" :withAlternative="true" :alternatives="$alternatives" :data="$data['aggregateMatrix']['E']">
                     <p class="break-words"> Matriks E didapatkan dari perkalian antara elemen matriks
                         F dengan elemen matriks G:</p>
                     <div class="flex flex-col gap-y-2">

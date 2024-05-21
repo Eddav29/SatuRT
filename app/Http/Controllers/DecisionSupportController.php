@@ -10,8 +10,12 @@ use App\Services\DecisionMakerGenerator\Support\MooraService;
 use App\Services\DecisionMakerGenerator\Support\ArasService;
 use App\Services\DecisionMakerGenerator\Support\ElectreService;
 use App\Services\DecisionMakerGenerator\Support\SAWService;
+use App\Services\Notification\NotificationPusher;
+use Error;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notification;
 use Nette\Utils\Arrays;
 
 class DecisionSupportController extends Controller
@@ -47,11 +51,7 @@ class DecisionSupportController extends Controller
 
         return response()->view('pages.spk.index', [
             'breadcrumb' => $breadcrumb,
-            'rankingEdas' => array_map(function ($item) {
-                $item['Score'] = $item['AS'];
-                unset($item['AS']);
-                return $item;
-            }, $rankingEdas),
+            'method' => 'edas'
         ]);
     }
 
@@ -63,88 +63,114 @@ class DecisionSupportController extends Controller
 
         switch ($metode) {
             case 'edas':
-
                 $breadcrumb = [
                     'list' => ['Home', 'Pendukung Keputusan', 'Detail', 'EDAS'],
                     'url' => ['home', 'spk.index', 'spk.index', 'spk.index', 'spk.index'],
                 ];
-
-                return response()->view('pages.spk.edas.show', [
-                    'data' => $this->getEdasData(),
-                    'criterias' => $criterias,
-                    'weights' => $weights,
-                    'alternatives' => $alternatives,
-                    'breadcrumb' => $breadcrumb
-                ]);
+                try {
+                    $eddas = $this->getEdasData();
+                    return response()->view('pages.spk.edas.show', [
+                        'data' => $eddas,
+                        'criterias' => $criterias,
+                        'weights' => $weights,
+                        'alternatives' => $alternatives,
+                        'breadcrumb' => $breadcrumb
+                    ]);
+                } catch (\Exception $e) {
+                    NotificationPusher::error($e->getMessage());
+                    return response()->redirectToRoute('spk.index');
+                }
             case 'mabac':
-
                 $breadcrumb = [
                     'list' => ['Home', 'Pendukung Keputusan', 'Detail', 'MABAC'],
                     'url' => ['home', 'spk.index', 'spk.index', 'spk.index', 'spk.index'],
                 ];
-
-                return response()->view('pages.spk.mabac.show', [
-                    'data' => $this->getMabacData(),
-                    'criterias' => $criterias,
-                    'weights' => $weights,
-                    'alternatives' => $alternatives,
-                    'breadcrumb' => $breadcrumb
-                ]);
-
+                try {
+                    $mabac = $this->getMabacData();
+                    return response()->view('pages.spk.mabac.show', [
+                        'data' => $mabac,
+                        'criterias' => $criterias,
+                        'weights' => $weights,
+                        'alternatives' => $alternatives,
+                        'breadcrumb' => $breadcrumb
+                    ]);
+                } catch (\Exception $e) {
+                    NotificationPusher::error($e->getMessage());
+                    return response()->redirectToRoute('spk.index');
+                }
             case 'moora':
                 $breadcrumb = [
                     'list' => ['Home', 'Pendukung Keputusan', 'Detail', 'MOORA'],
                     'url' => ['home', 'spk.index', 'spk.index', 'spk.index', 'spk.index'],
                 ];
-
-                return response()->view('pages.spk.moora.show', [
-                    'data' => $this->getMooraData(),
-                    'criterias' => $criterias,
-                    'weights' => $weights,
-                    'alternatives' => $alternatives,
-                    'breadcrumb' => $breadcrumb
-                ]);
-
-                case 'aras':
-                    $breadcrumb = [
-                        'list' => ['Home', 'Pendukung Keputusan', 'Detail', 'ARAS'],
-                        'url' => ['home', 'spk.index', 'spk.index', 'spk.index', 'spk.index'],
-                    ];
-    
+                try {
+                    $moora = $this->getMooraData();
+                    return response()->view('pages.spk.moora.show', [
+                        'data' => $this->getMooraData(),
+                        'criterias' => $criterias,
+                        'weights' => $weights,
+                        'alternatives' => $alternatives,
+                        'breadcrumb' => $breadcrumb
+                    ]);
+                } catch (\Exception $e) {
+                    NotificationPusher::error($e->getMessage());
+                    return response()->redirectToRoute('spk.index');
+                }
+            case 'aras':
+                $breadcrumb = [
+                    'list' => ['Home', 'Pendukung Keputusan', 'Detail', 'ARAS'],
+                    'url' => ['home', 'spk.index', 'spk.index', 'spk.index', 'spk.index'],
+                ];
+                try {
+                    $aras = $this->getArasData();
                     return response()->view('pages.spk.aras.show', [
-                        'data' => $this->getArasData(),
+                        'data' => $aras,
                         'criterias' => $criterias,
                         'weights' => $weights,
                         'alternatives' => $alternatives,
                         'breadcrumb' => $breadcrumb
                     ]);
-                case 'saw':
-                    $breadcrumb = [
-                        'list' => ['Home', 'Pendukung Keputusan', 'Detail', 'SAW'],
-                        'url' => ['home', 'spk.index', 'spk.index', 'spk.index', 'spk.index'],
-                    ];
-
+                } catch (\Exception $e) {
+                    NotificationPusher::error($e->getMessage());
+                    return response()->redirectToRoute('spk.index');
+                }
+            case 'saw':
+                $breadcrumb = [
+                    'list' => ['Home', 'Pendukung Keputusan', 'Detail', 'SAW'],
+                    'url' => ['home', 'spk.index', 'spk.index', 'spk.index', 'spk.index'],
+                ];
+                try {
+                    $saw = $this->getSAWData();
                     return response()->view('pages.spk.saw.show', [
-                        'data' => $this->getSAWData(),
+                        'data' => $saw,
                         'criterias' => $criterias,
                         'weights' => $weights,
                         'alternatives' => $alternatives,
                         'breadcrumb' => $breadcrumb
                     ]);
+                } catch (\Exception $e) {
+                    NotificationPusher::error($e->getMessage());
+                    return response()->redirectToRoute('spk.index');
+                }
 
             case 'electre':
                 $breadcrumb = [
                     'list' => ['Home', 'Pendukung Keputusan', 'Detail', 'ELECTRE'],
                     'url' => ['home', 'spk.index', 'spk.index', 'spk.index', 'spk.index'],
                 ];
-
-                return response()->view('pages.spk.electre.show', [
-                    'data' => $this->getElectreData(),
-                    'criterias' => $criterias,
-                    'weights' => $weights,
-                    'alternatives' => $alternatives,
-                    'breadcrumb' => $breadcrumb
-                ]);
+                try {
+                    $electre = $this->getElectreData();
+                    return response()->view('pages.spk.electre.show', [
+                        'data' => $electre,
+                        'criterias' => $criterias,
+                        'weights' => $weights,
+                        'alternatives' => $alternatives,
+                        'breadcrumb' => $breadcrumb
+                    ]);
+                } catch (\Exception $e) {
+                    NotificationPusher::error($e->getMessage());
+                    return response()->redirectToRoute('spk.index');
+                }
             default:
                 # code...
                 break;
@@ -157,80 +183,140 @@ class DecisionSupportController extends Controller
         $alternatives = $this->decisionMakerService->getAlternatifs();
         switch ($metode) {
             case 'edas':
-                return response()->json(
-                    [
-                        'status' => 201,
-                        'data' => [
-                            'ranking' => array_map(function ($item) {
-                                $item['Score'] = $item['AS'];
-                                unset($item['AS']);
-                                return $item;
-                            }, $this->getEdasData()['ranking'])
+                try {
+                    return response()->json(
+                        [
+                            'status' => 201,
+                            'data' => [
+                                'ranking' => array_map(function ($item) {
+                                    $item['Score'] = $item['AS'];
+                                    unset($item['AS']);
+                                    return $item;
+                                }, $this->getEdasData()['ranking'])
+                            ]
                         ]
-                    ]
-                );
+                    );
+                } catch (\Exception $e) {
+                    return response()->json(
+                        [
+                            'status' => 500,
+                            'timestamp' => now(),
+                            'message' => $e->getMessage()
+                        ]
+                    );
+                }
 
             case 'mabac':
-                return response()->json(
-                    [
+                try {
+                    return response()->json(
+                        [
+                            'status' => 201,
+                            'data' => [
+                                'ranking' => array_map(function ($item) {
+                                    $item['Score'] = $item['S'];
+                                    unset($item['S']);
+                                    return $item;
+                                }, $this->getMabacData()['rankingMatrix'])
+                            ]
+                        ]
+                    );
+                } catch (\Exception $e) {
+                    return response()->json(
+                        [
+                            'status' => 500,
+                            'timestamp' => now(),
+                            'message' => $e->getMessage()
+                        ]
+                    );
+                }
+
+            case 'moora':
+                try {
+                    return response()->json([
                         'status' => 201,
                         'data' => [
                             'ranking' => array_map(function ($item) {
-                                $item['Score'] = $item['S'];
-                                unset($item['S']);
+                                $item['Score'] = $item['Yi(Benefit-Cost)'];
+                                unset($item['Yi(Benefit-Cost)']);
                                 return $item;
-                            }, $this->getMabacData()['rankingMatrix'])
+                            }, $this->getMooraData()['ranking'])
                         ]
-                    ]
-                );
-
-            case 'moora':
-                return response()->json([
-                    'status' => 201,
-                    'data' => [
-                        'ranking' => array_map(function ($item) {
-                            $item['Score'] = $item['Yi(Benefit-Cost)'];
-                            unset($item['Yi(Benefit-Cost)']);
-                            return $item;
-                        }, $this->getMooraData()['ranking'])
-                    ]
-                ]);
+                    ]);
+                } catch (\Exception $e) {
+                    return response()->json(
+                        [
+                            'status' => 500,
+                            'timestamp' => now(),
+                            'message' => $e->getMessage()
+                        ]
+                    );
+                }
 
             case 'aras':
-                return response()->json([
-                    'status' => 201,
-                    'data' => [
-                        'ranking' => array_map(function ($item) {
-                            $item['Score'] = $item['K'];
-                            unset($item['K']);
-                            return $item;
-                        }, $this->getArasData()['utilityRanking'])
-                    ]
-                ]);
+                try {
+                    return response()->json([
+                        'status' => 201,
+                        'data' => [
+                            'ranking' => array_map(function ($item) {
+                                $item['Score'] = $item['K'];
+                                unset($item['K']);
+                                return $item;
+                            }, $this->getArasData()['utilityRanking'])
+                        ]
+                    ]);
+                } catch (\Exception $e) {
+                    return response()->json(
+                        [
+                            'status' => 500,
+                            'timestamp' => now(),
+                            'message' => $e->getMessage()
+                        ]
+                    );
+                }
 
             case 'saw':
-                return response()->json([
-                    'status' => 201,
-                    'data' => [
-                        'ranking' => array_map(function ($item) {
-                            $item['Score'] = $item['Nilai Preferensi'];
-                            unset($item['Nilai Preferensi']);
-                            return $item;
-                        }, $this->getSAWData()['ranking'])
-                    ]
-                ]);
+                try {
+                    return response()->json([
+                        'status' => 201,
+                        'data' => [
+                            'ranking' => array_map(function ($item) {
+                                $item['Score'] = $item['Nilai Preferensi'];
+                                unset($item['Nilai Preferensi']);
+                                return $item;
+                            }, $this->getSAWData()['ranking'])
+                        ]
+                    ]);
+                } catch (\Exception $e) {
+                    return response()->json(
+                        [
+                            'status' => 500,
+                            'timestamp' => now(),
+                            'message' => $e->getMessage()
+                        ]
+                    );
+                }
 
             case 'electre':
-                return response()->json([
-                    'status' => 201,
-                    'data' => [
-                        'ranking' => array_map(function ($item) {
-                            $item['Score'] = $item['E'];
-                            unset($item['E']);
-                            return $item;
-                        }, $this->getElectreData()['ranking'])
-                    ]
-                ]);
+                try {
+                    return response()->json([
+                        'status' => 201,
+                        'data' => [
+                            'ranking' => array_map(function ($item) {
+                                $item['Score'] = $item['E'];
+                                unset($item['E']);
+                                return $item;
+                            }, $this->getElectreData()['ranking'])
+                        ]
+                    ]);
+                } catch (\Exception $e) {
+                    return response()->json(
+                        [
+                            'status' => 500,
+                            'timestamp' => now(),
+                            'message' => $e->getMessage()
+                        ]
+                    );
+                }
 
 
             case 'all':
