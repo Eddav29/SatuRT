@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Penduduk;
 use App\Models\User;
-use App\Services\ImageManager\imageService;
+use App\Services\ImageManager\ImageService;
 use App\Services\Notification\NotificationPusher;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -87,7 +87,7 @@ class ProfileController extends Controller
         try {
             DB::beginTransaction();
             if ($request->file('images')) {
-                $imageName = imageService::uploadFile('storage_ktp', $request);
+                $imageName = ImageService::uploadFile('storage_ktp', $request);
                 $validated['foto_ktp'] = $imageName;
             }
             $penduduk = Penduduk::find($id);

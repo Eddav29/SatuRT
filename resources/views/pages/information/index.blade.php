@@ -19,12 +19,14 @@
                         'key' => 'jenis_informasi',
                         'style' => 'text-left truncate',
                         'customStyle' => [
-                            'Dokumentasi' =>
-                                'w-[10rem] py-2 px-3 text-center rounded-md bg-green-500/30 text-green-500',
+                            'Dokumentasi Kegiatan' =>
+                                'w-[15rem] py-2 px-3 text-center rounded-md bg-green-500/30 text-green-500',
+                            'Dokumentasi Rapat' => 
+                                'w-[15rem] py-2 px-3 text-center rounded-md bg-red-500/30 text-red-800',
                             'Pengumuman' =>
-                                'w-[10rem] py-2 px-3 text-center rounded-md bg-yellow-500/30 text-yellow-800',
-                            'Berita' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-orange-500/30 text-orange-800',
-                            'Artikel' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-blue-500/30 text-blue-800',
+                                'w-[15rem] py-2 px-3 text-center rounded-md bg-yellow-500/30 text-yellow-800',
+                            'Berita' => 'w-[15rem] py-2 px-3 text-center rounded-md bg-orange-500/30 text-orange-800',
+                            'Artikel' => 'w-[15rem] py-2 px-3 text-center rounded-md bg-blue-500/30 text-blue-800',
                         ],
                     ],
                     [

@@ -60,27 +60,24 @@
                             @error('jenis_informasi')
                                 <small class="text-red-500 text-xs py-3">{{ $message }}</small>
                             @enderror
-                            <select @change="handleChange(event.target.value)" id="jenis_informasi" name="jenis_informasi" required
-                                class="placeholder:font-light invalid:ring-1 invalid:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-gray-300 focus:text-navy-night"
-                                :class="selected === 'Pilih Jenis Informasi' ? 'text-gray-300 text-xs' :
-                                    'text-navy-night text-sm'">
+                            <select @change="handleChange(event.target.value)" id="jenis_informasi"
+                                name="jenis_informasi" required
+                                class="placeholder:font-light invalid:ring-1 invalid:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-navy-night text-sm">
                                 <option value="Pilih Jenis Informasi" @click="selected = 'Pilih Jenis Informasi'"
                                     x-bind:selected="selected === 'Pilih Jenis Informasi'">Pilih Jenis Informasi
                                 </option>
-                                <option value="Dokumentasi" @click="selected = 'Dokumentasi'"
-                                    x-bind:selected="selected === 'Dokumentasi'">Dokumentasi</option>
-                                <option value="Pengumuman" @click="selected = 'Pengumuman'"
-                                    x-bind:selected="selected === 'Pengumuman'">Pengumuman</option>
-                                <option value="Berita" @click="selected = 'Berita'"
-                                    x-bind:selected="selected === 'Berita'">Berita</option>
-                                <option value="Artikel" @click="selected = 'Artikel'"
-                                    x-bind:selected="selected === 'Artikel'">Artikel</option>
+                                @foreach ($informationTypes as $informationType)
+                                    <option value="{{ $informationType }}" @click="selected = '{{ $informationType }}'"
+                                        x-bind:selected="selected === '{{ $informationType }}'">{{ $informationType }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
 
                         {{-- Field File Upload --}}
-                        <div class="flex flex-col mt-5" :class="selected === 'Pilih Jenis Informasi' ? 'hidden' : ''">
-                            <label for="image_url" class="block font-semibold text-navy-night" id="file-label"></label>
+                        <div class="flex flex-col mt-5">
+                            <label for="image_url" class="block font-semibold text-navy-night" id="file-label"
+                                x-html="(selected == 'Pengumuman' || selected == 'Dokumentasi Rapat') ? '<p>Lampiran</p>' : '<p>Thumbnail <span class=\'text-xs font-medium\'>(jpg, jpeg, png, svg, gif)</span></p>'"></label>
                             @error('images')
                                 <small class="text-red-500 text-xs py-3">{{ $message }}</small>
                             @enderror
@@ -91,7 +88,8 @@
                             <input
                                 class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-primary focus:text-gray-700 focus:shadow-inset focus:outline-none"
                                 type="file" id="file_input" name="images" value="{{ old('images') }}"
-                                onchange="previewImage()" x-bind:accept="selected === 'Pengumuman' ? '' : 'image/*'" />
+                                onchange="previewImage()"
+                                x-bind:accept="selected === 'Pengumuman' || selected === 'Dokumentasi Rapat' ? '' : 'image/*'" />
                         </div>
                     </div>
 
@@ -283,7 +281,7 @@
 
             function handleChange(value) {
                 const label = document.querySelector('#file-label');
-                if (value && (value === 'Pengumuman')) {
+                if (value && (value === 'Pengumuman' || value === 'Dokumentasi Rapat')) {
                     label.innerHTML =
                         '<div class="flex items-center gap-x-1"><p>Lampiran</p><p class="text-xs font-light text-red-500 inline after:content-[\'*\'] after:ml-0.5 after:text-red-500 after:text-base after:font-medium">max. 2MB</p></div>';
                 } else {

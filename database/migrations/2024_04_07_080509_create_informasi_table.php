@@ -16,7 +16,8 @@ return new class extends Migration {
             $table->string('judul_informasi');
             $table->enum('jenis_informasi', [
                 'Pengumuman',
-                'Dokumentasi',
+                'Dokumentasi Kegiatan',
+                'Dokumentasi Rapat',
                 'Berita',
                 'Artikel',
             ]);

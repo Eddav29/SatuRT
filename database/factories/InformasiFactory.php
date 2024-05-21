@@ -22,7 +22,8 @@ class InformasiFactory extends Factory
             'judul_informasi' => $this->faker->word(),
             'jenis_informasi' => $this->faker->randomElement([
                 'Pengumuman',
-                'Dokumentasi',
+                'Dokumentasi Kegiatan',
+                'Dokumentasi Rapat',
                 'Berita',
                 'Artikel',
             ]),

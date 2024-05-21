@@ -42,19 +42,15 @@
                                 <small class="text-red-500 text-xs py-3">{{ $message }}</small>
                             @enderror
                             <select id="jenis_informasi" name="jenis_informasi" required
-                                class="placeholder:font-light invalid:ring-1 invalid:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-gray-300 focus:text-navy-night"
-                                :class="selected === 'Pilih Jenis Informasi' ? 'text-gray-300' : 'text-navy-night'">
+                                class="placeholder:font-light invalid:ring-1 invalid:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-navy-night focus:text-navy-night">
                                 <option value="Pilih Jenis Informasi" @click="selected = 'Pilih Jenis Informasi'"
                                     x-bind:selected="selected === 'Pilih Jenis Informasi'">Pilih Jenis Informasi
                                 </option>
-                                <option value="Dokumentasi" @click="selected = 'Dokumentasi'"
-                                    x-bind:selected="selected === 'Dokumentasi'">Dokumentasi</option>
-                                <option value="Pengumuman" @click="selected = 'Pengumuman'"
-                                    x-bind:selected="selected === 'Pengumuman'">Pengumuman</option>
-                                <option value="Berita" @click="selected = 'Berita'"
-                                    x-bind:selected="selected === 'Berita'">Berita</option>
-                                <option value="Artikel" @click="selected = 'Artikel'"
-                                    x-bind:selected="selected === 'Artikel'">Artikel</option>
+                                @foreach ($informationTypes as $informationType)
+                                    <option value="{{ $informationType }}" @click="selected = '{{ $informationType }}'"
+                                        x-bind:selected="selected === '{{ $informationType }}'">{{ $informationType }}
+                                    </option>
+                                @endforeach
                             </select>
                         </div>
 
@@ -68,26 +64,41 @@
 
                             <div id="old-preview-container">
                                 @if ($fileType === 'file')
+                                    @php
+                                        $pos = strpos($information->thumbnail_url, '-');
+                                        $fileName = '';
+                                        if ($pos !== false) {
+                                            // Mengambil bagian dari string setelah tanda '-'
+                                            $fileName = substr($information->thumbnail_url, $pos + 1);
+                                        }
+                                    @endphp
                                     <div class="flex gap-x-2 items-center">
                                         <div id="file-icon"></div>
                                         <div class="flex flex-col" id="preview-file-container">
                                             @if ($file_extension == 'pdf')
                                                 <a href="{{ route('file.show', ['path' => 'pengumuman', 'identifier' => $information->informasi_id]) }}"
                                                     class="text-blue-500 py-3 text-sm font-light"
-                                                    target="_blank">{{ $information->thumbnail_url }}</a>
+                                                    target="_blank">{{ $fileName }}</a>
                                             @else
                                                 <a href="{{ route('file.download', ['path' => 'pengumuman', 'identifier' => $information->informasi_id]) }}"
                                                     class="text-blue-500 py-3 text-sm font-light"
-                                                    target="_blank">{{ $information->thumbnail_url }}</a>
+                                                    target="_blank">{{ $fileName }}</a>
                                             @endif
                                         </div>
                                     </div>
                                 @else
-                                    @if ($information->jenis_informasi != 'Pengumuman')
-                                        <div class="py-3">
-                                            <img class="rounded-lg w-auto h-auto"
-                                                src="{{ asset('storage/images_storage/' . $information->thumbnail_url) }}">
-                                        </div>
+                                    @if ($information->jenis_informasi != 'Pengumuman' && $information->jenis_informasi != 'Dokumentasi Rapat')
+                                        @if (strpos($information->thumbnail_url, 'https://') === 0)
+                                            <div>
+                                                <img src="{{ $information->thumbnail_url }}" alt=""
+                                                    class="w-full object-cover rounded-lg">
+                                            </div>
+                                        @else
+                                            <div>
+                                                <img src="{{ asset('storage/images_storage/' . $information->thumbnail_url) }}"
+                                                    alt="" class="w-full object-cover rounded-lg">
+                                            </div>
+                                        @endif
                                     @else
                                         <div class="py-3">
                                             <img class="rounded-lg w-auto h-auto"
