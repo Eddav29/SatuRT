@@ -15,8 +15,12 @@
             </section>
             {{-- Forms Permhonan Surat --}}
             <section>
-                <form
+                <form method="POST" action="{{ route('pelaporan.update', $pelaporan->pelaporan_id) }}"
                     class="p-6 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col md:grid md:grid-cols-1 md:auto-rows-auto gap-y-5">
+
+                    @csrf
+                    @method('PUT')
+                    
                     <div class="md:grid md:grid-cols-4">
                         <h5 class="font-semibold">Judul Laporan</h5>
                         <p class="md:col-span-3">{{ $pelaporan->pengajuan->keperluan }}</p>
@@ -70,10 +74,12 @@
 
                     {{-- Tombol Kembali --}}
                     <div class="mt-10 flex gap-x-5">
-                        <a type="kembali" href="{{ route('pelaporan.index') }}"
-                            class="bg-azure-blue text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">
-                            <p>Kembali</p>
-                        </a>
+                        <button type="submit" name="status_id" value="4" class="bg-red-500 hover:bg-red-800 text-orange py-2 px-4 rounded mt-4 mr-2">
+                            Batalkan
+                        </button>
+                        <a href="#" onclick="window.history.back()" class="bg-blue-500 hover:bg-blue-800 text-white py-2 px-4 rounded mt-4 mr-2">
+                        Kembali
+                    </a>
                     </div>
                 </form>
             </section>
