@@ -19,8 +19,8 @@
                 </div>
 
                 <section class="space-y-4">
-                    <div class="mt-5 gap-5">
-                        <div>
+                    <div class="mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
+                        <div class="ml-3">
                             <label for="nama"
                                 class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Nama
                                 Inventaris</label>
@@ -28,32 +28,32 @@
                                 value="{{ $inventaris->nama_inventaris }}"
                                 class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
                         </div>
-                    </div>
-
-                    <div class="mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
-                        <div>
+                        <div class="ml-3">
                             <label for="merk" class="font-semibold">Merk</label>
                             <input type="text" placeholder="Masukkan Merk" name="merk"
                                 value="{{ $inventaris->merk }}"
                                 class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
                         </div>
-                        <div>
+                    </div>
+
+                    <div class="mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
+                        <div class="ml-3">
                             <label for="warna" class="font-semibold">Warna</label>
                             <input type="text" placeholder="Masukkan Warna" name="warna"
                                 value="{{ $inventaris->warna }}"
                                 class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
                         </div>
-                    </div>
-
-                    <div class="mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
-                        <div>
+                        <div class="ml-3">
                             <label for="jumlah"
                                 class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Jumlah</label>
                             <input type="text" placeholder="Masukkan Jumlah" name="jumlah"
                                 value="{{ $inventaris->jumlah }}"
                                 class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
                         </div>
-                        <div>
+                    </div>
+
+                    <div class="mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
+                        <div class="ml-3">
                             <label for="jenis"
                                 class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Jenis</label>
                             <select name="jenis"
@@ -74,10 +74,7 @@
 
                             </select>
                         </div>
-                    </div>
-
-                    <div class="mt-5 gap-5 flex max-lg:flex-col lg:grid">
-                        <div>
+                        <div class="ml-3">
                             <label for="sumber"
                                 class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Sumber</label>
                             <select name="sumber"

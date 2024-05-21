@@ -135,43 +135,46 @@ class ResidentReportController extends Controller
                     return redirect()->route('pelaporan.index')->with(['error' => 'Gagal menyimpan perubahan']);
                 }
 
+            }
 
-            } else {
-                $pelaporan = Pelaporan::find($id);
-                $pengajuan = Pengajuan::find($pelaporan->pengajuan_id);
+            $pelaporan = Pelaporan::find($id);
+            $pengajuan = Pengajuan::find($pelaporan->pengajuan_id);
 
-                $validated = $request->validate([
-                    'keperluan' => 'required',
-                    'accepted_at' => 'required|date',
-                    'jenis_pelaporan' => 'required',
-                    'keterangan' => 'required',
+            // dd($request->all());
+
+            $validated = $request->validate([
+                'keperluan' => 'required',
+                'accepted_at' => 'required|date',
+                'jenis_pelaporan' => 'required',
+                'image_url' => '2048|image',
+                'keterangan' => 'required',
+            ]);
+
+            if ($request->image_url) {
+                Storage::delete('public/resident-report_images/' . $pelaporan->image_url);
+
+                $imageFileName = $request->file('image_url')->store('resident-report_images', 'public');
+                $pelaporan['image_url'] = basename($imageFileName);
+            }
+
+            try {
+                $pelaporan->update([
+                    'image_url' => $pelaporan['image_url'],
+                    'jenis_pelaporan' => $validated['jenis_pelaporan'],
                 ]);
 
-                if ($request->image_url) {
-                    Storage::delete('public/resident-report_images/' . $pelaporan->image_url);
+                $pengajuan->update([
+                    'keperluan' => $validated['keperluan'],
+                    'accepted_at' => $validated['accepted_at'],
+                    'keterangan' => $validated['keterangan'],
+                ]);
 
-                    $imageFileName = $request->file('image_url')->store('resident-report_images', 'public');
-                    $pelaporan['image_url'] = basename($imageFileName);
-                }
 
-                try {
-                    $pelaporan->update([
-                        'image_url' => $pelaporan['image_url'],
-                        'jenis_pelaporan' => $validated['jenis_pelaporan'],
-                    ]);
-
-                    $pengajuan->update([
-                        'keperluan' => $validated['keperluan'],
-                        'accepted_at' => $validated['accepted_at'],
-                        'keterangan' => $validated['keterangan'],
-                    ]);
-
-                    NotificationPusher::success('Perubahan berhasil disimpan');
-                    return redirect()->route('pelaporan.show', ['pelaporan' => $id])->with(['success' => 'Perubahan berhasil disimpan']);
-                } catch (\Throwable $th) {
-                    NotificationPusher::error('Gagal menyimpan perubahan');
-                    return redirect()->route('pelaporan.show', ['pelaporan' => $id])->with(['error' => 'Gagal menyimpan perubahan']);
-                }
+                NotificationPusher::success('Perubahan berhasil disimpan');
+                return redirect()->route('pelaporan.show', ['pelaporan' => $id])->with(['success' => 'Perubahan berhasil disimpan']);
+            } catch (\Throwable $th) {
+                NotificationPusher::error('Gagal menyimpan perubahan');
+                return redirect()->route('pelaporan.show', ['pelaporan' => $id])->with(['error' => 'Gagal menyimpan perubahan']);
             }
         }
     }
