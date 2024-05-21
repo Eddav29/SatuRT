@@ -27,57 +27,7 @@ class SAWService extends DecisionMakerService
         $this->stepPreferenceValue();
         $this->stepRanking();
     }
-
-    private function transposeMatrix($data): array
-    {
-        $array = [];
-        for ($i = 1; $i <= count($data[1]); $i++) {
-            $row = [];
-            for ($j = 0; $j < count($data); $j++) {
-                $row[] = $data[$j + 1][$i];
-            }
-            $array[] = $row;
-        }
-
-        return $array;
-    }
-
-    private function getMax(array $data): array
-    {
-        $max = [];
-
-        for ($i = 0; $i < count($data); $i++) {
-            $max[] = max($data[$i]);
-        }
-
-        return $max;
-    }
-
-    private function getMin(array $data): array
-    {
-        $min = [];
-
-        for ($i = 0; $i < count($data); $i++) {
-            $min[] = min($data[$i]);
-        }
-
-        return $min;
-    }
-
-    private function integerData(): array
-    {
-        $convertValueToInteger = function ($value) {
-            return (int) $value;
-        };
-
-        $integerArray = [];
-        foreach (parent::getData() as $key => $subarray) {
-            $integerArray[$key] = array_map($convertValueToInteger, $subarray);
-        }
-
-        return $integerArray;
-    }
-
+ 
     private function stepNormalization()
     {
         $matrix = $this->stepData['decisionMatrix'];

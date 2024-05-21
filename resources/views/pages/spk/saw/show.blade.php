@@ -46,36 +46,15 @@
                     :withAlternative="true" :alternatives="$alternatives" :data="$data['normalized']">
                     <p class="break-words">Normalisasi diperoleh dengan menggunakan rumus:</p>
                     <div class="flex flex-col gap-y-2">
-                        <p class="border border-black p-2 w-full">Jenis Kriteria Benefit: $$t_{ij} = {X_{ij} - X^-_{ij}
-                            \over X^+_{ij} - X^-_{ij}}$$</p>
-                        <p class="border border-black p-2 w-full">Jenis Kriteria Cost: $$t_{ij} = {X_{ij} - X^+_{ij}
-                            \over X^-_{ij} - X^+_{ij}}$$</p>
+                        <p class="border border-black p-2 w-full">Jenis Kriteria Benefit: $$r_{ij} = {X_{ij} \over Max X_{ij}}$$</p>
+                        <p class="border border-black p-2 w-full">Jenis Kriteria Cost: $$r_{ij} = {Min X_{ij} \over X_{ij}}$$</p>
                     </div>
                     <hr>
-                    <p>$$X = \begin{array}{c}
-                        & \begin{matrix}
-                        C_{1} & C_{2} & ... & C_{n}
-                        \end{matrix} \\
-                        \begin{array}{c}
-                        A_1\\
-                        A_2\\
-                        ...\\
-                        A_3
-                        \end{array}
-                        &
-                        \begin{pmatrix}
-                        X_{11} & X_{12} & ... & X_{1m}\\
-                        X_{11} & X_{22} & ... & X_{2n}\\
-                        ... & ... & ... & ...\\
-                        X_{1m} & X_{2m} & ... & X_{mn}
-                        \end{pmatrix}
-                        \end{array}$$</p>
                     <div class="flex flex-col gap-y-5">
                         Keterangan:
-                        <p>\(X_{ij}, X_{i^+}, X_{i^-} = \) menyajikan elemen matriks keputusan awal(X), dimana \(X_{i^+}
-                            \) dan \(X_{i^-}\) didefinisikan sebagai berikut:</p>
-                        <p>\(X_{i^+} = \) \(max(x1, x2, x3, ..., x_{m})\) mewakili nilai maksimum dari alternatif</p>
-                        <p>\(X_{i^-} = \) \(min(x1, x2, x3, ..., x_{m})\) mewakili nilai minimum dari alternatif</p>
+                        <p>\(r_{ij} = \) mewakili nilai ternormalisasi</p>
+                        <p>\(Max X_{ij} = \) \(max(x1, x2, x3, ..., x_{m})\) mewakili nilai maksimum dari alternatif</p>
+                        <p>\(Min X_{ij} = \) \(min(x1, x2, x3, ..., x_{m})\) mewakili nilai minimum dari alternatif</p>
                     </div>
                 </x-decision-support-table>
             </section>
@@ -84,38 +63,17 @@
                 <x-decision-support-table :emptyColumn="true" stepTitle="Nilai Preferensi (v)" setColumnAs="Custom"
                 :columns="['Relevansi', 'Dampak Sosial', 'Jumlah Panitia', 'Biaya', 'Kesulitan', 'V']"
                     :withAlternative="true" :alternatives="$alternatives" :data="$data['perhitunganNilaiPreferensi']">
-                    <p class="break-words">Normalisasi diperoleh dengan menggunakan rumus:</p>
+                    <p class="break-words">Nilai Preferensi diperoleh dengan menggunakan rumus:</p>
                     <div class="flex flex-col gap-y-2">
-                        <p class="border border-black p-2 w-full">Jenis Kriteria Benefit: $$t_{ij} = {X_{ij} - X^-_{ij}
-                            \over X^+_{ij} - X^-_{ij}}$$</p>
-                        <p class="border border-black p-2 w-full">Jenis Kriteria Cost: $$t_{ij} = {X_{ij} - X^+_{ij}
-                            \over X^-_{ij} - X^+_{ij}}$$</p>
+                        <p class="border border-black p-2 w-full">$$v_{i} = \sum_{j=1}^{n} \left({w_{j}  r_{ij}}\right)$$</p>
                     </div>
                     <hr>
-                    <p>$$X = \begin{array}{c}
-                        & \begin{matrix}
-                        C_{1} & C_{2} & ... & C_{n}
-                        \end{matrix} \\
-                        \begin{array}{c}
-                        A_1\\
-                        A_2\\
-                        ...\\
-                        A_3
-                        \end{array}
-                        &
-                        \begin{pmatrix}
-                        X_{11} & X_{12} & ... & X_{1m}\\
-                        X_{11} & X_{22} & ... & X_{2n}\\
-                        ... & ... & ... & ...\\
-                        X_{1m} & X_{2m} & ... & X_{mn}
-                        \end{pmatrix}
-                        \end{array}$$</p>
                     <div class="flex flex-col gap-y-5">
                         Keterangan:
-                        <p>\(X_{ij}, X_{i^+}, X_{i^-} = \) menyajikan elemen matriks keputusan awal(X), dimana \(X_{i^+}
-                            \) dan \(X_{i^-}\) didefinisikan sebagai berikut:</p>
-                        <p>\(X_{i^+} = \) \(max(x1, x2, x3, ..., x_{m})\) mewakili nilai maksimum dari alternatif</p>
-                        <p>\(X_{i^-} = \) \(min(x1, x2, x3, ..., x_{m})\) mewakili nilai minimum dari alternatif</p>
+                        <p>\(v_{i} = \) mewakili nilai preferensi dari alternatif</p>
+                        <p>\(w_{j} = \) mewakili nilai bobot dari kriteria</p>
+                        <p>\(r_{ij} = \) mewakili nilai ternormalisasi</p>
+                        <p>\(\sum_{j=1}^{n} \left(w_{j} r_{ij}\right)\ = \) mewakili jumlah hasil perkalian bobot dan nilai ternormalisasi</p>
                     </div>
                 </x-decision-support-table>
             </section>
@@ -123,39 +81,8 @@
             <section>
                 <x-decision-support-table stepTitle="Perankingan Alternatif" setColumnAs="Custom" :columns="['Alternatif', 'V', 'Ranking']"
                     :withAlternative="false" :data="$data['ranking']">
-                    <p class="break-words">Normalisasi diperoleh dengan menggunakan rumus:</p>
-                    <div class="flex flex-col gap-y-2">
-                        <p class="border border-black p-2 w-full">Jenis Kriteria Benefit: $$t_{ij} = {X_{ij} - X^-_{ij}
-                            \over X^+_{ij} - X^-_{ij}}$$</p>
-                        <p class="border border-black p-2 w-full">Jenis Kriteria Cost: $$t_{ij} = {X_{ij} - X^+_{ij}
-                            \over X^-_{ij} - X^+_{ij}}$$</p>
-                    </div>
+                    <p class="break-words">Perangkingan Alternatif diambil dari nilai preferensi terbesar</p>
                     <hr>
-                    <p>$$X = \begin{array}{c}
-                        & \begin{matrix}
-                        C_{1} & C_{2} & ... & C_{n}
-                        \end{matrix} \\
-                        \begin{array}{c}
-                        A_1\\
-                        A_2\\
-                        ...\\
-                        A_3
-                        \end{array}
-                        &
-                        \begin{pmatrix}
-                        X_{11} & X_{12} & ... & X_{1m}\\
-                        X_{11} & X_{22} & ... & X_{2n}\\
-                        ... & ... & ... & ...\\
-                        X_{1m} & X_{2m} & ... & X_{mn}
-                        \end{pmatrix}
-                        \end{array}$$</p>
-                    <div class="flex flex-col gap-y-5">
-                        Keterangan:
-                        <p>\(X_{ij}, X_{i^+}, X_{i^-} = \) menyajikan elemen matriks keputusan awal(X), dimana \(X_{i^+}
-                            \) dan \(X_{i^-}\) didefinisikan sebagai berikut:</p>
-                        <p>\(X_{i^+} = \) \(max(x1, x2, x3, ..., x_{m})\) mewakili nilai maksimum dari alternatif</p>
-                        <p>\(X_{i^-} = \) \(min(x1, x2, x3, ..., x_{m})\) mewakili nilai minimum dari alternatif</p>
-                    </div>
                 </x-decision-support-table>
             </section>
         </div>
