@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Alternatif;
 use App\Services\DecisionMakerGenerator\DecisionMakerService;
 use App\Services\DecisionMakerGenerator\Support\EddasService;
-use App\Services\DecisionMakerGenerator\Support\ElectreService;
 use App\Services\DecisionMakerGenerator\Support\MabacService;
 use App\Services\DecisionMakerGenerator\Support\MooraService;
+use App\Services\DecisionMakerGenerator\Support\ArasService;
+use App\Services\DecisionMakerGenerator\Support\ElectreService;
 use App\Services\DecisionMakerGenerator\Support\SAWService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -29,6 +30,7 @@ class DecisionSupportController extends Controller
         $this->edasService = new EddasService();
         $this->mabacService = new MabacService();
         $this->mooraService = new MooraService();
+        $this->arasService = new ArasService();
         $this->sawService = new SAWService();
         $this->electreService = new ElectreService();
     }
@@ -102,6 +104,19 @@ class DecisionSupportController extends Controller
                     'breadcrumb' => $breadcrumb
                 ]);
 
+                case 'aras':
+                    $breadcrumb = [
+                        'list' => ['Home', 'Pendukung Keputusan', 'Detail', 'ARAS'],
+                        'url' => ['home', 'spk.index', 'spk.index', 'spk.index', 'spk.index'],
+                    ];
+    
+                    return response()->view('pages.spk.aras.show', [
+                        'data' => $this->getArasData(),
+                        'criterias' => $criterias,
+                        'weights' => $weights,
+                        'alternatives' => $alternatives,
+                        'breadcrumb' => $breadcrumb
+                    ]);
                 case 'saw':
                     $breadcrumb = [
                         'list' => ['Home', 'Pendukung Keputusan', 'Detail', 'SAW'],
@@ -180,10 +195,16 @@ class DecisionSupportController extends Controller
                     ]
                 ]);
 
-            case 'metode4':
+            case 'aras':
                 return response()->json([
                     'status' => 201,
-                    'data' => "Sedang dalam pengembangan"
+                    'data' => [
+                        'ranking' => array_map(function ($item) {
+                            $item['Score'] = $item['Yi(Benefit-Cost)'];
+                            unset($item['Yi(Benefit-Cost)']);
+                            return $item;
+                        }, $this->getMooraData()['ranking'])
+                    ]
                 ]);
 
             case 'saw':
@@ -240,6 +261,22 @@ class DecisionSupportController extends Controller
                             }, $this->getMooraData()['ranking'])
                         ],
                         [
+                            'metode' => "Additive Ratio Assesment (ARAS)",
+                            'ranking' => array_map(function ($item) {
+                                $item['Score'] = $item['Yi(Benefit-Cost)'];
+                                unset($item['Yi(Benefit-Cost)']);
+                                return $item;
+                            }, $this->getMooraData()['ranking'])
+                        ],
+                        [
+                            'metode' => "Simple Additive Weighted (SAW)",
+                            'ranking' => array_map(function ($item) {
+                                $item['Score'] = $item['Nilai Preferensi)'];
+                                unset($item['Nilai Preferensi)']);
+                                return $item;
+                            }, $this->getMooraData()['ranking'])
+                        ],
+                        [
                             'metode' => "ELimination Et Choix TRaduisant la realitE (ELECTRE)",
                             'ranking' => array_map(function ($item) {
                                 $item['Score'] = $item['E'];
@@ -267,6 +304,11 @@ class DecisionSupportController extends Controller
     private function getMooraData(): array
     {
         return $this->mooraService->getStepData();
+    }
+
+    private function getArasData(): array
+    {
+        return $this->arasService->getStepData();
     }
 
     private function getElectreData(): array
