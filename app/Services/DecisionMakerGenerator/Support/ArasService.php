@@ -73,10 +73,10 @@ class ArasService extends DecisionMakerService
         $matrix = $this->convert_cost_value();
         $criteriaType = parent::getTipe();
 
-    
+
         // Initialize sum arrays for benefit and cost criteria
         $sum_j = [];
-    
+
         // Calculate sum of values for benefit and inverse sum for cost
         foreach ($matrix as $row) {
             foreach ($row as $colIndex => $value) {
@@ -86,24 +86,24 @@ class ArasService extends DecisionMakerService
             }
         }
 
-    
+
         // Initialize the normalized matrix
         $R = [];
-    
+
         foreach ($matrix as $rowIndex => $row) {
             $R[$rowIndex] = []; // Initialize the row in the normalized matrix
-    
+
             foreach ($row as $colIndex => $value) {
                 if ($colIndex === 0) {
                     // Copy the identifier column as is
                     $R[$rowIndex][$colIndex] = $value;
                 } else {
-                    if ($criteriaType[$colIndex] == 'Cost') {
+                    if ($criteriaType[$colIndex - 1] == 'Cost') {
                         // Normalize for cost criteria
-                        $R[$rowIndex][$colIndex] = $this->trimTrailingZeros(number_format(($value) / $sum_j[$colIndex],3,'.',''));
+                        $R[$rowIndex][$colIndex - 1] = $this->trimTrailingZeros(number_format(($value) / $sum_j[$colIndex - 1],3,'.',''));
                     } else {
                         // Normalize for benefit criteria
-                        $R[$rowIndex][$colIndex] = $this->trimTrailingZeros(number_format($value / $sum_j[$colIndex],3,'.',''));
+                        $R[$rowIndex][$colIndex - 1] = $this->trimTrailingZeros(number_format($value / $sum_j[$colIndex],3,'.',''));
                     }
                 }
             }
@@ -112,8 +112,8 @@ class ArasService extends DecisionMakerService
         // Save the normalized matrix in stepData
         $this->stepData['normalizedMatrix'] = $R;
     }
-    
-    
+
+
 
 
     public function weightedNormalization()
@@ -137,7 +137,7 @@ class ArasService extends DecisionMakerService
     {
         $weightedMatrix = $this->stepData['weightedMatrix'];
         $siValues = [];
-    
+
         foreach ($weightedMatrix as $row) {
             $identifier = $row[0];
             $si = array_sum(array_slice($row, 1)); // Hitung nilai fungsi optimum (Si) untuk setiap baris matriks
@@ -146,7 +146,7 @@ class ArasService extends DecisionMakerService
                 'Si' => $si, // Gunakan $si langsung, bukan $this->$si
             ];
         }
-    
+
         $this->stepData['siValues'] = $siValues;
     }
 
@@ -167,11 +167,11 @@ class ArasService extends DecisionMakerService
                     ];
                 }
             }
-    
+
             usort($kValues, function ($a, $b) {
                 return $b['K'] <=> $a['K'];
             });
-    
+
             $alternatifs = parent::getAlternatifs(); // Ambil array alternatif dari parent
             $rankedAlternatives = [];
             $rank = 1;
@@ -186,7 +186,7 @@ class ArasService extends DecisionMakerService
                 ];
                 $rank++;
             }
-    
+
             $this->stepData['utilityRanking'] = $rankedAlternatives;
         }
     }
@@ -202,9 +202,9 @@ class ArasService extends DecisionMakerService
             for($j = 0; $j < count($matrix[$i]); $j++)
             {
                 if ($j != 0) {
-                    if($criteriaType[$j] == 'Cost')
+                    if($criteriaType[$j-1] == 'Cost')
                     {
-                        
+
                         $matrix[$i][$j] = $this->trimTrailingZeros(number_format(1 / $matrix[$i][$j], 3, '.', ''));
 
                     }

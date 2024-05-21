@@ -109,6 +109,7 @@ class ElectreServiceTest extends TestCase
 
     public function test_get_data(): void
     {
+        $this->assertTrue(true);
         $this->assertIsArray($this->electreService->getStepData());
         $this->assertArrayHasKey('decisionMatrix', $this->electreService->getStepData());
         $this->assertArrayHasKey('normalizationR', $this->electreService->getStepData());
@@ -117,23 +118,23 @@ class ElectreServiceTest extends TestCase
         $this->assertArrayHasKey('helperDiscordanceMatrix', $this->electreService->getStepData());
         $this->assertEquals(3, count($this->electreService->getStepData()['decisionMatrix']));
         $this->assertEquals(5, count($this->electreService->getStepData()['decisionMatrix'][1]));
-        $this->assertEquals(20, $this->electreService->getStepData()['decisionMatrix'][2][3]);
+        $this->assertEquals(20, $this->electreService->getStepData()['decisionMatrix'][1][2]);
     }
 
     public function test_normalization_r(): void
     {
         $this->assertIsArray($this->electreService->getStepData()['normalizationR']);
         $this->assertEquals(3, count($this->electreService->getStepData()['normalizationR']));
-        $this->assertEquals(5, count($this->electreService->getStepData()['normalizationR'][1]));
-        $this->assertEquals(0.453, $this->electreService->getStepData()['normalizationR'][2][3]);
+        $this->assertEquals(5, count($this->electreService->getStepData()['normalizationR'][0]));
+        $this->assertEquals(0.453, $this->electreService->getStepData()['normalizationR'][1][2]);
     }
 
     public function test_weighted_normalization_r(): void
     {
         $this->assertIsArray($this->electreService->getStepData()['weightedNormalizationR']);
         $this->assertEquals(3, count($this->electreService->getStepData()['weightedNormalizationR']));
-        $this->assertEquals(5, count($this->electreService->getStepData()['weightedNormalizationR'][1]));
-        $this->assertEquals(2.740, $this->electreService->getStepData()['weightedNormalizationR'][1][4]);
+        $this->assertEquals(5, count($this->electreService->getStepData()['weightedNormalizationR'][0]));
+        $this->assertEquals(2.740, $this->electreService->getStepData()['weightedNormalizationR'][0][3]);
     }
 
     public function test_helper_concordance_matrix(): void
@@ -141,53 +142,12 @@ class ElectreServiceTest extends TestCase
         $this->assertIsArray($this->electreService->getStepData()['helperConcordanceMatrix']);
         $this->assertEquals(6, count($this->electreService->getStepData()['helperConcordanceMatrix']));
         $this->assertEquals(5, count($this->electreService->getStepData()['helperConcordanceMatrix']['C12']));
-        $this->assertEquals([
-            1 => 1,
-            2 => 1,
-            3 => 0,
-            4 => 1,
-            5 => 1,
-        ], $this->electreService->getStepData()['helperConcordanceMatrix']['C12']);
-
-        $this->assertEquals([
-            1 => 0,
-            2 => 0,
-            3 => 0,
-            4 => 1,
-            5 => 0,
-        ], $this->electreService->getStepData()['helperConcordanceMatrix']['C13']);
-
-        $this->assertEquals([
-            1 => 0,
-            2 => 0,
-            3 => 1,
-            4 => 0,
-            5 => 0,
-        ], $this->electreService->getStepData()['helperConcordanceMatrix']['C21']);
-
-        $this->assertEquals([
-            1 => 0,
-            2 => 0,
-            3 => 0,
-            4 => 1,
-            5 => 0,
-        ], $this->electreService->getStepData()['helperConcordanceMatrix']['C23']);
-
-        $this->assertEquals([
-            1 => 1,
-            2 => 1,
-            3 => 1,
-            4 => 0,
-            5 => 1,
-        ], $this->electreService->getStepData()['helperConcordanceMatrix']['C31']);
-
-        $this->assertEquals([
-            1 => 1,
-            2 => 1,
-            3 => 1,
-            4 => 0,
-            5 => 1,
-        ], $this->electreService->getStepData()['helperConcordanceMatrix']['C32']);
+        $this->assertEquals([1,1,0,1,1], $this->electreService->getStepData()['helperConcordanceMatrix']['C12']);
+        $this->assertEquals([0,0,0,1,0], $this->electreService->getStepData()['helperConcordanceMatrix']['C13']);
+        $this->assertEquals([0,0,1,0,0], $this->electreService->getStepData()['helperConcordanceMatrix']['C21']);
+        $this->assertEquals([0,0,0,1,0], $this->electreService->getStepData()['helperConcordanceMatrix']['C23']);
+        $this->assertEquals([1,1,1,0,1], $this->electreService->getStepData()['helperConcordanceMatrix']['C31']);
+        $this->assertEquals([1,1,1,0,1], $this->electreService->getStepData()['helperConcordanceMatrix']['C32']);
     }
 
     public function test_helper_discordance_matrix(): void
@@ -195,49 +155,12 @@ class ElectreServiceTest extends TestCase
         $this->assertIsArray($this->electreService->getStepData()['helperDiscordanceMatrix']);
         $this->assertEquals(6, count($this->electreService->getStepData()['helperDiscordanceMatrix']));
         $this->assertEquals(5, count($this->electreService->getStepData()['helperDiscordanceMatrix']['D12']));
-
-        $this->assertEquals([
-            1 => 0,
-            2 => 0,
-            3 => 1,
-            4 => 0,
-            5 => 0,
-        ], $this->electreService->getStepData()['helperDiscordanceMatrix']['D12']);
-        $this->assertEquals([
-            1 => 1,
-            2 => 1,
-            3 => 1,
-            4 => 0,
-            5 => 1,
-        ], $this->electreService->getStepData()['helperDiscordanceMatrix']['D13']);
-        $this->assertEquals([
-            1 => 1,
-            2 => 1,
-            3 => 0,
-            4 => 1,
-            5 => 1,
-        ], $this->electreService->getStepData()['helperDiscordanceMatrix']['D21']);
-        $this->assertEquals([
-            1 => 1,
-            2 => 1,
-            3 => 1,
-            4 => 0,
-            5 => 1,
-        ], $this->electreService->getStepData()['helperDiscordanceMatrix']['D23']);
-        $this->assertEquals([
-            1 => 0,
-            2 => 0,
-            3 => 0,
-            4 => 1,
-            5 => 0,
-        ], $this->electreService->getStepData()['helperDiscordanceMatrix']['D31']);
-        $this->assertEquals([
-            1 => 0,
-            2 => 0,
-            3 => 0,
-            4 => 1,
-            5 => 0,
-        ], $this->electreService->getStepData()['helperDiscordanceMatrix']['D32']);
+        $this->assertEquals([0,0,1,0,0], $this->electreService->getStepData()['helperDiscordanceMatrix']['D12']);
+        $this->assertEquals([1,1,1,0,1], $this->electreService->getStepData()['helperDiscordanceMatrix']['D13']);
+        $this->assertEquals([1,1,0,1,1], $this->electreService->getStepData()['helperDiscordanceMatrix']['D21']);
+        $this->assertEquals([1,1,1,0,1], $this->electreService->getStepData()['helperDiscordanceMatrix']['D23']);
+        $this->assertEquals([0,0,0,1,0], $this->electreService->getStepData()['helperDiscordanceMatrix']['D31']);
+        $this->assertEquals([0,0,0,1,0], $this->electreService->getStepData()['helperDiscordanceMatrix']['D32']);
     }
 
     public function test_get_index_criteria(): void
@@ -254,44 +177,21 @@ class ElectreServiceTest extends TestCase
     {
         $this->assertIsArray($this->electreService->getStepData()['matrixConcordance']['C']);
         $this->assertEquals(3, count($this->electreService->getStepData()['matrixConcordance']['C']));
-        $this->assertEquals(3, count($this->electreService->getStepData()['matrixConcordance']['C'][1]));
-        $this->assertEquals([
-            1 => '-',
-            2 => 14,
-            3 => 4,
-        ], $this->electreService->getStepData()['matrixConcordance']['C'][1]);
-        $this->assertEquals([
-            1 => 4,
-            2 => '-',
-            3 => 4,
-        ], $this->electreService->getStepData()['matrixConcordance']['C'][2]);
-        $this->assertEquals([
-            1 => 14,
-            2 => 14,
-            3 => '-',
-        ], $this->electreService->getStepData()['matrixConcordance']['C'][3]);
+        $this->assertEquals(3, count($this->electreService->getStepData()['matrixConcordance']['C'][0]));
+        $this->assertEquals(['-', 14, 4], $this->electreService->getStepData()['matrixConcordance']['C'][0]);
+        $this->assertEquals([4, '-', 4], $this->electreService->getStepData()['matrixConcordance']['C'][1]);
+        $this->assertEquals([14, 14, '-'], $this->electreService->getStepData()['matrixConcordance']['C'][2]);
     }
 
     public function test_calculate_matrix_discordance(): void
     {
         $this->assertIsArray($this->electreService->getStepData()['matrixDiscordance']['D']);
         $this->assertEquals(3, count($this->electreService->getStepData()['matrixDiscordance']['D']));
-        $this->assertEquals(3, count($this->electreService->getStepData()['matrixDiscordance']['D'][1]));
-        $this->assertEquals([
-            1 => '-',
-            2 => 0.184,
-            3 => 1,
-        ], $this->electreService->getStepData()['matrixDiscordance']['D'][1]);
-        $this->assertEquals([
-            1 => 1,
-            2 => '-',
-            3 => 1,
-        ], $this->electreService->getStepData()['matrixDiscordance']['D'][2]);
-        $this->assertEquals([
-            1 => 0.532,
-            2 => 0.173,
-            3 => '-',
-        ], $this->electreService->getStepData()['matrixDiscordance']['D'][3]);
+        $this->assertEquals(3, count($this->electreService->getStepData()['matrixDiscordance']['D'][0]));
+
+        $this->assertEquals(['-', 0.184, 1], $this->electreService->getStepData()['matrixDiscordance']['D'][0]);
+        $this->assertEquals([1, '-', 1], $this->electreService->getStepData()['matrixDiscordance']['D'][1]);
+        $this->assertEquals([0.532, 0.173, '-'], $this->electreService->getStepData()['matrixDiscordance']['D'][2]);
     }
 
     public function test_calculate_threshold_matrix_concordance() {
@@ -307,64 +207,29 @@ class ElectreServiceTest extends TestCase
     public function test_calculate_matrix_dominant_concordance() {
         $this->assertIsArray($this->electreService->getStepData()['matrixDominantConcordance']['F']);
         $this->assertEquals(3, count($this->electreService->getStepData()['matrixDominantConcordance']['F']));
-        $this->assertEquals(3, count($this->electreService->getStepData()['matrixDominantConcordance']['F'][2]));
-        $this->assertEquals([
-            1 => '-',
-            2 => 1,
-            3 => 0,
-        ], $this->electreService->getStepData()['matrixDominantConcordance']['F'][1]);
-        $this->assertEquals([
-            1 => 0,
-            2 => '-',
-            3 => 0,
-        ], $this->electreService->getStepData()['matrixDominantConcordance']['F'][2]);
-        $this->assertEquals([
-            1 => 1,
-            2 => 1,
-            3 => '-',
-        ], $this->electreService->getStepData()['matrixDominantConcordance']['F'][3]);
+        $this->assertEquals(3, count($this->electreService->getStepData()['matrixDominantConcordance']['F'][1]));
+        $this->assertEquals(['-', 1, 0], $this->electreService->getStepData()['matrixDominantConcordance']['F'][0]);
+        $this->assertEquals([0, '-', 0], $this->electreService->getStepData()['matrixDominantConcordance']['F'][1]);
+        $this->assertEquals([1, 1, '-'], $this->electreService->getStepData()['matrixDominantConcordance']['F'][2]);
     }
 
     public function test_calculate_matrix_dominant_discordance() {
         $this->assertIsArray($this->electreService->getStepData()['matrixDominantDiscordance']['G']);
         $this->assertEquals(3, count($this->electreService->getStepData()['matrixDominantDiscordance']['G']));
-        $this->assertEquals(3, count($this->electreService->getStepData()['matrixDominantDiscordance']['G'][2]));
-        $this->assertEquals([
-            1 => '-',
-            2 => 0,
-            3 => 1,
-        ], $this->electreService->getStepData()['matrixDominantDiscordance']['G'][1]);
-        $this->assertEquals([
-            1 => 1,
-            2 => '-',
-            3 => 1,
-        ], $this->electreService->getStepData()['matrixDominantDiscordance']['G'][2]);
-        $this->assertEquals([
-            1 => 0,
-            2 => 0,
-            3 => '-',
-        ], $this->electreService->getStepData()['matrixDominantDiscordance']['G'][3]);
+        $this->assertEquals(3, count($this->electreService->getStepData()['matrixDominantDiscordance']['G'][1]));
+        $this->assertEquals(['-', 0, 1], $this->electreService->getStepData()['matrixDominantDiscordance']['G'][0]);
+        $this->assertEquals([1, '-', 1], $this->electreService->getStepData()['matrixDominantDiscordance']['G'][1]);
+        $this->assertEquals([0, 0, '-'], $this->electreService->getStepData()['matrixDominantDiscordance']['G'][2]);
     }
 
     public function test_determine_aggregate_matrix() {
         $this->assertIsArray($this->electreService->getStepData()['aggregateMatrix']);
         $this->assertEquals(3, count($this->electreService->getStepData()['aggregateMatrix']['E']));
-        $this->assertEquals(3, count($this->electreService->getStepData()['aggregateMatrix']['E'][2]));
-        $this->assertEquals([
-            1 => '-',
-            2 => 0,
-            3 => 0,
-        ], $this->electreService->getStepData()['aggregateMatrix']['E'][1]);
-        $this->assertEquals([
-            1 => 0,
-            2 => '-',
-            3 => 0,
-        ], $this->electreService->getStepData()['aggregateMatrix']['E'][2]);
-        $this->assertEquals([
-            1 => 0,
-            2 => 0,
-            3 => '-',
-        ], $this->electreService->getStepData()['aggregateMatrix']['E'][3]);
+        $this->assertEquals(3, count($this->electreService->getStepData()['aggregateMatrix']['E'][0]));
+
+        $this->assertEquals(['-', 0, 0], $this->electreService->getStepData()['aggregateMatrix']['E'][0]);
+        $this->assertEquals([0, '-', 0], $this->electreService->getStepData()['aggregateMatrix']['E'][1]);
+        $this->assertEquals([0, 0, '-'], $this->electreService->getStepData()['aggregateMatrix']['E'][2]);
     }
 
     public function test_ranking() {

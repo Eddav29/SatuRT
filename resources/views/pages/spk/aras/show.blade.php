@@ -13,7 +13,7 @@
             {{-- DecisionMatrix --}}
             <section>
                 <x-decision-support-table :emptyColumn="true" stepTitle="Matrix Keputusan (X)" :columns="$criterias"
-                                          :withAlternative="false" :alternatives="$alternatives" :data="$data['decisionMatrix1']" startIndex="1">
+                                          :withAlternative="false" :alternatives="$alternatives" :data="$data['decisionMatrix1']">
                 <p class="break-words">Pada matriks keputusan (X), baris menunjukkan Alternatif dan kolom menunjukkan kriteria. Matriks keputusan menunjukkan kinerja dari masing-masing alternatif terhadap berbagai kriteria</p>
                 {{-- startmath --}}
                 <math xmlns="http://www.w3.org/1998/Math/MathML">
@@ -190,7 +190,7 @@
                     <mo>,</mo>
                     <mi>n</mi>
                     <mo stretchy="false">)</mo>
-                  </math>    
+                  </math>
                 {{-- endMath --}}
                 <p class="break-words">
                   Rumus untuk A0 jika benefit:
@@ -205,14 +205,14 @@
                   \]
               </p>
 
-                
+
                   </x-decision-support-table>
             </section>
             {{-- endDecisionMatrix --}}
             {{----}}
             <section>
                 <x-decision-support-table :emptyColumn="true" stepTitle="Normalisasi Matrix (R)" :columns="$criterias"
-                                          :withAlternative="false" :alternatives="$alternatives" :data="$data['normalizedMatrix']" startIndex="1">
+                                          :withAlternative="false" :alternatives="$alternatives" :data="$data['normalizedMatrix']">
                     {{-- startmath --}}
                       <p class="break-words">
                         Rumus untuk kriteria benefit:
@@ -237,7 +237,7 @@
             </section>
             <section>
                 <x-decision-support-table :emptyColumn="true" stepTitle="Normalisasi Bobot (D)" :columns="$criterias"
-                                          :withAlternative="false" :alternatives="$alternatives" :data="$data['weightedMatrix']" :withWeight="true" :weights="$weights" startIndex="1">
+                                          :withAlternative="false" :alternatives="$alternatives" :data="$data['weightedMatrix']" :withWeight="true" :weights="$weights">
                 {{-- startmath --}}
                 <p class="break-words">
                     Rumus untuk matriks ternormalisasi terbobot:
