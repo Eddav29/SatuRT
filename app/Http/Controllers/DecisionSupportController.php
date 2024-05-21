@@ -22,6 +22,7 @@ class DecisionSupportController extends Controller
     private $mooraService;
     private $electreService;
     private $sawService;
+    private $arasService;
 
 
     public function __construct()
@@ -200,10 +201,10 @@ class DecisionSupportController extends Controller
                     'status' => 201,
                     'data' => [
                         'ranking' => array_map(function ($item) {
-                            $item['Score'] = $item['Yi(Benefit-Cost)'];
-                            unset($item['Yi(Benefit-Cost)']);
+                            $item['Score'] = $item['K'];
+                            unset($item['K']);
                             return $item;
-                        }, $this->getMooraData()['ranking'])
+                        }, $this->getArasData()['utilityRanking'])
                     ]
                 ]);
 
@@ -263,18 +264,18 @@ class DecisionSupportController extends Controller
                         [
                             'metode' => "Additive Ratio Assesment (ARAS)",
                             'ranking' => array_map(function ($item) {
-                                $item['Score'] = $item['Yi(Benefit-Cost)'];
-                                unset($item['Yi(Benefit-Cost)']);
+                                $item['Score'] = $item['K'];
+                                unset($item['K']);
                                 return $item;
-                            }, $this->getMooraData()['ranking'])
+                            }, $this->getArasData()['utilityRanking'])
                         ],
                         [
                             'metode' => "Simple Additive Weighted (SAW)",
                             'ranking' => array_map(function ($item) {
-                                $item['Score'] = $item['Nilai Preferensi)'];
-                                unset($item['Nilai Preferensi)']);
+                                $item['Score'] = $item['Nilai Preferensi'];
+                                unset($item['Nilai Preferensi']);
                                 return $item;
-                            }, $this->getMooraData()['ranking'])
+                            }, $this->getSAWData()['ranking'])
                         ],
                         [
                             'metode' => "ELimination Et Choix TRaduisant la realitE (ELECTRE)",
