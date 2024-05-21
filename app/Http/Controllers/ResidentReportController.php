@@ -129,10 +129,10 @@ class ResidentReportController extends Controller
                     ]);
 
                     NotificationPusher::success('Perubahan berhasil disimpan');
-                    return redirect()->route('pelaporan.show', ['pelaporan' => $id])->with(['success' => 'Perubahan berhasil disimpan']);
+                    return redirect()->route('pelaporan.index')->with(['success' => 'Perubahan berhasil disimpan']);
                 } catch (\Throwable $th) {
                     NotificationPusher::error('Gagal menyimpan perubahan');
-                    return redirect()->route('pelaporan.show', ['pelaporan' => $id])->with(['error' => 'Gagal menyimpan perubahan']);
+                    return redirect()->route('pelaporan.index')->with(['error' => 'Gagal menyimpan perubahan']);
                 }
 
 

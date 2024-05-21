@@ -8,7 +8,7 @@
             <section>
                 <x-datatables id="user_id" url="/data-akun/penduduk" :columns="[
                     [
-                        'label' => 'NIK Kepala Keluarga',
+                        'label' => 'NIK',
                         'key' => 'nik',
                         'style' => 'text-left'
                     ],
@@ -22,11 +22,11 @@
                         'key' => 'user.email',
                         'style' => 'text-left'
                     ],
-                    [
-                        'label' => 'Pemilik',
-                        'key' => 'nama',
-                        'style' => 'text-left'
-                    ],
+                    // [
+                    //     'label' => 'Pemilik',
+                    //     'key' => 'nama',
+                    //     'style' => 'text-left'
+                    // ],
                 ]" :aksi="[
                     'detail' => true,
                     'edit' => true,

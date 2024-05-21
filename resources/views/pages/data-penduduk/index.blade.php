@@ -12,11 +12,11 @@
                         'key' => 'nomor_kartu_keluarga',
                         'style' => 'text-left'
                     ],
-                    [
-                        'label' => 'NIK Kepala Keluarga',
-                        'key' => 'nik',
-                        'style' => 'text-left'
-                    ],
+                    // [
+                    //     'label' => 'NIK Kepala Keluarga',
+                    //     'key' => 'nik',
+                    //     'style' => 'text-left'
+                    // ],
                     [
                         'label' => 'Nama Kepala Keluarga',
                         'key' => 'nama',

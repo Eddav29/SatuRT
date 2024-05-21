@@ -13,11 +13,11 @@
                     $layoutTop2Start = Auth::user()->role->role_name === 'Ketua RT' ? false : true;
                 @endphp
                 <x-datatables id="persuratan_id" url="/persuratan" :columns="[
-                    [
-                        'label' => 'NIK',
-                        'key' => 'nik',
-                        'style' => 'text-left',
-                    ],
+                    // [
+                    //     'label' => 'NIK',
+                    //     'key' => 'nik',
+                    //     'style' => 'text-left',
+                    // ],
                     [
                         'label' => 'Pemohon',
                         'key' => 'nama',
@@ -50,10 +50,10 @@
                     'edit' => false,
                     'hapus' => false,
                 ]" :filter="[
-                    ['label' => 'Menunggu Persetujuan', 'key' => 'Menunggu Persetujuan', 'columnIndex' => 2],
-                    ['label' => 'Diterima', 'key' => 'Diterima', 'columnIndex' => 2],
-                    ['label' => 'Ditolak', 'key' => 'Ditolak', 'columnIndex' => 2],
-                    ['label' => 'Dibatalkan', 'key' => 'Dibatalkan', 'columnIndex' => 2],
+                    ['label' => 'Menunggu Persetujuan', 'key' => 'Menunggu Persetujuan', 'columnIndex' => 1],
+                    ['label' => 'Diterima', 'key' => 'Diterima', 'columnIndex' => 1],
+                    ['label' => 'Ditolak', 'key' => 'Ditolak', 'columnIndex' => 1],
+                    ['label' => 'Semua', 'key' => '', 'columnIndex' => 1],
                 ]"
                     :layoutTopEnd="true" :layoutTop2Start="$layoutTop2Start">
                 </x-datatables>
