@@ -1,6 +1,5 @@
 <x-profile-layout>
-    <div
-        class="p-6 lg:px-14 lg:py-8 sticky top-0 z-[999] flex w-full bg-soft-snow max-lg:drop-shadow lg:hidden">
+    <div class="p-6 lg:px-14 lg:py-8 sticky top-0 z-[999] flex w-full bg-soft-snow max-lg:drop-shadow lg:hidden">
         <div class="mx-auto flex items-center justify-between w-full">
             <button @click.stop="sidebar = !sidebar" class="z-50 w-10 h-10">
                 <x-heroicon-c-bars-3-center-left />
@@ -11,8 +10,7 @@
                         <img src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}"
                             class="h-full w-full object-cover">
                     @else
-                        <img src="{{ asset('assets/images/default.png') }}"
-                            class="h-full w-full object-cover">
+                        <img src="{{ asset('assets/images/default.png') }}" class="h-full w-full object-cover">
                     @endif
                 </div>
             </div>
@@ -287,8 +285,9 @@
                     <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Foto KTP</div>
                     @if ($penduduk->foto_ktp)
                         <div class="flex items-center justify-center">
-                            <img src="{{ route('storage.ktp', $penduduk->foto_ktp) }}"
-                                class="flex flex-col items-center justify-center max-lg:w-full lg:w-1/2 h-auto border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:border-gray-100 hover:bg-gray-200">
+                            <div class="w-full lg:w-1/2">
+                                <x-image-preview :file="route('storage.ktp', Auth::user()->penduduk->foto_ktp) ?? ''" />
+                            </div>
                         </div>
                     @endif
                     <div class="flex flex-col items-center justify-center pt-5 pb-6">

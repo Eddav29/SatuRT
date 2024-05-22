@@ -113,11 +113,10 @@
                     <div class="font-semibold md:col-span-2">
                         <h5 class="font-semibold">Foto KTP</h5>
                         <div class="flex items-center justify-center">
-                            <img src="{{ route('storage.ktp', Auth::user()->penduduk->foto_ktp) ?? '' }}"
-                                class="flex flex-col items-center justify-center w-full lg:w-1/2 h-auto border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50  hover:border-gray-100 hover:bg-gray-200">
-                            </img>
+                            <div class="w-full lg:w-1/2">
+                                <x-image-preview :file="route('storage.ktp', Auth::user()->penduduk->foto_ktp) ?? ''"/>
+                            </div>
                         </div>
-                        {{-- <x-image-preview :file="{{ route('storage.ktp', Auth::user()->penduduk->foto_ktp) ?? '' }}" /> --}}
                     </div>
                 </div>
             </section>

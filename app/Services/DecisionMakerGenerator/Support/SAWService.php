@@ -30,95 +30,105 @@ class SAWService extends DecisionMakerService
 
     private function stepNormalization()
     {
-        $matrix = $this->stepData['decisionMatrix'];
-        $criteriaType = parent::getTipe();
+        try {
+            $matrix = $this->stepData['decisionMatrix'];
+            $criteriaType = parent::getTipe();
 
-        $columns = [];
+            $columns = [];
 
-        foreach ($matrix as $row) {
-            foreach ($row as $colIndex => $value) {
-                $columns[$colIndex][] = (int) $value;
-            }
-        }
-
-        $min = [];
-        $max = [];
-
-        foreach ($columns as $colIndex => $values) {
-            $min[$colIndex] = min($values);
-            $max[$colIndex] = max($values);
-        }
-
-        $X = [];
-
-
-        for ($i = 0; $i < count($matrix); $i++) {
-            $row = [];
-            for ($j = 0; $j < count($matrix[1]); $j++) {
-                $value = 0;
-                if ($criteriaType[$j] === 'Benefit') {
-                    $value = $this->trimTrailingZeros(number_format(($matrix[$i][$j]) / ($max[$j]), 3, '.', ''));
-                } else {
-                    $value = $this->trimTrailingZeros(number_format(($min[$j]) / ($matrix[$i][$j]), 3, '.', ''));
+            foreach ($matrix as $row) {
+                foreach ($row as $colIndex => $value) {
+                    $columns[$colIndex][] = (int) $value;
                 }
-                $row[] = $value;
             }
-            $X[] = $row;
-        }
 
-        $this->stepData['normalized'] = $X;
+            $min = [];
+            $max = [];
+
+            foreach ($columns as $colIndex => $values) {
+                $min[$colIndex] = min($values);
+                $max[$colIndex] = max($values);
+            }
+
+            $X = [];
+
+            for ($i = 0; $i < count($matrix); $i++) {
+                $row = [];
+                for ($j = 0; $j < count($matrix[1]); $j++) {
+                    $value = 0;
+                    if ($criteriaType[$j] === 'Benefit') {
+                        $value = $this->trimTrailingZeros(number_format(($matrix[$i][$j]) / ($max[$j]), 3, '.', ''));
+                    } else {
+                        $value = $this->trimTrailingZeros(number_format(($min[$j]) / ($matrix[$i][$j]), 3, '.', ''));
+                    }
+                    $row[] = $value;
+                }
+                $X[] = $row;
+            }
+
+            $this->stepData['normalized'] = $X;
+        } catch (\Throwable $th) {
+            abort(404);
+        }
     }
 
     private function stepPreferenceValue()
     {
-        $matrix = $this->stepData['normalized'];
-        $weights = parent::getBobot();
-        $alternatif = parent::getAlternatifs();
-        $result = [];
+        try {
+            $matrix = $this->stepData['normalized'];
+            $weights = parent::getBobot();
+            $alternatif = parent::getAlternatifs();
+            $result = [];
 
-        for ($i = 0; $i < count($matrix); $i++) {
-            $preferenceValue = 0;
-            $baris = [];
+            for ($i = 0; $i < count($matrix); $i++) {
+                $preferenceValue = 0;
+                $baris = [];
 
-            for ($j = 0; $j < count($matrix[1]); $j++) {
-                $value = 0;
-                $value = $matrix[$i][$j] * $weights[$j];
-                $preferenceValue += $value;
-                $baris[] = $this->trimTrailingZeros(number_format($value, 3, '.', ''));
+                for ($j = 0; $j < count($matrix[1]); $j++) {
+                    $value = 0;
+                    $value = $matrix[$i][$j] * $weights[$j];
+                    $preferenceValue += $value;
+                    $baris[] = $this->trimTrailingZeros(number_format($value, 3, '.', ''));
+                }
+                $baris[] = $this->trimTrailingZeros(number_format($preferenceValue, 3, '.', ''));
+                $X[] = $baris;
+
+                $row = [
+                    'Alternatif' => $alternatif[$i],
+                    'Nilai Preferensi' => $this->trimTrailingZeros(number_format($preferenceValue, 3, '.', '')),
+                ];
+
+                $result[] = $row;
             }
-            $baris[] = $this->trimTrailingZeros(number_format($preferenceValue, 3, '.', ''));
-            $X[] = $baris;
 
-            $row = [
-                'Alternatif' => $alternatif[$i],
-                'Nilai Preferensi' => $this->trimTrailingZeros(number_format($preferenceValue, 3, '.', '')),
-            ];
-
-            $result[] = $row;
+            $this->stepData['perhitunganNilaiPreferensi'] = $X;
+            $this->stepData['nilaiPreferensi'] = $result;
+        } catch (\Throwable $th) {
+            abort(404);
         }
-
-        $this->stepData['perhitunganNilaiPreferensi'] = $X;
-        $this->stepData['nilaiPreferensi'] = $result;
     }
 
     private function stepRanking(): void
     {
-        $result = [];
-        $preferensi = $this->stepData['nilaiPreferensi'];
+        try {
+            $result = [];
+            $preferensi = $this->stepData['nilaiPreferensi'];
 
-        usort($preferensi, function ($a, $b) {
-            return $b['Nilai Preferensi'] <=> $a['Nilai Preferensi'];
-        });
+            usort($preferensi, function ($a, $b) {
+                return $b['Nilai Preferensi'] <=> $a['Nilai Preferensi'];
+            });
 
-        foreach ($preferensi as $key => $value) {
-            $result[] = [
-                'Alternatif' => $value['Alternatif'],
-                'Nilai Preferensi' => $value['Nilai Preferensi'],
-                'Ranking' => $key + 1,
-            ];
+            foreach ($preferensi as $key => $value) {
+                $result[] = [
+                    'Alternatif' => $value['Alternatif'],
+                    'Nilai Preferensi' => $value['Nilai Preferensi'],
+                    'Ranking' => $key + 1,
+                ];
+            }
+
+            $this->stepData['ranking'] = $result;
+        } catch (\Throwable $th) {
+            abort(404);
         }
-
-        $this->stepData['ranking'] = $result;
     }
-
 }
