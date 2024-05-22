@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Penduduk;
 use App\Models\UMKM;
-use App\Services\ImageManager\imageService;
+use App\Services\ImageManager\ImageService;
 use App\Services\Notification\NotificationPusher;
 use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
@@ -128,12 +128,12 @@ class BusinessUserController extends Controller
 
             
             if ($request->hasFile('lisence_image_url')) {
-                $imageName = imageService::uploadFile('storage_lisence', $request, 'lisence_image_url');
+                $imageName = ImageService::uploadFile('storage_lisence', $request, 'lisence_image_url');
                 // dd($imageName);
                 $umkm['lisence_image_url'] = $imageName;
                 // dd($umkm['lisence_image_url']);
             }
-            $umkm['thumbnail_url'] = imageService::uploadFile('public', $request, 'thumbnail_url');
+            $umkm['thumbnail_url'] = ImageService::uploadFile('public', $request, 'thumbnail_url');
 
             DB::beginTransaction();
             // dd($umkm);
@@ -252,16 +252,16 @@ class BusinessUserController extends Controller
 
             if ($request->file('lisence_image_url')) {
                 if (!empty($umkm->lisence_image_url)) {
-                    imageService::deleteFile('storage_lisence',$umkm->lisence_image_url);
+                    ImageService::deleteFile('storage_lisence',$umkm->lisence_image_url);
                 }
-                $imageName = imageService::uploadFile('storage_lisence', $request, 'lisence_image_url');
+                $imageName = ImageService::uploadFile('storage_lisence', $request, 'lisence_image_url');
                 $umkmUpdate['lisence_image_url'] = $imageName;
             }
             if ($request->file('thumbnail_url')) {
                 if (!empty($umkm->thumbnail_url)) {
-                    imageService::deleteFile('public', $umkm->thumbnail_url);
+                    ImageService::deleteFile('public', $umkm->thumbnail_url);
                 }
-                $umkmUpdate['thumbnail_url'] = imageService::uploadFile('public', $request, 'thumbnail_url');
+                $umkmUpdate['thumbnail_url'] = ImageService::uploadFile('public', $request, 'thumbnail_url');
             }
 
 
