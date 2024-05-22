@@ -11,6 +11,24 @@
                     class="px-5 py-3 text-soft-snow rounded-lg gap-x-5 bg-azure-blue transition-all duration-300">Kembali</a>
             </div>
 
+            <section>
+                <x-decision-support-table :emptyColumn="true" stepTitle="Matriks Keputusan (X)" :columns="$criterias"
+                    :withAlternative="true" :alternatives="$alternatives" :data="$data['decisionMatrix']">
+                    <p class="break-words">Pada matriks keputusan (X) baris menunjukkan alternatif dan kolom menunjukkan
+                        kriteria</p>
+                    <p>$$X =
+                        \begin{bmatrix}
+                        X_{11} & ... & X_{12} & ... & X_{1n}\\
+                        X_{21} & ... & X_{22} & ... & X_{2n}\\
+                        X_{m1} & ... & X_{m2} & ... & X_{mn}
+                        \end{bmatrix}$$</p>
+                    <p class="flex flex-col">
+                        Keterangan:
+                        <span>m = alternatif</span>
+                        <span>n = kriteria</span>
+                    </p>
+                </x-decision-support-table>
+            </section>
 
             <section>
                 <x-decision-support-table :emptyColumn="true" stepTitle="Normalisasi Matriks (X)" :columns="$criterias"
@@ -77,7 +95,6 @@
             <section>
                 <x-decision-support-table  stepTitle="Perankingan" setColumnAs="Custom" :columns="['Alternatif', 'Yi(Benefit-Cost)', 'Ranking']"
                     :withAlternative="false" :alternatives="$alternatives" :data="$data['ranking']">
-                    <p class="break-words">Normalisasi diperoleh dengan menggunakan rumus:</p>
                     <div class="flex flex-col gap-y-2">
                         <p>Perankingan didapatkan dari nilai skor \(Y_{i}\) tertinggi hingga yang terendah. Alternatif dengan nilai yang tinggi menunjukkan alternatif terbaik.</p>
                     </div>
