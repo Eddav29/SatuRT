@@ -66,6 +66,7 @@
 
         @if (session()->has('message'))
             pushNotification('{{ session('message')['type'] }}', '{{ session('message')['message'] }}')
+            {{ session()->forget('message') }}
         @endif
     </script>
 @endpush
