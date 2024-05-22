@@ -22,7 +22,7 @@
                         [
                             'label' => 'Nama Usaha',
                             'key' => 'nama_umkm',
-                            'style' => 'text-left'
+                            'style' => 'text-left truncate max-w-xs'
                         ],
                         [
                             'label' => 'Jenis Usaha',

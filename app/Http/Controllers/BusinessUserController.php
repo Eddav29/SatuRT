@@ -94,7 +94,7 @@ class BusinessUserController extends Controller
     {
         $validator =  Validator::make($request->all(), [
             'nama_umkm' => 'required|string|max:255',
-            'jenis_umkm' => 'required|in:Makanan,Minuman,Pakaian,Peralatan,Jasa,Lainnya',
+            'jenis_umkm' => 'required|in:Makanan dan Minuman,Pakaian,Peralatan,Jasa,Lainnya',
             'keterangan' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
             'nomor_telepon' => 'required|string|max:255',
@@ -106,6 +106,7 @@ class BusinessUserController extends Controller
         ]);
 
         $umkm = $request->all();
+        
         if ($validator->fails()) {
             if ($request->is('api/*') || $request->wantsJson()) {
                 return response()->json([
@@ -128,11 +129,9 @@ class BusinessUserController extends Controller
             
             if ($request->hasFile('lisence_image_url')) {
                 $imageName = imageService::uploadFile('storage_lisence', $request, 'lisence_image_url');
-                // dd($imageName,$request->all(),route('storage.lisence', ['filename' => $imageName]));
                 // dd($imageName);
                 $umkm['lisence_image_url'] = $imageName;
                 // dd($umkm['lisence_image_url']);
-
             }
             $umkm['thumbnail_url'] = imageService::uploadFile('public', $request, 'thumbnail_url');
 
@@ -159,10 +158,7 @@ class BusinessUserController extends Controller
                 ]);
             }
             // dd($e);
-            // DB::rollBack();
-            // if (isset($imageName) && file_exists(storage_path('app/' . $imageName))) {
-                // }
-            //     unlink(storage_path('app/' . $imageName));
+            DB::rollBack();
             NotificationPusher::error($e->getMessage());
             return redirect()->back()->withInput();
         }
@@ -219,7 +215,7 @@ class BusinessUserController extends Controller
     {
         $validator = Validator::make($request->all(), [
             'nama_umkm' => 'required|string|max:255',
-            'jenis_umkm' => 'required|in:Makanan,Minuman,Pakaian,Peralatan,Jasa,Lainnya',
+            'jenis_umkm' => 'required|in:Makanan dan Minuman,Pakaian,Peralatan,Jasa,Lainnya',
             'keterangan' => 'required|string|max:255',
             'alamat' => 'required|string|max:255',
             'nomor_telepon' => 'required|string|max:255',

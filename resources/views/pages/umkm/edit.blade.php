@@ -54,8 +54,7 @@
                                 name="jenis_umkm" required>
                                 <option class="hidden" value="{{ $umkm->jenis_umkm }}">
                                     {{ $umkm->jenis_umkm }}</option>
-                                <option value="Makanan">Makanan</option>
-                                <option value="Minuman">Minuman</option>
+                                <option value="Makanan dan Minuman">Makanan & Minuman</option>    
                                 <option value="Pakaian">Pakaian</option>
                                 <option value="Jasa">Jasa</option>
                                 <option value="Peralatan">Peralatan</option>
