@@ -40,14 +40,18 @@ class AlternativeController extends Controller
 
     public function index()
     {
-        $breadcrumb = [
-            'list' => ['Home', 'SPK', 'Kegiatan'],
-            'url' => ['home', 'spk.index', 'spk.index'],
-        ];
+        try {
+            $breadcrumb = [
+                'list' => ['Home', 'SPK', 'Kegiatan'],
+                'url' => ['home', 'spk.index', 'spk.index'],
+            ];
 
-        return response()->view('pages.alternatif.index', [
-            'breadcrumb' => $breadcrumb
-        ]);
+            return response()->view('pages.alternatif.index', [
+                'breadcrumb' => $breadcrumb
+            ]);
+        } catch (\Throwable $th) {
+            abort(404);
+        }
     }
 
     public function create()

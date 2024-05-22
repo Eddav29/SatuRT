@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use PHPUnit\Event\Code\Throwable;
 use Stevebauman\Purify\Facades\Purify;
 
 class InformationController extends Controller
@@ -24,13 +25,18 @@ class InformationController extends Controller
      */
     public function index(): Response
     {
-        $breadcrumb = [
-            'list' => ['Home', 'Informasi'],
-            'url' => ['home', 'informasi.index'],
-        ];
-        return response()->view('pages.information.index', [
-            'breadcrumb' => $breadcrumb
-        ]);
+        try {
+            $breadcrumb = [
+                'list' => ['Home', 'Informasi'],
+                'url' => ['home', 'informasi.index'],
+            ];
+
+            return response()->view('pages.information.index', [
+                'breadcrumb' => $breadcrumb
+            ]);
+        } catch (\Throwable $th) {
+            abort(404);
+        }
     }
 
     /**
@@ -38,16 +44,25 @@ class InformationController extends Controller
      */
     public function create(): Response
     {
-        $breadcrumb = [
-            'list' => ['Home', 'Informasi', 'Tambah Informasi'],
-            'url' => ['home', 'informasi.index', 'informasi.create'],
-        ];
-        $informationTypes = Informasi::getListJenisInformasi();
+        try {
+            $breadcrumb = [
+                'list' => ['Home', 'Informasi', 'Tambah Informasi'],
+                'url' => ['home', 'informasi.index', 'informasi.create'],
+            ];
 
-        return response()->view('pages.information.create', [
-            'breadcrumb' => $breadcrumb,
-            'informationTypes' => $informationTypes,
-        ]);
+            $informationTypes = Informasi::getListJenisInformasi();
+
+            if (count($informationTypes) == 0) {
+                NotificationPusher::warning('Tidak ada informasi yang tersedia.');
+            }
+
+            return response()->view('pages.information.create', [
+                'breadcrumb' => $breadcrumb,
+                'informationTypes' => $informationTypes,
+            ]);
+        } catch (\Exception $th) {
+            abort(404);
+        }
     }
 
     /**
@@ -95,10 +110,10 @@ class InformationController extends Controller
             Informasi::create($request->all());
 
             NotificationPusher::success('Informasi baru ditambahkan');
-            return redirect()->route('informasi.index')->with(['success' => 'Informasi baru ditambahkan']);
+            return redirect()->route('informasi.index');
         } catch (\Throwable $th) {
             NotificationPusher::error('Informasi gagal ditambahkan');
-            return redirect()->route('informasi.index')->with(['error' => 'Informasi gagal ditambahkan']);
+            return redirect()->back()->withInput();
         }
     }
 
@@ -107,36 +122,40 @@ class InformationController extends Controller
      */
     public function show(string $id): Response
     {
-        $imageExtensions = ['jpg', 'jpeg', 'png'];
-        $fileExtensions = ['pdf', 'doc', 'docx', 'xls', 'xlsx'];
-        $information = Informasi::with('penduduk')->findOrFail($id);
-        $file_extension = pathinfo($information->thumbnail_url, PATHINFO_EXTENSION);
-        $fileType = '';
+        try {
+            $imageExtensions = ['jpg', 'jpeg', 'png'];
+            $fileExtensions = ['pdf', 'doc', 'docx', 'xls', 'xlsx'];
+            $information = Informasi::with('penduduk')->findOrFail($id);
+            $file_extension = pathinfo($information->thumbnail_url, PATHINFO_EXTENSION);
+            $fileType = '';
 
-        if (in_array($file_extension, $imageExtensions)) {
-            $fileType = 'image';
-        } elseif (in_array($file_extension, $fileExtensions)) {
-            $fileType = 'file';
+            if (in_array($file_extension, $imageExtensions)) {
+                $fileType = 'image';
+            } elseif (in_array($file_extension, $fileExtensions)) {
+                $fileType = 'file';
+            }
+
+            $breadcrumb = [
+                'list' => ['Home', 'Informasi', 'Detail Informasi'],
+                'url' => ['home', 'informasi.index', 'informasi.index'],
+            ];
+
+            return response()->view('pages.information.show', [
+                'information' => $information,
+                'breadcrumb' => $breadcrumb,
+                'toolbar_id' => $id,
+                'file_extension' => $file_extension,
+                'fileType' => $fileType,
+                'active' => 'detail',
+                'toolbar_route' => [
+                    'detail' => route('informasi.show', ['informasi' => $id]),
+                    'edit' => route('informasi.edit', ['informasi' => $id]),
+                    'hapus' => route('informasi.destroy', ['informasi' => $id]),
+                ]
+            ]);
+        } catch (\Throwable $th) {
+            abort(404);
         }
-
-        $breadcrumb = [
-            'list' => ['Home', 'Informasi', 'Detail Informasi'],
-            'url' => ['home', 'informasi.index', 'informasi.index'],
-        ];
-
-        return response()->view('pages.information.show', [
-            'information' => $information,
-            'breadcrumb' => $breadcrumb,
-            'toolbar_id' => $id,
-            'file_extension' => $file_extension,
-            'fileType' => $fileType,
-            'active' => 'detail',
-            'toolbar_route' => [
-                'detail' => route('informasi.show', ['informasi' => $id]),
-                'edit' => route('informasi.edit', ['informasi' => $id]),
-                'hapus' => route('informasi.destroy', ['informasi' => $id]),
-            ]
-        ]);
     }
 
     /**
@@ -144,38 +163,46 @@ class InformationController extends Controller
      */
     public function edit(string $id): Response
     {
-        $imageExtensions = ['jpg', 'jpeg', 'png'];
-        $fileExtensions = ['pdf', 'doc', 'docx', 'xls', 'xlsx'];
-        $breadcrumb = [
-            'list' => ['Home', 'Informasi', 'Edit Informasi'],
-            'url' => ['home', 'informasi.index', 'informasi.index'],
-        ];
+        try {
+            $imageExtensions = ['jpg', 'jpeg', 'png'];
+            $fileExtensions = ['pdf', 'doc', 'docx', 'xls', 'xlsx'];
+            $breadcrumb = [
+                'list' => ['Home', 'Informasi', 'Edit Informasi'],
+                'url' => ['home', 'informasi.index', 'informasi.index'],
+            ];
 
-        $information = Informasi::find($id);
-        $informationTypes = Informasi::getListJenisInformasi();
-        $file_extension = pathinfo($information->thumbnail_url, PATHINFO_EXTENSION);
-        $fileType = '';
+            $information = Informasi::find($id);
+            $informationTypes = Informasi::getListJenisInformasi();
+            $file_extension = pathinfo($information->thumbnail_url, PATHINFO_EXTENSION);
+            $fileType = '';
 
-        if (in_array($file_extension, $imageExtensions)) {
-            $fileType = 'image';
-        } elseif (in_array($file_extension, $fileExtensions)) {
-            $fileType = 'file';
+            if (count($informationTypes) == 0) {
+                NotificationPusher::warning('Jenis informasi tidak tersedia.');
+            }
+
+            if (in_array($file_extension, $imageExtensions)) {
+                $fileType = 'image';
+            } elseif (in_array($file_extension, $fileExtensions)) {
+                $fileType = 'file';
+            }
+
+            return response()->view('pages.information.edit', [
+                'breadcrumb' => $breadcrumb,
+                'information' => $information,
+                'toolbar_id' => $id,
+                'informationTypes' => $informationTypes,
+                'file_extension' => $file_extension,
+                'fileType' => $fileType,
+                'active' => 'edit',
+                'toolbar_route' => [
+                    'detail' => route('informasi.show', ['informasi' => $id]),
+                    'edit' => route('informasi.edit', ['informasi' => $id]),
+                    'hapus' => route('informasi.destroy', ['informasi' => $id]),
+                ]
+            ]);
+        } catch (\Throwable $th) {
+            abort(404);
         }
-
-        return response()->view('pages.information.edit', [
-            'breadcrumb' => $breadcrumb,
-            'information' => $information,
-            'toolbar_id' => $id,
-            'informationTypes' => $informationTypes,
-            'file_extension' => $file_extension,
-            'fileType' => $fileType,
-            'active' => 'edit',
-            'toolbar_route' => [
-                'detail' => route('informasi.show', ['informasi' => $id]),
-                'edit' => route('informasi.edit', ['informasi' => $id]),
-                'hapus' => route('informasi.destroy', ['informasi' => $id]),
-            ]
-        ]);
     }
 
     /**
@@ -237,10 +264,10 @@ class InformationController extends Controller
             $information->update($request->all());
 
             NotificationPusher::success('Data berhasil diperbarui');
-            return redirect()->route('informasi.index')->with(['success' => 'Perubahan berhasila disimpan']);
+            return redirect()->route('informasi.index');
         } catch (\Throwable $th) {
             NotificationPusher::error('Data gagal diperbarui');
-            return redirect()->route('informasi.index')->with(['error' => 'Gagal menyimpan perubahan']);
+            return redirect()->route('informasi.edit', ['informasi' => $id])->withInput();
         }
     }
 
