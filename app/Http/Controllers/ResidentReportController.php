@@ -21,15 +21,19 @@ class ResidentReportController extends Controller
 {
     public function getResidentReport(int $id): ResidentReportResource
     {
-        $residentReport = Pelaporan::with(['pengajuan', 'pengajuan.penduduk', 'pengajuan.status', 'pengajuan.acceptedBy'])->find($id);
+        try {
+            $residentReport = Pelaporan::with(['pengajuan', 'pengajuan.penduduk', 'pengajuan.status', 'pengajuan.acceptedBy'])->find($id);
 
-        if (!$residentReport) {
-            throw new HttpResponseException(response()->json([
-                'message' => 'Data not found',
-            ])->setStatusCode(404));
+            if (!$residentReport) {
+                throw new HttpResponseException(response()->json([
+                    'message' => 'Data not found',
+                ])->setStatusCode(404));
+            }
+
+            return new ResidentReportResource($residentReport);
+        } catch (\Exception $e) {
+            abort(500, $e->getMessage());
         }
-
-        return new ResidentReportResource($residentReport);
     }
 
     public function index(): Response
@@ -188,14 +192,14 @@ class ResidentReportController extends Controller
                     ->orderBy('pengajuan.updated_at', 'desc')
                     ->where('pengajuan.status_id', '!=', '4')
                     ->get()->map(function ($pelaporan) {
-                    return [
-                        'pelaporan_id' => $pelaporan->pelaporan_id,
-                        'pelapor' => $pelaporan->pengajuan->penduduk->nama,
-                        'status' => $pelaporan->pengajuan->status->nama,
-                        'jenis_pelaporan' => $pelaporan->jenis_pelaporan,
-                        'tanggal' => Carbon::parse($pelaporan->pengajuan->accepted_at)->format('d-m-Y'),
-                    ];
-                });
+                        return [
+                            'pelaporan_id' => $pelaporan->pelaporan_id,
+                            'pelapor' => $pelaporan->pengajuan->penduduk->nama,
+                            'status' => $pelaporan->pengajuan->status->nama,
+                            'jenis_pelaporan' => $pelaporan->jenis_pelaporan,
+                            'tanggal' => Carbon::parse($pelaporan->pengajuan->accepted_at)->format('d-m-Y'),
+                        ];
+                    });
 
                 return response()->json([
                     'data' => $data,
@@ -309,7 +313,7 @@ class ResidentReportController extends Controller
         }
     }
 
-    public function destroy(String $id): JsonResponse | RedirectResponse
+    public function destroy(string $id): JsonResponse|RedirectResponse
     {
         try {
             $pelaporan = Pelaporan::findOrFail($id);

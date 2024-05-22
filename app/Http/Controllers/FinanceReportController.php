@@ -357,15 +357,19 @@ class FinanceReportController extends Controller
 
     public function financeReport(string $id): FinanceReportResource
     {
-        $financeReport = DetailKeuangan::with(['keuangan'])->find($id);
-
-        if (!$financeReport) {
-            throw new HttpResponseException(response()->json([
-                'message' => 'Data not found',
-            ])->setStatusCode(404));
+        try {
+            $financeReport = DetailKeuangan::with(['keuangan'])->find($id);
+    
+            if (!$financeReport) {
+                throw new HttpResponseException(response()->json([
+                    'message' => 'Data not found',
+                ])->setStatusCode(404));
+            }
+    
+            return new FinanceReportResource($financeReport);
+        } catch (\Exception $e) {
+            abort(500, $e->getMessage());
         }
-
-        return new FinanceReportResource($financeReport);
     }
 
     public function listByYear(string $year): JsonResponse
