@@ -57,42 +57,46 @@ class InventarisController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $inventaris = Inventaris::find($id);
-
-        $validated = $request->validate([
-            'nama_inventaris' => 'required',
-            'merk' => 'required',
-            'warna' => 'required',
-            'jumlah' => 'required|integer',
-            'jenis' => 'required',
-            'sumber' => 'required',
-            'keterangan' => 'required|string|max:255',
-        ]);
-
-        if ($request->foto_inventaris) {
-            Storage::delete('public/inventaris_images/' . $inventaris->foto_inventaris);
-
-            $imageFileName = $request->file('foto_inventaris')->store('inventaris_images', 'public');
-            $inventaris['foto_inventaris'] = basename($imageFileName);
-        }
-
         try {
-            $inventaris->update([
-                'nama_inventaris' => $validated['nama_inventaris'],
-                'merk' => $validated['merk'],
-                'warna' => $validated['warna'],
-                'jumlah' => $validated['jumlah'],
-                'jenis' => $validated['jenis'],
-                'sumber' => $validated['sumber'],
-                'foto_inventaris' => $inventaris['foto_inventaris'],
-                'keterangan' => $validated['keterangan'],
+            $inventaris = Inventaris::find($id);
+
+            $validated = $request->validate([
+                'nama_inventaris' => 'required',
+                'merk' => 'required',
+                'warna' => 'required',
+                'jumlah' => 'required|integer',
+                'jenis' => 'required',
+                'sumber' => 'required',
+                'keterangan' => 'required|string|max:255',
             ]);
 
-            NotificationPusher::success('Perubahan berhasil disimpan');
-            return redirect()->route('inventaris.data-inventaris.show', $id)->with(['success' => 'Perubahan berhasil disimpan']);
+            if ($request->foto_inventaris) {
+                Storage::delete('public/inventaris_images/' . $inventaris->foto_inventaris);
+
+                $imageFileName = $request->file('foto_inventaris')->store('inventaris_images', 'public');
+                $inventaris['foto_inventaris'] = basename($imageFileName);
+            }
+
+            try {
+                $inventaris->update([
+                    'nama_inventaris' => $validated['nama_inventaris'],
+                    'merk' => $validated['merk'],
+                    'warna' => $validated['warna'],
+                    'jumlah' => $validated['jumlah'],
+                    'jenis' => $validated['jenis'],
+                    'sumber' => $validated['sumber'],
+                    'foto_inventaris' => $inventaris['foto_inventaris'],
+                    'keterangan' => $validated['keterangan'],
+                ]);
+
+                NotificationPusher::success('Perubahan berhasil disimpan');
+                return redirect()->route('inventaris.data-inventaris.show', $id)->with(['success' => 'Perubahan berhasil disimpan']);
+            } catch (\Throwable $th) {
+                NotificationPusher::error('Gagal menyimpan perubahan');
+                return redirect()->route('inventaris.data-inventaris.show', $id)->with(['error' => 'Gagal menyimpan perubahan']);
+            }
         } catch (\Throwable $th) {
-            NotificationPusher::error('Gagal menyimpan perubahan');
-            return redirect()->route('inventaris.data-inventaris.show', $id)->with(['error' => 'Gagal menyimpan perubahan']);
+            abort(404);
         }
     }
 
@@ -154,71 +158,79 @@ class InventarisController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $pendudukId = Auth::user()->penduduk->penduduk_id;
-
-        $merk = $request->input('merk') ?? '-';
-        $warna = $request->input('warna') ?? '-';
-
-        $validated = $request->validate([
-            'nama_inventaris' => 'required',
-            'jumlah' => 'required|integer',
-            'jenis' => 'required',
-            'sumber' => 'required',
-            'foto_inventaris' => 'required|file',
-            'keterangan' => 'required|string|max:255',
-        ]);
-
-        $imageFileName = $request->file('foto_inventaris')->store('inventaris_images', 'public');
-        $inventaris['foto_inventaris'] = basename($imageFileName);
-
-        DB::beginTransaction();
-
         try {
-            Inventaris::create([
-                'penduduk_id' => $pendudukId,
-                'nama_inventaris' => $validated['nama_inventaris'],
-                'merk' => $merk,
-                'warna' => $warna,
-                'jumlah' => $validated['jumlah'],
-                'jenis' => $validated['jenis'],
-                'sumber' => $validated['sumber'],
-                'foto_inventaris' => $inventaris['foto_inventaris'],
-                'keterangan' => $validated['keterangan'],
+            $pendudukId = Auth::user()->penduduk->penduduk_id;
+
+            $merk = $request->input('merk') ?? '-';
+            $warna = $request->input('warna') ?? '-';
+
+            $validated = $request->validate([
+                'nama_inventaris' => 'required',
+                'jumlah' => 'required|integer',
+                'jenis' => 'required',
+                'sumber' => 'required',
+                'foto_inventaris' => 'required|file',
+                'keterangan' => 'required|string|max:255',
             ]);
 
-            DB::commit();
+            $imageFileName = $request->file('foto_inventaris')->store('inventaris_images', 'public');
+            $inventaris['foto_inventaris'] = basename($imageFileName);
 
-            NotificationPusher::success('Data berhasil disimpan');
-            return redirect()->route('inventaris.data-inventaris.index')->with(['success' => 'Data berhasil disimpan']);
-        } catch (\Exception $e) {
-            DB::rollback();
-            NotificationPusher::error('Gagal menyimpan data: ' . $e->getMessage());
-            return redirect()->route('inventaris.data-inventaris.index')->with(['error' => 'Gagal menyimpan data: ' . $e->getMessage()]);
+            DB::beginTransaction();
+
+            try {
+                Inventaris::create([
+                    'penduduk_id' => $pendudukId,
+                    'nama_inventaris' => $validated['nama_inventaris'],
+                    'merk' => $merk,
+                    'warna' => $warna,
+                    'jumlah' => $validated['jumlah'],
+                    'jenis' => $validated['jenis'],
+                    'sumber' => $validated['sumber'],
+                    'foto_inventaris' => $inventaris['foto_inventaris'],
+                    'keterangan' => $validated['keterangan'],
+                ]);
+
+                DB::commit();
+
+                NotificationPusher::success('Data berhasil disimpan');
+                return redirect()->route('inventaris.data-inventaris.index')->with(['success' => 'Data berhasil disimpan']);
+            } catch (\Exception $e) {
+                DB::rollback();
+                NotificationPusher::error('Gagal menyimpan data: ' . $e->getMessage());
+                return redirect()->route('inventaris.data-inventaris.index')->with(['error' => 'Gagal menyimpan data: ' . $e->getMessage()]);
+            }
+        } catch (\Throwable $th) {
+            abort(404);
         }
     }
 
     public function destroy(String $id): JsonResponse | RedirectResponse
     {
-        $inventaris = Inventaris::findOrFail($id);
-
         try {
-            DB::beginTransaction();
+            $inventaris = Inventaris::findOrFail($id);
 
-            $inventaris->delete();
+            try {
+                DB::beginTransaction();
 
-            DB::commit();
-            return response()->json([
-                'code' => 200,
-                'message' => 'Data berhasil dihapus',
-                'timestamp' => now(),
-            ], 200);
-        } catch (\Exception $e) {
-            DB::rollback();
-            return response()->json([
-                'code' => 500,
-                'message' => $e->getMessage(),
-                'timestamp' => now(),
-            ], 500);
+                $inventaris->delete();
+
+                DB::commit();
+                return response()->json([
+                    'code' => 200,
+                    'message' => 'Data berhasil dihapus',
+                    'timestamp' => now(),
+                ], 200);
+            } catch (\Exception $e) {
+                DB::rollback();
+                return response()->json([
+                    'code' => 500,
+                    'message' => $e->getMessage(),
+                    'timestamp' => now(),
+                ], 500);
+            }
+        } catch (\Throwable $th) {
+            abort(404);
         }
     }
 }

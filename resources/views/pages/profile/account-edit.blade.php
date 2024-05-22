@@ -65,11 +65,15 @@
                     <div class="mx-3 my-3 font-bold">
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Foto Profile</div>
                         @if (Auth::user()->penduduk->user->profile)
-                            <img src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}"
-                                class="object-cover flex flex-col items-center justify-center w-auto h-3/4 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-gray-100 hover:border-gray-100 hover:bg-gray-200">
+                            <div class="flex max-lg:items-center max-lg:justify-center">
+                                <img src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}"
+                                    class="object-cover flex flex-col items-center justify-center w-auto h-3/4 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:border-gray-100 hover:bg-gray-200">
+                            </div>
                         @else
-                            <img src="{{ asset('assets/images/default.png') }}"
-                                class="object-cover flex flex-col items-center justify-center w-auto h-3/4 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-gray-100 hover:border-gray-100 hover:bg-gray-200">
+                            <div class="flex max-lg:items-center max-lg:justify-center">
+                                <img src="{{ asset('assets/images/default.png') }}"
+                                    class="object-cover flex flex-col items-center justify-center w-auto h-3/4 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:border-gray-100 hover:bg-gray-200">
+                            </div>
                         @endif
                         <div class="flex flex-col items-center justify-center pt-5 pb-6">
                             <input
