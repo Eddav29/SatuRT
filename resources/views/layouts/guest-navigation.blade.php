@@ -34,7 +34,7 @@
 
             {{-- Search Dropdown --}}
             <div x-show="search" x-transition:enter.duration.500ms x-transition:leave.duration.400ms
-                class=" absolute inset-0 w-full mx-auto h-screen -z-10 bg-white/10">
+                class=" absolute inset-0 w-full mx-auto h-screen -z-10 bg-white/10" x-cloak>
                 <div class="absolute inset-0 w-full mx-auto h-[20rem] bg-white" id="search">
                     <form id="searchForm" action="{{ route('berita') }}"
                         class="w-full max-w-7xl mx-auto h-full flex justify-center items-center relative">

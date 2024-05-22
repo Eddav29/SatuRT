@@ -55,8 +55,6 @@ class UMKM extends Model
     public static function getListJenisUMKM()
     {
         return [
-            'Makanan',
-            'Minuman',
             'Makanan dan Minuman',
             'Pakaian',
             'Peralatan',
