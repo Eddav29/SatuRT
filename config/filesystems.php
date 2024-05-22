@@ -46,19 +46,19 @@ return [
             'driver' => 'local',
             'root' => storage_path('app/storage_ktp'),
             'url' => env('APP_URL') . '/storage/ktp',
-            'visibility' => 'private',
+            'visibility' => 'public',
         ],
         'storage_announcement' => [
             'driver' => 'local',
             'root' => storage_path('app/storage_announcement'),
             'url' => env('APP_URL') . '/storage/announcement',
-            'visibility' => 'private',
+            'visibility' => 'public',
         ],
         'storage_lisence' => [
             'driver' => 'local',
             'root' => storage_path('app/storage_lisence'),
             'url' => env('APP_URL') . '/storage/lisence',
-            'visibility' => 'private',
+            'visibility' => 'public',
         ],
 
         's3' => [

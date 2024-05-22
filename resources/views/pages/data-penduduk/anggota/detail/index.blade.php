@@ -10,7 +10,7 @@
         <div class="p-6 rounded-xl bg-white-snow mt-5 flex flex-col gap-y-7">
             <div class="space-x-4">
                 <div>
-                    <x-heading text="Data Kepala Keluarga" />
+                    <x-heading text="Data Anggota" />
                     @include('pages.data-penduduk.anggota.detail.partials.data-anggota-keluarga-detail')
                 </div>
             </div>
