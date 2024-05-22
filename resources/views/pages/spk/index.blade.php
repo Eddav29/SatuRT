@@ -130,20 +130,66 @@
             }
 
             const content = (data, metode) => {
-                let rows = '';
-                if (metode === 'all') {
-                    data.data.forEach((metode) => {
-                        metode.ranking.forEach((rank) => {
-                            rows += `
-                            <tr>
-                                <td class="p-5">${rank.Alternatif}</td>
-                                <td class="p-5">${rank.Score}</td>
-                                <td class="p-5">${rank.Ranking}</td>
-                                <td class="p-5">${metode.metode}</td>
-                            </tr>
-                        `;
-                        })
-                    })
+            let allRows = '';
+            let rows = '';
+
+            if (metode === 'all') {
+                const a = {};
+                data.data.forEach((metode) => {
+                    console.log('Metode:', metode.metode);
+                    metode.ranking.forEach((rank) => {
+                        console.log('Rank:', rank);
+                        const alternatif = rank.Alternatif;
+                        const ranks = rank.Ranking;
+
+                        if (!a[alternatif]) {
+                            a[alternatif] = {
+                                alternatif: alternatif,
+                                edas: null,
+                                mabac: null,
+                                moora: null,
+                                aras: null,
+                                saw: null,
+                                electre: null
+                            };
+                        }
+
+                        switch (metode.metode) {
+                            case 'Evaluation Based on Distance From Average Solution (EDAS)':
+                                a[alternatif].edas = ranks;
+                                break;
+                            case 'Multi-Attribute Border Approximation Area Comparison (MABAC)':
+                                a[alternatif].mabac = ranks;
+                                break;
+                            case 'Multi-Objective Optimization by Ratio Analysis (MOORA)':
+                                a[alternatif].moora = ranks;
+                                break;
+                            case 'Additive Ratio Assesment (ARAS)':
+                                a[alternatif].aras = ranks;
+                                break;
+                            case 'Simple Additive Weighted (SAW)':
+                                a[alternatif].saw = ranks;
+                                break;
+                            case 'ELimination Et Choix TRaduisant la realitE (ELECTRE)':
+                                a[alternatif].electre = ranks;
+                                break;
+                        }
+                    });
+                });
+
+                console.log('munculData:', a);
+
+                allRows = Object.values(a).map(item => `
+                    <tr>
+                        <td class="p-5">${item.alternatif}</td>
+                        <td class="p-5">${item.edas !== null ? item.edas : ''}</td>
+                        <td class="p-5">${item.mabac !== null ? item.mabac : ''}</td>
+                        <td class="p-5">${item.moora !== null ? item.moora : ''}</td>
+                        <td class="p-5">${item.aras !== null ? item.aras : ''}</td>
+                        <td class="p-5">${item.saw !== null ? item.saw : ''}</td>
+                        <td class="p-5">${item.electre !== null ? item.electre : ''}</td>
+                    </tr>
+                `).join('');
                 } else {
                     data.data.ranking.forEach((alternative) => {
                         rows += `
@@ -155,6 +201,28 @@
                     `;
                     });
                 }
+
+                if(metode === 'all'){
+                    return `
+                    <div class="overflow-x-auto">
+                        <table class="mt-6 table-auto rounded-t-xl overflow-hidden w-max md:w-full">
+                            <thead>
+                                <tr class="text-left bg-blue-gray ">
+                                    <th class="p-5 truncate">Alternatif</th>
+                                    <th class="p-5 truncate">EDAS</th>
+                                    <th class="p-5 truncate">MABAC</th>
+                                    <th class="p-5 truncate">MOORA</th>
+                                    <th class="p-5 truncate">ARAS</th>
+                                    <th class="p-5 truncate">SAW</th>
+                                    <th class="p-5 truncate">ELECTRE</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${allRows}
+                            </tbody>
+                        </table>
+                    </div>`;
+                }else{
                 return `
                     <div class="overflow-x-auto">
                         <table class="mt-6 table-auto rounded-t-xl overflow-hidden w-max md:w-full">
@@ -163,7 +231,6 @@
                                     <th class="p-5 truncate">Alternatif</th>
                                     <th class="p-5 truncate">Skor</th>
                                     <th class="p-5 truncate">Ranking</th>
-                                    ${metode === 'all' ? '<th class="p-5 truncate">Metode</th>' : ''}
                                 </tr>
                             </thead>
                             <tbody>
@@ -171,6 +238,7 @@
                             </tbody>
                         </table>
                     </div>`;
+                }
             }
         </script>
     @endpush
