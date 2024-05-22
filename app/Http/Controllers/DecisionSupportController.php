@@ -42,12 +42,11 @@ class DecisionSupportController extends Controller
 
     public function index()
     {
-        $rankingEdas = $this->getEdasData()['ranking'];
-
         $breadcrumb = [
             'list' => ['Home', 'SPK', 'Kegiatan'],
             'url' => ['home', 'spk.index', 'spk.index'],
         ];
+
 
         return response()->view('pages.spk.index', [
             'breadcrumb' => $breadcrumb,

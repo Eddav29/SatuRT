@@ -213,7 +213,6 @@
             <section>
                 <x-decision-support-table :emptyColumn="true" stepTitle="Normalisasi Matrix (R)" :columns="$criterias"
                                           :withAlternative="false" :alternatives="$alternatives" :data="$data['normalizedMatrix']">
-                    {{-- startmath --}}
                       <p class="break-words">
                         Rumus untuk kriteria benefit:
                         \[
@@ -232,13 +231,11 @@
                         r_{ij} = \frac{x_{*ij}}{\sum_{i=0}^{m} x_{*ij}}; \quad j = 1, 2, ..., n
                         \]
                     </p>
-                    {{-- endMath --}}
                      </x-decision-support-table>
             </section>
             <section>
                 <x-decision-support-table :emptyColumn="true" stepTitle="Normalisasi Bobot (D)" :columns="$criterias"
                                           :withAlternative="false" :alternatives="$alternatives" :data="$data['weightedMatrix']" :withWeight="true" :weights="$weights">
-                {{-- startmath --}}
                 <p class="break-words">
                     Rumus untuk matriks ternormalisasi terbobot:
                     \[
@@ -248,13 +245,11 @@
                 <p>
                   Dimana \( w_j \) adalah bobot (weight) dari kriteria ke \( j \).
                 </p>
-                {{-- endMath --}}
                 </x-decision-support-table>
             </section>
             <section>
                 <x-decision-support-table stepTitle="Nilai Fungsi Optimum (S)" setColumnAs="Custom" :columns="['Alternatif', 'S']"
                     :withAlternative="false" :data="$data['siValues']">
-                            {{-- startmath --}}
                           <p class="break-words">
                               Rumus untuk nilai fungsi optimum:
                               \[
@@ -264,13 +259,12 @@
                           <p>
                             Dimana \( S_i \) adalah nilai fungsi optimum dari alternatif \( i \). Nilai terbesar adalah yang terbaik, dan nilai yang paling sedikit adalah yang terburuk. Dengan memperhitungkan proses, hubungan proporsional dengan nilai dan bobot kriteria yang diteliti berpengaruh pada hasil akhir. \( S_0 \) adalah fungsi optimum dari alternatif optimal.
                           </p>
-                          {{-- endMath --}}
                 </x-decision-support-table>
             </section>
             <section>
                 <x-decision-support-table stepTitle="Nilai Utility Ranking (K)" setColumnAs="Custom" :columns="['Alternatif', 'Nilai K','Ranking']"
                     :withAlternative="false" :data="$data['utilityRanking']">
-                    {{-- startmath --}}
+
                     <p class="break-words">
                       Rumus untuk nilai utilitas:
                       \[
@@ -280,7 +274,6 @@
                     <p>
                         Dimana \( S_i \) dan \( S_0 \) merupakan nilai kriteria optimasi. Nilai utilitas \( K_i \) berada dalam interval \([0, 1]\) dan nilai \( K \) terbesar merupakan nilai prioritas. Alternatif dengan nilai utilitas \( K \) terbesar menghasilkan alternatif terbaik dan berurutan sehingga menghasilkan rangking.
                     </p>
-                    {{-- endMath --}}
                 </x-decision-support-table>
             </section>
         </div>
