@@ -83,7 +83,7 @@ class FinanceReportController extends Controller
             $totalPengeluaran = $dataTahunIni->sum(function ($item) {
                 return $item['jenis_keuangan'] === 'Pengeluaran' ? $item['nominal'] : 0;
             });
-
+            
             // Hitung total keseluruhan dari data terakhir di 'Keuangan'
             $totalKeseluruhan = Keuangan::orderBy('keuangan_id','DESC')->first()->total_keuangan ?? 0;
 
@@ -215,7 +215,13 @@ class FinanceReportController extends Controller
         // Pastikan relasi penduduk pada keuangan tersedia
         $penduduk = $keuangan ? $keuangan->penduduk : null;
 
+        $nominal = $detailKeuangan->nominal;
+        
+        $saldoSesudah = $detailKeuangan->keuangan->total_keuangan;
+        $saldoSebelum = $saldoSesudah - $nominal;
+
         return response()->view('pages.keuangan.show', [
+            'saldoSebelum' => $saldoSebelum,
             'breadcrumb' => $breadcrumb,
             'keuangan' => $keuangan,
             'detailKeuangan' => $detailKeuangan,

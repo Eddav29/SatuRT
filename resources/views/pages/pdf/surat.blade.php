@@ -259,7 +259,7 @@
                             </td>
                             <td style="width: 150px; padding: 0.5rem 0">
                                 <p style="display: inline-block;"><span
-                                        style="{{ $persuratan->jenis_surat == 'Surat Pengantar KK' ? 'border: 2px solid black; border-radius: 100%; padding: 2px' : '' }}">b.</span>
+                                        style="{{ $persuratan->jenis_surat == 'Surat Pengantar Kartu Keluarga' ? 'border: 2px solid black; border-radius: 100%; padding: 2px' : '' }}">b.</span>
                                     KK</p>
                             </td>
                             <td style="width: 150px; padding: 0.5rem 0">
@@ -346,7 +346,7 @@
                 <table>
                     <tr>
                         <td style="padding: 0.3rem 0">Malang,
-                            {{ \Carbon\Carbon::parse(now())->locale('id_ID')->isoFormat('D MMMM YYYY') }}</td>
+                            {{ \Carbon\Carbon::parse($persuratan->pengajuan->accepted_at)->locale('id_ID')->isoFormat('D MMMM YYYY') }}</td>
                     </tr>
                     <tr>
                         <td style="padding: 0.3rem 0">&nbsp;</td>

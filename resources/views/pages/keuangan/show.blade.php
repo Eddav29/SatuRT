@@ -36,11 +36,11 @@
                         </div>
                         <div>
                             <h5 class="font-semibold">Saldo Sebelum</h5>
-                            <p>{{ $detailKeuangan->keuangan->total_keuangan ?? 'Tidak Ada Data' }}</p>
+                            <p>{{ $saldoSebelum ?? 'Tidak Ada Data' }}</p>
                         </div>
                         <div>
                             <h5 class="font-semibold">Saldo Sesudah</h5>
-                            <p>{{ $detailKeuangan->nominal ?? 'Tidak Ada Data' }}</p>
+                            <p>{{ $detailKeuangan->keuangan->total_keuangan  ?? 'Tidak Ada Data' }}</p>
                         </div>
                         <div>
                             <h5 class="font-semibold">Dibuat Pada</h5>

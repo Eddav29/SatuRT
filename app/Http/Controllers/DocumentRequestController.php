@@ -68,7 +68,7 @@ class DocumentRequestController extends Controller
                     return [
                         'persuratan_id' => $persuratan->persuratan_id,
                         'nik' => $persuratan->pengajuan->penduduk->nik,
-                        'nama' => $persuratan->pengajuan->penduduk->nama,
+                        'nama' => $persuratan->pemohon()->nama,
                         'status' => $persuratan->pengajuan->status->nama,
                         'keperluan' => $persuratan->pengajuan->keperluan,
                         'accepted_at' => Carbon::parse($persuratan->pengajuan->accepted_at)->startOfDay()->formatLocalized('%d %B %Y'),
