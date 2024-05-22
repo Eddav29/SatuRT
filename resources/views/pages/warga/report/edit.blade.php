@@ -25,7 +25,7 @@
                         <div>
                             <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Judul Laporan</div>
                             <input type="text" value="{{ $pelaporan->pengajuan->keperluan }}"
-                                placeholder="Masukkan Nama" name="nama" id="nama"
+                                placeholder="Masukkan Nama" name="keperluan" id="keperluan"
                                 class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
                         </div>
                     </div>
@@ -66,12 +66,15 @@
                                     <option value="Pengaduan"
                                         {{ $pelaporan->jenis_pelaporan === 'Pengaduan' ? 'selected' : '' }}>Pengaduan
                                     </option>
-                                    <option value="Kritik" {{ $pelaporan->jenis_pelaporan === 'Kritik' ? 'selected' : '' }}>
+                                    <option value="Kritik"
+                                        {{ $pelaporan->jenis_pelaporan === 'Kritik' ? 'selected' : '' }}>
                                         Kritik</option>
-                                    <option value="Saran" {{ $pelaporan->jenis_pelaporan === 'Saran' ? 'selected' : '' }}>
+                                    <option value="Saran"
+                                        {{ $pelaporan->jenis_pelaporan === 'Saran' ? 'selected' : '' }}>
                                         Saran</option>
                                     <option value="Lainnya"
-                                        {{ $pelaporan->jenis_pelaporan === 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                                        {{ $pelaporan->jenis_pelaporan === 'Lainnya' ? 'selected' : '' }}>Lainnya
+                                    </option>
                                 </select>
                             </div>
                         </div>
@@ -87,7 +90,8 @@
                                         <img src="{{ asset('storage/images_storage/resident-report_images/' . $pelaporan->image_url) }}"
                                             for="lisence_image_url"
                                             class="w-auto h-full object-cover border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-bray-100 hover:border-gray-100 hover:bg-gray-200">
-                                        <div id="lisence_image_url-container" class="w-full h-full overflow-hidden hidden">
+                                        <div id="lisence_image_url-container"
+                                            class="w-full h-full overflow-hidden hidden">
                                         </div>
                                     </div>
                                 </label>

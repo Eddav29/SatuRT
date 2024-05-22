@@ -52,7 +52,8 @@ class Informasi extends Model
     {
         return [
             'Pengumuman',
-            'Dokumentasi',
+            'Dokumentasi Kegiatan',
+            'Dokumentasi Rapat',
             'Berita',
             'Artikel',
         ];

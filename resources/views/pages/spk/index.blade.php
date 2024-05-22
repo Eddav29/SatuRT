@@ -4,9 +4,10 @@
     </x-slot>
 
     {{-- @dd($rankingEdas) --}}
+    {{-- @dd($method) --}}
 
     <div class="p-6 lg:px-14 gap-y-5 mx-auto max-w-screen-2xl md:p-6 2xl:p-10 ">
-        <div x-data="{ method: 'edas' }" class="p-6 rounded-xl bg-white-snow overflow-hidden">
+        <div x-data="{ method: '{{$method}}' }" x-init="getData('{{$method}}')" class="p-6 rounded-xl bg-white-snow overflow-hidden">
 
             <section>
                 <div class="overflow-x-auto">
@@ -40,26 +41,7 @@
                         </div>
                     </div>
                     <div id="edas-container">
-                        <div class="overflow-x-auto">
-                            <table class="mt-6 table-auto rounded-t-xl overflow-hidden w-max md:w-full">
-                                <thead>
-                                    <tr class="text-left bg-blue-gray ">
-                                        <th class="p-5 truncate">Alternatif</th>
-                                        <th class="p-5 truncate">Skor</th>
-                                        <th class="p-5 truncate">Ranking</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($rankingEdas as $rank)
-                                        <tr>
-                                            <td class="p-5">{{ $rank['Alternatif'] }}</td>
-                                            <td class="p-5">{{ $rank['Score'] }}</td>
-                                            <td class="p-5">{{ $rank['Ranking'] }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
+
                     </div>
                 </div>
 
@@ -140,7 +122,11 @@
                         document.getElementById(`${metode}-container`).innerHTML = (metode.includes("metode") ?
                             `<h1 class="text-center p-5 text-red-500">${res.data}</h1>` : content(res, metode));
                         document.getElementById('loading').classList.replace('flex', 'hidden')
-                    });
+                    })
+                    .catch(err => {
+                        pushNotification('error', 'Terjadi kesalahan saat mengambil data')
+                        document.getElementById('loading').classList.replace('flex', 'hidden')
+                    })
             }
 
             const content = (data, metode) => {

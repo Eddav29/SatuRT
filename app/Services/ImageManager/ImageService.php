@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Drivers\Gd\Driver;
 use Intervention\Image\ImageManager;
 
-class imageService implements FileServiceInterface
+class ImageService implements FileServiceInterface
 {
     public static function uploadFile(string $disk, Request $request, string $name = 'images'): string
     {

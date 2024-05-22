@@ -416,6 +416,7 @@
             }
 
             const announcementModal = (data) => {
+                let fileName = displayFileName(data.data.file);
                 return `<div
                     class="bg-white-snow w-full sm:max-w-3xl h-[80%] 2xl:max-w-7xl lg:h-[95%] overflow-hidden rounded-xl p-8 flex flex-col gap-y-5">
                     <div class="flex justify-between items-center">
@@ -439,30 +440,30 @@
                                 <div>
                                     <h1 class="font-semibold">Lampiran</h1>
                                     ${data.data.file_type === 'file' ? `
-                                                                                                                                                                                                                                                                            <div class="flex gap-x-2 items-center">
-                                                                                                                                                                                                                                                                                <div id="file-icon">
-                                                                                                                                                                                                                                                                                    ${generateIcon(data.data.file_extension)}
-                                                                                                                                                                                                                                                                                </div>
-                                                                                                                                                                                                                                                                                ${data.data.file_extension === 'pdf' ? `
+                                                                                                                                                                                                                                                                                                    <div class="flex gap-x-2 items-center">
+                                                                                                                                                                                                                                                                                                        <div id="file-icon">
+                                                                                                                                                                                                                                                                                                            ${generateIcon(data.data.file_extension)}
+                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                        ${data.data.file_extension === 'pdf' ? `
                                         <div class="flex flex-col" id="preview-file-container">
-                                            <a id="preview-file" href="file/pengumuman/${data.data.id}" class="text-blue-500 py-3 text-sm font-light">${data.data.file}</a>
+                                            <a id="preview-file" href="file/pengumuman/${data.data.id}" class="text-blue-500 py-3 text-sm font-light">${fileName}</a>
                                         </div>` 
-                                                                                                                                                                                                                                                                : `
+                                                                                                                                                                                                                                                                                        : `
                                         <div class="flex flex-col" id="preview-file-container">
-                                            <a id="preview-file" href="file/pengumuman/${data.data.id}/download" class="text-blue-500 py-3 text-sm font-light" target="_blank">${data.data.file}</a>
+                                            <a id="preview-file" href="file/pengumuman/${data.data.id}/download" class="text-blue-500 py-3 text-sm font-light" target="_blank">${fileName}</a>
                                         </div>`}
-                                                                                                                                                                                                                                                                </div>` : 
+                                                                                                                                                                                                                                                                                        </div>` : 
                                         `
-                                                                                                                                                                                                                                                                            <div x-data="{ openImage: false }">
-                                                                                                                                                                                                                                                                                <img @click="openImage = !openImage" src="storage/announcement/${data.data.file}" alt="" class="rounded-xl max-h-[30rem] w-full object-cover" draggable="false">
-                                                                                                                                                                                                                                                                                <div x-show="openImage" class="absolute top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
-                                                                                                                                                                                                                                                                                    <img @click="openImage = false" x-show="openImage" @click.outside="openImage = false" src="storage/announcement/${data.data.file}" alt="" class="rounded-xl w-max h-max lg:max-w-full lg:max-h-full" draggable="false">
-                                                                                                                                                                                                                                                                                    <div class="absolute w-8 h-8 top-10 right-10 cursor-pointer" @click="openImage = false">
-                                                                                                                                                                                                                                                                                        <x-heroicon-o-x-mark class="w-8 h-8" class="text-white-snow absolute" />
-                                                                                                                                                                                                                                                                                    </div>
-                                                                                                                                                                                                                                                                                </div>
-                                                                                                                                                                                                                                                                            </div>
-                                                                                                                                                                                                                                                                `}
+                                                                                                                                                                                                                                                                                                    <div x-data="{ openImage: false }">
+                                                                                                                                                                                                                                                                                                        <img @click="openImage = !openImage" src="storage/announcement/${data.data.file}" alt="" class="rounded-xl max-h-[30rem] w-full object-cover" draggable="false">
+                                                                                                                                                                                                                                                                                                        <div x-show="openImage" class="absolute top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
+                                                                                                                                                                                                                                                                                                            <img @click="openImage = false" x-show="openImage" @click.outside="openImage = false" src="storage/announcement/${data.data.file}" alt="" class="rounded-xl w-max h-max lg:max-w-full lg:max-h-full" draggable="false">
+                                                                                                                                                                                                                                                                                                            <div class="absolute w-8 h-8 top-10 right-10 cursor-pointer" @click="openImage = false">
+                                                                                                                                                                                                                                                                                                                <x-heroicon-o-x-mark class="w-8 h-8" class="text-white-snow absolute" />
+                                                                                                                                                                                                                                                                                                            </div>
+                                                                                                                                                                                                                                                                                                        </div>
+                                                                                                                                                                                                                                                                                                    </div>
+                                                                                                                                                                                                                                                                                        `}
                                 </div>
                                 <div class="text-sm/5">
                                     <div>
@@ -535,6 +536,14 @@
                     <path fill="#e8f5e9" d="M31,23H17h-2v2v2v2v2v2v2v2h18v-2v-2v-2v-2v-2v-2v-2H31z M17,25h4v2h-4V25z M17,29h4v2h-4V29z M17,33h4v2h-4V33z M31,35h-8v-2h8V35z M31,31h-8v-2h8V31z M31,27h-8v-2h8V27z"></path>
                 </svg>`;
             };
+
+            function displayFileName(storedFileName) {
+                let pos = storedFileName.indexOf('-');
+                if (pos !== -1) {
+                    return storedFileName.substring(pos + 1);
+                }
+                return storedFileName;
+            }
         </script>
     @endpush
 </x-app-layout>

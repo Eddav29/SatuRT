@@ -68,7 +68,7 @@ class EddasService extends DecisionMakerService
         foreach (parent::getData() as $row => $value) {
             foreach ($value as $col => $item) {
                 $type = parent::getTipe()[$col];
-                $avg = $average[$col - 1]['Value'];
+                $avg = $average[$col]['Value'];
                 $pda = $this->calculatePDA($value[$col], $avg, $type, $precision);
                 $result[$row][$col] = $pda;
             }
@@ -84,7 +84,7 @@ class EddasService extends DecisionMakerService
         foreach (parent::getData() as $row => $value) {
             foreach ($value as $col => $item) {
                 $type = parent::getTipe()[$col];
-                $avg = $average[$col - 1]['Value'];
+                $avg = $average[$col]['Value'];
                 $nda = $this->calculateNDA($value[$col], $avg, $type, $precision);
                 $result[$row][$col] = $nda;
             }

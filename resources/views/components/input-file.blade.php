@@ -28,7 +28,7 @@
         @endisset
         <span>Extension: {{ $accept }}</span>
     </div>
-    <div class="bg-white border border-gray-300 w-full h-96 rounded-md flex flex-col items-center"
+    <div class="bg-white border border-gray-300 w-full min-h-96 rounded-md flex flex-col items-center"
         x-data="{{ $randFunction }}()">
         <div id="drop-area" class="relative w-full h-full py-10" @dragover.prevent @drop.prevent="">
             <input type="file" name="{{ $name }}" id="images"
@@ -107,7 +107,7 @@
             @endif
         </div>
         @if ($multiple)
-            <div class="w-full flex flex-wrap items-center justify-start gap-5 py-6 px-4" x-show="filesList.length > 0"
+            <div class="w-full flex flex-wrap items-center justify-start gap-5 py-6 px-4" x-show="filesList.length > 0">
                 <template x-for="(file, index) in filesList" :key="index">
                 <div class="w-24 h-24 flex flex-col relative border border-black rounded-md" x-data="{ showTooltip: false }"
                     @mouseover="showTooltip = true" @mouseleave="showTooltip = !showTooltip">
@@ -239,7 +239,7 @@
             },
             async _urlToFile(url) {
                 try {
-                    console.log(url);   
+                    console.log(url);
                     const response = await fetch(url, {
                         headers: {
                             'Access-Control-Allow-Origin': '*'

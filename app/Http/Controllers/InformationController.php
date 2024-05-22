@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Informasi;
 use App\Services\FileManager\FileService;
-use App\Services\ImageManager\imageService;
+use App\Services\ImageManager\ImageService;
 use App\Services\Notification\NotificationPusher;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -13,13 +13,8 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Intervention\Image\Drivers\Gd\Driver;
-use Intervention\Image\ImageManager;
-use Stevebauman\Purify\Casts\PurifyHtmlOnSet;
 use Stevebauman\Purify\Facades\Purify;
 
 class InformationController extends Controller
@@ -47,8 +42,11 @@ class InformationController extends Controller
             'list' => ['Home', 'Informasi', 'Tambah Informasi'],
             'url' => ['home', 'informasi.index', 'informasi.create'],
         ];
+        $informationTypes = Informasi::getListJenisInformasi();
+
         return response()->view('pages.information.create', [
-            'breadcrumb' => $breadcrumb
+            'breadcrumb' => $breadcrumb,
+            'informationTypes' => $informationTypes,
         ]);
     }
 
@@ -87,10 +85,10 @@ class InformationController extends Controller
             $request->merge(['judul_informasi' => Str::title($request['judul_informasi'])]);
 
             if ($request->file('images')) {
-                if ($request['jenis_informasi'] == 'Pengumuman') {
+                if ($request['jenis_informasi'] == 'Pengumuman' || $request['jenis_informasi'] == 'Dokumentasi Rapat') {
                     $request->merge(['thumbnail_url' => $this->checkFile($request)]);
                 } else {
-                    $request->merge(['thumbnail_url' => imageService::uploadFile('public', $request)]);
+                    $request->merge(['thumbnail_url' => ImageService::uploadFile('public', $request)]);
                 }
             }
 
@@ -111,7 +109,7 @@ class InformationController extends Controller
     {
         $imageExtensions = ['jpg', 'jpeg', 'png'];
         $fileExtensions = ['pdf', 'doc', 'docx', 'xls', 'xlsx'];
-        $information = Informasi::with('penduduk')->find($id);
+        $information = Informasi::with('penduduk')->findOrFail($id);
         $file_extension = pathinfo($information->thumbnail_url, PATHINFO_EXTENSION);
         $fileType = '';
 
@@ -154,6 +152,7 @@ class InformationController extends Controller
         ];
 
         $information = Informasi::find($id);
+        $informationTypes = Informasi::getListJenisInformasi();
         $file_extension = pathinfo($information->thumbnail_url, PATHINFO_EXTENSION);
         $fileType = '';
 
@@ -167,6 +166,7 @@ class InformationController extends Controller
             'breadcrumb' => $breadcrumb,
             'information' => $information,
             'toolbar_id' => $id,
+            'informationTypes' => $informationTypes,
             'file_extension' => $file_extension,
             'fileType' => $fileType,
             'active' => 'edit',
@@ -183,7 +183,7 @@ class InformationController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $information = Informasi::find($id);
+        $information = Informasi::findOrFail($id);
         $request['penduduk_id'] = Auth::user()->penduduk->penduduk_id;
         $rules = [
             'penduduk_id' => ['required', 'exists:penduduk,penduduk_id'],
@@ -222,12 +222,12 @@ class InformationController extends Controller
             $request->merge(['judul_informasi' => Str::title($request['judul_informasi'])]);
 
             if ($request->file('images')) {
-                if ($request['jenis_informasi'] == 'Pengumuman') {
+                if ($request['jenis_informasi'] == 'Pengumuman' && $request['jenis_informasi'] != 'Dokumentasi Rapat') {
                     $request->merge(['thumbnail_url' => $this->checkFile($request)]);
                     FileService::deleteFile('public', $information->thumbnail_url);
                 } else {
-                    $request->merge(['thumbnail_url' => imageService::uploadFile('public', $request)]);
-                    imageService::deleteFile('public', $information->thumbnail_url);
+                    $request->merge(['thumbnail_url' => ImageService::uploadFile('public', $request)]);
+                    ImageService::deleteFile('public', $information->thumbnail_url);
                 }
             } else {
                 $request->merge(['thumbnail_url' => $information->thumbnail_url]);
@@ -257,10 +257,10 @@ class InformationController extends Controller
                 $status = '';
                 DB::beginTransaction();
 
-                if ($information->jenis_informasi == 'Pengumuman') {
+                if ($information->jenis_informasi == 'Pengumuman' || $information->jenis_informasi == 'Dokumentasi Rapat') {
                     $status = FileService::deleteFile('storage_announcement', $information->thumbnail_url);
                 } else {
-                    $status = imageService::deleteFile('public', $information->thumbnail_url);
+                    $status = ImageService::deleteFile('public', $information->thumbnail_url);
                 }
 
                 if ($status) {
@@ -320,7 +320,7 @@ class InformationController extends Controller
         $extension = $request->file('images')->getClientOriginalExtension();
 
         if (in_array($extension, $imageExtensions)) {
-            $fileName = imageService::uploadFile('storage_announcement', $request);
+            $fileName = ImageService::uploadFile('storage_announcement', $request);
             return $fileName;
         } elseif (in_array($extension, $fileExtensions)) {
             $fileName = FileService::uploadFile('/storage_announcement', $request, 'images');
@@ -328,5 +328,17 @@ class InformationController extends Controller
         }
 
         return 'File tidak valid';
+    }
+
+    public function getInformation(string $id): JsonResponse
+    {
+        try {
+            $data = Informasi::find($id);
+            return response()->json([
+                'data' => $data
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => 'An error occurred.'], 500);
+        }
     }
 }

@@ -84,7 +84,7 @@ class DashboardController extends Controller
 
     public function getListOfAnnouncements(): Collection
     {
-        return Informasi::where('jenis_informasi', 'Pengumuman')->orderBy('updated_at', 'desc')->get();
+        return Informasi::where('jenis_informasi', 'Pengumuman')->orWhere('jenis_informasi', 'Dokumentasi Rapat')->orderBy('updated_at', 'desc')->get();
     }
 
     public function getListOfResidentReports(): Collection
@@ -133,6 +133,7 @@ class DashboardController extends Controller
     {
         $informations = Informasi::with(['penduduk'])
             ->where('jenis_informasi', 'Pengumuman')
+            ->orWhere('jenis_informasi', 'Dokumentasi Rapat')
             ->whereMonth('updated_at', '>=', (date('m') - 1))->get();
 
         $reports = Pelaporan::with(['pengajuan', 'pengajuan.penduduk'])->where('jenis_pelaporan', 'Pengaduan')->get();

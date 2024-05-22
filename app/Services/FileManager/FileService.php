@@ -10,7 +10,7 @@ class FileService implements FileServiceInterface
 {
     public static function uploadFile(string $disk, Request $request, string $name = 'images'): string
     {
-        $fileName = $request->file($name)->getClientOriginalName();
+        $fileName = time() . '-' . $request->file($name)->getClientOriginalName();  
         $request->file($name)->storeAs($disk, $fileName);
         return $fileName;
     }

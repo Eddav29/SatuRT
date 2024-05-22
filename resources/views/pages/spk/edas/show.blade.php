@@ -13,7 +13,7 @@
 
             <section>
                 <x-decision-support-table :emptyColumn="true" stepTitle="Matriks Keputusan (X)" :columns="$criterias"
-                    :withAlternative="true" :alternatives="$alternatives" :data="$data['decisionMatrix']" startIndex="1">
+                    :withAlternative="true" :alternatives="$alternatives" :data="$data['decisionMatrix']">
                     <p class="break-words">Pada matriks keputusan (X) baris menunjukkan alternatif dan kolom menunjukkan
                         kriteria</p>
                     <p>$$X =
@@ -49,7 +49,7 @@
             <section>
                 <x-decision-support-table :emptyColumn="true" stepTitle="Matriks Jarak Positif dari Rata-rata (PDA)"
                     :columns="$criterias" :withAlternative="true" :alternatives="$alternatives" :data="$data['pda_nda']['pda']" :withWeight="true"
-                    :weights="$weights" startIndex="1">
+                    :weights="$weights">
                     <p class="break-words">Menghitung jarak positif dari matriks rata-rata (PDA) sesuai dengan kriteria
                         (benefit dan cost) dengan menggunakan persamaan berikut:</p>
                     <div class="flex flex-col gap-y-2">
@@ -64,7 +64,7 @@
             <section>
                 <x-decision-support-table :emptyColumn="true" stepTitle="Matriks Jarak Negatif dari Rata-rata (NDA)"
                     :columns="$criterias" :withAlternative="true" :alternatives="$alternatives" :data="$data['pda_nda']['nda']" :withWeight="true"
-                    :weights="$weights" startIndex="1">
+                    :weights="$weights">
                     <p class="break-words">Menghitung jarak negatif dari matriks rata-rata (NDA) sesuai dengan kriteria
                         (benefit dan cost) dengan menggunakan persamaan berikut:</p>
                     <div class="flex flex-col gap-y-2">

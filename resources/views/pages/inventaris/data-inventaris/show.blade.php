@@ -20,10 +20,6 @@
 
                     <div class="lg:mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
                         <div class="md:grid md:grid-cols-4 flex max-lg:flex-auto gap-3">
-                            <h5 class="font-semibold max-lg:w-2/5">ID Inventaris</h5>
-                            <p class="md:col-span-3">: {{ $inventaris->inventaris_id }}</p>
-                        </div>
-                        <div class="md:grid md:grid-cols-4 flex max-lg:flex-auto gap-3">
                             <h5 class="font-semibold max-lg:w-2/5">Nama</h5>
                             <p class="md:col-span-3">: {{ $inventaris->nama_inventaris }}</p>
                         </div>

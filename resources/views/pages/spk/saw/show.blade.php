@@ -13,7 +13,7 @@
 
             <section>
                 <x-decision-support-table :emptyColumn="true" stepTitle="Matriks Keputusan (X)" :columns="$criterias"
-                    :withAlternative="true" :alternatives="$alternatives" :data="$data['decisionMatrix']" startIndex="1">
+                    :withAlternative="true" :alternatives="$alternatives" :data="$data['decisionMatrix']" >
                     <p class="break-words">Pada Langkah pertama dilakukan evaluasi alternatif “m” dengan “n” kriteria.</p>
                     <p>$$X = \begin{array}{c}
                         & \begin{matrix}

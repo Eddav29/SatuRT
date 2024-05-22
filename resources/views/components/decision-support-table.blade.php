@@ -11,6 +11,8 @@
     'startIndex' => 0,
 ])
 
+{{-- @dd($data, $startIndex) --}}
+
 <div class="flex justify-between items-center mt-10">
     <div x-data="{ formula: '' }" class="flex justify-end items-center relative">
         <h1 class="text-lg font-bold">{{ $stepTitle }}</h1>
@@ -83,7 +85,7 @@
                 <tr>
                     @if ($withAlternative)
                         <td class="p-5 truncate">
-                            {{ $startIndex === 0 ? $alternatives[$key + 1] : $alternatives[$key] }}
+                            {{ $alternatives[$key] }}
                         </td>
                     @endif
                     @foreach ($row as $key => $value)

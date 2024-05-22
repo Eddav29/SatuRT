@@ -63,14 +63,15 @@
 
                     <div class="font-semibold mt-3">
                         <h5 class="font-semibold">Foto Profile</h5>
-
-                        @if (Auth::user()->penduduk->user->profile)
-                            <img src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}"
-                                class="object-cover flex flex-col items-center justify-center w-auto h-3/4 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-gray-100 hover:border-gray-100 hover:bg-gray-200">
-                        @else
-                            <img src="{{ asset('assets/images/default.png') }}"
-                                class="object-cover flex flex-col items-center justify-center w-auto h-3/4 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-gray-100 hover:border-gray-100 hover:bg-gray-200">
-                        @endif
+                        <div class="flex max-lg:items-center max-lg:justify-center">
+                            @if (Auth::user()->penduduk->user->profile)
+                                <img src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}"
+                                    class="object-cover flex flex-col items-center justify-center w-auto h-3/4 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-gray-100 hover:border-gray-100 hover:bg-gray-200">
+                            @else
+                                <img src="{{ asset('assets/images/default.png') }}"
+                                    class="object-cover flex flex-col items-center justify-center w-auto h-3/4 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-gray-100 hover:border-gray-100 hover:bg-gray-200">
+                            @endif
+                        </div>
 
                     </div>
                 </div>
