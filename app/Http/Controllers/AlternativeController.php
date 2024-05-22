@@ -8,11 +8,13 @@ use App\Models\KriteriaAlternatif;
 use App\Services\Notification\NotificationPusher;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use PHPUnit\Event\Code\Throwable;
 
 class AlternativeController extends Controller
 {
@@ -50,17 +52,28 @@ class AlternativeController extends Controller
 
     public function create()
     {
-        $criteria = Kriteria::all();
+        try {
+            $criteria = Kriteria::all();
 
-        $breadcrumb = [
-            'list' => ['Home', 'SPK', 'Tambah Kegiatan'],
-            'url' => ['home', 'spk.index', 'spk.create'],
-        ];
+            if ($criteria->isEmpty()) {
+                NotificationPusher::warning('Silahkan menambahkan data kriteria terlebih dahulu');
+                return redirect()->back();
+            }
 
-        return response()->view('pages.alternatif.create', [
-            'breadcrumb' => $breadcrumb,
-            'criterias' => $criteria
-        ]);
+            $breadcrumb = [
+                'list' => ['Home', 'SPK', 'Tambah Kegiatan'],
+                'url' => ['home', 'spk.index', 'spk.create'],
+            ];
+
+            return response()->view('pages.alternatif.create', [
+                'breadcrumb' => $breadcrumb,
+                'criterias' => $criteria
+            ]);
+        } catch (\Throwable $th) {
+            NotificationPusher::error('Terjadi Kesalahan');
+            return redirect()->back();
+        }
+
     }
 
     public function store(Request $request)
@@ -105,34 +118,43 @@ class AlternativeController extends Controller
             return redirect()->route('spk.index');
         } catch (\Throwable $th) {
             DB::rollBack();
-            // Push notification
             NotificationPusher::error("Terjadi Kesalahan");
-
             return redirect()->back()->withInput();
         }
     }
 
-    public function edit(string $id): Response
+    public function edit(string $id): Response|RedirectResponse
     {
-        $alternatif = KriteriaAlternatif::with(['kriteria', 'alternatif'])->where('alternatif_id', $id)->get();
+        try {
+            $alternatif = KriteriaAlternatif::with(['kriteria', 'alternatif'])->where('alternatif_id', $id)->get();
 
-        $breadcrumb = [
-            'list' => ['Home', 'SPK', 'Edit Data UMKM'],
-            'url' => ['home', 'spk.index', ['spk.edit', $id]],
-        ];
+            if ($alternatif->isEmpty()) {
+                NotificationPusher::warning('Silahkan menambahkan data kriteria terlebih dahulu');
+                return redirect()->back();
+            }
 
-        return response()->view('pages.alternatif.edit', [
-            'breadcrumb' => $breadcrumb,
-            'alternatif' => $alternatif,
-            'id' => $id,
-            'active' => 'detail',
-            'toolbar_id' => $id,
-            'toolbar_route' => [
-                'detail' => route('spk.show', ['alternatif' => $id]),
-                'edit' => route('spk.edit', ['alternatif' => $id]),
-                'hapus' => route('spk.destroy', ['alternatif' => $id]),
-            ],
-        ]);
+            $breadcrumb = [
+                'list' => ['Home', 'SPK', 'Edit Data UMKM'],
+                'url' => ['home', 'spk.index', ['spk.edit', $id]],
+            ];
+
+            return response()->view('pages.alternatif.edit', [
+                'breadcrumb' => $breadcrumb,
+                'alternatif' => $alternatif,
+                'id' => $id,
+                'active' => 'detail',
+                'toolbar_id' => $id,
+                'toolbar_route' => [
+                    'detail' => route('spk.show', ['alternatif' => $id]),
+                    'edit' => route('spk.edit', ['alternatif' => $id]),
+                    'hapus' => route('spk.destroy', ['alternatif' => $id]),
+                ],
+            ]);
+        } catch (\Throwable $th) {
+            NotificationPusher::error('Terjadi Kesalahan');
+            return redirect()->back();
+        }
+
     }
 
     public function update(Request $request, string $id)
@@ -150,9 +172,7 @@ class AlternativeController extends Controller
         ]);
 
         if ($validator->fails()) {
-            // Push notification
             NotificationPusher::error($validator->getMessageBag()->first());
-
             return redirect()->back()->withInput()->withErrors($validator);
         }
 
@@ -175,31 +195,66 @@ class AlternativeController extends Controller
             return redirect()->route('spk.index');
         } catch (\Throwable $th) {
             DB::rollBack();
-            // Push notification
             NotificationPusher::error("Terjadi Kesalahan");
-
             return redirect()->back()->withInput();
         }
     }
 
     public function show(string $id)
     {
-        $alternative = KriteriaAlternatif::with(['kriteria', 'alternatif'])->where('alternatif_id', $id)->get();
+        try {
+            $alternative = KriteriaAlternatif::with(['kriteria', 'alternatif'])->where('alternatif_id', $id)->get();
 
-        $breadcrumb = [
-            'list' => ['Home', 'SPK', 'Detail Kegiatan'],
-            'url' => ['home', 'spk.index', ['spk.show', $id]],
-        ];
-        return response()->view('pages.alternatif.show', [
-            'breadcrumb' => $breadcrumb,
-            'active' => 'detail',
-            'toolbar_id' => $id,
-            'toolbar_route' => [
-                'detail' => route('spk.show', ['alternatif' => $id]),
-                'edit' => route('spk.edit', ['alternatif' => $id]),
-                'hapus' => route('spk.destroy', ['alternatif' => $id]),
-            ],
-            'alternative' => $alternative
-        ]);
+            if ($alternative->isEmpty()) {
+                NotificationPusher::warning('Data tidak ditemukan');
+                return redirect()->back();
+            }
+
+            $breadcrumb = [
+                'list' => ['Home', 'SPK', 'Detail Kegiatan'],
+                'url' => ['home', 'spk.index', ['spk.show', $id]],
+            ];
+
+            return response()->view('pages.alternatif.show', [
+                'breadcrumb' => $breadcrumb,
+                'active' => 'detail',
+                'toolbar_id' => $id,
+                'toolbar_route' => [
+                    'detail' => route('spk.show', ['alternatif' => $id]),
+                    'edit' => route('spk.edit', ['alternatif' => $id]),
+                    'hapus' => route('spk.destroy', ['alternatif' => $id]),
+                ],
+                'alternative' => $alternative
+            ]);
+
+        } catch (\Throwable $th) {
+            NotificationPusher::error('Terjadi Kesalahan');
+            return redirect()->back();
+        }
+    }
+
+    public function destroy(string|int $id)
+    {
+        try {
+            DB::beginTransaction();
+
+            DB::delete('DELETE FROM kriteria_alternatif WHERE alternatif_id = ?', [$id]);
+            Alternatif::find($id)->delete();
+
+            DB::commit();
+
+            NotificationPusher::success('Data berhasil dihapus');
+
+            return response()->json([
+                'code' => 200,
+                'message' => 'Data berhasil dihapus',
+                'timestamp' => now(),
+                'redirect' => route('spk.index')
+            ]);
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            NotificationPusher::error("Terjadi Kesalahan");
+            return redirect()->back()->withInput();
+        }
     }
 }
