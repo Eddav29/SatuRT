@@ -17,7 +17,7 @@
             @method('PATCH')
             <div class="space-y-6">
                 <div>
-                    <x-heading text="Edit Data Penduduk" />
+                    <x-heading text="Edit Data Anggota Keluarga" />
                     @include('pages.data-penduduk.partials.data-anggota-keluarga-form')
                 </div>
             </div>
