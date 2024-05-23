@@ -11,7 +11,7 @@
             @csrf
             <div class="space-y-6">
                 <div>
-                    <x-heading text="Tambah Data Penduduk" />
+                    <x-heading text="Tambah Data Anggota Keluarga"" />
                     @include('pages.data-penduduk.partials.data-anggota-keluarga-form')
                 </div>
             </div>
