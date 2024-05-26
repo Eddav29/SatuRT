@@ -35,7 +35,7 @@ class DocumentRequestController extends Controller
         ];
         return response()->view('pages.persuratan.index', [
             'breadcrumb' => $breadcrumb,
-            'data' => $data['data'] ?? []
+            'data' => $data['data'] ?? [],
         ]);
     }
 
@@ -111,7 +111,8 @@ class DocumentRequestController extends Controller
         $persuratan = Persuratan::with('pengajuan')->find($id);
 
         if (!$persuratan) {
-            return response()->json(['error' => 'Permohonan tidak ditemukan'], 404);
+            NotificationPusher::error('Permohonan tidak ditemukan');
+            return redirect()->route('persuratan.index');
         }
 
         $breadcrumb = [
@@ -172,12 +173,14 @@ class DocumentRequestController extends Controller
             $persuratan = Persuratan::find($persuratan_id);
 
             if (!$persuratan) {
-                throw new Exception('Permohonan tidak ditemukan');
+                NotificationPusher::error('Permohonan tidak ditemukan');
+                return redirect()->route('persuratan.index');
             }
 
             // Pastikan pengguna memiliki hak untuk menyetujui
             if (Auth::user()->role->role_name !== 'Ketua RT' && Auth::user()->role->role_name !== 'Admin') {
-                throw new Exception('Anda tidak memiliki izin untuk menyetujui permohonan ini');
+                NotificationPusher::error('Anda tidak memiliki izin untuk permohonan ini');
+                return redirect()->route('persuratan.index');
             }
 
             // Ubah status pengajuan menjadi Disetujui dengan status_id = 2
@@ -185,7 +188,8 @@ class DocumentRequestController extends Controller
 
             // Pastikan persuratan memiliki pengajuan
             if (!$pengajuan) {
-                throw new Exception('Pengajuan terkait tidak ditemukan');
+                NotificationPusher::error('Pengajuan tidak ditemukan');
+                return redirect()->route('persuratan.index');
             }
 
             $pengajuan->update([
@@ -219,12 +223,14 @@ class DocumentRequestController extends Controller
             $persuratan = Persuratan::find($persuratan_id);
 
             if (!$persuratan) {
-                throw new Exception('Permohonan tidak ditemukan');
+                NotificationPusher::error('Permohonan tidak ditemukan');
+                return redirect()->route('persuratan.index');
             }
 
             // Pastikan pengguna memiliki hak untuk menyetujui
             if (Auth::user()->role->role_name !== 'Ketua RT' && Auth::user()->role->role_name !== 'Admin') {
-                throw new Exception('Anda tidak memiliki izin untuk menolak permohonan ini');
+                NotificationPusher::error('anda tidak memiliki hak untuk melakukan ini');
+                return redirect()->route('persuratan.index');
             }
 
             // Ubah status pengajuan menjadi Disetujui dengan status_id = 2
@@ -232,7 +238,8 @@ class DocumentRequestController extends Controller
 
             // Pastikan persuratan memiliki pengajuan
             if (!$pengajuan) {
-                throw new Exception('Pengajuan terkait tidak ditemukan');
+                NotificationPusher::error('Pengajuan tidak ditemukan');
+                return redirect()->route('persuratan.index');
             }
 
             $pengajuan->update([
@@ -356,7 +363,8 @@ class DocumentRequestController extends Controller
         $persuratan = Persuratan::with('pengajuan')->find($id);
 
         if (!$persuratan) {
-            return redirect()->route('persuratan.index')->with('error', 'Permohonan tidak ditemukan');
+            NotificationPusher::error('Permohonan tidak ditemukan');
+            return redirect()->route('persuratan.index');
         }
 
         try {
@@ -409,10 +417,10 @@ class DocumentRequestController extends Controller
             DB::commit(); // Selesaikan transaksi jika berhasil
 
             return response()->json([
-                'code' => 204,
+                'code' => 200,
                 'message' => 'Persuratan berhasil dihapus',
                 'timestamp' => now(),
-            ], 204);
+            ], 200);
         } catch (\Exception $e) {
             DB::rollback(); // Batalkan transaksi jika ada kesalahan
             return response()->json([
