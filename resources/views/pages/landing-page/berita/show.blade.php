@@ -1,4 +1,8 @@
 <x-guest-layout>
+    @push('styles')
+    <link rel="preload" href="{{ !strpos($information->thumbnail_url, 'https://') ? $information->thumbnail_url : asset('storage/images_storage/' . $information->thumbnail_url) }}" as="image">
+
+    @endpush
     <div class="flex flex-col gap-y-10 w-full max-w-7xl mx-auto">
         <section>
             <div class="flex flex-col gap-y-10">
@@ -45,7 +49,8 @@
                                             class="lg:max-h-[29rem] group">
                                             <div class="relative h-72 lg:h-[15rem]">
                                                 <img src="{{ !strpos($otherInformation->thumbnail_url, 'https://') ? $otherInformation->thumbnail_url : asset('storage/images_storage/' . $otherInformation->thumbnail_url) }}"
-                                                    alt="" class="rounded-xl w-full h-full object-cover">
+                                                    alt="" class="rounded-xl w-full h-full object-cover" loading="lazy"
+                                                    >
                                             </div>
                                             <div class="py-3">
                                                 <h1 class="group-hover:underline font-bold text-[1rem]/[1.618rem]">
@@ -75,7 +80,7 @@
                                 class="lg:max-h-[29rem] group">
                                 <div class="relative h-72 lg:h-[60%]">
                                     <img src="{{ !strpos($otherInformation->thumbnail_url, 'https://') ? $otherInformation->thumbnail_url : asset('storage/images_storage/' . $otherInformation->thumbnail_url) }}"
-                                        alt="" class="rounded-xl w-full h-full object-cover">
+                                        alt="" class="rounded-xl w-full h-full object-cover" loading="lazy">
                                 </div>
                                 <div class="py-3">
                                     <h1 class="group-hover:underline font-bold text-[1.618rem]/[2.618rem]">

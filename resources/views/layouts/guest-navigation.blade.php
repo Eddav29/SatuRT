@@ -34,21 +34,26 @@
 
             {{-- Search Dropdown --}}
             <div x-show="search" x-transition:enter.duration.500ms x-transition:leave.duration.400ms
-                class=" absolute inset-0 w-full mx-auto h-screen -z-10 bg-white/10" x-cloak>
-                <div class="absolute inset-0 w-full mx-auto h-[20rem] bg-white" id="search">
+                class="absolute inset-0 w-full mx-auto h-screen -z-10 bg-white/10" x-cloak>
+                <div class="absolute inset-0 w-full mx-auto h-[14rem] bg-white" id="search">
                     <form id="searchForm" action="{{ route('berita') }}"
                         class="w-full max-w-7xl mx-auto h-full flex justify-center items-center relative">
                         @if (request('jfsi'))
                             <input type="hidden" name="jfsi" value="{{ request('jfsi') }}">
                         @endif
-                        <input type="text" name="search" id="search" placeholder="Cari Berita"
-                            class="w-3/4 inline-block px-4 py-4 ring-0 outline-none border-0 rounded-xl bg-gray-100">
-                        <button type="submit">
-                            <x-heroicon-o-magnifying-glass class="w-8 h-8 absolute top-1/2 right-44 -translate-y-1/2" />
-                        </button>
+                        <div class="w-3/4 mx-auto h-full flex items-end py-12">
+                            <div class="w-full inline-flex items-center relative">
+                                <input type="text" name="search" id="search" placeholder="Cari Berita"
+                                    class="w-full px-4 py-4 bg-gray-50 ring-black ring-1 rounded-lg outline-none border-0 focus:ring-1 focus:ring-green-light">
+                                <button type="submit" class="absolute z-20 right-4">
+                                    <x-heroicon-o-magnifying-glass class="w-8 h-8" />
+                                </button>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
+
         </div>
     </div>
 </nav>

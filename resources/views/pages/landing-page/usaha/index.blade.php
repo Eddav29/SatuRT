@@ -258,7 +258,6 @@
 
 
             const card = (umkm) => {
-                console.log(umkm);
                 return `
                 <li>
                             <a href="usaha/${umkm.umkm_id}"
