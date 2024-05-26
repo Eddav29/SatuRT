@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Alternatif;
 use App\Services\DecisionMakerGenerator\DecisionMakerService;
 use App\Services\DecisionMakerGenerator\Support\EddasService;
 use App\Services\DecisionMakerGenerator\Support\MabacService;
@@ -11,12 +10,7 @@ use App\Services\DecisionMakerGenerator\Support\ArasService;
 use App\Services\DecisionMakerGenerator\Support\ElectreService;
 use App\Services\DecisionMakerGenerator\Support\SAWService;
 use App\Services\Notification\NotificationPusher;
-use Error;
-use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Notifications\Notification;
-use Nette\Utils\Arrays;
 
 class DecisionSupportController extends Controller
 {
@@ -50,7 +44,7 @@ class DecisionSupportController extends Controller
 
         return response()->view('pages.spk.index', [
             'breadcrumb' => $breadcrumb,
-            'method' => 'edas'
+            'method' => 'all'
         ]);
     }
 

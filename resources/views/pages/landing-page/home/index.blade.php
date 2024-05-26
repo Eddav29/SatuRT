@@ -1,10 +1,17 @@
 <x-guest-layout>
+    @push('styles')
+    <link rel="preload" href="{{ asset('assets/images/isometric-research-of-statistical-data-and-analytics.webp') }}"
+        as="image">
+    <link rel="preload" href="{{ asset('assets/images/3d-buddy-boy-offering-handshake.webp') }}" as="image">
+    <link rel="preload" href="{{ asset('assets/images/undraw_join_re_w1lh.svg') }}" as="image">
+
+    @endpush
     <div class="flex flex-col gap-y-14 lg:gap-y-40">
         {{-- Hero Section Start --}}
         <section class="m-auto w-full max-w-7xl">
             <div class="grid grid-rows-2 lg:grid-rows-1 lg:grid-cols-2 lg:flex lg:justify-center lg:items-center">
                 <div class="place-self-center lg:order-2 max-w-xl lg:w-full md:flex md:justify-center md:items-center">
-                    <img src="{{ asset('assets/images/isometric-research-of-statistical-data-and-analytics.gif') }}"
+                    <img src="{{ asset('assets/images/isometric-research-of-statistical-data-and-analytics.webp') }}"
                         alt="" class="w-full">
                 </div>
                 <div class="flex flex-col gap-y-4 md:w-full leading-8">
@@ -34,7 +41,7 @@
                 <div
                     class="absolute w-80 h-80 max-lg:top-0 max-lg:right-0 lg:w-96 lg:h-96 md:left-20 lg:left-0 bg-green-light rounded-full blur-3xl">
                 </div>
-                <img src="{{ asset('assets/images/3d-buddy-boy-offering-handshake.png') }}"
+                <img src="{{ asset('assets/images/3d-buddy-boy-offering-handshake.webp') }}"
                     class="relative lg:w-[30rem] md:transform md:-scale-x-100 z-10" alt="">
             </div>
             <div>
@@ -91,6 +98,7 @@
                                 <a href="{{ url('usaha/' . $business->umkm_id) }}" class="flex flex-col">
                                     <div>
                                         <img src="{{ !strpos($business->thumbnail_url, 'https://') ? $business->thumbnail_url : asset('storage/images_storage/' . $business->thumbnail_url) }}"
+                                            loading="lazy"
                                             alt="" class="h-[15rem] w-full object-cover rounded-lg">
                                     </div>
                                     <div>
@@ -294,6 +302,7 @@
                             <a href="{{ url('berita/' . $information->informasi_id) }}" class="lg:row-span-2 group">
                                 <div class="relative h-72 lg:h-[44.5rem]">
                                     <img src="{{ !strpos($information->thumbnail_url, 'https://') ? $information->thumbnail_url : asset('storage/images_storage/' . $information->thumbnail_url) }}"
+                                        loading="lazy"
                                         alt="" class="rounded-xl w-full h-full object-cover">
                                     <div
                                         class="absolute bottom-3 left-3 z-10 rounded-full text-[1rem]/[1.618rem] text-soft-snow px-6 py-3 bg-navy-night/50 backdrop-blur-3xl flex gap-3">
@@ -323,6 +332,7 @@
                                 class="lg:max-h-[27rem] group">
                                 <div class="relative h-72 lg:h-[15rem]">
                                     <img src="{{ !strpos($information->thumbnail_url, 'https://') ? $information->thumbnail_url : asset('storage/images_storage/' . $information->thumbnail_url) }}"
+                                        loading="lazy"
                                         alt="" class="rounded-xl w-full h-full object-cover">
                                     <div
                                         class="absolute bottom-3 left-3 z-10 rounded-full text-[1rem]/[1.618rem] text-soft-snow px-6 py-3 bg-navy-night/50 backdrop-blur-3xl flex gap-3">
