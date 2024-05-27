@@ -23,16 +23,16 @@ class InventarisPeminjamanController extends Controller
             $formattedData = Inventaris_Detail::with('inventaris', 'penduduk')->orderBy('updated_at', 'DESC')->get()->map(function ($detail) {
                 return [
                     'inventaris_detail_id' => $detail->inventaris_detail_id,
-                    'nama_inventaris' => $detail->inventaris->nama_inventaris, 
-                    'nama' => $detail->penduduk->nama, 
-                    'jumlah' => $detail->jumlah,
-                    'kondisi' => $detail->kondisi,
-                    'status' => $detail->status,
-                    'tanggal_pinjam' => $detail->tanggal_pinjam,
-                    'tanggal_kembali' => $detail->tanggal_kembali,
+                    'nama_inventaris' => $detail->inventaris->nama_inventaris ?? '', 
+                    'nama' => $detail->penduduk->nama ??'', 
+                    'jumlah' => $detail->jumlah ?? '', 
+                    'kondisi' => $detail->kondisi ?? '', 
+                    'status' => $detail->status ?? '',
+                    'tanggal_pinjam' => $detail->tanggal_pinjam ?? '',
+                    'tanggal_kembali' => $detail->tanggal_kembali ?? '',
                 ];
             });
-
+        
             return response()->json(['data' => $formattedData], 200);
         } catch (\Exception $e) {
             return response()->json(['error' => 'An error occurred: ' . $e->getMessage()], 500);
@@ -48,7 +48,7 @@ class InventarisPeminjamanController extends Controller
         ];
 
         $peminjaman = Inventaris_Detail::all();
-
+        // dd($peminjaman);
         return response()->view('pages.inventaris.peminjaman.index', [
             'breadcrumb' => $breadcrumb,
             'peminjaman' => $peminjaman,
