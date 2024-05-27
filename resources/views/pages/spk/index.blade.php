@@ -3,8 +3,6 @@
         <x-breadcrumb :list="$breadcrumb['list']" :url="$breadcrumb['url']" />
     </x-slot>
 
-    {{-- @dd($rankingEdas) --}}
-    {{-- @dd($method) --}}
 
     <div class="p-6 lg:px-14 gap-y-5 mx-auto max-w-screen-2xl md:p-6 2xl:p-10 ">
         <div x-data="{ method: '{{$method}}' }" x-init="getData('{{$method}}')" class="p-6 rounded-xl bg-white-snow overflow-hidden">
@@ -12,6 +10,8 @@
             <section>
                 <div class="overflow-x-auto">
                     <div class="grid grid-cols-7 w-max gap-5 py-5">
+                        <button class="p-5" @click.prevent="method = 'all'; getData(method)"
+                            :class="method == 'all' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">Semua</button>
                         <button class="p-5" @click.prevent="method = 'edas'; getData(method)"
                             :class="method == 'edas' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">EDAS</button>
                         <button class="p-5" @click.prevent="method = 'mabac'; getData(method)"
@@ -24,8 +24,6 @@
                             :class="method == 'saw' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">SAW</button>
                         <button class="p-5" @click.prevent="method = 'electre'; getData(method)"
                             :class="method == 'electre' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">ELECTRE</button>
-                        <button class="p-5" @click.prevent="method = 'all'; getData(method)"
-                            :class="method == 'all' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">Semua</button>
                     </div>
                 </div>
             </section>
