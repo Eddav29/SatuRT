@@ -37,21 +37,21 @@
                             mengeksplorasi dan mendukung berbagai usaha lokal yang menawarkan produk dan jasa unik,
                             dibuat dengan dedikasi dan kecintaan.</p>
                         <div class="grid grid-rows-1 grid-cols-2 gap-x-5 max-lg:hidden">
-                            <img src="https://source.unsplash.com/random/500x501?market" alt=""
+                            <img src="{{ asset('assets/images/gemma-stpjHJGqZyw-unsplash.webp') }}" alt=""
                                 class="rounded-xl max-h-60 w-full object-cover">
-                            <img src="https://source.unsplash.com/random/500x502?market" alt=""
+                            <img src="{{ asset('assets/images/alex-hudson-m3I92SgM3Mk-unsplash.webp') }}" alt=""
                                 class="rounded-xl max-h-60 w-full object-cover">
                         </div>
                     </div>
                     <div class="flex flex-col gap-y-3">
                         <div class="grid grid-rows-1 grid-cols-2 gap-x-3 lg:hidden">
-                            <img src="https://source.unsplash.com/random/500x501?market" alt=""
+                            <img src="{{ asset('assets/images/nrd-D6Tu_L3chLE-unsplash.webp') }}" alt=""
                                 class="rounded-xl max-h-60 w-full object-cover">
-                            <img src="https://source.unsplash.com/random/500x502?market" alt=""
+                            <img src="{{ asset('assets/images/gabriella-clare-marino-4cjzmwojr5M-unsplash.webp') }}" alt=""
                                 class="rounded-xl max-h-60 w-full object-cover">
                         </div>
                         <div>
-                            <img src="https://source.unsplash.com/random/500x503?market" alt=""
+                            <img src="{{ asset('assets/images/the-grand-cheese-master-TJDBqlvTdGI-unsplash.webp') }}" alt=""
                                 class="rounded-xl w-full object-cover h-[15rem] lg:h-[30rem]">
                         </div>
                     </div>

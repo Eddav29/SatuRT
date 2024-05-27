@@ -12,7 +12,7 @@
                         <input type="text" name="search" id="searchFieldMobile" placeholder="Cari Berita"
                             class="w-full py-5 rounded-lg outline-none ring-0 border-0 focus:ring-1 focus:ring-green-light">
                         <button type="submit">
-                            <x-heroicon-o-magnifying-glass class="w-8 h-8 absolute top-1/2 right-3 -translate-y-1/2" />
+                            <x-heroicon-o-magnifying-glass class="w-8 h-8 absolute bg-white top-1/2 right-3 -translate-y-1/2" />
                         </button>
                     </div>
                 </form>
@@ -122,6 +122,7 @@
             const jfsiParam = urlParams.get('jfsi');
             const searchParam = urlParams.get('search');
             const urlParamsObj = {};
+
 
             if (jfsiParam) {
                 urlParamsObj.jfsi = jfsiParam;
