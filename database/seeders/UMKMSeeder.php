@@ -133,7 +133,7 @@ class UMKMSeeder extends Seeder
                 'alamat' => '3J9M+XQP, Jl. Ikan Piranha Atas, Tunjungsekar, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142',
                 'nomor_telepon' => '',
                 'status' => 'Aktif',
-                'thumbnail_url' => 'https://lh3.googleusercontent.com/gps-proxy/ALd4DhHIJtQ8QDlbMbrpFsD3jxzGrW4_9sM-zB1WuFFHBZ7Joo7gBFFvB57B9fXnTZVZ3DeAaIufhB3Be0Rdl5lMmef7RISAs7psbVVifSVabAQOwrvTCayvJC9nNsKzzkFrD_6tx5hPD653x4x3z6BWcPsvmnxYICVHAuMGVYC7KJ68bVxp7QD9y7LmAD-sslvcDGT-Zug=w408-h306-k-no',
+                'thumbnail_url' => 'https://lh3.googleusercontent.com/gps-proxy/ALd4DhEd9GT6OwGvgpLi5Q7EANK9icvpCN91gRVUncSbn8L_g4lWGnQZGFSIwIXYVT-WWvoMhe_FdTvCp9Srcm3dF07jpD723JtQUnb4MZILFlyL5npCJmThymg59wURia_8KOzDQRfF2qVs_6wmjfCr8By542twxXkAso_CsMUcp9U4Cd4gQwh7w3h3NzfT59qgXVXKbhk=w408-h306-k-no',
                 'lisence_image_url' => '1714997937.elina-emurlaeva-mAWWkKnxf6g-unsplash.jpg',
                 'lokasi_url' => 'https://maps.app.goo.gl/vasfK753b9BhE18bA'
             ],
@@ -181,7 +181,7 @@ class UMKMSeeder extends Seeder
                 'alamat' => 'Jl. Terusan Ikan Piranha Atas No.60, Tunjungsekar, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142',
                 'nomor_telepon' => '03417729570',
                 'status' => 'Aktif',
-                'thumbnail_url' => 'https://lh3.googleusercontent.com/gps-proxy/ALd4DhEp3f44f1ifjqC8DO3ReI8p288__cFCO-MmlGPwOoaXpnqsKkxF0urYBfCb6WkTFhIZtahfQAuamf_PSheqUO2b9arDx6hYezHhiXiOZAcrLp24oWr0G6dmqral55HOy7DIbeJrxW0lJZp8-EpVszsFRtMNO7tjYIjWBrlpxfwcfA1EuO036uAMK9HlLgo2LOVPVkY=w408-h306-k-no',
+                'thumbnail_url' => 'https://lh3.googleusercontent.com/gps-proxy/ALd4DhGSBdU7XVRppqzTC5Lm92I2Q3FQpcKtfANw6LmZ6W0gRNtHfxMcNaWIDqkWnxic3OfDZNG1ohlSidDr9AE4o1hJz5OOnkp1VGMFBijsFa6RVHABgIeK5VRZfZhMds3oo9syhFCBLkHOIUdzu2DKt2kZbUCZhv_pB8Bca_ac80o-tsyT2Znn2MDPgMa8UI0-TqokU50=w408-h306-k-no',
                 'lisence_image_url' => '1714997937.elina-emurlaeva-mAWWkKnxf6g-unsplash.jpg',
                 'lokasi_url' => 'https://maps.app.goo.gl/DJdoqQynRNcYeLpk7'
             ],

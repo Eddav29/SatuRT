@@ -37,16 +37,16 @@
                 class="absolute inset-0 w-full mx-auto h-screen -z-10 bg-white/10" x-cloak>
                 <div class="absolute inset-0 w-full mx-auto h-[14rem] bg-white" id="search">
                     <form id="searchForm" action="{{ route('berita') }}"
-                        class="w-full max-w-7xl mx-auto h-full flex justify-center items-center relative">
+                        class="w-full max-w-7xl h-full mx-auto flex justify-center items-end py-10 relative">
                         @if (request('jfsi'))
                             <input type="hidden" name="jfsi" value="{{ request('jfsi') }}">
                         @endif
-                        <div class="w-3/4 mx-auto h-full flex items-end py-12">
-                            <div class="w-full inline-flex items-center relative">
+                        <div class="w-3/4">
+                            <div class="w-full inline-flex items-center relative h-full px-2">
                                 <input type="text" name="search" id="search" placeholder="Cari Berita"
                                     class="w-full px-4 py-4 bg-gray-50 ring-black ring-1 rounded-lg outline-none border-0 focus:ring-1 focus:ring-green-light">
-                                <button type="submit" class="absolute z-20 right-4">
-                                    <x-heroicon-o-magnifying-glass class="w-8 h-8" />
+                                <button type="submit" class="absolute z-20 right-4 ">
+                                    <x-heroicon-o-magnifying-glass class="w-12 h-8 bg-gray-50" />
                                 </button>
                             </div>
                         </div>
