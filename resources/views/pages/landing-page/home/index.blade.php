@@ -143,39 +143,44 @@
             </div>
             <div x-data="{
                 data: [{
-                        id: 1,
+                        id: 0,
                         title: 'Pengumuman',
                         desc: 'Dapatkan informasi terbaru seputar kegiatan, acara, dan pengumuman penting dari pemerintah atau RT secara langsung di aplikasi.',
                     },
                     {
-                        id: 2,
+                        id: 1,
                         title: 'UMKM',
                         desc: 'Temukan dan dukung Usaha Mikro, Kecil, dan Menengah (UMKM) di lingkungan Anda dengan menjelajahi berbagai produk dan layanan yang ditawarkan oleh para pelaku UMKM lokal.',
                     },
                     {
-                        id: 3,
+                        id: 2,
                         title: 'Pengaduan',
                         desc: 'Laporkan masalah, permasalahan lingkungan, atau hal-hal lain yang memerlukan perhatian pihak berwenang dengan mudah melalui fitur pengaduan yang disediakan.',
                     },
                     {
-                        id: 4,
+                        id: 3,
                         title: 'Permohonan Dokumen',
                         desc: 'Ajukan permohonan dokumen administratif seperti surat keterangan, izin usaha, atau dokumen lainnya secara online dan praktis.',
                     },
                     {
-                        id: 5,
+                        id: 4,
                         title: 'Pendukung Keputusan',
                         desc: 'Dapatkan akses ke data dan informasi yang relevan untuk mendukung proses pengambilan keputusan di tingkat RT dengan fitur pendukung keputusan yang disediakan.',
                     },
                     {
-                        id: 6,
+                        id: 5,
                         title: 'Laporan Keuangan',
                         desc: 'Pantau dan kelola keuangan RT dengan lebih efisien melalui fitur yang memungkinkan Anda untuk melihat laporan keuangan secara transparan dan terperinci.',
                     },
                     {
-                        id: 7,
+                        id: 6,
                         title: 'Penyimpanan Dokumentasi',
                         desc: 'Simpan dan dokumentasikan berbagai kegiatan yang dilakukan di lingkungan Anda, seperti foto-foto kegiatan, agenda acara, atau catatan rapat, sehingga memudahkan untuk melacak dan mengingat kembali berbagai aktivitas yang telah dilakukan.'
+                    },
+                    {
+                        id: 7,
+                        title: 'Inventaris',
+                        desc: 'Kelola dan lacak aset serta inventaris RT secara efektif dengan fitur ini. Catat dan perbarui informasi mengenai barang-barang milik RT, termasuk status, lokasi, dan kondisi setiap aset untuk memastikan pengelolaan yang efisien dan transparan.'
                     }
                 ],
                 selectedId: 0,
@@ -256,13 +261,25 @@
                     </button>
                     <button @click.stop="selectedId = 6"
                         :class="selectedId === 6 ? 'bg-green-light' : 'bg-white/70 lg:bg-white/40'"
-                        class="flex flex-col col-start-2 justify-center gap-3 rounded-lg lg:px-6 items-center py-8 active:bg-green-light/50 hover:scale-95">
+                        class="flex flex-col justify-center gap-3 rounded-lg lg:px-6 items-center py-8 active:bg-green-light/50 hover:scale-95">
                         <div>
                             <x-heroicon-o-folder class="w-10 h-10" />
                         </div>
                         <div>
                             <h1>
                                 Penyimpanan Dokumentasi
+                            </h1>
+                        </div>
+                    </button>
+                    <button @click.stop="selectedId = 7"
+                        :class="selectedId === 7 ? 'bg-green-light' : 'bg-white/70 lg:bg-white/40'"
+                        class="flex flex-col col-start-2 justify-center gap-3 rounded-lg lg:px-6 items-center py-8 active:bg-green-light/50 hover:scale-95">
+                        <div>
+                            <x-heroicon-o-archive-box class="w-10 h-10" />
+                        </div>
+                        <div>
+                            <h1>
+                                Inventaris
                             </h1>
                         </div>
                     </button>
