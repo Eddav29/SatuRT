@@ -2,7 +2,7 @@
 
 <x-input-label for="{{ $name }}" :value="__($label)" :required="$required" />
 <div class="w-full relative" x-data="{ type: 'password' }">
-    <x-text-input id="{{ $name }}" class="block mt-1 w-full" x-bind:type="type" :required="$required"
+    <x-input-text id="{{ $name }}" class="block mt-1 w-full" x-bind:type="type" :required="$required"
         placeholder="{{ $placeholder }}" :value="$value" name="{{ $name }}" />
     <div class="absolute z-20 inset-y-0 right-0 pr-3 flex justify-center items-center text-sm leading-5" x-cloak>
         <button type="button" x-on:click="type = type === 'password' ? 'text' : 'password'"

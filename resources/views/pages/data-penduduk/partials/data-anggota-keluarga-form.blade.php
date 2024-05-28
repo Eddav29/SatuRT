@@ -2,14 +2,14 @@
     <div>
         <x-input-label for="nik" :value="__('NIK')" required="true" />
 
-        <x-text-input id="nik" class="block mt-1 w-full" type="text" name="nik" placeholder="350*************"
+        <x-input-text id="nik" class="block mt-1 w-full" type="text" name="nik" placeholder="350*************"
             value="{{ old('nik', isset($citizen) ? $citizen->nik : '') }}" required />
         <x-input-error :messages="$errors->get('nik')" class="mt-2" />
     </div>
     <div>
         <x-input-label for="nama" :value="__('Nama')" required="true" />
 
-        <x-text-input id="nama" class="block mt-1 w-full" type="text" name="nama" placeholder="Nama"
+        <x-input-text id="nama" class="block mt-1 w-full" type="text" name="nama" placeholder="Nama"
             value="{{ old('nama', isset($citizen) ? $citizen->nama : '') }}" required />
         <x-input-error :messages="$errors->get('nama')" class="mt-2" />
     </div>
@@ -18,7 +18,7 @@
     <div>
         <x-input-label for="tempat_lahir" :value="__('Tempat Lahir')" required="true" />
 
-        <x-text-input id="tempat_lahir" class="block mt-1 w-full" type="text" name="tempat_lahir"
+        <x-input-text id="tempat_lahir" class="block mt-1 w-full" type="text" name="tempat_lahir"
             value="{{ old('tempat_lahir', isset($citizen) ? $citizen->tempat_lahir : '') }}" placeholder="Tempat Lahir"
             required />
         <x-input-error :messages="$errors->get('tempat_lahir')" class="mt-2" />
@@ -26,7 +26,7 @@
     <div>
         <x-input-label for="tanggal_lahir" :value="__('Tanggal Lahir')" required="true" />
 
-        <x-text-input id="tanggal_lahir" class="block mt-1 w-full" type="date" name="tanggal_lahir"
+        <x-input-text id="tanggal_lahir" class="block mt-1 w-full" type="date" name="tanggal_lahir"
             value="{{ isset($citizen) ? $citizen->tanggal_lahir->format('Y-m-d') : '' }}" placeholder="tanggal lahir"
             required />
         <x-input-error :messages="$errors->get('tanggal_lahir')" class="mt-2" />
@@ -53,7 +53,7 @@
     <div>
         <x-input-label for="pekerjaan" :value="__('Pekerjaan')" required="true" />
 
-        <x-text-input id="pekerjaan" class="block mt-1 w-full" type="text" name="pekerjaan" placeholder="Pekerjaan"
+        <x-input-text id="pekerjaan" class="block mt-1 w-full" type="text" name="pekerjaan" placeholder="Pekerjaan"
             value="{{ old('pekerjaan', isset($citizen) ? $citizen->pekerjaan : '') }}" required />
         <x-input-error :messages="$errors->get('pekerjaan')" class="mt-2" />
     </div>
@@ -96,14 +96,14 @@
     <div>
         <x-input-label for="kota" :value="__('Kota')" required="true" />
 
-        <x-text-input id="kota" class="block mt-1 w-full" type="text" name="kota" placeholder="Kota"
+        <x-input-text id="kota" class="block mt-1 w-full" type="text" name="kota" placeholder="Kota"
             value="{{ old('kota', isset($citizen) ? $citizen->kota : '') }}" required />
         <x-input-error :messages="$errors->get('kota')" class="mt-2" />
     </div>
     <div>
         <x-input-label for="kecamatan" :value="__('Kecamatan')" required="true" />
 
-        <x-text-input id="kecamatan" class="block mt-1 w-full" type="text" name="kecamatan" placeholder="kecamatan"
+        <x-input-text id="kecamatan" class="block mt-1 w-full" type="text" name="kecamatan" placeholder="kecamatan"
             value="{{ old('kecamatan', isset($citizen) ? $citizen->kecamatan : '') }}" required />
         <x-input-error :messages="$errors->get('kecamatan')" class="mt-2" />
     </div>
@@ -112,7 +112,7 @@
     <div>
         <x-input-label for="desa" :value="__('Desa/Kelurahan')" required="true" />
 
-        <x-text-input id="desa" class="block mt-1 w-full" type="text" name="desa"
+        <x-input-text id="desa" class="block mt-1 w-full" type="text" name="desa"
             value="{{ old('desa', isset($citizen) ? $citizen->desa : '') }}" placeholder="Desa/Kelurahan" required />
         <x-input-error :messages="$errors->get('desa')" class="mt-2" />
     </div>
@@ -120,14 +120,14 @@
         <div>
             <x-input-label for="nomor_rw" :value="__('RW')" required="true" />
 
-            <x-text-input id="nomor_rw" class="block mt-1 w-full" type="number" min="1" name="nomor_rw"
+            <x-input-text id="nomor_rw" class="block mt-1 w-full" type="number" min="1" name="nomor_rw"
                 placeholder="RW" value="{{ old('nomor_rw', isset($citizen) ? $citizen->nomor_rw : '') }}" required />
             <x-input-error :messages="$errors->get('nomor_rw')" class="mt-2" />
         </div>
         <div>
             <x-input-label for="nomor_rt" :value="__('RT')" required="true" />
 
-            <x-text-input id="nomor_rt" class="block mt-1 w-full" type="number" min="1" name="nomor_rt"
+            <x-input-text id="nomor_rt" class="block mt-1 w-full" type="number" min="1" name="nomor_rt"
                 placeholder="RT" value="{{ old('nomor_rt', isset($citizen) ? $citizen->nomor_rt : '') }}" required />
             <x-input-error :messages="$errors->get('nomor_rt')" class="mt-2" />
         </div>

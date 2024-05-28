@@ -2,7 +2,7 @@
     <div>
         <x-input-label for="nik" :value="__('Nomor Induk Kependudukan')" required="true" />
 
-        <x-text-input id="nik" class="block mt-1 w-full" type="text" name="nik"
+        <x-input-text id="nik" class="block mt-1 w-full" type="text" name="nik"
             value="{{ old('nik', isset($user) ? $user->penduduk->nik : '') }}" placeholder="350*************"
             required />
         <x-input-error :messages="$errors->get('nik')" class="mt-2" />
@@ -10,7 +10,7 @@
     <div>
         <x-input-label for="email" :value="__('Email')" required="true" />
 
-        <x-text-input id="email" class="block mt-1 w-full" type="email" name="email"
+        <x-input-text id="email" class="block mt-1 w-full" type="email" name="email"
             value="{{ old('email', isset($user) ? $user->email : '') }}" placeholder="test@example.com" required />
         <x-input-error :messages="$errors->get('email')" class="mt-2" />
     </div>
@@ -20,7 +20,7 @@
     <div>
         <x-input-label for="username" :value="__('Username')" required="true" />
 
-        <x-text-input id="username" class="block mt-1 w-full" type="text" name="username" placeholder="Username"
+        <x-input-text id="username" class="block mt-1 w-full" type="text" name="username" placeholder="Username"
             value="{{ old('username', isset($user) ? $user->username : '') }}" required />
         <x-input-error :messages="$errors->get('username')" class="mt-2" />
     </div>

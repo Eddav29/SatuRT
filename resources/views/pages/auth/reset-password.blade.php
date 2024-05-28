@@ -7,7 +7,7 @@
 
         <!-- Email Address -->
 
-        <x-text-input id="email" class="block mt-1 w-full" type="hidden" name="email" :value="old('email', $request->email)" required
+        <x-input-text id="email" class="block mt-1 w-full" type="hidden" name="email" :value="old('email', $request->email)" required
             autofocus autocomplete="username" />
 
         <!-- Password -->
