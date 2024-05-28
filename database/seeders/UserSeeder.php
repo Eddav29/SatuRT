@@ -8,6 +8,7 @@ use App\Models\User;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -22,12 +23,14 @@ class UserSeeder extends Seeder
             'username' => 'testrt',
             'email' => 'testrt@example.com',
             'role_id' => $roleRT->role_id,
+            'password' => Hash::make('12312312'),
         ]);
 
         User::factory()->create([
             'username' => 'testpenduduk',
             'email' => 'testpenduduk@example.com',
             'role_id' => $rolePenduduk->role_id,
+            'password' => Hash::make('12341234'),
         ]);
     }
 }

@@ -11,6 +11,7 @@ use Illuminate\Contracts\View\View;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use \Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -25,22 +26,11 @@ class AuthenticatedSessionController extends Controller
     {
         try {
             NotificationPusher::success('Login success');
-            $token = AuthService::login($request->username, $request->password);
-
-            if ($request->is('api/*') || $request->wantsJson()) {
-                return response()->json([
-                    'code' => 200,
-                    'message' => 'Login success',
-                    'timestamp' => now(),
-                    'data' => [
-                        'token' => $token
-                    ]
-                ], 200);
-            }
+            AuthService::login($request->username, $request->password);
+            $request->session()->regenerate();
 
             NotificationPusher::success('Login success');
             return response()->redirectToRoute('dashboard');
-
         } catch (\Exception  $e) {
             if ($request->is('api/*') || $request->wantsJson()) {
                 throw new AuthenticationException($e->getMessage());
@@ -57,22 +47,11 @@ class AuthenticatedSessionController extends Controller
             if (!$repsonse) {
                 throw new AuthenticationException('Logout failed');
             }
-            if ($request->is('api/*') || $request->wantsJson()) {
-                return response()->json([
-                    'code' => 200,
-                    'message' => 'Logout success',
-                    'timestamp' => now()
-                ], 200);
-            }
             NotificationPusher::success('Logout success');
             return response()->redirectTo('/');
         } catch (\Exception $e) {
-            if ($request->is('api/*') || $request->wantsJson()) {
-                throw new AuthenticationException($e->getMessage());
-            }
             NotificationPusher::error($e->getMessage());
             return back();
         }
-
     }
 }
