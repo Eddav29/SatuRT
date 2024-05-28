@@ -38,7 +38,7 @@
                     <div>
                         <div class="mt-3">
                             <h5 class="font-semibold">NIK</h5>
-                            <p>{{ Auth::user()->penduduk->nik ?? '' }}</p>
+                            <p>{{ Str::mask(optional(Auth::user()->penduduk)->nik ?? '', '*', 6) }}</p>
                         </div>
                         <div class="mt-3">
                             <h5 class="font-semibold">Nama</h5>
@@ -66,12 +66,12 @@
                         <div class="flex max-lg:items-center max-lg:justify-center">
                             @if (Auth::user()->penduduk->user->profile)
                                 <div
-                                    class="w-auto h-3/4 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:border-gray-100 hover:bg-gray-200">
+                                    class="w-auto h-3/4 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:border-gray-100 hover:bg-gray-200">
                                     <x-image-preview :file="asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) ?? ''" />
                                 </div>
                             @else
                                 <div
-                                    class="w-auto h-3/4 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:border-gray-100 hover:bg-gray-200">
+                                    class="w-auto h-3/4 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:border-gray-100 hover:bg-gray-200">
                                     <x-image-preview :file="asset('assets/images/default.png') ?? ''" />
                                 </div>
                             @endif
