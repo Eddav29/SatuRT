@@ -50,7 +50,7 @@ class CitizenAccountController extends Controller
 
     public function store(Request $request)
     {
-        
+
 
         $validator = Validator::make($request->all(), [
             'nik' => [
@@ -66,7 +66,7 @@ class CitizenAccountController extends Controller
             'role_id' => 'required|exists:roles,role_id',
             'username' => 'required|string|unique:users,username',
             'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|confirmed',
+            'password' => 'required|string|confirmed|min:8',
         ]);
 
         if ($validator->fails()) {
@@ -182,7 +182,7 @@ class CitizenAccountController extends Controller
             'role_id' => 'required|exists:roles,role_id',
             'username' => 'required|string|unique:users,username,' . $id . ',user_id',
             'email' => 'required|email|unique:users,email,' . $id . ',user_id',
-            'password' => $request->filled('password') ? 'required|string|confirmed' : ''
+            'password' => $request->filled('password') ? 'required|string|confirmed|min:8' : ''
         ]);
 
         if ($validator->fails()) {

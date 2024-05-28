@@ -18,7 +18,7 @@ class AuthService
                 'password' => $password
             ], [
                 'username' => 'required|string|exists:users,username',
-                'password' => 'required|string'
+                'password' => 'required|string|min:8'
             ], [
                 'username.exists' => 'The username does not exist'
             ]);

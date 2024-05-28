@@ -192,35 +192,35 @@ Route::middleware('auth:sanctum')->group(function () {
 
             Route::get('hasil-keputusan', [DecisionSupportController::class, 'index'])->name('spk.decision-maker.index');
             Route::get('hasil-keputusan/detail/metode/{metode}', [DecisionSupportController::class, 'show'])->name('spk.show.method');
-
-            Route::resource('inventaris/data-inventaris', InventarisController::class)->names([
-                'index' => 'inventaris.data-inventaris.index',
-                'show' => 'inventaris.data-inventaris.show',
-                'update' => 'inventaris.data-inventaris.update',
-                'create' => 'inventaris.data-inventaris.create',
-                'store' => 'inventaris.data-inventaris.store',
-                'edit' => 'inventaris.data-inventaris.edit',
-                'destroy' => 'inventaris.data-inventaris.destroy',
-            ]);
-            Route::resource('inventaris/peminjaman', InventarisPeminjamanController::class)->names([
-                'index' => 'inventaris.peminjaman.index',
-                'show' => 'inventaris.peminjaman.show',
-                'update' => 'inventaris.peminjaman.update',
-                'create' => 'inventaris.peminjaman.create',
-                'store' => 'inventaris.peminjaman.store',
-                'edit' => 'inventaris.peminjaman.edit',
-                'destroy' => 'inventaris.peminjaman.destroy',
-            ]);
-
-            Route::resource('umkm', BusinessUserController::class)->names([
-                'create' => 'umkm.create'
-            ])->only(['create']);
-
-            Route::get('/inventaris/peminjaman/selesaikan/{id}', [InventarisPeminjamanController::class, 'selesaikan'])->name('inventaris.peminjaman.selesaikan');
         });
+
+
+        Route::resource('inventaris/data-inventaris', InventarisController::class)->names([
+            'index' => 'inventaris.data-inventaris.index',
+            'show' => 'inventaris.data-inventaris.show',
+            'update' => 'inventaris.data-inventaris.update',
+            'create' => 'inventaris.data-inventaris.create',
+            'store' => 'inventaris.data-inventaris.store',
+            'edit' => 'inventaris.data-inventaris.edit',
+            'destroy' => 'inventaris.data-inventaris.destroy',
+        ]);
+        Route::resource('inventaris/peminjaman', InventarisPeminjamanController::class)->names([
+            'index' => 'inventaris.peminjaman.index',
+            'show' => 'inventaris.peminjaman.show',
+            'update' => 'inventaris.peminjaman.update',
+            'create' => 'inventaris.peminjaman.create',
+            'store' => 'inventaris.peminjaman.store',
+            'edit' => 'inventaris.peminjaman.edit',
+            'destroy' => 'inventaris.peminjaman.destroy',
+        ]);
+
+        Route::resource('umkm', BusinessUserController::class)->names([
+            'create' => 'umkm.create'
+        ])->only(['create']);
+
+        Route::get('/inventaris/peminjaman/selesaikan/{id}', [InventarisPeminjamanController::class, 'selesaikan'])->name('inventaris.peminjaman.selesaikan');
     });
 
     Route::middleware('checkRole:Penduduk')->group(function () {
-
     });
 });
