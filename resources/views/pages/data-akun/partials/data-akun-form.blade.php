@@ -54,21 +54,9 @@
 </div>
 <div class="mt-5 grid sm:grid-cols-2 grid-cols-1 gap-5 px-5">
     <div>
-        <x-input-label for="password" :value="__('Password')" required="true" />
-
-        <input
-            class="rounded-lg bg-transparent border-gray-300 ring-blue-500  shadow-sm block mt-1 w-full placeholder:text-xs"
-            id="password" type="password" name="password" placeholder="Password" value=""
-            @if (!isset($user)) required @endif>
-        <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <x-input-password name="password" label="Password" :required="true" />
     </div>
     <div>
-        <x-input-label for="password_confirmation" :value="__('Konfirmasi Password')" required="true" />
-
-        <input
-            class="rounded-lg bg-transparent border-gray-300 ring-blue-500  shadow-sm block mt-1 w-full placeholder:text-xs"
-            id="pa_confirmationssword" type="password" name="password_confirmation" placeholder="Password"
-            value="" @if (!isset($user)) required @endif>
-        <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        <x-input-password name="password_confirmation" label="Konfirmasi Password" :required="true" />
     </div>
 </div>
