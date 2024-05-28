@@ -335,9 +335,9 @@ class FinanceReportController extends Controller
 
         try {
             DB::beginTransaction();
-            $keuangan->delete();
-            $detailKeuangan->delete();
             
+            $detailKeuangan->delete();
+            $keuangan->delete();
 
             DB::commit();
             return response()->json([
