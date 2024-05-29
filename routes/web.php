@@ -52,97 +52,10 @@ Route::get('public/images_storage/{filename}', [StorageController::class, 'stora
 
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::middleware('checkRole:Ketua RT,Penduduk')->group(function () {
-
-        Route::put('auth/change-password', [ChangePasswordController::class, 'store']);
-        Route::get('storage/ktp/{filename}', [StorageController::class, 'storageKTP'])->name('storage.ktp');
-
-        Route::get('/persuratan/{id}/pdf', [DocumentRequestController::class, 'generatePdf'])->name('persuratan.pdf');
-
-        Route::resource('data-akun/penduduk', CitizenAccountController::class)
-            ->names([
-                'index' => 'data-akun.index',
-                'create' => 'data-akun.create',
-                'store' => 'data-akun.store',
-                'show' => 'data-akun.show',
-                'edit' => 'data-akun.edit',
-                'update' => 'data-akun.update',
-                'destroy' => 'data-akun.destroy'
-            ]);
-
-        Route::resource('data-penduduk/keluarga/{keluargaid}/anggota', CitizenController::class)
-            ->names([
-                'index' => 'data-anggota.index',
-                'create' => 'data-anggota.create',
-                'store' => 'data-anggota.store',
-                'show' => 'data-anggota.show',
-                'edit' => 'data-anggota.edit',
-                'update' => 'data-anggota.update',
-                'destroy' => 'data-anggota.destroy'
-            ]);
-
-        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
-
-        /* Guest and User */
-        Route::prefix('profile')->group(function () {
-            Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-            Route::get('/change-password/{id}', [ProfileController::class, 'changePasswordForm'])->name('profile.change-password');
-            Route::post('/change-password/{id}', [ProfileController::class, 'changePassword'])->name('profile.change-password.post');
-            Route::get('/complete-data/{id}', [ProfileController::class, 'completeDataForm'])->name('profile.complete-data');
-            Route::post('/complete-data/{id}', [ProfileController::class, 'completeData'])->name('profile.complete-data.post');
-            Route::get('/account', [ProfileController::class, 'account'])->name('profile.account');
-            Route::get('/account/{id}', [ProfileController::class, 'accountForm'])->name('profile.account.get');
-            Route::post('/account', [ProfileController::class, 'accountStore'])->name('profile.account.post');
-        });
-
-        Route::resource('pelaporan', ResidentReportController::class)->names([
-            'index' => 'pelaporan.index',
-            'show' => 'pelaporan.show',
-            'update' => 'pelaporan.update',
-            'create' => 'pelaporan.create',
-            'store' => 'pelaporan.store',
-            'edit' => 'pelaporan.edit',
-            'destroy' => 'pelaporan.destroy',
-        ]);
-
-        Route::resource('umkm', BusinessUserController::class)->names([
-            'index' => 'umkm.index',
-            'show' => 'umkm.show',
-            'store' => 'umkm.store',
-            'edit' => 'umkm.edit',
-            'update' => 'umkm.update',
-            'destroy' => 'umkm.destroy',
-        ])->except(['create']);
-
+    Route::middleware('checkRole:Penduduk')->group(function () {
         Route::resource('persuratan', DocumentRequestController::class)->names([
-            'index' => 'persuratan.index',
-            'show' => 'persuratan.show',
             'create' => 'persuratan.create',
-            'store' => 'persuratan.store',
-            'edit' => 'persuratan.edit',
-            'update' => 'persuratan.update',
-            'destroy' => 'persuratan.destroy',
         ]);
-
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-        Route::resource('informasi', InformationController::class)->names([
-            'index' => 'informasi.index',
-            'show' => 'informasi.show',
-            'create' => 'informasi.create',
-            'store' => 'informasi.store',
-            'edit' => 'informasi.edit',
-            'update' => 'informasi.update',
-            'destroy' => 'informasi.destroy',
-        ]);
-
-        Route::prefix('file')->group(function () {
-            Route::post('/file-upload', [FileController::class, 'ckeditor_image_upload'])->name('file.upload');
-            Route::get('/{path}/{identifier}', [FileController::class, 'show'])->name('file.show');
-            Route::get('/{path}/{identifier}/download', [FileController::class, 'download'])->name('file.download');
-        });
     });
 
     Route::middleware('checkRole:Ketua RT')->group(function () {
@@ -220,6 +133,95 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/inventaris/peminjaman/selesaikan/{id}', [InventarisPeminjamanController::class, 'selesaikan'])->name('inventaris.peminjaman.selesaikan');
     });
 
-    Route::middleware('checkRole:Penduduk')->group(function () {
+    Route::middleware('checkRole:Ketua RT,Penduduk')->group(function () {
+
+        Route::put('auth/change-password', [ChangePasswordController::class, 'store']);
+        Route::get('storage/ktp/{filename}', [StorageController::class, 'storageKTP'])->name('storage.ktp');
+
+        Route::get('/persuratan/{id}/pdf', [DocumentRequestController::class, 'generatePdf'])->name('persuratan.pdf');
+
+        Route::resource('data-akun/penduduk', CitizenAccountController::class)
+            ->names([
+                'index' => 'data-akun.index',
+                'create' => 'data-akun.create',
+                'store' => 'data-akun.store',
+                'show' => 'data-akun.show',
+                'edit' => 'data-akun.edit',
+                'update' => 'data-akun.update',
+                'destroy' => 'data-akun.destroy'
+            ]);
+
+        Route::resource('data-penduduk/keluarga/{keluargaid}/anggota', CitizenController::class)
+            ->names([
+                'index' => 'data-anggota.index',
+                'create' => 'data-anggota.create',
+                'store' => 'data-anggota.store',
+                'show' => 'data-anggota.show',
+                'edit' => 'data-anggota.edit',
+                'update' => 'data-anggota.update',
+                'destroy' => 'data-anggota.destroy'
+            ]);
+
+        Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+
+        /* Guest and User */
+        Route::prefix('profile')->group(function () {
+            Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+            Route::get('/change-password/{id}', [ProfileController::class, 'changePasswordForm'])->name('profile.change-password');
+            Route::post('/change-password/{id}', [ProfileController::class, 'changePassword'])->name('profile.change-password.post');
+            Route::get('/complete-data/{id}', [ProfileController::class, 'completeDataForm'])->name('profile.complete-data');
+            Route::post('/complete-data/{id}', [ProfileController::class, 'completeData'])->name('profile.complete-data.post');
+            Route::get('/account', [ProfileController::class, 'account'])->name('profile.account');
+            Route::get('/account/{id}', [ProfileController::class, 'accountForm'])->name('profile.account.get');
+            Route::post('/account', [ProfileController::class, 'accountStore'])->name('profile.account.post');
+        });
+
+        Route::resource('pelaporan', ResidentReportController::class)->names([
+            'index' => 'pelaporan.index',
+            'show' => 'pelaporan.show',
+            'update' => 'pelaporan.update',
+            'create' => 'pelaporan.create',
+            'store' => 'pelaporan.store',
+            'edit' => 'pelaporan.edit',
+            'destroy' => 'pelaporan.destroy',
+        ]);
+
+        Route::resource('umkm', BusinessUserController::class)->names([
+            'index' => 'umkm.index',
+            'show' => 'umkm.show',
+            'store' => 'umkm.store',
+            'edit' => 'umkm.edit',
+            'update' => 'umkm.update',
+            'destroy' => 'umkm.destroy',
+        ])->except(['create']);
+
+        Route::resource('persuratan', DocumentRequestController::class)->names([
+            'index' => 'persuratan.index',
+            'show' => 'persuratan.show',
+            'store' => 'persuratan.store',
+            'edit' => 'persuratan.edit',
+            'update' => 'persuratan.update',
+            'destroy' => 'persuratan.destroy',
+        ])->except('create');
+
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::resource('informasi', InformationController::class)->names([
+            'index' => 'informasi.index',
+            'show' => 'informasi.show',
+            'create' => 'informasi.create',
+            'store' => 'informasi.store',
+            'edit' => 'informasi.edit',
+            'update' => 'informasi.update',
+            'destroy' => 'informasi.destroy',
+        ]);
+
+        Route::prefix('file')->group(function () {
+            Route::post('/file-upload', [FileController::class, 'ckeditor_image_upload'])->name('file.upload');
+            Route::get('/{path}/{identifier}', [FileController::class, 'show'])->name('file.show');
+            Route::get('/{path}/{identifier}/download', [FileController::class, 'download'])->name('file.download');
+        });
     });
 });

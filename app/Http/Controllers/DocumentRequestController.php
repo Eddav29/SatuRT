@@ -81,13 +81,13 @@ class DocumentRequestController extends Controller
                     $query->where('penduduk_id', auth()->user()->penduduk->penduduk_id);
                 })->orderBy('pengajuan.updated_at', 'desc')->with('pengajuan')->get()->map(function ($persuratan) {
                     return [
-                        'persuratan_id' => $persuratan->persuratan_id,
-                        'nik' => $persuratan->pemohon()->nik,
-                        'nama' => $persuratan->pemohon()->nama,
-                        'status' => $persuratan->pengajuan->status->nama,
-                        'created_at' => Carbon::parse($persuratan->pengajuan->created_at)->format('d-m-Y'),
-                        'accepted_at' => Carbon::parse($persuratan->pengajuan->accepted_at)->format('d-m-Y'),
-                        'keperluan' => $persuratan->pengajuan->keperluan,
+                        'persuratan_id' => $persuratan->persuratan_id ?? '',
+                        'nik' => $persuratan->pemohon()->nik?? '',
+                        'nama' => $persuratan->pemohon()->nama?? '',
+                        'status' => $persuratan->pengajuan->status->nama?? '',
+                        'created_at' => Carbon::parse($persuratan->pengajuan->created_at)->format('d-m-Y')?? '',
+                        'accepted_at' => Carbon::parse($persuratan->pengajuan->accepted_at)->format('d-m-Y')?? '',
+                        'keperluan' => $persuratan->pengajuan->keperluan?? '',
                     ];
                 });
             }
