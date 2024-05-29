@@ -81,8 +81,6 @@ Route::middleware('auth:sanctum')->group(function () {
                 'destroy' => 'data-anggota.destroy'
             ]);
 
-        Route::get('data-penduduk/keluarga/{keluarga}', [FamilyCardController::class, 'show'])->name('data-keluarga.show');
-
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -157,11 +155,12 @@ Route::middleware('auth:sanctum')->group(function () {
             ->names([
                 'index' => 'data-keluarga.index',
                 'create' => 'data-keluarga.create',
+                'show' => 'data-keluarga.show',
                 'store' => 'data-keluarga.store',
                 'edit' => 'data-keluarga.edit',
                 'update' => 'data-keluarga.update',
                 'destroy' => 'data-keluarga.destroy'
-            ])->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+            ]);
 
         Route::resource('keuangan', FinanceReportController::class)->names([
             'index' => 'keuangan.index',

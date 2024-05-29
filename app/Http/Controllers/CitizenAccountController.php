@@ -59,13 +59,12 @@ class CitizenAccountController extends Controller
                 'digits:16',
                 Rule::exists('penduduk')->where(function ($query) use ($request) {
                     $query->where('nik', $request->nik)
-                        ->where('nama', $request->nama)
                         ->whereNull('user_id');
                 }),
             ],
             'role_id' => 'required|exists:roles,role_id',
             'username' => 'required|string|unique:users,username',
-            'email' => 'required|email|unique:users,email',
+            'email' => 'nullable|email|unique:users,email',
             'password' => 'required|string|confirmed|min:8',
         ]);
 
@@ -112,14 +111,11 @@ class CitizenAccountController extends Controller
                 return response()->redirectTo('/login');
             }
 
-
-
-            $notificationMessage = 'Data Berhasil Ditambahkan';
             if ($request->has('save_and_more')) {
-                return redirect()->route('data-akun.create')->with('success', $notificationMessage);
+                return redirect()->route('data-akun.create')->with(NotificationPusher::success('Data Berhasil Ditambahkan'));
             }
 
-            return redirect()->route('data-akun.index')->with('success', $notificationMessage);
+            return redirect()->route('data-akun.index')->with(NotificationPusher::success('Data Berhasil Ditambahkan'));
         } catch (\Exception $e) {
             DB::rollBack();
 
@@ -181,7 +177,7 @@ class CitizenAccountController extends Controller
             'nik' => 'required|numeric|digits:16',
             'role_id' => 'required|exists:roles,role_id',
             'username' => 'required|string|unique:users,username,' . $id . ',user_id',
-            'email' => 'required|email|unique:users,email,' . $id . ',user_id',
+            'email' => 'nullable|email|unique:users,email,' . $id . ',user_id',
             'password' => $request->filled('password') ? 'required|string|confirmed|min:8' : ''
         ]);
 

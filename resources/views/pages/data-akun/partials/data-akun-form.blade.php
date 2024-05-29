@@ -8,10 +8,10 @@
         <x-input-error :messages="$errors->get('nik')" class="mt-2" />
     </div>
     <div>
-        <x-input-label for="email" :value="__('Email')" required="true" />
+        <x-input-label for="email" :value="__('Email')" />
 
         <x-input-text id="email" class="block mt-1 w-full" type="email" name="email"
-            value="{{ old('email', isset($user) ? $user->email : '') }}" placeholder="test@example.com" required />
+            value="{{ old('email', isset($user) ? $user->email : '') }}" placeholder="test@example.com" />
         <x-input-error :messages="$errors->get('email')" class="mt-2" />
     </div>
 </div>

@@ -206,11 +206,23 @@
     </div>
 </div>
 
+
+@isset($canCreateAccount)
+    @if ($canCreateAccount)
+        <div class="mt-5 grid sm:grid-cols-2 grid-cols-1 gap-5 px-5">
+            <div class="my-4">
+                <x-input-checkbox name="create_account" :checked="false" label="Buatkan akun" />
+                <x-input-error :messages="$errors->get('create_account')" class="mt-2" />
+            </div>
+        </div>
+    @endif
+@endisset
+
 <div class="mt-5 grid grid-cols-1 gap-5 px-5">
     <div>
         <x-input-label for="images" :value="__('Foto Kartu Tanda Penduduk')" />
         @isset($citizen->foto_ktp)
-        <x-input-file name="images" :accept="$extension" :default="route('storage.ktp', $citizen->foto_ktp)"/>
+            <x-input-file name="images" :accept="$extension" :default="route('storage.ktp', $citizen->foto_ktp)" />
         @else
             <x-input-file name="images" :accept="$extension" />
         @endisset
