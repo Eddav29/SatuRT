@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class CitizenService implements RecordServiceInterface, DatatablesInterface
 {
@@ -175,7 +176,10 @@ class CitizenService implements RecordServiceInterface, DatatablesInterface
             'nik',
             'jenis_kelamin',
             'status_hubungan_dalam_keluarga'
-        )->where('kartu_keluarga_id', $id)->get()
+        )->where('kartu_keluarga_id', $id)->get()->map(function ($penduduk) {
+            $penduduk->nik = Str::mask($penduduk->nik, '*', 6);
+            return $penduduk;
+        })
             : Penduduk::select(
                 'penduduk_id',
                 'nama',
@@ -183,6 +187,10 @@ class CitizenService implements RecordServiceInterface, DatatablesInterface
                 'jenis_kelamin',
                 'status_hubungan_dalam_keluarga'
             )->where('kartu_keluarga_id', $id)
-            ->where('status_kehidupan', 'Hidup')->get();
+            ->where('status_kehidupan', 'Hidup')->get()
+            ->map(function ($penduduk) {
+                $penduduk->nik = Str::mask($penduduk->nik, '*', 6);
+                return $penduduk;
+            });
     }
 }
