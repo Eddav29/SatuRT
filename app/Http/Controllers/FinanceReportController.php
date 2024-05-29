@@ -332,13 +332,25 @@ class FinanceReportController extends Controller
         // Temukan detail keuangan dengan ID yang diberikan
         $detailKeuangan = DetailKeuangan::findOrFail($id);
         $keuangan = Keuangan::findOrFail($detailKeuangan->keuangan_id);
-
+    
         try {
             DB::beginTransaction();
             
+            // Adjust the total_keuangan based on the type of the transaction
+            if ($detailKeuangan->jenis_keuangan === 'Pemasukan') {
+                $keuangan->total_keuangan -= $detailKeuangan->nominal;
+            } elseif ($detailKeuangan->jenis_keuangan === 'Pengeluaran') {
+                $keuangan->total_keuangan += $detailKeuangan->nominal;
+            }
+    
+            // Save the adjusted total_keuangan
+            $keuangan->save();
+            
+            // Delete the detail_keuangan entry
             $detailKeuangan->delete();
+            
+            // Delete the keuangan entry
             $keuangan->delete();
-
             DB::commit();
             return response()->json([
                 'code' => 200,
@@ -354,6 +366,7 @@ class FinanceReportController extends Controller
             ], 500);
         }
     }
+    
 
     public function financeReport(string $id): FinanceReportResource
     {
