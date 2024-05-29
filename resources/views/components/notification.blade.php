@@ -1,5 +1,5 @@
 <div
-    class="notification-screen fixed left-1/2 -translate-x-1/2 flex justify-center h-fit w-fit overflow-hidden top-0 right-0 bottom-0 z-[9999] ">
+    class="notification-screen fixed left-1/2 -translate-x-1/2 flex justify-center h-fit w-fit overflow-hidden top-0 right-0 bottom-0 z-[999999] ">
     <div class="notification-container mt-5 relative space-y-2">
         {{-- <div class="notification flex items-center justify-start w-full max-w-[350px] md:max-w-[450px] z-50 py-1 px-6 bg-white rounded-full">
             <div class="h-10 flex items-center text-green-400">

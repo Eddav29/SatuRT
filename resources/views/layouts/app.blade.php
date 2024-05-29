@@ -29,6 +29,10 @@
 <body class="font-poppins antialiased bg-soft-snow">
     <div x-data="{ sidebar: false }" class="h-screen flex overflow-hidden" x-cloak>
         <x-notification />
+        @if (Auth::user()->password_changed_at == null)
+            @include('layouts.change-password')
+        @endif
+        {{-- <x-change-password /> --}}
         @include('layouts.sidebar')
 
         <!-- Page Content -->

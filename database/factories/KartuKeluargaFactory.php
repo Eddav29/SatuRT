@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Testing\Fluent\Concerns\Has;
 
 /**
@@ -12,7 +11,7 @@ use Illuminate\Testing\Fluent\Concerns\Has;
  */
 class KartuKeluargaFactory extends Factory
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
     /**
      * Define the model's default state.
      *

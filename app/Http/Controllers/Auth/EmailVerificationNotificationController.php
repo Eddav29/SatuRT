@@ -20,6 +20,6 @@ class EmailVerificationNotificationController extends Controller
 
         $request->user()->sendEmailVerificationNotification();
 
-        return back()->with(NotificationPusher::success('Email verification link sent'));
+        return back()->with(NotificationPusher::success('Email verifikasi telah dikirim'));
     }
 }

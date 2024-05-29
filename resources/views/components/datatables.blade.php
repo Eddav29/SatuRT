@@ -141,7 +141,7 @@
                                                 }
                                             @endforeach
                                         @endif
-                                        return `<div class="${style}">${data}</div>`;
+                                        return `<div class="${style}">${data ?? ''}</div>`;
                                     @else
                                         return data;
                                     @endif

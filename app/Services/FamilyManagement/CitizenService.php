@@ -25,12 +25,33 @@ class CitizenService implements RecordServiceInterface, DatatablesInterface
 
     public static function create(Request $request): Collection | Model
     {
-        if ($request->hasFile('images')) {
-            $imageName = ImageService::uploadFile('storage_ktp', $request);
-            $request->merge(['foto_ktp' => $imageName]);
+        $request->merge(['status_kehidupan' => $request->has('status_kehidupan') ? $request->status_kehidupan : 'Hidup']);
+        $existingPenduduk = Penduduk::withTrashed()->where('nik', $request->nik)->first();
+
+        if ($existingPenduduk) {
+            if ($existingPenduduk->trashed()) {
+                $existingPenduduk->restore();
+                $existingPenduduk->umkm()->withTrashed()->restore();
+                $existingPenduduk->informasi()->withTrashed()->restore();
+                $existingPenduduk->fill($request->all());
+                $existingPenduduk->save();
+                return $existingPenduduk;
+            } else {
+                // Jika penduduk ditemukan dan tidak dihapus, NIK sudah digunakan
+                throw new \Exception('NIK sudah digunakan oleh penduduk lain.');
+            }
         }
 
-        $request->merge(['status_kehidupan' => $request->has('status_kehidupan') ? $request->status_kehidupan : 'Hidup']);
+        // Penanganan upload gambar
+        if ($request->hasFile('images')) {
+            try {
+                $imageName = ImageService::uploadFile('storage_ktp', $request);
+                $request->merge(['foto_ktp' => $imageName]);
+            } catch (\Exception $e) {
+                throw new \Exception('Error uploading image: ' . $e->getMessage());
+            }
+        }
+
         return Penduduk::create($request->only([
             'kartu_keluarga_id',
             'nik',
@@ -50,7 +71,6 @@ class CitizenService implements RecordServiceInterface, DatatablesInterface
             'status_kehidupan',
             'pekerjaan',
             'pendidikan_terakhir',
-            'gologan_darah',
             'status_penduduk',
             'foto_ktp'
         ]));
@@ -58,6 +78,8 @@ class CitizenService implements RecordServiceInterface, DatatablesInterface
 
     public static function update(string $id, Request $request): Collection | Model
     {
+        $request->merge(['status_kehidupan' => $request->has('status_kehidupan') ? $request->status_kehidupan : 'Hidup']);
+
         $citizen = Penduduk::findOrFail($id);
         if ($request->hasFile('images')) {
             $imageName = ImageService::uploadFile('storage_ktp', $request);
@@ -78,7 +100,6 @@ class CitizenService implements RecordServiceInterface, DatatablesInterface
             $leadCitizen->update(['status_hubungan_dalam_keluarga' => null]);
         }
 
-        $request->merge(['status_kehidupan' => $request->has('status_kehidupan') ? $request->status_kehidupan : 'Hidup']);
 
 
         $citizen->update($request->only([
@@ -100,7 +121,6 @@ class CitizenService implements RecordServiceInterface, DatatablesInterface
             'status_kehidupan',
             'pekerjaan',
             'pendidikan_terakhir',
-            'gologan_darah',
             'status_penduduk',
             'foto_ktp'
         ]));
@@ -110,15 +130,35 @@ class CitizenService implements RecordServiceInterface, DatatablesInterface
     public static function delete(string $id): bool
     {
         try {
-            $citizen = Penduduk::findOrFail($id)->load('kartuKeluarga');
+            $citizen = Penduduk::with(['kartuKeluarga', 'umkm', 'informasi'])->findOrFail($id);
+
+            // Memeriksa jika status hubungan dalam keluarga adalah 'Kepala Keluarga'
             if ($citizen->status_hubungan_dalam_keluarga === 'Kepala Keluarga' && Penduduk::where('kartu_keluarga_id', $citizen->kartuKeluarga->kartu_keluarga_id)->count() > 1) {
                 throw new \Exception('Hapus anggota keluarga terlebih dahulu');
             } else if (Penduduk::where('kartu_keluarga_id', $citizen->kartuKeluarga->kartu_keluarga_id)->count() === 1) {
                 $citizen->kartuKeluarga->delete();
             }
+
+            // Memeriksa dan menghapus user terkait jika ada
             if ($citizen->user_id !== null) {
                 $citizen->user->delete();
             }
+
+            // Menghapus relasi UMKM terkait jika ada
+            if ($citizen->umkm) {
+                foreach ($citizen->umkm as $umkm) {
+                    $umkm->delete();
+                }
+            }
+
+            // Menghapus relasi Informasi terkait jika ada
+            if ($citizen->informasi) {
+                foreach ($citizen->informasi as $informasi) {
+                    $informasi->delete();
+                }
+            }
+
+            // Menghapus data penduduk
             $citizen->delete();
             return true;
         } catch (\Exception $e) {
@@ -135,15 +175,14 @@ class CitizenService implements RecordServiceInterface, DatatablesInterface
             'nik',
             'jenis_kelamin',
             'status_hubungan_dalam_keluarga'
-            )->where('kartu_keluarga_id', $id)->get()
+        )->where('kartu_keluarga_id', $id)->get()
             : Penduduk::select(
                 'penduduk_id',
                 'nama',
                 'nik',
                 'jenis_kelamin',
                 'status_hubungan_dalam_keluarga'
-                )->where('kartu_keluarga_id', $id )
-                ->where('status_kehidupan', 'Hidup')->get();
-
+            )->where('kartu_keluarga_id', $id)
+            ->where('status_kehidupan', 'Hidup')->get();
     }
 }

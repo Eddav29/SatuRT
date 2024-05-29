@@ -26,6 +26,19 @@ class FamilyCardService implements RecordServiceInterface, DatatablesInterface
     public static function create(Request $request): Collection | Model
     {
 
+        $existingKartuKeluarga = KartuKeluarga::withTrashed()->where('nomor_kartu_keluarga', $request->nomor_kartu_keluarga)->first();
+
+        if ($existingKartuKeluarga) {
+            if ($existingKartuKeluarga->trashed()) {
+                $existingKartuKeluarga->restore();
+                $existingKartuKeluarga->fill($request->all());
+                $existingKartuKeluarga->save();
+                return $existingKartuKeluarga;
+            } else {
+                throw new \Exception('Nomor Kartu Keluarga sudah digunakan oleh data lain.');
+            }
+        }
+
         return KartuKeluarga::create([
             'nomor_kartu_keluarga' => $request->nomor_kartu_keluarga,
             'kota' => $request->kk_kota,

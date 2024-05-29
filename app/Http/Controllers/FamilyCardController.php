@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Penduduk;
+use App\Models\Role;
+use App\Services\AccountManagement\UserService;
 use App\Services\FamilyManagement\CitizenService;
 use App\Services\FamilyManagement\FamilyCardService;
 use App\Services\Notification\NotificationPusher;
@@ -17,10 +19,10 @@ class FamilyCardController extends Controller
 {
     public function index()
     {
-    $breadcrumb = [
-        'list' => ['Menu', 'Penduduk', 'Data Penduduk'],
-        'url' => ['dashboard', 'data-keluarga.index']
-    ];
+        $breadcrumb = [
+            'list' => ['Menu', 'Penduduk', 'Data Penduduk'],
+            'url' => ['dashboard', 'data-keluarga.index']
+        ];
         return view('pages.data-penduduk.index', compact('breadcrumb'));
     }
 
@@ -38,7 +40,8 @@ class FamilyCardController extends Controller
             'pendidikan_terakhir' => Penduduk::getListPendidikanTerakhir(),
             'golongan_darah' => Penduduk::getListGolonganDarah(),
             'status_penduduk' => Penduduk::getListStatusPenduduk(),
-            'extension' => 'jpg,jpeg,png'
+            'extension' => 'jpg,jpeg,png',
+            'canCreateAccount' => true,
         ]);
     }
 
@@ -65,9 +68,9 @@ class FamilyCardController extends Controller
             'url' => $url
         ];
         $toolbar_route = $user->role->role_name === 'Ketua RT' ? [
-            'detail' => route('data-keluarga.show', ['keluarga' => $id]),
-            'edit' => route('data-keluarga.edit', ['keluarga' => $id]),
-            'hapus' => route('data-keluarga.destroy', ['keluarga' => $id])
+            'detail' => route('data-keluarga.show', $id),
+            'edit' => route('data-keluarga.edit', $id),
+            'hapus' => route('data-keluarga.destroy', $id)
         ] : [];
         return view('pages.data-penduduk.keluarga.detail.index', [
             'id' => $id,
@@ -91,7 +94,7 @@ class FamilyCardController extends Controller
             'kk_nomor_rw' => 'required|integer',
             'kk_alamat' => 'required|string',
             'kk_kode_pos' => 'required|integer|digits:5',
-            'nik' => 'required|numeric|digits:16',
+            'nik' => 'required|numeric|digits:16|unique:penduduk,nik,null,penduduk_id,deleted_at,null',
             'nama' => 'required|string',
             'tempat_lahir' => 'required|string',
             'tanggal_lahir' => 'required|date',
@@ -108,7 +111,8 @@ class FamilyCardController extends Controller
             'golongan_darah' => 'required|string|in:A,B,AB,O',
             'agama' => 'required|string|in:Islam,Kristen,Katolik,Hindu,Budha,Konghucu',
             'status_penduduk' => 'required|string|in:Domisili,Non Domisili',
-            'images' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+            'images' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'create_account' => 'nullable',
         ]);
 
 
@@ -124,7 +128,19 @@ class FamilyCardController extends Controller
             DB::beginTransaction();
             $familyCard = FamilyCardService::create($request);
             $request['kartu_keluarga_id'] = $familyCard->kartu_keluarga_id;
-            CitizenService::create($request);
+            $user = CitizenService::create($request);
+
+            if ($request->has('create_account')) {
+                $request->merge([
+                    'role_id' => Role::where('role_name', 'Penduduk')->first()->role_id,
+                    'email' => null,
+                    'username' => $request->nik,
+                    'password' => $request->nik,
+                ]);
+                $account = UserService::create($request);
+                $user->update(['user_id' => $account->user_id]);
+
+            }
 
             if ($request->is('api/*') || $request->ajax() || $request->wantsJson()) {
                 return response()->json([

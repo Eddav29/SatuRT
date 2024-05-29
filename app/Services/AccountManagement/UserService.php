@@ -30,14 +30,12 @@ class UserService implements RecordServiceInterface, DatatablesInterface
         try {
             $request->merge([
                 'password' => Hash::make($request->password),
-                'phone' => $request->phone ?? null,
             ]);
             return User::create($request->only([
                 'role_id',
                 'username',
                 'email',
                 'password',
-                'phone'
             ]));
         } catch (\Exception $e) {
             throw $e;
@@ -54,7 +52,6 @@ class UserService implements RecordServiceInterface, DatatablesInterface
             'role_id',
             'username',
             'email',
-            'phone'
         ]));
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);

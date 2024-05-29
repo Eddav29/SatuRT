@@ -2,16 +2,16 @@
     <div>
         <x-input-label for="nik" :value="__('Nomor Induk Kependudukan')" required="true" />
 
-        <x-text-input id="nik" class="block mt-1 w-full" type="text" name="nik"
+        <x-input-text id="nik" class="block mt-1 w-full" type="text" name="nik"
             value="{{ old('nik', isset($user) ? $user->penduduk->nik : '') }}" placeholder="350*************"
             required />
         <x-input-error :messages="$errors->get('nik')" class="mt-2" />
     </div>
     <div>
-        <x-input-label for="email" :value="__('Email')" required="true" />
+        <x-input-label for="email" :value="__('Email')" />
 
-        <x-text-input id="email" class="block mt-1 w-full" type="email" name="email"
-            value="{{ old('email', isset($user) ? $user->email : '') }}" placeholder="test@example.com" required />
+        <x-input-text id="email" class="block mt-1 w-full" type="email" name="email"
+            value="{{ old('email', isset($user) ? $user->email : '') }}" placeholder="test@example.com" />
         <x-input-error :messages="$errors->get('email')" class="mt-2" />
     </div>
 </div>
@@ -20,7 +20,7 @@
     <div>
         <x-input-label for="username" :value="__('Username')" required="true" />
 
-        <x-text-input id="username" class="block mt-1 w-full" type="text" name="username" placeholder="Username"
+        <x-input-text id="username" class="block mt-1 w-full" type="text" name="username" placeholder="Username"
             value="{{ old('username', isset($user) ? $user->username : '') }}" required />
         <x-input-error :messages="$errors->get('username')" class="mt-2" />
     </div>
@@ -54,21 +54,9 @@
 </div>
 <div class="mt-5 grid sm:grid-cols-2 grid-cols-1 gap-5 px-5">
     <div>
-        <x-input-label for="password" :value="__('Password')" required="true" />
-
-        <input
-            class="rounded-lg bg-transparent border-gray-300 ring-blue-500  shadow-sm block mt-1 w-full placeholder:text-xs"
-            id="password" type="password" name="password" placeholder="Password" value=""
-            @if (!isset($user)) required @endif>
-        <x-input-error :messages="$errors->get('password')" class="mt-2" />
+        <x-input-password name="password" label="Password" :required="true" />
     </div>
     <div>
-        <x-input-label for="password_confirmation" :value="__('Konfirmasi Password')" required="true" />
-
-        <input
-            class="rounded-lg bg-transparent border-gray-300 ring-blue-500  shadow-sm block mt-1 w-full placeholder:text-xs"
-            id="pa_confirmationssword" type="password" name="password_confirmation" placeholder="Password"
-            value="" @if (!isset($user)) required @endif>
-        <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+        <x-input-password name="password_confirmation" label="Konfirmasi Password" :required="true" />
     </div>
 </div>
