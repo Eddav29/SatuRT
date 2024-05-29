@@ -78,6 +78,14 @@
                         {!! $information->isi_informasi !!}
                     </div>
                 </div>
+
+                {{-- Back Button --}}
+                <div class="mt-10 flex gap-x-5">
+                    <button onclick="window.history.back()" class="text-black border-2 py-3 px-5 rounded-lg mt-4">
+                        {{-- <p class="max-lg:hidden"><</p> --}}
+                        <p">Kembali</p>
+                    </button>
+                </div>
             </section>
             {{-- End Information Details --}}
         </div>

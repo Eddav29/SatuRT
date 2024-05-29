@@ -50,7 +50,8 @@
                             <div x-data="{ openImage: false }">
                                 <img @click="openImage = !openImage"
                                     src="{{ asset('storage/images_storage/resident-report_images/' . $pelaporan->image_url) }}"
-                                    alt="" class="border-2 mt-3 rounded-xl h-auto max-h-[17rem] w-full object-cover"
+                                    alt=""
+                                    class="border-2 mt-3 rounded-xl h-auto max-h-[17rem] w-full object-cover"
                                     draggable="false">
                                 <div x-show="openImage"
                                     class="fixed z-[999999999] top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
@@ -70,16 +71,23 @@
 
 
                     {{-- Tombol Setujui dan Tolak --}}
-                    <div class="mt-10 flex gap-x-5">
+                    <div class="mt-10 flex max-lg:flex-col gap-x-5">
                         <button type="submit" name="status_id" id="status_id" value="2"
-                            class="bg-green-500 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">
+                            class="bg-green-500 text-white-snow border-2 py-3 px-5 rounded-lg mt-4"
+                            @if ($pelaporan->pengajuan->status_id === 2 || $pelaporan->pengajuan->status_id === 3) disabled @endif>
                             <p>Setujui</p>
                         </button>
                         <button type="submit" name="status_id" id="status_id" value="3"
-                            class="bg-red-500 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">
+                            class="bg-red-500 text-white-snow border-2 py-3 px-5 rounded-lg mt-4"
+                            @if ($pelaporan->pengajuan->status_id === 2 || $pelaporan->pengajuan->status_id === 3) disabled @endif>
                             <p>Tolak</p>
                         </button>
+                        <button onclick="window.history.back()" class="text-black border-2 py-3 px-5 rounded-lg mt-4">
+                            {{-- <p class="max-lg:hidden"><</p> --}}
+                            <p">Kembali</p>
+                        </button>
                     </div>
+
                 </form>
             </section>
 

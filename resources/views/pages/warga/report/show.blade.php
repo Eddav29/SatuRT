@@ -20,7 +20,7 @@
 
                     @csrf
                     @method('PUT')
-                    
+
                     <div class="md:grid md:grid-cols-4">
                         <h5 class="font-semibold">Judul Laporan</h5>
                         <p class="md:col-span-3">{{ $pelaporan->pengajuan->keperluan }}</p>
@@ -74,13 +74,17 @@
 
                     {{-- Tombol Kembali --}}
                     <div class="mt-10 flex gap-x-5">
-                        <button type="submit" name="status_id" value="4" class="bg-red-500 hover:bg-red-800 text-orange py-2 px-4 rounded mt-4 mr-2">
-                            Batalkan
+                        <button type="submit" name="status_id" id="status_id" value="4"
+                            class="bg-red-500 text-white-snow border-2 py-3 px-5 rounded-lg mt-4"
+                            @if ($pelaporan->pengajuan->status_id === 2 || $pelaporan->pengajuan->status_id === 3 || $pelaporan->pengajuan->status_id === 4) disabled @endif>
+                            <p>Batalkan</p>
                         </button>
-                        <a href="#" onclick="window.history.back()" class="bg-blue-500 hover:bg-blue-800 text-white py-2 px-4 rounded mt-4 mr-2">
-                        Kembali
-                    </a>
+                        <button onclick="window.history.back()" class="text-black border-2 py-3 px-5 rounded-lg mt-4">
+                            {{-- <p class="max-lg:hidden"><</p> --}}
+                            <p">Kembali</p>
+                        </button>
                     </div>
+
                 </form>
             </section>
             {{-- End Table --}}
