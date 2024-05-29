@@ -12,8 +12,8 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProfileController extends Controller
 {
@@ -107,41 +107,37 @@ class ProfileController extends Controller
 
     public function changePassword(Request $request, string $id)
     {
-        try {
-            $penduduk = Penduduk::find($id);
-            $user = User::find($penduduk->user_id);
+        $penduduk = Penduduk::find($id);
+        $user = User::find($penduduk->user_id);
 
-            $validated = $request->validate([
-                'sandi_lama' => 'required',
-                'sandi_baru' => 'required|min:5',
-                'ulang_sandi_baru' => 'required|same:sandi_baru',
-            ], [
-                'sandi_lama.required' => 'Kata Sandi Lama harus diisi',
-                'sandi_baru.required' => 'Kata Sandi Baru harus diisi',
-                'sandi_baru.min' => 'Panjang Kata Sandi Baru minimal 5',
-                'ulang_sandi_baru' => 'Ulangi Kata Sandi harus sama',
-                'ulang_sandi_baru.same' => 'Ulangi Kata Sandi harus sama dengan Kata Sandi Baru',
-            ]);
+        $validated = $request->validate([
+            'sandi_lama' => 'required',
+            'sandi_baru' => 'required|min:8',
+            'ulang_sandi_baru' => 'required|same:sandi_baru',
+        ], [
+            'sandi_lama.required' => 'Kata Sandi Lama harus diisi',
+            'sandi_baru.required' => 'Kata Sandi Baru harus diisi',
+            'sandi_baru.min' => 'Panjang Kata Sandi Baru minimal 8',
+            'ulang_sandi_baru' => 'Ulangi Kata Sandi harus sama',
+            'ulang_sandi_baru.same' => 'Ulangi Kata Sandi harus sama dengan Kata Sandi Baru',
+        ]);
 
-            if (Hash::check($request->sandi_lama, $user->password)) {
-                try {
-                    // Update password
-                    $user->password = Hash::make($request->sandi_baru);
-                    $user->password_changed_at = now();
-                    $user->update($validated);
+        if (Hash::check($request->sandi_lama, $user->password)) {
+            try {
+                // Update password
+                $user->password = Hash::make($request->sandi_baru);
+                $user->password_changed_at = now();
+                $user->update($validated);
 
-                    NotificationPusher::success('Perubahan berhasil disimpan');
-                    return redirect()->back()->with(['success' => 'Perubahan berhasil disimpan']);
-                } catch (\Throwable $th) {
-                    NotificationPusher::error('Gagal menyimpan perubahan');
-                    return redirect()->back()->with(['error' => 'Gagal menyimpan perubahan']);
-                }
-            } else {
-                NotificationPusher::error('Kata Sandi Lama tidak sesuai');
-                return redirect()->back()->with('error', 'Kata Sandi Lama tidak sesuai');
+                NotificationPusher::success('Perubahan berhasil disimpan');
+                return redirect()->back()->with(['success' => 'Perubahan berhasil disimpan']);
+            } catch (\Throwable $th) {
+                NotificationPusher::error('Gagal menyimpan perubahan');
+                return redirect()->back()->with(['error' => 'Gagal menyimpan perubahan']);
             }
-        } catch (\Throwable $th) {
-            abort(404);
+        } else {
+            NotificationPusher::error('Kata Sandi Lama tidak sesuai');
+            return redirect()->back()->with('error', 'Kata Sandi Lama tidak sesuai');
         }
     }
 

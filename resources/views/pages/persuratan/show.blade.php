@@ -20,7 +20,7 @@
                     class="p-6 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col md:grid md:grid-cols-1 md:auto-rows-auto gap-y-5">
                     <div class="md:grid md:grid-cols-4">
                         <h5 class="font-semibold">NIK</h5>
-                        <p class="md:col-span-3">{{ $persuratan->pengajuan->penduduk->nik }}</p>
+                        <p class="md:col-span-3">{{ Str::mask($persuratan->pengajuan->penduduk->nik ?? '', '*', 6) }}</p>
                     </div>
                     <div class="md:grid md:grid-cols-4">
                         <h5 class="font-semibold">Nama</h5>

@@ -88,6 +88,9 @@ class FamilyCardService implements RecordServiceInterface, DatatablesInterface
             ->where('status_hubungan_dalam_keluarga', 'Kepala Keluarga')
             ->get();
         $penduduk->map(function ($item) {
+            // if ($item->nik) {
+            //     # code...
+            // }
             $item->penduduk_count = Penduduk::where('penduduk.kartu_keluarga_id', $item->kartu_keluarga_id)->count();
         });
         return $penduduk;
