@@ -68,7 +68,7 @@ class SAWService extends DecisionMakerService
 
             $this->stepData['normalized'] = $X;
         } catch (\Throwable $th) {
-            abort(404);
+            abort("Terjadi Kesalahan dalam proses Normalisasi Matriks");
         }
     }
 
@@ -104,7 +104,7 @@ class SAWService extends DecisionMakerService
             $this->stepData['perhitunganNilaiPreferensi'] = $X;
             $this->stepData['nilaiPreferensi'] = $result;
         } catch (\Throwable $th) {
-            abort(404);
+            abort("Terjadi Kesalahan dalam proses perhitungan Nilai Preferensi");
         }
     }
 
@@ -128,7 +128,7 @@ class SAWService extends DecisionMakerService
 
             $this->stepData['ranking'] = $result;
         } catch (\Throwable $th) {
-            abort(404);
+            abort("Terjadi Kesalahan dalam proses perankingan");
         }
     }
 }
