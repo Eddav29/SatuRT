@@ -21,6 +21,7 @@
     'layoutTopEnd' => false,
 ])
 
+
 <x-styles.datatables />
 
 <div x-data="{ isOpen: false }">
@@ -117,7 +118,10 @@
                         url: '/api/v1{{ $url }}',
                         type: 'GET',
                         datatype: 'json',
-                        dataSrc: 'data'
+                        dataSrc: 'data',
+                        error: function(xhr, error, code) {
+                            pushNotification('error', 'Gagal mendapatkan data')
+                        }
                     },
                     columns: [
                         @foreach ($columns as $column)
@@ -346,6 +350,11 @@
                         row.style.justifyContent = 'space-between';
                     }
                 });
+
+                setInterval(function() {
+                    let table = $('#{{ $id }}').DataTable();
+                    table.ajax.reload(null, false);
+            }, 5000);
             });
     </script>
 @endpush

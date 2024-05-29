@@ -1,7 +1,7 @@
 <div class="mt-8 grid sm:grid-cols-2 grid-cols-1 gap-6 px-5">
     <div class="flex flex-col justify-center">
         <h3 class="select-none md:text-lg text-sm font-semibold">NIK</h3>
-        <p class="md:text-md text-sm">{{ $citizen->nik }}</p>
+        <p class="md:text-md text-sm">{{ Str::mask($citizen->nik ?? '', '*', 6) }}</p>
     </div>
     <div class="flex flex-col justify-center">
         <h3 class="select-none md:text-lg text-md font-semibold">Nama</h3>
@@ -90,7 +90,11 @@
         <p class="md:text-md text-sm">{{ $citizen->status_kehidupan }}</p>
     </div>
 </div>
-<div class="mt-8 grid grid-cols-1 px-5">
-    <h3 class="select-none md:text-lg text-sm font-semibold">Foto Kartu Tanda Penduduk</h3>
-    <x-image-preview :file="route('storage.ktp', $citizen->foto_ktp)" />
+<div class="mt-8 =f px-5">
+    <div>
+        <h3 class="select-none md:text-lg text-sm font-semibold">Foto Kartu Tanda Penduduk</h3>
+        <x-image-preview :file="route('storage.ktp', $citizen->foto_ktp)" />
+        {{-- <div class="h-96 w-full border">
+        </div> --}}
+    </div>
 </div>

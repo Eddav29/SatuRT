@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserService implements RecordServiceInterface, DatatablesInterface
 {
@@ -88,7 +89,11 @@ class UserService implements RecordServiceInterface, DatatablesInterface
 
     public static function getDatatable($id = null): Collection
     {
-        return Penduduk::with('user')->whereNotNull('user_id')->get();
+        return Penduduk::with('user')->whereNotNull('user_id')->get()->map(function ($penduduk) {
+            $penduduk->nik = Str::mask($penduduk->nik ?? '',  '*', 6);
+            $penduduk->user->username = Str::mask($penduduk->user->username ?? '',  '*', 6);
+            return $penduduk;
+        });
     }
 
     public static function getRoleId($id): string

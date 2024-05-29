@@ -58,6 +58,9 @@ class FamilyCardController extends Controller
     public function show($id)
     {
         $user = Auth::user();
+        if ($user->role->role_name === 'Penduduk') {
+            return response()->redirectToRoute('data-anggota.index', $id);
+        }
         $url = $user->role->role_name === 'Ketua RT' ? ['home', 'data-keluarga.index', 'data-keluarga.index'] : ['dashboard', ['data-keluarga.show', [
             'keluarga' => $id
         ]], ['data-keluarga.show', [

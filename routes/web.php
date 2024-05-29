@@ -45,9 +45,9 @@ Route::get('usaha/{id}', [BusinessController::class, 'show'])->name('usaha-detai
 
 require __DIR__ . '/auth.php';
 
-Route::get('storage/announcement/{filename}', [StorageController::class, 'storageAnnouncement'])->name('storage.announcement');
-Route::get('storage/lisence/{filename}', [StorageController::class, 'storageLisence'])->name('storage.lisence');
-Route::get('public/images_storage/{filename}', [StorageController::class, 'storagePublic'])->name('public');
+Route::get('storage/announcement/{filename?}', [StorageController::class, 'storageAnnouncement'])->name('storage.announcement');
+Route::get('storage/lisence/{filename?}', [StorageController::class, 'storageLisence'])->name('storage.lisence');
+Route::get('public/images_storage/{filename?}', [StorageController::class, 'storagePublic'])->name('public');
 
 
 
@@ -68,12 +68,12 @@ Route::middleware('auth:sanctum')->group(function () {
             ->names([
                 'index' => 'data-keluarga.index',
                 'create' => 'data-keluarga.create',
-                'show' => 'data-keluarga.show',
                 'store' => 'data-keluarga.store',
                 'edit' => 'data-keluarga.edit',
                 'update' => 'data-keluarga.update',
                 'destroy' => 'data-keluarga.destroy'
-            ]);
+            ])->except('show');
+
 
         Route::resource('keuangan', FinanceReportController::class)->names([
             'index' => 'keuangan.index',
@@ -131,25 +131,31 @@ Route::middleware('auth:sanctum')->group(function () {
         ])->only(['create']);
 
         Route::get('/inventaris/peminjaman/selesaikan/{id}', [InventarisPeminjamanController::class, 'selesaikan'])->name('inventaris.peminjaman.selesaikan');
+
+        Route::resource('data-akun/penduduk', CitizenAccountController::class)
+        ->names([
+            'index' => 'data-akun.index',
+            'create' => 'data-akun.create',
+            'store' => 'data-akun.store',
+            'show' => 'data-akun.show',
+            'edit' => 'data-akun.edit',
+            'update' => 'data-akun.update',
+            'destroy' => 'data-akun.destroy'
+        ]);
     });
 
     Route::middleware('checkRole:Ketua RT,Penduduk')->group(function () {
 
         Route::put('auth/change-password', [ChangePasswordController::class, 'store']);
-        Route::get('storage/ktp/{filename}', [StorageController::class, 'storageKTP'])->name('storage.ktp');
+        Route::get('storage/ktp/{filename?}', [StorageController::class, 'storageKTP'])->name('storage.ktp');
 
         Route::get('/persuratan/{id}/pdf', [DocumentRequestController::class, 'generatePdf'])->name('persuratan.pdf');
 
-        Route::resource('data-akun/penduduk', CitizenAccountController::class)
+        Route::resource('data-penduduk/keluarga', FamilyCardController::class)
             ->names([
-                'index' => 'data-akun.index',
-                'create' => 'data-akun.create',
-                'store' => 'data-akun.store',
-                'show' => 'data-akun.show',
-                'edit' => 'data-akun.edit',
-                'update' => 'data-akun.update',
-                'destroy' => 'data-akun.destroy'
-            ]);
+                'show' => 'data-keluarga.show',
+            ])->only('show');
+
 
         Route::resource('data-penduduk/keluarga/{keluargaid}/anggota', CitizenController::class)
             ->names([

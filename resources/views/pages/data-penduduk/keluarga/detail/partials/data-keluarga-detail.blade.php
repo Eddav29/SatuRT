@@ -1,7 +1,7 @@
 <div class="mt-8 grid sm:grid-cols-2 grid-cols-1 gap-6 px-5">
     <div class="flex flex-col justify-center">
         <h3 class="select-none text-sm sm:text-lg font-semibold">Nomor Kartu Keluarga</h3>
-        <p class="md:text-md text-sm">{{ $familyCard->nomor_kartu_keluarga }}</p>
+        <p class="md:text-md text-sm">{{ Str::mask($familyCard->nomor_kartu_keluarga ?? '', '*', 6) }}</p>
     </div>
     <div class="flex flex-col justify-center">
         <h3 class="select-none text-md sm:text-lg font-semibold">Kota</h3>
