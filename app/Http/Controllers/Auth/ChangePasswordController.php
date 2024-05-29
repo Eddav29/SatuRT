@@ -17,7 +17,7 @@ class ChangePasswordController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => 'required|string|confirmed|min:8',
             'password_confirmation' => 'required',
         ]);
 

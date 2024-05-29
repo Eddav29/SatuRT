@@ -81,8 +81,6 @@ Route::middleware('auth:sanctum')->group(function () {
                 'destroy' => 'data-anggota.destroy'
             ]);
 
-        Route::get('data-penduduk/keluarga/{keluarga}', [FamilyCardController::class, 'show'])->name('data-keluarga.show');
-
         Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
         Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
         Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -157,11 +155,12 @@ Route::middleware('auth:sanctum')->group(function () {
             ->names([
                 'index' => 'data-keluarga.index',
                 'create' => 'data-keluarga.create',
+                'show' => 'data-keluarga.show',
                 'store' => 'data-keluarga.store',
                 'edit' => 'data-keluarga.edit',
                 'update' => 'data-keluarga.update',
                 'destroy' => 'data-keluarga.destroy'
-            ])->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+            ]);
 
         Route::resource('keuangan', FinanceReportController::class)->names([
             'index' => 'keuangan.index',
@@ -192,35 +191,35 @@ Route::middleware('auth:sanctum')->group(function () {
 
             Route::get('hasil-keputusan', [DecisionSupportController::class, 'index'])->name('spk.decision-maker.index');
             Route::get('hasil-keputusan/detail/metode/{metode}', [DecisionSupportController::class, 'show'])->name('spk.show.method');
-
-            Route::resource('inventaris/data-inventaris', InventarisController::class)->names([
-                'index' => 'inventaris.data-inventaris.index',
-                'show' => 'inventaris.data-inventaris.show',
-                'update' => 'inventaris.data-inventaris.update',
-                'create' => 'inventaris.data-inventaris.create',
-                'store' => 'inventaris.data-inventaris.store',
-                'edit' => 'inventaris.data-inventaris.edit',
-                'destroy' => 'inventaris.data-inventaris.destroy',
-            ]);
-            Route::resource('inventaris/peminjaman', InventarisPeminjamanController::class)->names([
-                'index' => 'inventaris.peminjaman.index',
-                'show' => 'inventaris.peminjaman.show',
-                'update' => 'inventaris.peminjaman.update',
-                'create' => 'inventaris.peminjaman.create',
-                'store' => 'inventaris.peminjaman.store',
-                'edit' => 'inventaris.peminjaman.edit',
-                'destroy' => 'inventaris.peminjaman.destroy',
-            ]);
-
-            Route::resource('umkm', BusinessUserController::class)->names([
-                'create' => 'umkm.create'
-            ])->only(['create']);
-
-            Route::get('/inventaris/peminjaman/selesaikan/{id}', [InventarisPeminjamanController::class, 'selesaikan'])->name('inventaris.peminjaman.selesaikan');
         });
+
+
+        Route::resource('inventaris/data-inventaris', InventarisController::class)->names([
+            'index' => 'inventaris.data-inventaris.index',
+            'show' => 'inventaris.data-inventaris.show',
+            'update' => 'inventaris.data-inventaris.update',
+            'create' => 'inventaris.data-inventaris.create',
+            'store' => 'inventaris.data-inventaris.store',
+            'edit' => 'inventaris.data-inventaris.edit',
+            'destroy' => 'inventaris.data-inventaris.destroy',
+        ]);
+        Route::resource('inventaris/peminjaman', InventarisPeminjamanController::class)->names([
+            'index' => 'inventaris.peminjaman.index',
+            'show' => 'inventaris.peminjaman.show',
+            'update' => 'inventaris.peminjaman.update',
+            'create' => 'inventaris.peminjaman.create',
+            'store' => 'inventaris.peminjaman.store',
+            'edit' => 'inventaris.peminjaman.edit',
+            'destroy' => 'inventaris.peminjaman.destroy',
+        ]);
+
+        Route::resource('umkm', BusinessUserController::class)->names([
+            'create' => 'umkm.create'
+        ])->only(['create']);
+
+        Route::get('/inventaris/peminjaman/selesaikan/{id}', [InventarisPeminjamanController::class, 'selesaikan'])->name('inventaris.peminjaman.selesaikan');
     });
 
     Route::middleware('checkRole:Penduduk')->group(function () {
-
     });
 });

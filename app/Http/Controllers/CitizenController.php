@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Penduduk;
+use App\Models\Role;
+use App\Services\AccountManagement\UserService;
 use App\Services\FamilyManagement\CitizenService;
 use App\Services\FamilyManagement\FamilyCardService;
 use App\Services\Notification\NotificationPusher;
@@ -10,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+
 class CitizenController extends Controller
 {
     public function index($keluargaid)
@@ -109,7 +112,8 @@ class CitizenController extends Controller
             'golongan_darah' => Penduduk::getListGolonganDarah(),
             'status_penduduk' => Penduduk::getListStatusPenduduk(),
             'familyCard' => FamilyCardService::find($id),
-            'extension' => 'jpg,jpeg,png'
+            'extension' => 'jpg,jpeg,png',
+            'canCreateAccount' => Auth::user()->role->role_name === 'Ketua RT' ? true : false,
         ]);
     }
 
@@ -134,7 +138,8 @@ class CitizenController extends Controller
             'golongan_darah' => 'required|string|in:A,B,AB,O',
             'agama' => 'required|string|in:Islam,Kristen,Katolik,Hindu,Budha,Konghucu',
             'status_penduduk' => 'required|string|in:Domisili,Non Domisili',
-            'images' => 'nullable|image|mimes:jpeg,png,jpg|max:2048'
+            'images' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'create_account' => 'nullable'
         ]);
 
         if ($validator->fails()) {
@@ -154,6 +159,16 @@ class CitizenController extends Controller
             DB::beginTransaction();
             $request['kartu_keluarga_id'] = $keluargaid;
             $citizen = CitizenService::create($request);
+            if ($request->has('create_account')) {
+                $request->merge([
+                    'role_id' => Role::where('role_name', 'Penduduk')->first()->role_id,
+                    'email' => null,
+                    'username' => $request->nik,
+                    'password' => $request->nik,
+                ]);
+                $account = UserService::create($request);
+                $citizen->update(['user_id' => $account->user_id]);
+            }
             if ($request->is('api/*') || $request->wantsJson()) {
                 return response()->json([
                     'code' => 201,
@@ -288,7 +303,7 @@ class CitizenController extends Controller
                     'code' => 500,
                     'message' => $e->getMessage(),
                     'timestamp' => now()
-                ],500);
+                ], 500);
             }
             DB::rollBack();
             if (isset($imageName) && file_exists(storage_path('app/' . $imageName))) {
@@ -306,6 +321,7 @@ class CitizenController extends Controller
             $count = Penduduk::where('kartu_keluarga_id', $service->kartu_keluarga_id)->count();
 
             if ($service && $service->user_id !== $user->user_id) {
+
                 CitizenService::delete($id);
                 $response = [
                     'code' => 200,
