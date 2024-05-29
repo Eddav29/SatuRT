@@ -70,28 +70,12 @@
                     <div class="mt-5">
                         <div>
                             @isset($pelaporan->image_url)
-                            <x-input-file name="image_url" :default="$pelaporan->image_url"/>
+                            <x-input-file name="image_url"  :accept="$extension" :default="route('storage.lisence', $pelaporan->image_url)"/>
                             @else
-                                <x-input-file name="image_url" />
+                                <x-input-file name="image_url" :accept="$extension"/>
                             @endisset
                         </div>
                     </div>
-
-                    {{-- <div>
-                        <img alt="" id="preview-image" class="hidden">
-                    </div>
-                    <div class="flex flex-col mt-5">
-                        @error('image_url')
-                            <small class="text-red-500 text-xs py-3">{{ $message }}</small>
-                        @enderror
-
-                        <p id="preview-file" class="text-blue-500 py-3 hidden"></p>
-                        <img alt="" id="preview-image" class="hidden">
-
-                        <input
-                            class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-primary focus:text-gray-700 focus:shadow-inset focus:outline-none"
-                            type="file" id="file_input" name="image_url" onchange="previewImage()">
-                    </div> --}}
 
                     {{-- Keterangan --}}
                     <div class="mt-5">

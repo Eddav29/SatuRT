@@ -44,8 +44,11 @@
                     @endif
                     <div class="md:flex md:flex-col">
                         <h5 class="font-semibold">Keterangan</h5>
-                        <textarea id="textarea" readonly
-                            class="w-full h-48 p-2.5 rounded border border-neutral-900 border-opacity-30 justify-start items-start gap-2.5 inline-flex font-normal">{{ $persuratan->pengajuan->keterangan }}</textarea>
+                        <div class="w-full h-48 p-2.5 rounded border border-neutral-900 border-opacity-30 justify-start items-start gap-2.5 inline-flex font-normal">
+                            {!! $persuratan->pengajuan->keterangan !!}
+                        </div>
+                        {{-- <textarea id="textarea" readonly
+                            class="w-full h-48 p-2.5 rounded border border-neutral-900 border-opacity-30 justify-start items-start gap-2.5 inline-flex font-normal"></textarea> --}}
                     </div>
                     @if ($persuratan->pengajuan->status->nama === 'Diterima')
                         <a href="{{ route('persuratan.pdf', $persuratan->persuratan_id) }}"
@@ -67,6 +70,14 @@
                                 class="bg-red-500 text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">Tolak</a>
                         </div>
                     @endif
+
+                    {{-- Tombol Kembali --}}
+                    <div class="flex gap-x-5">
+                        <button onclick="window.history.back()" class="text-black border-2 py-3 px-5 rounded-lg mt-4">
+                            {{-- <p class="max-lg:hidden"><</p> --}}
+                            <p">Kembali</p>
+                        </button>
+                    </div>
                 </form>
             </section>
             {{-- Akhir Detail Permohonan Surat --}}

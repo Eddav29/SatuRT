@@ -127,14 +127,13 @@
 
                 {{-- Button --}}
                 <div class="mx-3 my-3">
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-800 text-white py-2 px-4 rounded mt-4 mr-2">
-                        Simpan
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-800 text-white border-2 py-3 px-5 rounded-lg mt-4 mr-2">
+                        <p>Simpan</p>
                     </button>
-                    <a href="#" onclick="window.history.back()"
+                    <button href="#" onclick="window.history.back()"
                         class="text-black border-2 py-3 px-5 rounded-lg mt-4">
-                        Batalkan
-                    </a>
-
+                        <p>Batalkan</p>
+                    </button>
                 </div>
         </div>
         </form>

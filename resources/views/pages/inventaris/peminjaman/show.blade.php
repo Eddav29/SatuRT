@@ -5,7 +5,7 @@
 
     <div class="p-6 lg:px-12 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col gap-y-5">
         {{-- Toolbar --}}
-        <x-toolbar :toolbar_id="$toolbar_id" :active="$active" :toolbar_route="$toolbar_route" />        
+        <x-toolbar :toolbar_id="$toolbar_id" :active="$active" :toolbar_route="$toolbar_route" />
         <div class="p-6 rounded-xl bg-white-snow mt-5">
             {{-- Detail Peminjaman --}}
             <section>
@@ -13,7 +13,7 @@
                     <h1 class="font-bold md:text-2xl text-xl">Detail Peminjaman</h1>
                 </div>
             </section>
-            
+
             {{-- Forms Peminjaman --}}
             <section>
                 <div class="p-6 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col md:grid md:grid-cols-2 gap-5">
@@ -55,6 +55,14 @@
                             <p>Tidak ada data yang ditemukan.</p>
                         </div>
                     @endif
+                </div>
+
+                {{-- Back Button --}}
+                <div class="flex gap-x-5 px-5">
+                    <button onclick="window.history.back()" class="text-black border-2 py-3 px-5 rounded-lg mt-4">
+                        {{-- <p class="max-lg:hidden"><</p> --}}
+                        <p">Kembali</p>
+                    </button>
                 </div>
             </section>
 

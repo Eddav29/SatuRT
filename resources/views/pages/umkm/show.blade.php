@@ -61,12 +61,20 @@
             {{-- End Information Details --}}
 
             {{-- Back Button --}}
+            <div class="flex gap-x-5 px-5">
+                <button onclick="window.history.back()" class="text-black border-2 py-3 px-5 rounded-lg mt-4">
+                    {{-- <p class="max-lg:hidden"><</p> --}}
+                    <p">Kembali</p>
+                </button>
+            </div>
+
+            {{-- Back Button
             <div class="mt-10 flex gap-x-5 px-5">
                 <a href="{{ route('umkm.index') }}"
                     class="border border-navy-night/50 rounded-md px-4 py-2 text-sm flex justify-center items-center gap-x-3">
                     <p>Kembali</p>
                 </a>
-            </div>
+            </div> --}}
         </div>
     </div>
     {{-- Content End --}}

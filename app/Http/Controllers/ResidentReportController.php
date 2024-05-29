@@ -104,7 +104,7 @@ class ResidentReportController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        try {
+        // try {
             if (Auth::user()->role->role_name == 'Ketua RT') {
                 $pelaporan = Pelaporan::find($id);
                 $pengajuan = Pengajuan::find($pelaporan->pengajuan_id);
@@ -145,12 +145,20 @@ class ResidentReportController extends Controller
                 $pelaporan = Pelaporan::find($id);
                 $pengajuan = Pengajuan::find($pelaporan->pengajuan_id);
 
+                // dd($request->all());
+
                 $validated = $request->validate([
                     'keperluan' => 'required',
                     'accepted_at' => 'required|date',
                     'jenis_pelaporan' => 'required',
-                    'image_url' => '2048|image',
+                    'image_url' => 'max:2048|image',
                     'keterangan' => 'required',
+                ],[
+                    'keperluan.required' => "Judul Tidak Boleh Kosong",
+                    'jenis_pelaporan.required' => "Jenis Pelaporan Tidak Boleh Kosong",
+                    'keterangan.required' => "Keterangan Tidak Boleh Kosong",
+                    'image_url.max' => "Lampiran Tidak Boleh Lebih Besar dari 2MB",
+                    'image_url.image' => "Lampiran Harus Berbentuk Gambar",
                 ]);
 
                 if ($request->image_url) {
@@ -179,9 +187,10 @@ class ResidentReportController extends Controller
                     return redirect()->route('pelaporan.show', ['pelaporan' => $id])->with(['error' => 'Gagal menyimpan perubahan']);
                 }
             }
-        } catch (\Throwable $th) {
-            abort(404);
-        }
+        // } catch (\Throwable $th) {
+
+        //     // abort(404);
+        // }
     }
 
     public function list(): JsonResponse
@@ -242,6 +251,7 @@ class ResidentReportController extends Controller
         return response()->view('pages.warga.report.create', [
             'breadcrumb' => $breadcrumb,
             'pelaporan' => $pelaporan,
+            'extension' => 'jpg,jpeg,png',
         ]);
     }
 
