@@ -42,12 +42,25 @@ class DocumentRequestController extends Controller
     public function list(): JsonResponse
     {
         try {
-
+            // $query = Persuratan::join('pengajuan', 'persuratan.pengajuan_id', '=', 'pengajuan.pengajuan_id')
+            // ->orderBy('pengajuan.updated_at', 'desc')
+            // ->with('pengajuan.penduduk', 'pengajuan.status');
             if (Auth::user()->role->role_name === 'Ketua RT') {
                 $data = Persuratan::join('pengajuan', 'persuratan.pengajuan_id', '=', 'pengajuan.pengajuan_id')
+                    // ->whereHas('pengajuan.status', function ($query) {
+                    //     $query->where('nama', '!==', 'Dibatalkan');
+                    // })
+                    ->whereHas('pengajuan', function ($query) {
+                        $query->where('status_id', '!=', function ($query) {
+                            $query->select('status_id')
+                                  ->from('status')
+                                  ->where('nama', 'Dibatalkan')
+                                  ->limit(1);
+                        });
+                    })
                     ->orderBy('pengajuan.updated_at', 'desc')
-                    ->where('pengajuan.status_id', '!=', '4')
-                    ->with('pengajuan')->get()->map(function ($persuratan) {
+                    ->with('pengajuan.penduduk', 'pengajuan.status')
+                    ->get()->map(function ($persuratan) {
                         return [
                             'persuratan_id' => $persuratan->persuratan_id,
                             'nik' => $persuratan->pemohon()->nik,
