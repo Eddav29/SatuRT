@@ -65,7 +65,7 @@
                     </div>
 
                     {{-- Field File Upload --}}
-                    <div class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold mt-5">Lampiran</div>
+                    <div class="font-semibold mt-5">Lampiran</div>
 
                     <div class="mt-5">
                         <div>

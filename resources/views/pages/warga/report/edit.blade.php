@@ -81,7 +81,7 @@
 
                         {{-- Lampiran --}}
                         <div class="mx-3 my-3 font-bold">
-                            <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Lampiran</div>
+                            <div>Lampiran</div>
 
                             @if ($pelaporan->image_url)
                                 <label for="lisence_image_url" class="relative cursor-pointer">

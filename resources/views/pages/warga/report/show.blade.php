@@ -50,24 +50,48 @@
                         </div>
                         <div class="max-lg:mt-5 lg:col-span-2">
                             <h5 class="font-semibold mb-4">Lampiran</h5>
-                            <div x-data="{ openImage: false }">
-                                <img @click="openImage = !openImage"
-                                    src="{{ asset('storage/images_storage/resident-report_images/' . $pelaporan->image_url) }}"
-                                    alt="" class="rounded-xl h-auto max-h-[17rem] w-full object-cover border-2"
-                                    draggable="false">
-                                <div x-show="openImage"
-                                    class="fixed z-[999999999] top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
-                                    <img @click="openImage = false" x-show="openImage"
-                                        @click.outside="openImage = false"
+                            @if ($pelaporan->image_url)
+                                <div x-data="{ openImage: false }">
+                                    <img @click="openImage = !openImage"
                                         src="{{ asset('storage/images_storage/resident-report_images/' . $pelaporan->image_url) }}"
-                                        alt="" class="rounded-xl w-max h-max lg:max-w-full lg:max-h-full"
+                                        alt=""
+                                        class="rounded-xl h-auto max-h-[17rem] w-full object-cover border-2"
                                         draggable="false">
-                                    <div class="absolute w-8 h-8 top-10 right-10 cursor-pointer"
-                                        @click="openImage = false">
-                                        <x-heroicon-o-x-mark class="w-8 h-8" class="text-white-snow absolute" />
+                                    <div x-show="openImage"
+                                        class="fixed z-[999999999] top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
+                                        <img @click="openImage = false" x-show="openImage"
+                                            @click.outside="openImage = false"
+                                            src="{{ asset('storage/images_storage/resident-report_images/' . $pelaporan->image_url) }}"
+                                            alt="" class="rounded-xl w-max h-max lg:max-w-full lg:max-h-full"
+                                            draggable="false">
+                                        <div class="absolute w-8 h-8 top-10 right-10 cursor-pointer"
+                                            @click="openImage = false">
+                                            <x-heroicon-o-x-mark class="w-8 h-8" class="text-white-snow absolute" />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            @else
+                                <div x-data="{ openImage: false }">
+                                    <img @click="openImage = !openImage"
+                                        src="https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg"
+                                        alt="Default Image"
+                                        class="rounded-xl h-auto max-h-[17rem] w-full object-cover border-2"
+                                        draggable="false">
+                                    <div x-show="openImage"
+                                        class="fixed z-[999999999] top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
+                                        <img @click="openImage = false" x-show="openImage"
+                                            @click.outside="openImage = false"
+                                            src="https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg"
+                                            alt="Default Image"
+                                            class="rounded-xl w-max h-max lg:max-w-full lg:max-h-full"
+                                            draggable="false">
+                                        <div class="absolute w-8 h-8 top-10 right-10 cursor-pointer"
+                                            @click="openImage = false">
+                                            <x-heroicon-o-x-mark class="w-8 h-8" class="text-white-snow absolute" />
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
                         </div>
                     </div>
 
@@ -76,7 +100,10 @@
                     <div class="mt-10 flex gap-x-5">
                         <button type="submit" name="status_id" id="status_id" value="4"
                             class="bg-red-500 text-white-snow border-2 py-3 px-5 rounded-lg mt-4"
-                            @if ($pelaporan->pengajuan->status_id === 2 || $pelaporan->pengajuan->status_id === 3 || $pelaporan->pengajuan->status_id === 4) disabled @endif>
+                            @if (
+                                $pelaporan->pengajuan->status_id === 2 ||
+                                    $pelaporan->pengajuan->status_id === 3 ||
+                                    $pelaporan->pengajuan->status_id === 4) disabled @endif>
                             <p>Batalkan</p>
                         </button>
                         <button onclick="window.history.back()" class="text-black border-2 py-3 px-5 rounded-lg mt-4">

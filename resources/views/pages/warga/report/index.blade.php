@@ -29,6 +29,13 @@
                         'label' => 'Status',
                         'key' => 'status',
                         'style' => 'text-left',
+                        'customStyle' => [
+                            'Menunggu Persetujuan' =>
+                                'w-[14rem] py-2 px-3 text-center rounded-md bg-yellow-500/30 text-yellow-800',
+                            'Diterima' => 'w-[14rem] py-2 px-3 text-center rounded-md bg-green-500/30 text-green-500',
+                            'Ditolak' => 'w-[14rem] py-2 px-3 text-center rounded-md bg-red-500/30 text-orange-800',
+                            'Dibatalkan' => 'w-[14rem] py-2 px-3 text-center rounded-md bg-orange-500/30 text-red-800',
+                        ],
                     ],
                     [
                         'label' => 'Tanggal',
@@ -47,16 +54,17 @@
                             ['label' => 'Kritik', 'key' => 'Kritik', 'columnIndex' => 1],
                             ['label' => 'Saran', 'key' => 'Saran', 'columnIndex' => 1],
                             ['label' => 'Lainnya', 'key' => 'Lainnya', 'columnIndex' => 1],
-                            ['label' => 'Semua', 'key' => '', 'columnIndex' => 1],
+                            ['label' => 'Semua Jenis Laporan', 'key' => '', 'columnIndex' => 1],
                         ],
                     ],
                     [
                         'title' => 'Status',
                         'data' => [
-                            ['label' => 'Semua Status Laporan', 'key' => '', 'columnIndex' => 1],
                             ['label' => 'Diterima', 'key' => 'Diterima', 'columnIndex' => 1],
                             ['label' => 'Ditolak', 'key' => 'Ditolak', 'columnIndex' => 1],
+                            ['label' => 'Dibatalkan', 'key' => 'Dibatalkan', 'columnIndex' => 1],
                             ['label' => 'Menunggu Persetujuan', 'key' => 'Menunggu Persetujuan', 'columnIndex' => 1],
+                            ['label' => 'Semua Status Laporan', 'key' => '', 'columnIndex' => 1],
                         ],
                     ],
                 ]"

@@ -104,7 +104,7 @@ class ResidentReportController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // try {
+        try {
             if (Auth::user()->role->role_name == 'Ketua RT') {
                 $pelaporan = Pelaporan::find($id);
                 $pengajuan = Pengajuan::find($pelaporan->pengajuan_id);
@@ -145,15 +145,13 @@ class ResidentReportController extends Controller
                 $pelaporan = Pelaporan::find($id);
                 $pengajuan = Pengajuan::find($pelaporan->pengajuan_id);
 
-                // dd($request->all());
-
                 $validated = $request->validate([
                     'keperluan' => 'required',
                     'accepted_at' => 'required|date',
                     'jenis_pelaporan' => 'required',
                     'image_url' => 'max:2048|image',
                     'keterangan' => 'required',
-                ],[
+                ], [
                     'keperluan.required' => "Judul Tidak Boleh Kosong",
                     'jenis_pelaporan.required' => "Jenis Pelaporan Tidak Boleh Kosong",
                     'keterangan.required' => "Keterangan Tidak Boleh Kosong",
@@ -187,10 +185,9 @@ class ResidentReportController extends Controller
                     return redirect()->route('pelaporan.show', ['pelaporan' => $id])->with(['error' => 'Gagal menyimpan perubahan']);
                 }
             }
-        // } catch (\Throwable $th) {
-
-        //     // abort(404);
-        // }
+        } catch (\Throwable $th) {
+            abort(404);
+        }
     }
 
     public function list(): JsonResponse
@@ -201,14 +198,14 @@ class ResidentReportController extends Controller
                     ->orderBy('pengajuan.updated_at', 'desc')
                     ->where('pengajuan.status_id', '!=', '4')
                     ->get()->map(function ($pelaporan) {
-                        return [
-                            'pelaporan_id' => $pelaporan->pelaporan_id,
-                            'pelapor' => $pelaporan->pengajuan->penduduk->nama,
-                            'status' => $pelaporan->pengajuan->status->nama,
-                            'jenis_pelaporan' => $pelaporan->jenis_pelaporan,
-                            'tanggal' => Carbon::parse($pelaporan->pengajuan->accepted_at)->format('d-m-Y'),
-                        ];
-                    });
+                    return [
+                        'pelaporan_id' => $pelaporan->pelaporan_id,
+                        'pelapor' => $pelaporan->pengajuan->penduduk->nama,
+                        'status' => $pelaporan->pengajuan->status->nama,
+                        'jenis_pelaporan' => $pelaporan->jenis_pelaporan,
+                        'tanggal' => Carbon::parse($pelaporan->pengajuan->accepted_at)->format('d-m-Y'),
+                    ];
+                });
 
                 return response()->json([
                     'data' => $data,
@@ -279,19 +276,29 @@ class ResidentReportController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        try {
+        // try {
             $pendudukId = Auth::user()->penduduk->penduduk_id;
 
             $validated = $request->validate([
                 'keperluan' => 'required',
-                'jenis_pelaporan' => 'required',
                 'accepted_at' => 'required|date',
-                'image_url' => 'required|file',
-                'keterangan' => 'required|string|max:255',
+                'jenis_pelaporan' => 'required',
+                'image_url' => 'max:2048|image',
+                'keterangan' => 'required',
+            ], [
+                'keperluan.required' => "Judul Tidak Boleh Kosong",
+                'jenis_pelaporan.required' => "Jenis Pelaporan Tidak Boleh Kosong",
+                'keterangan.required' => "Keterangan Tidak Boleh Kosong",
+                'image_url.max' => "Lampiran Tidak Boleh Lebih Besar dari 2MB",
+                'image_url.image' => "Lampiran Harus Berbentuk Gambar",
             ]);
 
-            $imageFileName = $request->file('image_url')->store('resident-report_images', 'public');
-            $pelaporan['image_url'] = basename($imageFileName);
+            if ($request->image_url) {
+                $imageFileName = $request->file('image_url')->store('resident-report_images', 'public');
+                $pelaporan['image_url'] = basename($imageFileName);
+            } else {
+                $pelaporan['image_url'] = null;
+            }
 
             DB::beginTransaction();
 
@@ -312,18 +319,18 @@ class ResidentReportController extends Controller
                 DB::commit();
 
                 NotificationPusher::success('Perubahan berhasil disimpan');
-                return redirect()->route('pelaporan.index')->with(['success' => 'Perubahan berhasil disimpan']);
+                return redirect()->route('pelaporan.index');
             } catch (\Exception $e) {
                 DB::rollback();
                 NotificationPusher::error('Gagal menyimpan perubahan: ' . $e->getMessage());
-                return redirect()->route('pelaporan.index')->with(['error' => 'Gagal menyimpan perubahan: ' . $e->getMessage()]);
+                return redirect()->route('pelaporan.index');
             }
-        } catch (\Throwable $th) {
-            abort(404);
-        }
+        // } catch (\Throwable $th) {
+        //     abort(404);
+        // }
     }
 
-    public function destroy(string $id): JsonResponse|RedirectResponse
+    public function destroy(string $id): JsonResponse | RedirectResponse
     {
         try {
             $pelaporan = Pelaporan::findOrFail($id);
@@ -340,7 +347,9 @@ class ResidentReportController extends Controller
                     'code' => 200,
                     'message' => 'Data berhasil dihapus',
                     'timestamp' => now(),
+                    'redirect' => route('pelaporan.index')
                 ], 200);
+
             } catch (\Exception $e) {
                 DB::rollback();
                 return response()->json([

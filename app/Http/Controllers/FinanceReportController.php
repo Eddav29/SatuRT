@@ -83,7 +83,7 @@ class FinanceReportController extends Controller
             $totalPengeluaran = $dataTahunIni->sum(function ($item) {
                 return $item['jenis_keuangan'] === 'Pengeluaran' ? $item['nominal'] : 0;
             });
-            
+
             // Hitung total keseluruhan dari data terakhir di 'Keuangan'
             $totalKeseluruhan = Keuangan::orderBy('keuangan_id','DESC')->first()->total_keuangan ?? 0;
 
@@ -95,7 +95,7 @@ class FinanceReportController extends Controller
             ]);
 
         } catch (\Throwable $th) {
-            
+
             return response()->json(['error' => 'Terjadi kesalahan.'], 500);
         }
     }
@@ -216,7 +216,7 @@ class FinanceReportController extends Controller
         $penduduk = $keuangan ? $keuangan->penduduk : null;
 
         $nominal = $detailKeuangan->nominal;
-        
+
         $saldoSesudah = $detailKeuangan->keuangan->total_keuangan;
         $saldoSebelum = $saldoSesudah - $nominal;
 
@@ -332,30 +332,31 @@ class FinanceReportController extends Controller
         // Temukan detail keuangan dengan ID yang diberikan
         $detailKeuangan = DetailKeuangan::findOrFail($id);
         $keuangan = Keuangan::findOrFail($detailKeuangan->keuangan_id);
-    
+
         try {
             DB::beginTransaction();
-            
+
             // Adjust the total_keuangan based on the type of the transaction
             if ($detailKeuangan->jenis_keuangan === 'Pemasukan') {
                 $keuangan->total_keuangan -= $detailKeuangan->nominal;
             } elseif ($detailKeuangan->jenis_keuangan === 'Pengeluaran') {
                 $keuangan->total_keuangan += $detailKeuangan->nominal;
             }
-    
+
             // Save the adjusted total_keuangan
             $keuangan->save();
-            
+
             // Delete the detail_keuangan entry
             $detailKeuangan->delete();
-            
+
             // Delete the keuangan entry
             $keuangan->delete();
             DB::commit();
             return response()->json([
                 'code' => 200,
                 'message' => 'Data berhasil dihapus',
-                'timestamp' => now()
+                'timestamp' => now(),
+                'redirect' => route('keuangan.index')
             ], 200);
         } catch (\Exception $e) {
             DB::rollback();
@@ -366,19 +367,19 @@ class FinanceReportController extends Controller
             ], 500);
         }
     }
-    
+
 
     public function financeReport(string $id): FinanceReportResource
     {
         try {
             $financeReport = DetailKeuangan::with(['keuangan'])->find($id);
-    
+
             if (!$financeReport) {
                 throw new HttpResponseException(response()->json([
                     'message' => 'Data not found',
                 ])->setStatusCode(404));
             }
-    
+
             return new FinanceReportResource($financeReport);
         } catch (\Exception $e) {
             abort(500, $e->getMessage());
@@ -448,9 +449,9 @@ class FinanceReportController extends Controller
     private function getTotalFinanceFiveYearAgo(): array
     {
         $results = DB::select("
-        SELECT 
-            jenis_keuangan as 'Jenis_Keuangan', 
-            SUM(nominal) as 'Nominal', 
+        SELECT
+            jenis_keuangan as 'Jenis_Keuangan',
+            SUM(nominal) as 'Nominal',
             YEAR(created_at) as 'YEAR'
         FROM detail_keuangan
         WHERE
