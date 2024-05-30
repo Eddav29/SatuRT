@@ -9,7 +9,6 @@
             {{-- Table --}}
             <section>
                 <x-datatables id="inventaris_id" url="/inventaris/data-inventaris" :columns="[
-
                     [
                         'label' => 'Nama',
                         'key' => 'nama_inventaris',
@@ -36,15 +35,20 @@
                     'detail' => true,
                     'edit' => true,
                     'hapus' => true,
-                ]" :filter="[
-                    ['label' => 'Hibah', 'key' => 'Hibah', 'columnIndex' => 2],
-                    ['label' => 'Beli', 'key' => 'Beli', 'columnIndex' => 2],
-                    ['label' => 'Donasi', 'key' => 'Donasi', 'columnIndex' => 2],
-                    ['label' => 'Bantuan', 'key' => 'Bantuan', 'columnIndex' => 2],
-                    ['label' => 'Pinjaman', 'key' => 'Pinjaman', 'columnIndex' => 2],
-                    ['label' => 'Semua', 'key' => '', 'columnIndex' => 2],
                 ]"
-                    :layoutTopEnd="true">
+                    :filter="[
+                        [
+                            'title' => 'Sumber',
+                            'data' => [
+                                ['label' => 'Hibah', 'key' => 'Hibah', 'columnIndex' => 2],
+                                ['label' => 'Beli', 'key' => 'Beli', 'columnIndex' => 2],
+                                ['label' => 'Donasi', 'key' => 'Donasi', 'columnIndex' => 2],
+                                ['label' => 'Bantuan', 'key' => 'Bantuan', 'columnIndex' => 2],
+                                ['label' => 'Pinjaman', 'key' => 'Pinjaman', 'columnIndex' => 2],
+                                ['label' => 'Semua', 'key' => '', 'columnIndex' => 2],
+                            ],
+                        ],
+                    ]" :layoutTopEnd="true">
                 </x-datatables>
             </section>
             {{-- End Table --}}

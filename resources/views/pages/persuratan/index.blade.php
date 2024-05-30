@@ -50,10 +50,38 @@
                     'edit' => false,
                     'hapus' => false,
                 ]" :filter="[
-                    ['label' => 'Menunggu Persetujuan', 'key' => 'Menunggu Persetujuan', 'columnIndex' => 1],
-                    ['label' => 'Diterima', 'key' => 'Diterima', 'columnIndex' => 1],
-                    ['label' => 'Ditolak', 'key' => 'Ditolak', 'columnIndex' => 1],
-                    ['label' => 'Semua', 'key' => '', 'columnIndex' => 1],
+                    [
+                        'title' => 'Status',
+                        'data' => [
+                            ['label' => 'Menunggu Persetujuan', 'key' => 'Menunggu Persetujuan', 'columnIndex' => 1],
+                            ['label' => 'Diterima', 'key' => 'Diterima', 'columnIndex' => 1],
+                            ['label' => 'Ditolak', 'key' => 'Ditolak', 'columnIndex' => 1],
+                        ],
+                    ],
+                    [
+                        'title' => 'Keperluan',
+                        'data' => [
+                            ['label' => 'Surat Pengantar KTP', 'key' => 'Surat Pengantar KTP', 'columnIndex' => 2],
+                            [
+                                'label' => 'Surat Pengantar Kartu Keluarga',
+                                'key' => 'Surat Pengantar Kartu Keluarga',
+                                'columnIndex' => 2,
+                            ],
+                            [
+                                'label' => 'Surat Pengantar Akta Kelahiran',
+                                'key' => 'Surat Pengantar Akta Kelahiran',
+                                'columnIndex' => 2,
+                            ],
+                            [
+                                'label' => 'Surat Pengantar Akta Kematian',
+                                'key' => 'Surat Pengantar Akta Kematian',
+                                'columnIndex' => 2,
+                            ],
+                            ['label' => 'Surat Pengantar SKCK', 'key' => 'Surat Pengantar SKCK', 'columnIndex' => 2],
+                            ['label' => 'Surat Pengantar Nikah', 'key' => 'Surat Pengantar Nikah', 'columnIndex' => 2],
+                            ['label' => 'Lainnya', 'key' => 'Lainnya', 'columnIndex' => 2],
+                        ],
+                    ],
                 ]"
                     :layoutTopEnd="true" :layoutTop2Start="$layoutTop2Start">
                 </x-datatables>

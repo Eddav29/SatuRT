@@ -40,11 +40,25 @@
                     'edit' => true,
                     'hapus' => true,
                 ]" :filter="[
-                    ['label' => 'Pengaduan', 'key' => 'Pengaduan', 'columnIndex' => 1],
-                    ['label' => 'Kritik', 'key' => 'Kritik', 'columnIndex' => 1],
-                    ['label' => 'Saran', 'key' => 'Saran', 'columnIndex' => 1],
-                    ['label' => 'Lainnya', 'key' => 'Lainnya', 'columnIndex' => 1],
-                    ['label' => 'Semua', 'key' => '', 'columnIndex' => 1],
+                    [
+                        'title' => 'Jenis Laporan',
+                        'data' => [
+                            ['label' => 'Pengaduan', 'key' => 'Pengaduan', 'columnIndex' => 1],
+                            ['label' => 'Kritik', 'key' => 'Kritik', 'columnIndex' => 1],
+                            ['label' => 'Saran', 'key' => 'Saran', 'columnIndex' => 1],
+                            ['label' => 'Lainnya', 'key' => 'Lainnya', 'columnIndex' => 1],
+                            ['label' => 'Semua', 'key' => '', 'columnIndex' => 1],
+                        ],
+                    ],
+                    [
+                        'title' => 'Status',
+                        'data' => [
+                            ['label' => 'Semua Status Laporan', 'key' => '', 'columnIndex' => 1],
+                            ['label' => 'Diterima', 'key' => 'Diterima', 'columnIndex' => 1],
+                            ['label' => 'Ditolak', 'key' => 'Ditolak', 'columnIndex' => 1],
+                            ['label' => 'Menunggu Persetujuan', 'key' => 'Menunggu Persetujuan', 'columnIndex' => 1],
+                        ],
+                    ],
                 ]"
                     :layoutTopEnd="true">
                 </x-datatables>

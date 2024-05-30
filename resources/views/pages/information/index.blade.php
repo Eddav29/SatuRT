@@ -21,7 +21,7 @@
                         'customStyle' => [
                             'Dokumentasi Kegiatan' =>
                                 'w-[15rem] py-2 px-3 text-center rounded-md bg-green-500/30 text-green-500',
-                            'Dokumentasi Rapat' => 
+                            'Dokumentasi Rapat' =>
                                 'w-[15rem] py-2 px-3 text-center rounded-md bg-red-500/30 text-red-800',
                             'Pengumuman' =>
                                 'w-[15rem] py-2 px-3 text-center rounded-md bg-yellow-500/30 text-yellow-800',
@@ -34,20 +34,20 @@
                         'key' => 'created_at',
                         'style' => 'text-left truncate',
                     ],
-                    // [
-                    //     'label' => 'Terakhir Diubah',
-                    //     'key' => 'updated_at',
-                    //     'style' => 'text-left truncate',
-                    // ],
                 ]" :aksi="[
                     'detail' => true,
                     'edit' => true,
                     'hapus' => true,
                 ]" :filter="[
-                    ['label' => 'Artikel', 'key' => 'Artikel', 'columnIndex' => 1],
-                    ['label' => 'Pengumuman', 'key' => 'Pengumuman', 'columnIndex' => 1],
-                    ['label' => 'Berita', 'key' => 'Berita', 'columnIndex' => 1],
-                    ['label' => 'Dokumentasi', 'key' => 'Dokumentasi', 'columnIndex' => 1],
+                    [
+                        'title' => 'Jenis Informasi',
+                        'data' => [
+                            ['label' => 'Artikel', 'key' => 'Artikel', 'columnIndex' => 1],
+                            ['label' => 'Pengumuman', 'key' => 'Pengumuman', 'columnIndex' => 1],
+                            ['label' => 'Berita', 'key' => 'Berita', 'columnIndex' => 1],
+                            ['label' => 'Dokumentasi', 'key' => 'Dokumentasi', 'columnIndex' => 1],
+                        ],
+                    ],
                 ]"
                     :layoutTopEnd="true">
                 </x-datatables>

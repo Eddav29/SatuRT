@@ -32,7 +32,7 @@
                             <h1 class="text-base/7 font-semibold"> Rp. {{ number_format($total_pengeluaran) }}</h1>
                         </div>
                     </div>
-                        <div class="flex flex-col px-5 py-7 gap-y-5 bg-green-200 rounded-xl">
+                    <div class="flex flex-col px-5 py-7 gap-y-5 bg-green-200 rounded-xl">
                         <div>
                             <div class="bg-blue-gray rounded-full p-2 w-12 h-12 flex justify-center items-center">
                                 <img src="{{ asset('assets/images/keuangan_blue_icon.svg') }}" alt="">
@@ -43,7 +43,7 @@
                             <h1 class="text-base/7 font-semibold"> Rp. {{ number_format($total_keseluruhan) }}</h1>
                         </div>
                     </div>
-    
+
                 </div>
             </section>
             {{-- Table --}}
@@ -59,8 +59,8 @@
                         'key' => 'jenis_keuangan',
                         'style' => 'text-left',
                         'customStyle' => [
-                            'Pemasukan' =>'w-[10rem] py-2 px-3 text-center rounded-md bg-green-500/30 ',
-                            'Pengeluaran' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-red-500/30 ',
+                            'Pemasukan' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-green-500/30 text-green-800',
+                            'Pengeluaran' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-red-500/30 text-red-800',
                         ],
                     ],
                     [
@@ -74,10 +74,14 @@
                     'hapus' => true,
                 ]"
                     :filter="[
-                        ['label' => 'Pemasukan', 'key' => 'Pemasukan', 'columnIndex' => 1],
-                        ['label' => 'Pengeluaran', 'key' => 'Pengeluaran', 'columnIndex' => 1],
-                ]"
-                    :layoutTopEnd="true">
+                        [
+                            'title' => 'Jenis keuangan',
+                            'data' => [
+                                ['label' => 'Pemasukan', 'key' => 'Pemasukan', 'columnIndex' => 1],
+                                ['label' => 'Pengeluaran', 'key' => 'Pengeluaran', 'columnIndex' => 1],
+                            ],
+                        ],
+                    ]" :layoutTopEnd="true">
                 </x-datatables>
             </section>
             {{-- End Table --}}

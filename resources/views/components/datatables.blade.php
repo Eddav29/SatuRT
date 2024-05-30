@@ -231,12 +231,17 @@
                                     <button class="inline-flex bg-tranparent border px-6 py-4 rounded-lg gap-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <x-heroicon-o-adjustments-vertical class="w-6 h-6"/> <span class="ml-2">Filters</span>
                                 </button>
-                                <div class="hidden absolute right-0 min-w-[15rem] max-w-[20rem] top-[120%] bg-white-snow border z-10 rounded-lg overflow-hidden p-2" aria-labelledby="dropdownMenuButton">
+                                <div class="hidden absolute right-0 min-w-[17rem] max-w-max max-h-[20rem] overflow-y-auto top-[120%] bg-white-snow border z-10 rounded-lg overflow-hidden p-2" aria-labelledby="dropdownMenuButton">
+                                    <button class="flex gap-3 justify-start items-center text-red-500 p-4 w-full text-left hover:text-navy-night hover:bg-blue-gray rounded" x-dt-filter-label="" x-dt-filter-column=""><x-heroicon-o-arrow-path class="w-5 h-5"/>Reset</button>
                                     @foreach ($filter as $item)
-                                        <button class="block p-4 w-full text-left hover:text-navy-night hover:bg-blue-gray rounded"
-                                                x-dt-filter-label="{{ $item['key'] }}" x-dt-filter-column="{{ $item['columnIndex'] }}">
-                                            {{ $item['label'] }}
-                                        </button>
+                                    <div class="border-b">
+                                        <div class="flex justify-start p-2 font-semibold uppercase text-gray-400">
+                                            <h1>{{ $item['title'] }}</h1>    
+                                            </div>
+                                            @foreach ($item['data'] as $data)
+                                                <button class="block p-4 w-full text-left hover:text-navy-night hover:bg-blue-gray rounded" x-dt-filter-label="{{ $data['key'] }}" x-dt-filter-column="{{ $data['columnIndex'] }}">{{ $data['label'] }}</button>
+                                            @endforeach
+                                    </div>
                                     @endforeach
                                 </div>
                             `;
@@ -263,12 +268,17 @@
                                 <button class="inline-flex bg-tranparent border px-6 py-4 rounded-lg gap-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <x-heroicon-o-adjustments-vertical class="w-6 h-6"/> <span class="ml-2">Filters</span>
                                 </button>
-                                <div class="hidden absolute right-0 min-w-[15rem] max-w-[20rem] top-[120%] bg-white-snow border z-10 rounded-lg overflow-hidden p-2" aria-labelledby="dropdownMenuButton">
+                                <div class="hidden absolute right-0 min-w-[17rem] max-w-max max-h-[20rem] overflow-y-auto top-[120%] bg-white-snow border z-10 rounded-lg overflow-hidden p-2" aria-labelledby="dropdownMenuButton">
+                                    <button class="flex gap-3 justify-start items-center text-red-500 p-4 w-full text-left hover:text-navy-night hover:bg-blue-gray rounded" x-dt-filter-label="" x-dt-filter-column=""><x-heroicon-o-arrow-path class="w-5 h-5"/>Reset</button>
                                     @foreach ($filter as $item)
-                                        <button class="block p-4 w-full text-left hover:text-navy-night hover:bg-blue-gray rounded"
-                                                x-dt-filter-label="{{ $item['key'] }}" x-dt-filter-column="{{ $item['columnIndex'] }}">
-                                            {{ $item['label'] }}
-                                        </button>
+                                    <div class="border-b">
+                                        <div class="flex justify-start p-2 font-semibold uppercase text-gray-400">
+                                            <h1>{{ $item['title'] }}</h1>    
+                                            </div>
+                                            @foreach ($item['data'] as $data)
+                                                <button class="block p-4 w-full text-left hover:text-navy-night hover:bg-blue-gray rounded" x-dt-filter-label="{{ $data['key'] }}" x-dt-filter-column="{{ $data['columnIndex'] }}">{{ $data['label'] }}</button>
+                                            @endforeach
+                                    </div>
                                     @endforeach
                                 </div>
                             `;
@@ -292,12 +302,17 @@
                                     <button class="inline-flex bg-tranparent border px-6 py-4 rounded-lg gap-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <x-heroicon-o-adjustments-vertical class="w-6 h-6"/> <span class="ml-2">Filters</span>
                                 </button>
-                                <div class="hidden absolute right-0 min-w-[15rem] max-w-[20rem] top-[120%] bg-white-snow border z-10 rounded-lg overflow-hidden p-2" aria-labelledby="dropdownMenuButton">
+                                <div class="hidden absolute right-0 min-w-[17rem] max-w-max max-h-[20rem] overflow-y-auto top-[120%] bg-white-snow border z-10 rounded-lg overflow-hidden p-2" aria-labelledby="dropdownMenuButton">
+                                    <button class="flex gap-3 justify-start items-center text-red-500 p-4 w-full text-left hover:text-navy-night hover:bg-blue-gray rounded" x-dt-filter-label="" x-dt-filter-column=""><x-heroicon-o-arrow-path class="w-5 h-5"/>Reset</button>
                                     @foreach ($filter as $item)
-                                        <button class="block p-4 w-full text-left hover:text-navy-night hover:bg-blue-gray rounded"
-                                                x-dt-filter-label="{{ $item['key'] }}" x-dt-filter-column="{{ $item['columnIndex'] }}">
-                                            {{ $item['label'] }}
-                                        </button>
+                                    <div class="border-b">
+                                        <div class="flex justify-start p-2 font-semibold uppercase text-gray-400">
+                                            <h1>{{ $item['title'] }}</h1>    
+                                            </div>
+                                            @foreach ($item['data'] as $data)
+                                                <button class="block p-4 w-full text-left hover:text-navy-night hover:bg-blue-gray rounded" x-dt-filter-label="{{ $data['key'] }}" x-dt-filter-column="{{ $data['columnIndex'] }}">{{ $data['label'] }}</button>
+                                            @endforeach
+                                    </div>
                                     @endforeach
                                 </div>
                             `;
@@ -328,13 +343,16 @@
                     filterData_{{ $id }}(filterValue, filterColumn);
                 });
 
-                window['filterData_{{ $id }}'] = function(value, column = null) {
+                window['filterData_{{ $id }}'] = function(value = null, column = null) {
                     let table = $('#{{ $id }}').DataTable();
 
-                    if (column) {
+                    if (column !== null && column !== "" && value !== null && value !== "") {
                         table.column(column).search(value).draw();
+                    } else if (column !== null && column !== "" && (value === null || value === "")) {
+                        table.column(column).search('').draw();
                     } else {
-                        table.search(value).draw();
+                        table.columns().search('').draw();
+                        table.search('').draw();
                     }
                 }
 
