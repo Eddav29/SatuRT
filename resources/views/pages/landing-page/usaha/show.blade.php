@@ -10,8 +10,8 @@
                     <h6 class="text-[1rem]/[1.618rem]">{{ $business->jenis_umkm }}</h6>
                 </div>
                 <div class="h-60 lg:h-[40rem]">
-                    <img src="{{ !strpos($business->thumbnail_url, 'https://') ? $business->thumbnail_url : asset('storage/images_storage/' . $business->thumbnail_url) }}" alt=""
-                        class="w-full h-full object-cover rounded-xl">
+                    <img src="{{ strpos($business->thumbnail_url, 'https') === 0 ? $business->thumbnail_url : asset('storage/images_storage/' . $business->thumbnail_url) }}"
+                        alt="" class="w-full h-full object-cover rounded-xl">
                 </div>
                 <div>
                     <p class="text-[1.618rem]/[2.618rem] lg:text-[2.618rem]/[3.618rem]">Dukung pertumbuhan UMKM lokal
@@ -63,12 +63,13 @@
                                 <tr>
                                     <td>Keterangan</td>
                                     <td class=" mx-5 p-3 inline-flex">:</td>
-                                    <td>{{ $business->keterangan }}</td>
+                                    <td>{!! $business->keterangan !!}</td>
                                 </tr>
                                 <tr>
                                     <td>Maps</td>
                                     <td class=" mx-5 p-3 inline-flex">:</td>
-                                    <td><a class="text-blue-500 hover:underline" href="{{ $business->lokasi_url }}">{{ $business->nama_umkm }}</a></td>
+                                    <td><a class="text-blue-500 hover:underline"
+                                            href="{{ $business->lokasi_url }}">{{ $business->nama_umkm }}</a></td>
                                 </tr>
                             </table>
                         </div>
