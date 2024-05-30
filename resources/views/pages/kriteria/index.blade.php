@@ -34,14 +34,19 @@
                     ],
                 ]" :filter="[
                     [
-                        'label' => 'Cost',
-                        'key' => 'Cost',
-                        'columnIndex' => 2,
-                    ],
-                    [
-                        'label' => 'Benefit',
-                        'key' => 'Benefit',
-                        'columnIndex' => 2,
+                        'title' => 'Jenis Kriteria',
+                        'data' => [
+                            [
+                                'label' => 'Cost',
+                                'key' => 'Cost',
+                                'columnIndex' => 2,
+                            ],
+                            [
+                                'label' => 'Benefit',
+                                'key' => 'Benefit',
+                                'columnIndex' => 2,
+                            ],
+                        ],
                     ],
                 ]"
                     :layoutTop2Start="false" :layoutTop2End="true" :layoutTopEnd="true">

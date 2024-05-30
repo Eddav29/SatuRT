@@ -22,8 +22,8 @@ return new class extends Migration
                 'Hilang',
             ]);
             $table->enum('status', [
-                'dipinjam',
-                'dikembalikan'
+                'Dipinjam',
+                'Dikembalikan'
             ]);
             $table->date('tanggal_pinjam');
             $table->date('tanggal_kembali')->default(null);

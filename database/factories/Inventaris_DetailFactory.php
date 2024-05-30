@@ -23,7 +23,7 @@ class Inventaris_DetailFactory extends Factory
             'penduduk_id' => Penduduk::pluck('penduduk_id')->random(),
             'jumlah' => $this->faker->numberBetween(1, 10),
             'kondisi' => $this->faker->randomElement(['Normal', 'Rusak', 'Hilang']),
-            'status' => $this->faker->randomElement(['dipinjam', 'dikembalikan']),
+            'status' => $this->faker->randomElement(['Dipinjam', 'Dikembalikan']),
             'tanggal_pinjam' => $this->faker->date(),
             'tanggal_kembali' => $this->faker->date(),
         ];

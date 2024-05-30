@@ -25,14 +25,24 @@
                         'style' => 'text-left',
                         'customStyle' => [
                             'dipinjam' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-yellow-500/30 text-yellow-800',
-                            'dikembalikan' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-green-500/30 text-green-800',
+                            'dikembalikan' =>
+                                'w-[10rem] py-2 px-3 text-center rounded-md bg-green-500/30 text-green-800',
                         ],
                     ],
                 ]" :aksi="[
                     'detail' => true,
                     'edit' => true,
                     'hapus' => true,
-                ]">
+                ]"
+                    :filter="[
+                        [
+                            'title' => 'Status',
+                            'data' => [
+                                ['label' => 'Dipinjam', 'key' => 'Dipinjam', 'columnIndex' => 2],
+                                ['label' => 'Dikembalikan', 'key' => 'Dikembalikan', 'columnIndex' => 2],
+                            ],
+                        ],
+                    ]" :layoutTopEnd="true">
                 </x-datatables>
             </section>
             {{-- End Table --}}
