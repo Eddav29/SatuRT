@@ -55,7 +55,7 @@
                         </div>
                     </div>
                     @if ($information->jenis_informasi != 'Pengumuman' && $information->jenis_informasi != 'Dokumentasi Rapat')
-                        @if (strpos($information->thumbnail_url, 'https://') === 0)
+                        @if (strpos($information->thumbnail_url, 'http') === 0)
                             <div>
                                 <img src="{{ $information->thumbnail_url }}" alt=""
                                     class="w-full object-cover rounded-lg">

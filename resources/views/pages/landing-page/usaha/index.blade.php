@@ -263,7 +263,7 @@
                             <a href="usaha/${umkm.umkm_id}"
                                 class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-2 gap-x-3 group">
                                 <div>
-                                    <img src="${!umkm.thumbnail_url.startsWith('https://') ? 'storage/images_storage/' + umkm.thumbnail_url : umkm.thumbnail_url}" alt=""
+                                    <img src="${!umkm.thumbnail_url.startsWith('http') ? 'storage/images_storage/' + umkm.thumbnail_url : umkm.thumbnail_url}" alt=""
                                         class="w-full h-[20rem] object-cover rounded-xl aspect-[2/3]">
                                 </div>
                                 <div class="flex flex-col gap-y-2 md:col-span-2 lg:col-span-1">
@@ -283,7 +283,7 @@
             }
 
             const urlCheck = (url) => {
-                return url.includes('https://');
+                return url.includes('http');
             }
 
             const formatDate = (date) => {

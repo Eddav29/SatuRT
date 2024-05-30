@@ -28,7 +28,7 @@
         @endisset
         <span>Extension: {{ $accept }}</span>
     </div>
-    <div class="bg-white border border-gray-300 w-full min-h-96 rounded-md flex flex-col items-center"
+    <div class="bg-white border border-gray-300 w-full h-fit rounded-md flex flex-col items-center"
         x-data="{{ $randFunction }}()">
         <div id="drop-area" class="relative w-full h-full py-10" @dragover.prevent @drop.prevent="">
             <input type="file" name="{{ $name }}" id="images"
@@ -93,7 +93,6 @@
                                         class="object-contain w-full h-full">
                                 </a>
                             </template>
-                            <p class="text-sm truncate overflow-ellipsis px-2" x-text="filesList.name"></p>
                             <div :class="{ 'hidden': !showTooltip }"
                                 class="absolute -top-6 bg-gray-700 text-[.7rem] font-thin text-white rounded-full px-2 line-clamp-1 max-w-80 w-max">
                                 <span x-text="filesList.name"></span>
@@ -155,7 +154,7 @@
                         class="absolute -top-6 bg-gray-700 text-[.7rem] font-thin text-white rounded-full px-2 line-clamp-1 max-w-80 w-max">
                         <span x-text="file.name"></span>
                     </div>
-                    <button class="absolute -top-2 -right-2 z-[999999999]" @click="removeFile(index)">
+                    <button class="absolute -top-2 -right-2 z-[997]" @click="removeFile(index)">
                         <x-heroicon-c-x-circle class="w-6 h-6 text-gray-700 hover:text-gray-500" />
                     </button>
                 </div>

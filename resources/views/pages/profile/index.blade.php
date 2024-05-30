@@ -114,7 +114,7 @@
                         <h5 class="font-semibold">Foto KTP</h5>
                         <div class="flex items-center justify-center">
                             <div class="w-full lg:w-1/2">
-                                <x-image-preview :file="route('storage.ktp', Auth::user()->penduduk->foto_ktp) ?? ''"/>
+                                <x-image-preview :file="is_null(Auth::user()->penduduk->foto_ktp) ? null : route('storage.ktp', Auth::user()->penduduk->foto_ktp)"  />
                             </div>
                         </div>
                     </div>

@@ -1,6 +1,6 @@
 <x-guest-layout>
     @push('styles')
-    <link rel="preload" href="{{ !strpos($information->thumbnail_url, 'https://') ? $information->thumbnail_url : asset('storage/images_storage/' . $information->thumbnail_url) }}" as="image">
+    <link rel="preload" href="{{ !strpos($information->thumbnail_url, 'http') ? $information->thumbnail_url : asset('storage/images_storage/' . $information->thumbnail_url) }}" as="image">
 
     @endpush
     <div class="flex flex-col gap-y-10 w-full max-w-7xl mx-auto">
@@ -29,7 +29,7 @@
                 </div>
                 <div>
                     <div class="h-[20rem] lg:h-[80vh] overflow-hidden">
-                        <img src="{{ !strpos($information->thumbnail_url, 'https://') ? $information->thumbnail_url : asset('storage/images_storage/' . $information->thumbnail_url) }}"
+                        <img src="{{ !strpos($information->thumbnail_url, 'http') ? $information->thumbnail_url : asset('storage/images_storage/' . $information->thumbnail_url) }}"
                             alt="" class="w-full h-full object-cover rounded-xl">
                     </div>
                 </div>
@@ -48,7 +48,7 @@
                                         <a href="{{ route('berita-detail', $otherInformation->informasi_id) }}"
                                             class="lg:max-h-[29rem] group">
                                             <div class="relative h-72 lg:h-[15rem]">
-                                                <img src="{{ !strpos($otherInformation->thumbnail_url, 'https://') ? $otherInformation->thumbnail_url : asset('storage/images_storage/' . $otherInformation->thumbnail_url) }}"
+                                                <img src="{{ !strpos($otherInformation->thumbnail_url, 'http') ? $otherInformation->thumbnail_url : asset('storage/images_storage/' . $otherInformation->thumbnail_url) }}"
                                                     alt="" class="rounded-xl w-full h-full object-cover" loading="lazy"
                                                     >
                                             </div>
@@ -79,7 +79,7 @@
                             <a href="{{ route('berita-detail', $otherInformation->informasi_id) }}"
                                 class="lg:max-h-[29rem] group">
                                 <div class="relative h-72 lg:h-[60%]">
-                                    <img src="{{ !strpos($otherInformation->thumbnail_url, 'https://') ? $otherInformation->thumbnail_url : asset('storage/images_storage/' . $otherInformation->thumbnail_url) }}"
+                                    <img src="{{ !strpos($otherInformation->thumbnail_url, 'http') ? $otherInformation->thumbnail_url : asset('storage/images_storage/' . $otherInformation->thumbnail_url) }}"
                                         alt="" class="rounded-xl w-full h-full object-cover" loading="lazy">
                                 </div>
                                 <div class="py-3">

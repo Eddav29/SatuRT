@@ -1,4 +1,4 @@
-<div class="mt-8">
+<div class="mt-4">
     <x-datatables
     id="penduduk_id"
     url="/data-penduduk/keluarga/{{ $familyCard->kartu_keluarga_id }}/anggota"

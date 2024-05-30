@@ -97,7 +97,7 @@
                             <div class="swiper-slide overflow-hidden">
                                 <a href="{{ url('usaha/' . $business->umkm_id) }}" class="flex flex-col">
                                     <div>
-                                        <img src="{{ !strpos($business->thumbnail_url, 'https://') ? $business->thumbnail_url : asset('storage/images_storage/' . $business->thumbnail_url) }}"
+                                        <img src="{{ !strpos($business->thumbnail_url, 'http') ? $business->thumbnail_url : asset('storage/images_storage/' . $business->thumbnail_url) }}"
                                             loading="lazy"
                                             alt="" class="h-[15rem] w-full object-cover rounded-lg">
                                     </div>
@@ -318,7 +318,7 @@
                         @if ($key % 2 == 0)
                             <a href="{{ url('berita/' . $information->informasi_id) }}" class="lg:row-span-2 group">
                                 <div class="relative h-72 lg:h-[44.5rem]">
-                                    <img src="{{ !strpos($information->thumbnail_url, 'https://') ? $information->thumbnail_url : asset('storage/images_storage/' . $information->thumbnail_url) }}"
+                                    <img src="{{ !strpos($information->thumbnail_url, 'http') ? $information->thumbnail_url : asset('storage/images_storage/' . $information->thumbnail_url) }}"
                                         loading="lazy"
                                         alt="" class="rounded-xl w-full h-full object-cover">
                                     <div
@@ -348,7 +348,7 @@
                             <a href="{{ url('berita/' . $information->informasi_id) }}"
                                 class="lg:max-h-[27rem] group">
                                 <div class="relative h-72 lg:h-[15rem]">
-                                    <img src="{{ !strpos($information->thumbnail_url, 'https://') ? $information->thumbnail_url : asset('storage/images_storage/' . $information->thumbnail_url) }}"
+                                    <img src="{{ !strpos($information->thumbnail_url, 'http') ? $information->thumbnail_url : asset('storage/images_storage/' . $information->thumbnail_url) }}"
                                         loading="lazy"
                                         alt="" class="rounded-xl w-full h-full object-cover">
                                     <div
