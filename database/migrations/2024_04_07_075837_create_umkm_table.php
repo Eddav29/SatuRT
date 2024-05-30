@@ -25,9 +25,9 @@ return new class extends Migration {
             $table->string('alamat');
             $table->string('nomor_telepon');
             $table->string('lokasi_url');
-            $table->text('thumbnail_url');
+            $table->text('thumbnail_url')->nullable();
             $table->enum('status', ['Aktif', 'Nonaktif']);
-            $table->string('lisence_image_url');
+            $table->string('lisence_image_url')->nullable();
             $table->timestamps();
 
             $table->foreign('penduduk_id')->references('penduduk_id')->on('penduduk');

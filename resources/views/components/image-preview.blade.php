@@ -2,7 +2,7 @@
 
 <div class="relative h-96 w-full border flex items-center justify-center">
     <p>image not load</p>
-    <div class="absolute" x-data="{ openImage: false, scale: 1, offsetX: 0, offsetY: 0, filePreview: '{{ $file }}', previewImage: null }" x-init="previewImage = $refs.previewImage">
+    <div class="absolute w-full h-full" x-data="{ openImage: false, scale: 1, offsetX: 0, offsetY: 0, filePreview: '{{ $file }}', previewImage: null }" x-init="previewImage = $refs.previewImage">
         <img @click="openImage = !openImage" :src="filePreview" alt=""
             class="rounded-xl  w-full h-full object-contain" draggable="false">
         <div x-show="openImage"
@@ -33,3 +33,4 @@
         </div>
     </div>
 </div>
+

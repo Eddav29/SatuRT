@@ -99,9 +99,9 @@ class BusinessUserController extends Controller
             'alamat' => 'required|string|max:255',
             'nomor_telepon' => 'required|string|max:255',
             'lokasi_url' => 'required|string|max:255',
-            'thumbnail_url' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'thumbnail_url' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'status' => 'required|in:Aktif,Nonaktif',
-            'lisence_image_url' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+            'lisence_image_url' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'penduduk_id' => ['required', 'exists:penduduk,penduduk_id']
         ]);
 
@@ -132,8 +132,14 @@ class BusinessUserController extends Controller
                 // dd($imageName);
                 $umkm['lisence_image_url'] = $imageName;
                 // dd($umkm['lisence_image_url']);
+            }else{
+                $umkm['lisence_image_url'] = null;
             }
-            $umkm['thumbnail_url'] = ImageService::uploadFile('public', $request, 'thumbnail_url');
+            if($request->hasFile('thumbnail_url')){
+                $umkm['thumbnail_url'] = ImageService::uploadFile('public', $request, 'thumbnail_url');
+            }else{
+                $umkm['thumbnail_url'] = null;
+            }
 
             DB::beginTransaction();
             // dd($umkm);

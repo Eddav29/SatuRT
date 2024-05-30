@@ -46,11 +46,19 @@
                     </div>
                     <div class="md:col-span-2 md:h-auto">
                         <h5 class="font-semibold">Surat Izin Usaha</h5>
+                        @if($umkm->lisence_image_url)
                         <x-image-preview :file="route('storage.lisence', $umkm->lisence_image_url)" />
+                        @else
+                        <p>Tidak ada surat izin usaha</p>
+                        @endif
                     </div>
                     <div class="md:col-span-2">
                         <h5 class="font-semibold">Thumbnail</h5>
+                        @if($umkm->thumbnail_url)
                         <x-image-preview :file="route('public', $umkm->thumbnail_url)" />
+                        @else
+                        <p>Tidak ada thumbnail</p>
+                        @endif
                     </div>
                     <div class="md:col-span-2">
                         <h5 class="font-semibold">Keterangan</h5>
