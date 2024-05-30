@@ -70,35 +70,39 @@ class InformationController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-        $validator = Validator::make($request->all(), [
+        $rules = [
             'penduduk_id' => ['required', 'exists:penduduk,penduduk_id'],
             'jenis_informasi' => ['required'],
             'judul_informasi' => ['required', 'string', 'min:3', 'max:255'],
             'isi_informasi' => ['required', 'string', 'min:3'],
-            'images' => ['required', 'file', 'mimes:jpeg,png,jpg,pdf,doc,docx,xls,xlsx', 'max:2048'],
-        ], [
+        ];
+        
+        if ($request->hasFile('images') && $request->jenis_informasi !== 'Pengumuman' && $request->jenis_informasi !== 'Dokumentasi Rapat') {
+            $rules['images'] = ['file', 'mimes:jpeg,png,jpg', 'max:2048'];
+        } elseif ($request->hasFile('images') && $request->jenis_informasi == 'Pengumuman' || $request->jenis_informasi == 'Dokumentasi Rapat') {
+            $rules['images'] = ['required', 'file', 'mimes:jpeg,png,jpg,pdf,doc,docx,xls,xlsx', 'max:2048'];
+        }
+        
+        $validator = Validator::make($request->all(), $rules, [
             'jenis_informasi.required' => 'Jenis informasi harus diisi.',
             'judul_informasi.required' => 'Judul informasi harus diisi.',
             'judul_informasi.min' => 'Judul informasi minimal memiliki panjang :min karakter.',
             'judul_informasi.max' => 'Judul informasi maksimal memiliki panjang :max karakter.',
             'isi_informasi.required' => 'Isi informasi harus diisi.',
             'isi_informasi.min' => 'Isi informasi minimal memiliki panjang :min karakter.',
-            'images.required' => 'Thumbnail harus diisi.',
-            'images.mimes' => $request['jenis_informasi'] == 'Pengumuman' ? 'File tidak valid.' : 'File harus berupa gambar.',
-            'images.max' => 'File maksimal 2048kb.',
         ]);
-
+        
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
         }
-
+        
         try {
             $model = Purify::clean($request['isi_informasi']);
             $cleaned_string = strip_tags(preg_replace('/(<\/p>)/', '$1 ', $model));
             $cleaned_string = preg_replace('/[^\x20-\x7E]/u', ' ', $cleaned_string);
             $request->merge(['excerpt' => Str::substr($cleaned_string, 0, 300)]);
             $request->merge(['judul_informasi' => Str::title($request['judul_informasi'])]);
-
+            
             if ($request->file('images')) {
                 if ($request['jenis_informasi'] == 'Pengumuman' || $request['jenis_informasi'] == 'Dokumentasi Rapat') {
                     $request->merge(['thumbnail_url' => $this->checkFile($request)]);
