@@ -21,7 +21,7 @@
         {{-- End Search Section --}}
 
         @push('styles')
-        <link rel="preload" href="{{ !strpos($newInformation->thumbnail_url, 'https://') ? $newInformation->thumbnail_url : asset('storage/images_storage/' . $newInformation->thumbnail_url) }}" as="image">
+        <link rel="preload" href="{{ !strpos($newInformation->thumbnail_url, 'http') ? $newInformation->thumbnail_url : asset('storage/images_storage/' . $newInformation->thumbnail_url) }}" as="image">
 
         @endpush
 
@@ -30,7 +30,7 @@
             <section>
                 <a href="{{ route('berita-detail', $newInformation->informasi_id) }}" class="group">
                     <div class="relative h-72 lg:h-[85vh]">
-                        <img src="{{ !strpos($newInformation->thumbnail_url, 'https://') ? $newInformation->thumbnail_url : asset('storage/images_storage/' . $newInformation->thumbnail_url) }}"
+                        <img src="{{ !strpos($newInformation->thumbnail_url, 'http') ? $newInformation->thumbnail_url : asset('storage/images_storage/' . $newInformation->thumbnail_url) }}"
                             alt="" class="rounded-xl w-full h-full object-cover">
                         <div
                             class="absolute top-3 right-3 z-10 rounded-full text-[1rem]/[1.618rem] text-soft-snow px-6 py-3 bg-green-light/70 backdrop-blur-3xl flex gap-3">
@@ -299,7 +299,7 @@
             }
 
             const urlCheck = (url) => {
-                return url.includes('https://');
+                return url.includes('http');
             }
 
             const formatDate = (date) => {

@@ -93,8 +93,6 @@
 <div class="mt-8 =f px-5">
     <div>
         <h3 class="select-none md:text-lg text-sm font-semibold">Foto Kartu Tanda Penduduk</h3>
-        <x-image-preview :file="route('storage.ktp', $citizen->foto_ktp)" />
-        {{-- <div class="h-96 w-full border">
-        </div> --}}
+        <x-image-preview :file="is_null($citizen->foto_ktp) ? null : route('storage.ktp', $citizen->foto_ktp)"  />
     </div>
 </div>

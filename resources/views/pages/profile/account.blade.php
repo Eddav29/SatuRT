@@ -61,22 +61,9 @@
                         </div>
                     </div>
 
-                    <div class="font-semibold mt-3">
+                    <div class="font-semibold mt-3  max-h-52">
                         <h5 class="font-semibold">Foto Profile</h5>
-                        <div class="flex max-lg:items-center max-lg:justify-center">
-                            @if (Auth::user()->penduduk->user->profile)
-                                <div
-                                    class="w-auto h-3/4 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:border-gray-100 hover:bg-gray-200">
-                                    <x-image-preview :file="asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) ?? ''" />
-                                </div>
-                            @else
-                                <div
-                                    class="w-auto h-3/4 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:border-gray-100 hover:bg-gray-200">
-                                    <x-image-preview :file="asset('assets/images/default.png') ?? ''" />
-                                </div>
-                            @endif
-                        </div>
-
+                        <x-image-preview :file="is_null(Auth::user()->penduduk->user->profile) ? null : asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile)" />
                     </div>
                 </div>
             </section>

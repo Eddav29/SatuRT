@@ -26,7 +26,7 @@ class UMKMSeeder extends Seeder
                 'nomor_telepon' => '082245439067',
                 'status' => 'Aktif',
                 'thumbnail_url' => 'https://lh5.googleusercontent.com/p/AF1QipPaphReLmXSBWOrWyFt9Y9CckHpPr0mW2R7R--f=w408-h725-k-no',
-                'lisence_image_url' => '1714997937.elina-emurlaeva-mAWWkKnxf6g-unsplash.jpg',
+                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
                 'lokasi_url' => 'https://maps.app.goo.gl/GZPEPg1LJPGEaM2M8'
             ],
             [
@@ -38,7 +38,7 @@ class UMKMSeeder extends Seeder
                 'nomor_telepon' => '085781468489',
                 'status' => 'Aktif',
                 'thumbnail_url' => 'https://lh5.googleusercontent.com/p/AF1QipMEP7PvOXul0TQELs_gi9-CHt8jGcmveY0Wy1W7=w408-h306-k-no',
-                'lisence_image_url' => '1714997937.elina-emurlaeva-mAWWkKnxf6g-unsplash.jpg',
+                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
                 'lokasi_url' => 'https://maps.app.goo.gl/8XfVXrt4FEjdBNBu5'
             ],
             [
@@ -50,7 +50,7 @@ class UMKMSeeder extends Seeder
                 'nomor_telepon' => '087722094868',
                 'status' => 'Aktif',
                 'thumbnail_url' => 'https://lh5.googleusercontent.com/p/AF1QipNdFyn4jmfh4wu9nHY-IuW_27cxhMll1HcyLikJ=w426-h240-k-no',
-                'lisence_image_url' => '1714997937.elina-emurlaeva-mAWWkKnxf6g-unsplash.jpg',
+                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
                 'lokasi_url' => 'https://maps.app.goo.gl/hhKge6Ta9uuwxY1Y8'
             ],
             [
@@ -62,7 +62,7 @@ class UMKMSeeder extends Seeder
                 'nomor_telepon' => '',
                 'status' => 'Aktif',
                 'thumbnail_url' => 'https://lh5.googleusercontent.com/p/AF1QipNHQksH3pC_k1J_6DIjSgEBcYQjhODegz_rSfaK=w408-h544-k-no',
-                'lisence_image_url' => '1714997937.elina-emurlaeva-mAWWkKnxf6g-unsplash.jpg',
+                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
                 'lokasi_url' => 'https://maps.app.goo.gl/UBjZ3jqxvXaUnR7a9'
             ],
             [
@@ -74,7 +74,7 @@ class UMKMSeeder extends Seeder
                 'nomor_telepon' => '085933008828',
                 'status' => 'Aktif',
                 'thumbnail_url' => 'https://lh5.googleusercontent.com/p/AF1QipOCDkY8Eq-fMwtxW6kZgJJc-1p6qRthjpc2b5iR=w408-h725-k-no',
-                'lisence_image_url' => '1714997937.elina-emurlaeva-mAWWkKnxf6g-unsplash.jpg',
+                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
                 'lokasi_url' => 'https://maps.app.goo.gl/tmAjQXFuwWzmdAa3A'
             ],
             [
@@ -86,7 +86,7 @@ class UMKMSeeder extends Seeder
                 'nomor_telepon' => '082301714768',
                 'status' => 'Aktif',
                 'thumbnail_url' => 'https://lh5.googleusercontent.com/p/AF1QipOQzxADcGHsUg2qrp3hs8uJ0WF8APZCqBgOfahA=w408-h544-k-no',
-                'lisence_image_url' => '1714997937.elina-emurlaeva-mAWWkKnxf6g-unsplash.jpg',
+                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
                 'lokasi_url' => 'https://maps.app.goo.gl/NkcAjebQMjs7Bsj98'
             ],
             [
@@ -98,7 +98,7 @@ class UMKMSeeder extends Seeder
                 'nomor_telepon' => '',
                 'status' => 'Aktif',
                 'thumbnail_url' => 'https://lh5.googleusercontent.com/p/AF1QipN7v41hN6gvJecXiQm_xS1xjLKaIoow-tKbZmTW=w203-h270-k-no',
-                'lisence_image_url' => '1714997937.elina-emurlaeva-mAWWkKnxf6g-unsplash.jpg',
+                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
                 'lokasi_url' => 'https://maps.app.goo.gl/qaFVNNL8udv8iycZA'
             ],
             [
@@ -110,7 +110,7 @@ class UMKMSeeder extends Seeder
                 'nomor_telepon' => '0881026849023',
                 'status' => 'Aktif',
                 'thumbnail_url' => 'https://lh5.googleusercontent.com/p/AF1QipMYpaehYUbRKVsvWgMRK6GDGVMplZyHiGJq54hh=w408-h544-k-no',
-                'lisence_image_url' => '1714997937.elina-emurlaeva-mAWWkKnxf6g-unsplash.jpg',
+                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
                 'lokasi_url' => 'https://maps.app.goo.gl/fvvbXjojiJmsvVBU9'
             ],
             [
@@ -122,7 +122,7 @@ class UMKMSeeder extends Seeder
                 'nomor_telepon' => '081357365879',
                 'status' => 'Aktif',
                 'thumbnail_url' => 'https://lh5.googleusercontent.com/p/AF1QipPb4ZYvCxQYE6TSruHEvCjFnaQ5Nbd8T13qtE4b=w408-h544-k-no',
-                'lisence_image_url' => '1714997937.elina-emurlaeva-mAWWkKnxf6g-unsplash.jpg',
+                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
                 'lokasi_url' => 'https://maps.app.goo.gl/uLb5b2S75D8KEpo39'
             ],
             [
@@ -134,7 +134,7 @@ class UMKMSeeder extends Seeder
                 'nomor_telepon' => '',
                 'status' => 'Aktif',
                 'thumbnail_url' => 'https://lh3.googleusercontent.com/gps-proxy/ALd4DhEd9GT6OwGvgpLi5Q7EANK9icvpCN91gRVUncSbn8L_g4lWGnQZGFSIwIXYVT-WWvoMhe_FdTvCp9Srcm3dF07jpD723JtQUnb4MZILFlyL5npCJmThymg59wURia_8KOzDQRfF2qVs_6wmjfCr8By542twxXkAso_CsMUcp9U4Cd4gQwh7w3h3NzfT59qgXVXKbhk=w408-h306-k-no',
-                'lisence_image_url' => '1714997937.elina-emurlaeva-mAWWkKnxf6g-unsplash.jpg',
+                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
                 'lokasi_url' => 'https://maps.app.goo.gl/vasfK753b9BhE18bA'
             ],
             [
@@ -146,7 +146,7 @@ class UMKMSeeder extends Seeder
                 'nomor_telepon' => '089516186453',
                 'status' => 'Aktif',
                 'thumbnail_url' => 'https://lh5.googleusercontent.com/p/AF1QipOX4FHZUtyk0UaCZy1xcr5pJ-6Hn1Ww2Z19Z8J5=w408-h306-k-no',
-                'lisence_image_url' => '1714997937.elina-emurlaeva-mAWWkKnxf6g-unsplash.jpg',
+                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
                 'lokasi_url' => 'https://maps.app.goo.gl/UNaDDmE5ME4PBCKX6'
             ],
             [
@@ -158,7 +158,7 @@ class UMKMSeeder extends Seeder
                 'nomor_telepon' => '081252910888',
                 'status' => 'Aktif',
                 'thumbnail_url' => 'https://lh5.googleusercontent.com/p/AF1QipPUv4S6chTh3xSgS4bgGxql1ExoyQQe1UsgCW7i=w408-h544-k-no',
-                'lisence_image_url' => '1714997937.elina-emurlaeva-mAWWkKnxf6g-unsplash.jpg',
+                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
                 'lokasi_url' => 'https://maps.app.goo.gl/7Jvfpc4x7Peff4bj6'
             ],
             [
@@ -170,7 +170,7 @@ class UMKMSeeder extends Seeder
                 'nomor_telepon' => '085850873630',
                 'status' => 'Aktif',
                 'thumbnail_url' => 'https://lh5.googleusercontent.com/p/AF1QipNYALgXIgggPZR3qdGyd2wUEqMLAdP_bTi7xbk3=w203-h114-k-no',
-                'lisence_image_url' => '1714997937.elina-emurlaeva-mAWWkKnxf6g-unsplash.jpg',
+                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
                 'lokasi_url' => 'https://maps.app.goo.gl/RKWW1bGdLJcpvn4Y7'
             ],
             [
@@ -182,7 +182,7 @@ class UMKMSeeder extends Seeder
                 'nomor_telepon' => '03417729570',
                 'status' => 'Aktif',
                 'thumbnail_url' => 'https://lh3.googleusercontent.com/gps-proxy/ALd4DhGSBdU7XVRppqzTC5Lm92I2Q3FQpcKtfANw6LmZ6W0gRNtHfxMcNaWIDqkWnxic3OfDZNG1ohlSidDr9AE4o1hJz5OOnkp1VGMFBijsFa6RVHABgIeK5VRZfZhMds3oo9syhFCBLkHOIUdzu2DKt2kZbUCZhv_pB8Bca_ac80o-tsyT2Znn2MDPgMa8UI0-TqokU50=w408-h306-k-no',
-                'lisence_image_url' => '1714997937.elina-emurlaeva-mAWWkKnxf6g-unsplash.jpg',
+                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
                 'lokasi_url' => 'https://maps.app.goo.gl/DJdoqQynRNcYeLpk7'
             ],
         ];

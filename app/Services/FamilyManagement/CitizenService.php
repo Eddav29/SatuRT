@@ -83,14 +83,23 @@ class CitizenService implements RecordServiceInterface, DatatablesInterface
 
         $citizen = Penduduk::findOrFail($id);
         if ($request->hasFile('images')) {
-            $imageName = ImageService::uploadFile('storage_ktp', $request);
-            $request->merge(['foto_ktp' => $imageName]);
-            if ($citizen && $citizen->foto_ktp) {
-                ImageService::deleteFile('storage_ktp', $citizen->foto_ktp);
+            $newImage = $request->file('images')->getClientOriginalName();
+            if ($citizen->foto_ktp !== $newImage) {
+                $imageName = ImageService::uploadFile('storage_ktp', $request);
+                $request->merge(['foto_ktp' => $imageName]);
+                if ($citizen->foto_ktp) {
+                    ImageService::deleteFile('storage_ktp', $citizen->foto_ktp);
+                }
+            } else {
+                $request->merge(['foto_ktp' => $citizen->foto_ktp]);
             }
         } else {
-            $request->merge(['foto_ktp' => $citizen->foto_ktp]);
+            if ($citizen->foto_ktp) {
+                ImageService::deleteFile('storage_ktp', $citizen->foto_ktp);
+            }
+            $request->merge(['foto_ktp' => null]);
         }
+
 
         if ($request->status_hubungan_dalam_keluarga !== 'Kepala Keluarga' && Penduduk::where('kartu_keluarga_id', $citizen->kartu_keluarga_id)->where('status_hubungan_dalam_keluarga', 'Kepala Keluarga')->count() === 1 && $citizen->status_hubungan_dalam_keluarga === 'Kepala Keluarga') {
             throw new \Exception('Kartu Keluarga harus memiliki kepala keluarga');
