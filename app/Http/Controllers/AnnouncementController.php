@@ -16,8 +16,8 @@ class AnnouncementController extends Controller
                 ->orWhere('jenis_informasi', 'Dokumentasi Rapat')
                 ->where('informasi_id', $id)
                 ->first();
-            $announcement['file_extension'] = pathinfo($announcement->thumbnail_url, PATHINFO_EXTENSION);
-            $announcement['file_type'] = $this->checkFile($announcement['file_extension']);
+            $announcement['file_extension'] = $announcement->thumbnail_url ? pathinfo($announcement->thumbnail_url, PATHINFO_EXTENSION) : '';
+            $announcement['file_type'] = $announcement->thumbnail_url ? $this->checkFile($announcement['file_extension']) : '';
     
             if (!$announcement) {
                 throw new HttpResponseException(response()->json([

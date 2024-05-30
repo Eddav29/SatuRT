@@ -22,7 +22,7 @@ return new class extends Migration {
                 'Artikel',
             ]);
             $table->text('isi_informasi');
-            $table->string('thumbnail_url');
+            $table->string('thumbnail_url')->nullable();
             $table->softDeletes();
             $table->timestamps();
 

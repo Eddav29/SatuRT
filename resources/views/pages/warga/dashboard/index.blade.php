@@ -432,7 +432,7 @@
             }
 
             const announcementModal = (data) => {
-                let fileName = displayFileName(data.data.file);
+                let fileName = data.data.file ? displayFileName(data.data.file) : 'Tidak ada lampiran';
                 return `<div
                     class="bg-white-snow w-full sm:max-w-3xl h-[80%] 2xl:max-w-7xl lg:h-[95%] overflow-hidden rounded-xl p-8 flex flex-col gap-y-5">
                     <div class="flex justify-between items-center">
@@ -454,6 +454,7 @@
                                     </div>
                                 </div>
                                 <div>
+                                    ${data.data.file === null ? '' : `
                                     <h1 class="font-semibold">Lampiran</h1>
                                     ${data.data.file_type === 'file' ? `
                                                                                                                                                                                     <div class="flex gap-x-2 items-center">
@@ -479,7 +480,7 @@
                                                                                                                                                                                             </div>
                                                                                                                                                                                         </div>
                                                                                                                                                                                     </div>
-                                                                                                                                                                        `}
+                                                                                                                                                                        `} `}
                                 </div>
                                 <div class="text-sm/5">
                                     <div>
