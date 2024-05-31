@@ -25,7 +25,7 @@
             <div class="flex justify-start space-x-4 px-5 mt-5">
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md text-sm">Simpan</button>
                 <a href="{{ route('data-keluarga.show', [
-                    'keluarga' => $id,
+                    'keluarga' => $toolbar_id,
                 ]) }}"
                     draggable="false"
                     class="select-none bg-white text-black border border-gray-300 px-4 py-2 rounded-md text-sm">Kembali</a>

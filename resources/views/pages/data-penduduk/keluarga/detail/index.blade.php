@@ -14,6 +14,14 @@
             <div>
                 <x-heading text="Data Anggota Keluarga" />
                 @include('pages.data-penduduk.keluarga.detail.partials.data-anggota-keluarga')
+                @if (Auth::user()->role->role_name == 'Ketua RT')
+                    {{-- Back Button --}}
+                    <div>
+                        <a href="{{ route('data-keluarga.index') }}"
+                            draggable="false"
+                            class="select-none bg-white text-black border border-gray-300 px-4 py-2 rounded-md text-sm">Kembali</a>
+                    </div>
+                @endif
             </div>
         </div>
     </section>
