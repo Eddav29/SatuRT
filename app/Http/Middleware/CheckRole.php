@@ -25,6 +25,6 @@ class CheckRole
             }
         }
 
-        return abort(403, 'Unauthorized action.');
+        return abort(403, 'Forbiden');
     }
 }
