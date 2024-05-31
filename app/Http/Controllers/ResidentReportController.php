@@ -51,7 +51,7 @@ class ResidentReportController extends Controller
                 'list' => ['Home', 'LAPOR!'],
                 'url' => ['home', 'pelaporan.index'],
             ];
-            return response()->view('pages.warga.report.index', [
+            return response()->view('pages.resident-report.index', [
                 'breadcrumb' => $breadcrumb,
             ]);
         }
@@ -84,7 +84,7 @@ class ResidentReportController extends Controller
                 'url' => ['home', 'pelaporan.index', ['pelaporan.show', $id]],
             ];
 
-            return response()->view('pages.warga.report.show', [
+            return response()->view('pages.resident-report.show', [
                 'pelaporan' => $pelaporan,
                 'breadcrumb' => $breadcrumb,
                 'toolbar_id' => $id,
@@ -245,7 +245,7 @@ class ResidentReportController extends Controller
             'list' => ['Home', 'LAPOR!', 'Tambah Pelaporan'],
             'url' => ['home', 'pelaporan.index', 'pelaporan.create'],
         ];
-        return response()->view('pages.warga.report.create', [
+        return response()->view('pages.resident-report.create', [
             'breadcrumb' => $breadcrumb,
             'pelaporan' => $pelaporan,
             'extension' => 'jpg,jpeg,png',
@@ -261,7 +261,7 @@ class ResidentReportController extends Controller
             'url' => ['home', 'pelaporan.index', ['pelaporan.edit', $id]],
         ];
 
-        return response()->view('pages.warga.report.edit', [
+        return response()->view('pages.resident-report.edit', [
             'breadcrumb' => $breadcrumb,
             'pelaporan' => $pelaporan,
             'toolbar_id' => $id,
@@ -276,7 +276,7 @@ class ResidentReportController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        // try {
+        try {
             $pendudukId = Auth::user()->penduduk->penduduk_id;
 
             $validated = $request->validate([
@@ -325,16 +325,16 @@ class ResidentReportController extends Controller
                 NotificationPusher::error('Gagal menyimpan perubahan: ' . $e->getMessage());
                 return redirect()->route('pelaporan.index');
             }
-        // } catch (\Throwable $th) {
-        //     abort(404);
-        // }
+        } catch (\Throwable $th) {
+            abort(404);
+        }
     }
 
     public function destroy(string $id): JsonResponse | RedirectResponse
     {
         try {
-            $pelaporan = Pelaporan::findOrFail($id);
-            $pengajuan = Pengajuan::findOrFail($pelaporan->pengajuan_id);
+            $pelaporan = Pelaporan::find($id);
+            $pengajuan = Pengajuan::find($pelaporan->pengajuan_id);
 
             try {
                 DB::beginTransaction();

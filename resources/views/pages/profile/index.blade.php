@@ -124,7 +124,7 @@
             <section style="text-align: center" class="mt-4">
                 <a href="{{ route('profile.complete-data', Auth::user()->penduduk->penduduk_id ?? '') }}"
                     class="bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded">
-                    Lengkapi Data
+                    Ubah Data
                 </a>
             </section>
 

@@ -21,7 +21,7 @@
         <div class="p-6 rounded-xl bg-white-snow">
             <section>
                 <div class="bg-blue-gray p-5 max-lg:mt-5 rounded-md">
-                    <h1 class="text-2xl font-semibold">Lengkapi Biodata</h1>
+                    <h1 class="text-2xl font-semibold">Ubah Biodata</h1>
                 </div>
             </section>
 

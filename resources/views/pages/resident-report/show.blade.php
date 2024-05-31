@@ -5,11 +5,19 @@
 
 
     <div class="p-6 lg:px-14 gap-y-5 mx-auto max-w-screen-2xl md:p-6 2xl:p-10 ">
+        @if (Auth::user()->role->role_name === 'Penduduk')
+            <x-toolbar :toolbar_id="$toolbar_id" :active="$active" :toolbar_route="$toolbar_route" />
+            <div class="mb-3"></div>
+        @endif
         <div class="p-6 rounded-xl bg-white-snow overflow-hidden">
             {{-- Table --}}
             <section>
                 <div class="bg-blue-gray p-5 rounded-md">
-                    <h1 class="font-bold md:text-2xl text-xl">Detail Pelaporan Warga</h1>
+                    @if (Auth::user()->role->role_name === 'Ketua RT')
+                        <h1 class="font-bold md:text-2xl text-xl">Detail Pelaporan Warga</h1>
+                    @else
+                        <h1 class="font-bold md:text-2xl text-xl">Detail Pelaporan</h1>
+                    @endif
                 </div>
             </section>
             {{-- Forms Permhonan Surat --}}
@@ -52,7 +60,7 @@
                                     <img @click="openImage = !openImage"
                                         src="{{ asset('storage/images_storage/resident-report_images/' . $pelaporan->image_url) }}"
                                         alt=""
-                                        class="rounded-xl h-auto max-h-[17rem] w-full object-cover border-2"
+                                        class="mt-3 rounded-xl h-auto max-h-[17rem] w-full object-cover border-2"
                                         draggable="false">
                                     <div x-show="openImage"
                                         class="fixed z-[999999999] top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
@@ -72,7 +80,7 @@
                                     <img @click="openImage = !openImage"
                                         src="https://img.freepik.com/free-vector/illustration-gallery-icon_53876-27002.jpg"
                                         alt="Default Image"
-                                        class="rounded-xl h-auto max-h-[17rem] w-full object-cover border-2"
+                                        class="mt-3 rounded-xl h-auto max-h-[17rem] w-full object-cover border-2"
                                         draggable="false">
                                     <div x-show="openImage"
                                         class="fixed z-[999999999] top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
@@ -92,24 +100,45 @@
                         </div>
                     </div>
 
+                    @if (Auth::user()->role->role_name === 'Ketua RT')
+                        {{-- Tombol Setujui dan Tolak --}}
+                        <div class="mt-10 flex max-lg:flex-col gap-x-5">
+                            <button type="submit" name="status_id" id="status_id" value="2"
+                                class="bg-green-500 text-white-snow border-2 py-3 px-5 rounded-lg mt-4"
+                                @if ($pelaporan->pengajuan->status_id === 2 || $pelaporan->pengajuan->status_id === 3) disabled @endif>
+                                <p>Setujui</p>
+                            </button>
+                            <button type="submit" name="status_id" id="status_id" value="3"
+                                class="bg-red-500 text-white-snow border-2 py-3 px-5 rounded-lg mt-4"
+                                @if ($pelaporan->pengajuan->status_id === 2 || $pelaporan->pengajuan->status_id === 3) disabled @endif>
+                                <p>Tolak</p>
+                            </button>
+                            <button onclick="window.history.back()"
+                                class="text-black border-2 py-3 px-5 rounded-lg mt-4">
+                                {{-- <p class="max-lg:hidden"><</p> --}}
+                                <p">Kembali</p>
+                            </button>
+                        </div>
+                    @else
+                        {{-- Tombol Kembali --}}
+                        <div class="mt-10 flex gap-x-5">
+                            <button type="submit" name="status_id" id="status_id" value="4"
+                                class="bg-red-500 text-white-snow border-2 py-3 px-5 rounded-lg mt-4"
+                                @if (
+                                    $pelaporan->pengajuan->status_id === 2 ||
+                                        $pelaporan->pengajuan->status_id === 3 ||
+                                        $pelaporan->pengajuan->status_id === 4) disabled @endif>
+                                <p>Batalkan</p>
+                            </button>
+                            <button onclick="window.history.back()"
+                                class="text-black border-2 py-3 px-5 rounded-lg mt-4">
+                                {{-- <p class="max-lg:hidden"><</p> --}}
+                                <p">Kembali</p>
+                            </button>
+                        </div>
+                    @endif
 
-                    {{-- Tombol Setujui dan Tolak --}}
-                    <div class="mt-10 flex max-lg:flex-col gap-x-5">
-                        <button type="submit" name="status_id" id="status_id" value="2"
-                            class="bg-green-500 text-white-snow border-2 py-3 px-5 rounded-lg mt-4"
-                            @if ($pelaporan->pengajuan->status_id === 2 || $pelaporan->pengajuan->status_id === 3) disabled @endif>
-                            <p>Setujui</p>
-                        </button>
-                        <button type="submit" name="status_id" id="status_id" value="3"
-                            class="bg-red-500 text-white-snow border-2 py-3 px-5 rounded-lg mt-4"
-                            @if ($pelaporan->pengajuan->status_id === 2 || $pelaporan->pengajuan->status_id === 3) disabled @endif>
-                            <p>Tolak</p>
-                        </button>
-                        <button onclick="window.history.back()" class="text-black border-2 py-3 px-5 rounded-lg mt-4">
-                            {{-- <p class="max-lg:hidden"><</p> --}}
-                            <p">Kembali</p>
-                        </button>
-                    </div>
+
 
                 </form>
             </section>

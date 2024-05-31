@@ -220,6 +220,7 @@ class InventarisController extends Controller
                     'code' => 200,
                     'message' => 'Data berhasil dihapus',
                     'timestamp' => now(),
+                    'redirect' => route('inventaris.index')
                 ], 200);
             } catch (\Exception $e) {
                 DB::rollback();

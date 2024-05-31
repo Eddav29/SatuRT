@@ -9,16 +9,30 @@
 
             {{-- Table --}}
             <section>
-                <x-datatables :layoutTop2Start=false id="pelaporan_id" url="/pelaporan" :columns="[
+                @php
+                    $layoutTop2Start = Auth::user()->role->role_name === 'Ketua RT' ? false : true;
+                @endphp
+                <x-datatables id="pelaporan_id" url="/pelaporan" :columns="[
                     [
                         'label' => 'Pelapor',
                         'key' => 'pelapor',
                         'style' => 'text-left',
                     ],
                     [
+                        'label' => 'Jenis Laporan',
+                        'key' => 'jenis_pelaporan',
+                        'style' => 'text-left',
+                        'customStyle' => [
+                            'Pengaduan' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-red-500/30 text-red-800',
+                            'Lainnya' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-blue-500/30 text-blue-800',
+                            'Kritik' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-yellow-500/30 text-yellow-800',
+                            'Saran' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-green-500/30 text-green-800',
+                        ],
+                    ],
+                    [
                         'label' => 'Status',
                         'key' => 'status',
-                        'style' => 'text-center',
+                        'style' => 'text-left',
                         'customStyle' => [
                             'Menunggu Persetujuan' =>
                                 'w-[14rem] py-2 px-3 text-center rounded-md bg-yellow-500/30 text-yellow-800',
@@ -28,11 +42,6 @@
                         ],
                     ],
                     [
-                        'label' => 'Jenis Laporan',
-                        'key' => 'jenis_pelaporan',
-                        'style' => 'text-left',
-                    ],
-                    [
                         'label' => 'Tanggal',
                         'key' => 'tanggal',
                         'style' => 'text-left',
@@ -40,29 +49,29 @@
                 ]"
                     :aksi="[
                         'detail' => true,
-                        'edit' => false,
-                        'hapus' => false,
+                        'edit' => Auth::user()->role->role_name === 'Ketua RT' ? false : true,
+                        'hapus' => Auth::user()->role->role_name === 'Ketua RT' ? false : true,
                     ]" :filter="[
                         [
                             'title' => 'Jenis Pelaporan',
                             'data' => [
-                                ['label' => 'Semua Jenis Laporan', 'key' => '', 'columnIndex' => 2],
-                                ['label' => 'Pengaduan', 'key' => 'Pengaduan', 'columnIndex' => 2],
-                                ['label' => 'Kritik', 'key' => 'Kritik', 'columnIndex' => 2],
-                                ['label' => 'Saran', 'key' => 'Saran', 'columnIndex' => 2],
-                                ['label' => 'Lainnya', 'key' => 'Lainnya', 'columnIndex' => 2],
+                                ['label' => 'Semua Jenis Laporan', 'key' => '', 'columnIndex' => 1],
+                                ['label' => 'Pengaduan', 'key' => 'Pengaduan', 'columnIndex' => 1],
+                                ['label' => 'Kritik', 'key' => 'Kritik', 'columnIndex' => 1],
+                                ['label' => 'Saran', 'key' => 'Saran', 'columnIndex' => 1],
+                                ['label' => 'Lainnya', 'key' => 'Lainnya', 'columnIndex' => 1],
                             ],
                         ],
                         [
                             'title' => 'Status',
                             'data' => [
-                                ['label' => 'Semua Status Laporan', 'key' => '','columnIndex' => 1],
-                                ['label' => 'Diterima', 'key' => 'Diterima', 'columnIndex' => 1],
-                                ['label' => 'Ditolak', 'key' => 'Ditolak', 'columnIndex' => 1],
-                                ['label' => 'Menunggu Persetujuan', 'key' => 'Menunggu Persetujuan', 'columnIndex' => 1],
+                                ['label' => 'Semua Status Laporan', 'key' => '','columnIndex' => 2],
+                                ['label' => 'Diterima', 'key' => 'Diterima', 'columnIndex' => 2],
+                                ['label' => 'Ditolak', 'key' => 'Ditolak', 'columnIndex' => 2],
+                                ['label' => 'Menunggu Persetujuan', 'key' => 'Menunggu Persetujuan', 'columnIndex' => 2],
                             ],
                         ],
-                    ]" :layoutTop2End="true" :layoutTopEnd="true">
+                    ]" :layoutTop2End="true" :layoutTopEnd="true" :layoutTop2Start="$layoutTop2Start">
                 </x-datatables>
             </section>
             {{-- End Table --}}
