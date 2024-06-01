@@ -6,6 +6,8 @@ use App\Models\Penduduk;
 use App\Models\UMKM;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class UMKMSeeder extends Seeder
 {
@@ -14,6 +16,7 @@ class UMKMSeeder extends Seeder
      */
     public function run(): void
     {
+        $imageMappings = [];
         $data = [
             [
                 'penduduk_id' => Penduduk::with('user')->whereHas('user', function ($query) {
@@ -25,8 +28,8 @@ class UMKMSeeder extends Seeder
                 'alamat' => 'Jl. Terusan Piranha Atas No.39, Tunjungsekar, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142',
                 'nomor_telepon' => '082245439067',
                 'status' => 'Aktif',
-                'thumbnail_url' => 'https://lh5.googleusercontent.com/p/AF1QipPaphReLmXSBWOrWyFt9Y9CckHpPr0mW2R7R--f=w408-h725-k-no',
-                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
+                'thumbnail_url' => $this->saveImage('Madura Mart.jpeg', $imageMappings),
+                'lisence_image_url' => $this->saveImage('Lisence.jpg', $imageMappings),
                 'lokasi_url' => 'https://maps.app.goo.gl/GZPEPg1LJPGEaM2M8'
             ],
             [
@@ -37,8 +40,8 @@ class UMKMSeeder extends Seeder
                 'alamat' => 'Jl. Terusan Piranha Atas No.70 A, Tunjungsekar, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142',
                 'nomor_telepon' => '085781468489',
                 'status' => 'Aktif',
-                'thumbnail_url' => 'https://lh5.googleusercontent.com/p/AF1QipMEP7PvOXul0TQELs_gi9-CHt8jGcmveY0Wy1W7=w408-h306-k-no',
-                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
+                'thumbnail_url' => $this->saveImage('Warteg bintang rasa.jpg', $imageMappings),
+                'lisence_image_url' => $this->saveImage('Lisence.jpg', $imageMappings),
                 'lokasi_url' => 'https://maps.app.goo.gl/8XfVXrt4FEjdBNBu5'
             ],
             [
@@ -49,8 +52,8 @@ class UMKMSeeder extends Seeder
                 'alamat' => 'Jl. Terusan Piranha Atas No.94, Tunjungsekar, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142',
                 'nomor_telepon' => '087722094868',
                 'status' => 'Aktif',
-                'thumbnail_url' => 'https://lh5.googleusercontent.com/p/AF1QipNdFyn4jmfh4wu9nHY-IuW_27cxhMll1HcyLikJ=w426-h240-k-no',
-                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
+                'thumbnail_url' => $this->saveImage('Darma Water.jpg', $imageMappings),
+                'lisence_image_url' => $this->saveImage('Lisence.jpg', $imageMappings),
                 'lokasi_url' => 'https://maps.app.goo.gl/hhKge6Ta9uuwxY1Y8'
             ],
             [
@@ -61,8 +64,8 @@ class UMKMSeeder extends Seeder
                 'alamat' => 'Jl. Terusan Piranha Atas No.111B, Tunjungsekar, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142',
                 'nomor_telepon' => '',
                 'status' => 'Aktif',
-                'thumbnail_url' => 'https://lh5.googleusercontent.com/p/AF1QipNHQksH3pC_k1J_6DIjSgEBcYQjhODegz_rSfaK=w408-h544-k-no',
-                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
+                'thumbnail_url' => $this->saveImage('Komol Kopi.jpg', $imageMappings),
+                'lisence_image_url' => $this->saveImage('Lisence.jpg', $imageMappings),
                 'lokasi_url' => 'https://maps.app.goo.gl/UBjZ3jqxvXaUnR7a9'
             ],
             [
@@ -73,8 +76,8 @@ class UMKMSeeder extends Seeder
                 'alamat' => '3JCM+6MQ, Tunjungsekar, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142',
                 'nomor_telepon' => '085933008828',
                 'status' => 'Aktif',
-                'thumbnail_url' => 'https://lh5.googleusercontent.com/p/AF1QipOCDkY8Eq-fMwtxW6kZgJJc-1p6qRthjpc2b5iR=w408-h725-k-no',
-                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
+                'thumbnail_url' => $this->saveImage('Kost Bu Parno.jpg', $imageMappings),
+                'lisence_image_url' => $this->saveImage('Lisence.jpg', $imageMappings),
                 'lokasi_url' => 'https://maps.app.goo.gl/tmAjQXFuwWzmdAa3A'
             ],
             [
@@ -85,8 +88,8 @@ class UMKMSeeder extends Seeder
                 'alamat' => '3JCP+425, Jl. Ikan Piranha Atas Gg. IVA, Tunjungsekar, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142',
                 'nomor_telepon' => '082301714768',
                 'status' => 'Aktif',
-                'thumbnail_url' => 'https://lh5.googleusercontent.com/p/AF1QipOQzxADcGHsUg2qrp3hs8uJ0WF8APZCqBgOfahA=w408-h544-k-no',
-                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
+                'thumbnail_url' => $this->saveImage('cakedbid.jpeg', $imageMappings),
+                'lisence_image_url' => $this->saveImage('Lisence.jpg', $imageMappings),
                 'lokasi_url' => 'https://maps.app.goo.gl/NkcAjebQMjs7Bsj98'
             ],
             [
@@ -97,8 +100,8 @@ class UMKMSeeder extends Seeder
                 'alamat' => 'Jl. Terusan Ikan Piranha Atas No.18, Tunjungsekar, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142',
                 'nomor_telepon' => '',
                 'status' => 'Aktif',
-                'thumbnail_url' => 'https://lh5.googleusercontent.com/p/AF1QipN7v41hN6gvJecXiQm_xS1xjLKaIoow-tKbZmTW=w203-h270-k-no',
-                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
+                'thumbnail_url' => $this->saveImage('Cokelat klasik.jpg', $imageMappings),
+                'lisence_image_url' => $this->saveImage('Lisence.jpg', $imageMappings),
                 'lokasi_url' => 'https://maps.app.goo.gl/qaFVNNL8udv8iycZA'
             ],
             [
@@ -109,8 +112,8 @@ class UMKMSeeder extends Seeder
                 'alamat' => 'Jl. Terusan Piranha Atas No.11, Tunjungsekar, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142',
                 'nomor_telepon' => '0881026849023',
                 'status' => 'Aktif',
-                'thumbnail_url' => 'https://lh5.googleusercontent.com/p/AF1QipMYpaehYUbRKVsvWgMRK6GDGVMplZyHiGJq54hh=w408-h544-k-no',
-                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
+                'thumbnail_url' => $this->saveImage('president sport.jpg', $imageMappings),
+                'lisence_image_url' => $this->saveImage('Lisence.jpg', $imageMappings),
                 'lokasi_url' => 'https://maps.app.goo.gl/fvvbXjojiJmsvVBU9'
             ],
             [
@@ -121,8 +124,8 @@ class UMKMSeeder extends Seeder
                 'alamat' => 'Jl. Terusan Piranha Atas No.30, Tunjungsekar, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142',
                 'nomor_telepon' => '081357365879',
                 'status' => 'Aktif',
-                'thumbnail_url' => 'https://lh5.googleusercontent.com/p/AF1QipPb4ZYvCxQYE6TSruHEvCjFnaQ5Nbd8T13qtE4b=w408-h544-k-no',
-                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
+                'thumbnail_url' => $this->saveImage('service alat babershop.jpg', $imageMappings),
+                'lisence_image_url' => $this->saveImage('Lisence.jpg', $imageMappings),
                 'lokasi_url' => 'https://maps.app.goo.gl/uLb5b2S75D8KEpo39'
             ],
             [
@@ -134,7 +137,7 @@ class UMKMSeeder extends Seeder
                 'nomor_telepon' => '',
                 'status' => 'Aktif',
                 'thumbnail_url' => 'https://lh3.googleusercontent.com/gps-proxy/ALd4DhEd9GT6OwGvgpLi5Q7EANK9icvpCN91gRVUncSbn8L_g4lWGnQZGFSIwIXYVT-WWvoMhe_FdTvCp9Srcm3dF07jpD723JtQUnb4MZILFlyL5npCJmThymg59wURia_8KOzDQRfF2qVs_6wmjfCr8By542twxXkAso_CsMUcp9U4Cd4gQwh7w3h3NzfT59qgXVXKbhk=w408-h306-k-no',
-                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
+                'lisence_image_url' => $this->saveImage('Lisence.jpg', $imageMappings),
                 'lokasi_url' => 'https://maps.app.goo.gl/vasfK753b9BhE18bA'
             ],
             [
@@ -145,8 +148,8 @@ class UMKMSeeder extends Seeder
                 'alamat' => 'Cumi-cumi no.7A. kel. Tunjungsekar kec. Lowokwaru Malang, RT.03 Rw01, Dusun kagrengan, ngijo, Kec. Karang Ploso, Kabupaten Malang, Jawa Timur 65142',
                 'nomor_telepon' => '089516186453',
                 'status' => 'Aktif',
-                'thumbnail_url' => 'https://lh5.googleusercontent.com/p/AF1QipOX4FHZUtyk0UaCZy1xcr5pJ-6Hn1Ww2Z19Z8J5=w408-h306-k-no',
-                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
+                'thumbnail_url' => $this->saveImage('sablon plastik.jpg', $imageMappings),
+                'lisence_image_url' => $this->saveImage('Lisence.jpg', $imageMappings),
                 'lokasi_url' => 'https://maps.app.goo.gl/UNaDDmE5ME4PBCKX6'
             ],
             [
@@ -157,8 +160,8 @@ class UMKMSeeder extends Seeder
                 'alamat' => 'Jl. Ikan Cumi-Cumi No.4, Tunjungsekar, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142',
                 'nomor_telepon' => '081252910888',
                 'status' => 'Aktif',
-                'thumbnail_url' => 'https://lh5.googleusercontent.com/p/AF1QipPUv4S6chTh3xSgS4bgGxql1ExoyQQe1UsgCW7i=w408-h544-k-no',
-                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
+                'thumbnail_url' => $this->saveImage('rama trans.jpg', $imageMappings),
+                'lisence_image_url' => $this->saveImage('Lisence.jpg', $imageMappings),
                 'lokasi_url' => 'https://maps.app.goo.gl/7Jvfpc4x7Peff4bj6'
             ],
             [
@@ -169,8 +172,8 @@ class UMKMSeeder extends Seeder
                 'alamat' => 'Jl. Ikan Cumi-Cumi No.7-A, Tunjungsekar, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142',
                 'nomor_telepon' => '085850873630',
                 'status' => 'Aktif',
-                'thumbnail_url' => 'https://lh5.googleusercontent.com/p/AF1QipNYALgXIgggPZR3qdGyd2wUEqMLAdP_bTi7xbk3=w203-h114-k-no',
-                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
+                'thumbnail_url' => $this->saveImage('zigma .jpg', $imageMappings),
+                'lisence_image_url' => $this->saveImage('Lisence.jpg', $imageMappings),
                 'lokasi_url' => 'https://maps.app.goo.gl/RKWW1bGdLJcpvn4Y7'
             ],
             [
@@ -182,7 +185,7 @@ class UMKMSeeder extends Seeder
                 'nomor_telepon' => '03417729570',
                 'status' => 'Aktif',
                 'thumbnail_url' => 'https://lh3.googleusercontent.com/gps-proxy/ALd4DhGSBdU7XVRppqzTC5Lm92I2Q3FQpcKtfANw6LmZ6W0gRNtHfxMcNaWIDqkWnxic3OfDZNG1ohlSidDr9AE4o1hJz5OOnkp1VGMFBijsFa6RVHABgIeK5VRZfZhMds3oo9syhFCBLkHOIUdzu2DKt2kZbUCZhv_pB8Bca_ac80o-tsyT2Znn2MDPgMa8UI0-TqokU50=w408-h306-k-no',
-                'lisence_image_url' => 'https://blog.justika.com/content/images/2022/06/Surat-Perjanjian-Lisensi-Penggunaan-Lagu_page-0001.jpg',
+                'lisence_image_url' => $this->saveImage('Lisence.jpg', $imageMappings),
                 'lokasi_url' => 'https://maps.app.goo.gl/DJdoqQynRNcYeLpk7'
             ],
         ];
@@ -190,5 +193,30 @@ class UMKMSeeder extends Seeder
         foreach ($data as $umkm) {
             UMKM::create($umkm);
         }
+    }
+        /**
+     * Save image to public storage and return the URL.
+     *
+     * @param string $imageName
+     * @param array &$imageMappings
+     * @return string
+     */
+    private function saveImage(string $imageName, array &$imageMappings): string
+    {
+        
+        if($imageName == 'Lisence.jpg'){
+            $imagePath = public_path("assets/images/{$imageName}");
+            $imageContent = file_get_contents($imagePath);
+            $hashedName = Str::random(40) . '.jpg';
+            Storage::disk('storage_lisence')->put($hashedName, $imageContent);
+        }else{
+            $imagePath = public_path("assets/images/usaha/{$imageName}");
+            $imageContent = file_get_contents($imagePath);
+            $hashedName = Str::random(40) . '.png';
+            Storage::disk('public')->put($hashedName, $imageContent);
+        }
+        
+        $imageMappings[$imageName] = $hashedName;
+        return $hashedName;
     }
 }
