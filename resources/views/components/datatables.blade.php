@@ -231,7 +231,7 @@
                                     <button class="inline-flex bg-tranparent border px-6 py-4 rounded-lg gap-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <x-heroicon-o-adjustments-vertical class="w-6 h-6"/> <span class="ml-2">Filters</span>
                                 </button>
-                                <div class="hidden absolute right-0 min-w-[17rem] max-w-max max-h-[20rem] overflow-y-auto top-[120%] bg-white-snow border z-10 rounded-lg overflow-hidden p-2" aria-labelledby="dropdownMenuButton">
+                                <div class="hidden absolute right-0 min-w-[17rem] w-max max-h-[20rem] overflow-y-auto top-[120%] bg-white-snow border z-10 rounded-lg overflow-hidden p-2" aria-labelledby="dropdownMenuButton">
                                     <button class="flex gap-3 justify-start items-center text-red-500 p-4 w-full text-left hover:text-navy-night hover:bg-blue-gray rounded" x-dt-filter-label="" x-dt-filter-column=""><x-heroicon-o-arrow-path class="w-5 h-5"/>Reset</button>
                                     @foreach ($filter as $item)
                                     <div class="border-b">
@@ -268,7 +268,7 @@
                                 <button class="inline-flex bg-tranparent border px-6 py-4 rounded-lg gap-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <x-heroicon-o-adjustments-vertical class="w-6 h-6"/> <span class="ml-2">Filters</span>
                                 </button>
-                                <div class="hidden absolute right-0 min-w-[17rem] max-w-max max-h-[20rem] overflow-y-auto top-[120%] bg-white-snow border z-10 rounded-lg overflow-hidden p-2" aria-labelledby="dropdownMenuButton">
+                                <div class="hidden absolute right-0 min-w-[17rem] w-max max-h-[20rem] overflow-y-auto top-[120%] bg-white-snow border z-10 rounded-lg overflow-hidden p-2" aria-labelledby="dropdownMenuButton">
                                     <button class="flex gap-3 justify-start items-center text-red-500 p-4 w-full text-left hover:text-navy-night hover:bg-blue-gray rounded" x-dt-filter-label="" x-dt-filter-column=""><x-heroicon-o-arrow-path class="w-5 h-5"/>Reset</button>
                                     @foreach ($filter as $item)
                                     <div class="border-b">
@@ -302,7 +302,7 @@
                                     <button class="inline-flex bg-tranparent border px-6 py-4 rounded-lg gap-2" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <x-heroicon-o-adjustments-vertical class="w-6 h-6"/> <span class="ml-2">Filters</span>
                                 </button>
-                                <div class="hidden absolute right-0 min-w-[17rem] max-w-max max-h-[20rem] overflow-y-auto top-[120%] bg-white-snow border z-10 rounded-lg overflow-hidden p-2" aria-labelledby="dropdownMenuButton">
+                                <div class="hidden absolute right-0 min-w-[17rem] w-max max-h-[20rem] overflow-y-auto top-[120%] bg-white-snow border z-10 rounded-lg overflow-hidden p-2" aria-labelledby="dropdownMenuButton">
                                     <button class="flex gap-3 justify-start items-center text-red-500 p-4 w-full text-left hover:text-navy-night hover:bg-blue-gray rounded" x-dt-filter-label="" x-dt-filter-column=""><x-heroicon-o-arrow-path class="w-5 h-5"/>Reset</button>
                                     @foreach ($filter as $item)
                                     <div class="border-b">

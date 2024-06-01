@@ -45,7 +45,6 @@
                                 ['label' => 'Donasi', 'key' => 'Donasi', 'columnIndex' => 2],
                                 ['label' => 'Bantuan', 'key' => 'Bantuan', 'columnIndex' => 2],
                                 ['label' => 'Pinjaman', 'key' => 'Pinjaman', 'columnIndex' => 2],
-                                ['label' => 'Semua', 'key' => '', 'columnIndex' => 2],
                             ],
                         ],
                     ]" :layoutTopEnd="true">

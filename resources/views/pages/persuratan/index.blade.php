@@ -53,6 +53,7 @@
                     [
                         'title' => 'Status',
                         'data' => [
+                            ['label' => 'Semua', 'key' => '', 'columnIndex' => 1],
                             ['label' => 'Menunggu Persetujuan', 'key' => 'Menunggu Persetujuan', 'columnIndex' => 1],
                             ['label' => 'Diterima', 'key' => 'Diterima', 'columnIndex' => 1],
                             ['label' => 'Ditolak', 'key' => 'Ditolak', 'columnIndex' => 1],
@@ -61,6 +62,7 @@
                     [
                         'title' => 'Keperluan',
                         'data' => [
+                            ['label' => 'Semua', 'key' => '', 'columnIndex' => 2],
                             ['label' => 'Surat Pengantar KTP', 'key' => 'Surat Pengantar KTP', 'columnIndex' => 2],
                             [
                                 'label' => 'Surat Pengantar Kartu Keluarga',

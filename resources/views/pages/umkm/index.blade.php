@@ -47,16 +47,18 @@
                         [
                             'title' => 'Jenis Usaha',
                             'data' => [
+                                ['label' => 'Semua', 'key' => '', 'columnIndex' => 2],
                                 ['label' => 'Makanan dan Minuman', 'key' => 'Makanan dan Minuman', 'columnIndex' => 2],
                                 ['label' => 'Pakaian', 'key' => 'Pakaian', 'columnIndex' => 2],
                                 ['label' => 'Peralatan', 'key' => 'Peralatan', 'columnIndex' => 2],
                                 ['label' => 'Jasa', 'key' => 'Jasa', 'columnIndex' => 2],
                                 ['label' => 'Lainnya', 'key' => 'Lainnya', 'columnIndex' => 2],
                             ],
-                        ],
+                        ],  
                         [
                             'title' => 'Status',
                             'data' => [
+                                ['label' => 'Semua', 'key' => '', 'columnIndex' => 3],
                                 ['label' => 'Aktif', 'key' => 'Aktif', 'columnIndex' => 3],
                                 ['label' => 'Nonaktif', 'key' => 'Nonaktif', 'columnIndex' => 3],
                             ],
