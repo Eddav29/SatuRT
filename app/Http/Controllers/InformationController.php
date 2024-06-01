@@ -2,20 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Files;
+use App\Models\FileStorage;
 use App\Models\Informasi;
 use App\Services\FileManager\FileService;
 use App\Services\ImageManager\ImageService;
 use App\Services\Notification\NotificationPusher;
 use Carbon\Carbon;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use PHPUnit\Event\Code\Throwable;
 use Stevebauman\Purify\Facades\Purify;
 
 class InformationController extends Controller
@@ -34,7 +37,7 @@ class InformationController extends Controller
             return response()->view('pages.information.index', [
                 'breadcrumb' => $breadcrumb
             ]);
-        } catch (\Throwable $th) {
+        } catch (Exception $e) {
             abort(404);
         }
     }
@@ -60,7 +63,7 @@ class InformationController extends Controller
                 'breadcrumb' => $breadcrumb,
                 'informationTypes' => $informationTypes,
             ]);
-        } catch (\Exception $th) {
+        } catch (\Exception $e) {
             abort(404);
         }
     }
@@ -70,6 +73,8 @@ class InformationController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+
+        
         $rules = [
             'penduduk_id' => ['required', 'exists:penduduk,penduduk_id'],
             'jenis_informasi' => ['required'],
@@ -77,22 +82,28 @@ class InformationController extends Controller
             'isi_informasi' => ['required', 'string', 'min:3'],
         ];
         
-        if ($request->hasFile('images') && $request->jenis_informasi !== 'Pengumuman' && $request->jenis_informasi !== 'Dokumentasi Rapat') {
-            $rules['images'] = ['file', 'mimes:jpeg,png,jpg', 'max:2048'];
-        } elseif ($request->hasFile('images') && $request->jenis_informasi == 'Pengumuman' || $request->jenis_informasi == 'Dokumentasi Rapat') {
-            $rules['images'] = ['required', 'file', 'mimes:jpeg,png,jpg,pdf,doc,docx,xls,xlsx', 'max:2048'];
-        }
-        
-        $validator = Validator::make($request->all(), $rules, [
+        $messages = [
             'jenis_informasi.required' => 'Jenis informasi harus diisi.',
             'judul_informasi.required' => 'Judul informasi harus diisi.',
             'judul_informasi.min' => 'Judul informasi minimal memiliki panjang :min karakter.',
             'judul_informasi.max' => 'Judul informasi maksimal memiliki panjang :max karakter.',
             'isi_informasi.required' => 'Isi informasi harus diisi.',
             'isi_informasi.min' => 'Isi informasi minimal memiliki panjang :min karakter.',
-        ]);
+        ];
+        
+        if ($request->hasFile('images') && $request->jenis_informasi !== 'Pengumuman' && $request->jenis_informasi !== 'Dokumentasi Rapat') {
+            $rules['images'] = ['required', 'file', 'mimes:jpeg,png,jpg', 'max:2048'];
+            $messages['images.required'] = 'Thumbnail harus diisi.';
+            $messages['images.mimes'] = 'File harus berupa gambar.';
+            $messages['images.max'] = 'File maksimal 2048kb.';
+        } elseif ($request->hasFile('images') && $request->jenis_informasi == 'Pengumuman' || $request->jenis_informasi == 'Dokumentasi Rapat') {
+            $rules['images'] = ['file', 'mimes:jpeg,png,jpg,pdf,doc,docx,xls,xlsx', 'max:2048'];
+        }
+        
+        $validator = Validator::make($request->all(), $rules, $messages);
         
         if ($validator->fails()) {
+            NotificationPusher::error('Gagal menambahkan informasi.');
             return redirect()->back()->withErrors($validator)->withInput();
         }
         
@@ -115,7 +126,7 @@ class InformationController extends Controller
 
             NotificationPusher::success('Informasi baru ditambahkan');
             return redirect()->route('informasi.index');
-        } catch (\Throwable $th) {
+        } catch (Exception $e) {
             NotificationPusher::error('Informasi gagal ditambahkan');
             return redirect()->back()->withInput();
         }
@@ -157,7 +168,7 @@ class InformationController extends Controller
                     'hapus' => route('informasi.destroy', ['informasi' => $id]),
                 ]
             ]);
-        } catch (\Throwable $th) {
+        } catch (Exception $e) {
             abort(404);
         }
     }
@@ -204,7 +215,7 @@ class InformationController extends Controller
                     'hapus' => route('informasi.destroy', ['informasi' => $id]),
                 ]
             ]);
-        } catch (\Throwable $th) {
+        } catch (Exception $e) {
             abort(404);
         }
     }
@@ -269,7 +280,7 @@ class InformationController extends Controller
 
             NotificationPusher::success('Data berhasil diperbarui');
             return redirect()->route('informasi.index');
-        } catch (\Throwable $th) {
+        } catch (Exception $e) {
             NotificationPusher::error('Data gagal diperbarui');
             return redirect()->route('informasi.edit', ['informasi' => $id])->withInput();
         }
@@ -338,7 +349,7 @@ class InformationController extends Controller
             return response()->json([
                 'data' => $data
             ]);
-        } catch (\Throwable $th) {
+        } catch (Exception $e) {
             return response()->json(['error' => 'An error occurred.'], 500);
         }
     }
@@ -368,7 +379,7 @@ class InformationController extends Controller
             return response()->json([
                 'data' => $data
             ]);
-        } catch (\Throwable $th) {
+        } catch (Exception $e) {
             return response()->json(['error' => 'An error occurred.'], 500);
         }
     }
