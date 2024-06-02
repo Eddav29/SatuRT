@@ -64,38 +64,43 @@
                                     class="object-contain w-full h-full">
                             </template>
                             <template x-if="filesListPreview.type.includes('text')">
-                                <a class="w-full h-full" :href="filesListPreview?.url" download :title="filesListPreview.name" target="_blank">
+                                <a class="w-full h-full" :href="filesListPreview?.url" download
+                                    :title="filesListPreview.name" target="_blank">
                                     <img src="http://127.0.0.1:8000/assets/images/icon-txt.png" alt="Text File"
                                         class="object-contain w-full h-full">
                                 </a>
                             </template>
                             <template x-if="filesListPreview.type.includes('spreadsheet')">
-                                <a class="w-full h-full" :href="filesListPreview?.url" download :title="filesListPreview.name" target="_blank">
+                                <a class="w-full h-full" :href="filesListPreview?.url" download
+                                    :title="filesListPreview.name" target="_blank">
                                     <img src="http://127.0.0.1:8000/assets/images/icon-excel.png" alt="Excel File"
                                         class="object-contain w-full h-full">
                                 </a>
                             </template>
                             <template x-if="filesListPreview.type.includes('word')">
-                                <a class="w-full h-full" :href="filesListPreview?.url" download :title="filesListPreview.name" target="_blank">
+                                <a class="w-full h-full" :href="filesListPreview?.url" download
+                                    :title="filesListPreview.name" target="_blank">
                                     <img src="http://127.0.0.1:8000/assets/images/icon-word.png" alt="Word Document"
                                         class="object-contain w-full h-full">
                                 </a>
                             </template>
                             <template x-if="filesListPreview.type.includes('presentation')">
-                                <a class="w-full h-full" :href="filesListPreview?.url" download :title="filesListPreview.name" target="_blank">
+                                <a class="w-full h-full" :href="filesListPreview?.url" download
+                                    :title="filesListPreview.name" target="_blank">
                                     <img src="http://127.0.0.1:8000/assets/images/icon-ppt.png"
                                         alt="PowerPoint Presentation" class="object-contain w-full h-full">
                                 </a>
                             </template>
                             <template x-else>
-                                <a class="w-full h-full" :href="filesListPreview?.url" download :title="filesList.name" target="_blank">
+                                <a class="w-full h-full" :href="filesListPreview?.url" download
+                                    :title="filesListPreview.name" target="_blank">
                                     <img src="http://127.0.0.1:8000/assets/images/icon-file.png" alt="File"
                                         class="object-contain w-full h-full">
                                 </a>
                             </template>
                             <div :class="{ 'hidden': !showTooltip }"
-                                class="absolute -top-6 bg-gray-700 text-[.7rem] font-thin text-white rounded-full px-2 line-clamp-1 max-w-80 w-max">
-                                <span x-text="filesList.name"></span>
+                                class="absolute -top-6 bg-gray-700 text-[.7rem] font-thin text-white rounded-full px-2 line-clamp-1 max-w-96 w-fit">
+                                <span x-text="filesListPreview.name"></span>
                             </div>
                             <button class="absolute -top-0 -right-0 z-[999999999]" @click.remove="removeFile(0)">
                                 <x-heroicon-c-x-circle class="w-6 h-6 text-gray-700 hover:text-gray-500" />
@@ -150,7 +155,7 @@
                             </a>
                         </template>
                         <div :class="{ 'hidden': !showTooltip }"
-                            class="absolute -top-6 bg-gray-700 text-[.7rem] font-thin text-white rounded-full px-2 line-clamp-1 max-w-80 w-max">
+                            class="absolute -top-6 bg-gray-700 text-[.7rem] font-thin text-white rounded-full px-2 line-clamp-1 max-w-96 w-fit">
                             <span x-text="file.name"></span>
                         </div>
                         <button class="absolute -top-2 -right-2 z-[997]" @click.prevent="removeFile()">
@@ -226,23 +231,32 @@
             init() {
                 this.fileInput = this.$refs.fileInput;
                 this.previewImage = this.$refs.previewImage;
+                const dataTransfer = new DataTransfer();
                 @isset($default)
                     @if ($multiple)
                         @foreach ($default as $file)
                             this._urlToFile('{{ $file[$identifier] }}').then(file => {
-                                this._processFile(file);
+                                if (this._processFile(file)) {
+                                    dataTransfer.items.add(file);
+                                }
                             });
                         @endforeach
+                        this.fileInput.files = Array.from(dataTransfer.files);
                     @else
                         this._urlToFile('{{ $default }}').then(file => {
-                            this._processFile(file);
+                            if (this._processFile(file)) {
+                                this.filesList = file;
+                                dataTransfer.items.add(file);
+                                this.fileInput.files = dataTransfer.files;
+                            }
                         });
+
                     @endif
                 @endisset
+
             },
             async _urlToFile(url) {
                 try {
-                    console.log(url);
                     const response = await fetch(url, {
                         headers: {
                             'Access-Control-Allow-Origin': '*'
