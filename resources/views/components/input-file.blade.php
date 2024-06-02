@@ -1,6 +1,5 @@
 @props([
     'name',
-    'label',
     'multiple' => false,
     'accept' => 'png,jpg,jpeg,pdf,txt,doc,docx,xls,xlsx,csv,ppt,pptx',
     'fileSize' => 2000,
@@ -50,45 +49,46 @@
                 </label>
             </div>
             @if (!$multiple)
-                <div class="w-full h-full absolute z-20 top-0" x-show="filesList !== null">
-                    <template x-if="filesList !== null">
+                <div class="w-full h-full absolute z-20 top-0" x-show="filesListPreview !== null">
+                    <template x-if="filesListPreview !== null">
                         <div class="w-auto h-full flex flex-col items-center relative border border-black rounded-md"
                             x-data="{ showTooltip: false }" @mouseover="showTooltip = true"
                             @mouseleave="showTooltip = !showTooltip">
-                            <template x-if="filesList.type.includes('image')">
-                                <img @click="showImage(0)" :src="filesList?.url" alt="image"
+                            <template x-if="filesListPreview.type.includes('image')">
+                                <img @click="showImage(0)" :src="filesListPreview?.url" alt="image"
                                     class="object-contain w-full h-full">
                             </template>
-                            <template x-if="filesList.type.includes('pdf')">
+                            <template x-if="filesListPreview.type.includes('pdf')">
                                 <img src="http://127.0.0.1:8000/assets/images/icon-pdf.png" alt=""
-                                    @click="window.open(filesList.url, '_blank')" class="object-contain w-full h-full">
+                                    @click="window.open(filesListPreview?.url, '_blank')"
+                                    class="object-contain w-full h-full">
                             </template>
-                            <template x-if="filesList.type.includes('text')">
-                                <a :href="filesList.url" download :title="filesList.name" target="_blank">
+                            <template x-if="filesListPreview.type.includes('text')">
+                                <a class="w-full h-full" :href="filesListPreview?.url" download :title="filesListPreview.name" target="_blank">
                                     <img src="http://127.0.0.1:8000/assets/images/icon-txt.png" alt="Text File"
                                         class="object-contain w-full h-full">
                                 </a>
                             </template>
-                            <template x-if="filesList.type.includes('spreadsheet')">
-                                <a :href="filesList.url" download :title="filesList.name" target="_blank">
+                            <template x-if="filesListPreview.type.includes('spreadsheet')">
+                                <a class="w-full h-full" :href="filesListPreview?.url" download :title="filesListPreview.name" target="_blank">
                                     <img src="http://127.0.0.1:8000/assets/images/icon-excel.png" alt="Excel File"
                                         class="object-contain w-full h-full">
                                 </a>
                             </template>
-                            <template x-if="filesList.type.includes('word')">
-                                <a :href="filesList.url" download :title="filesList.name" target="_blank">
+                            <template x-if="filesListPreview.type.includes('word')">
+                                <a class="w-full h-full" :href="filesListPreview?.url" download :title="filesListPreview.name" target="_blank">
                                     <img src="http://127.0.0.1:8000/assets/images/icon-word.png" alt="Word Document"
                                         class="object-contain w-full h-full">
                                 </a>
                             </template>
-                            <template x-if="filesList.type.includes('presentation')">
-                                <a :href="filesList.url" download :title="filesList.name" target="_blank">
+                            <template x-if="filesListPreview.type.includes('presentation')">
+                                <a class="w-full h-full" :href="filesListPreview?.url" download :title="filesListPreview.name" target="_blank">
                                     <img src="http://127.0.0.1:8000/assets/images/icon-ppt.png"
                                         alt="PowerPoint Presentation" class="object-contain w-full h-full">
                                 </a>
                             </template>
                             <template x-else>
-                                <a :href="filesList.url" download :title="filesList.name" target="_blank">
+                                <a class="w-full h-full" :href="filesListPreview?.url" download :title="filesList.name" target="_blank">
                                     <img src="http://127.0.0.1:8000/assets/images/icon-file.png" alt="File"
                                         class="object-contain w-full h-full">
                                 </a>
@@ -97,7 +97,7 @@
                                 class="absolute -top-6 bg-gray-700 text-[.7rem] font-thin text-white rounded-full px-2 line-clamp-1 max-w-80 w-max">
                                 <span x-text="filesList.name"></span>
                             </div>
-                            <button class="absolute -top-0 -right-0 z-[999999999]" @click="removeFile(0)">
+                            <button class="absolute -top-0 -right-0 z-[999999999]" @click.remove="removeFile(0)">
                                 <x-heroicon-c-x-circle class="w-6 h-6 text-gray-700 hover:text-gray-500" />
                             </button>
                         </div>
@@ -107,57 +107,56 @@
         </div>
         @if ($multiple)
             <div class="w-full flex flex-wrap items-center justify-start gap-5 py-6 px-4" x-show="filesList.length > 0">
-                <template x-for="(file, index) in filesList" :key="index">
-                <div class="w-24 h-24 flex flex-col relative border border-black rounded-md" x-data="{ showTooltip: false }"
-                    @mouseover="showTooltip = true" @mouseleave="showTooltip = !showTooltip">
-                    <template x-if="file.type.includes('image') || file.type.includes('svg')">
-                        <img @click="showImage(index)" :src="file.url" alt="image"
-                            class="object-contain w-full h-full">
-                    </template>
-                    <template x-if="file.type.includes('pdf')">
-                        <img src="http://127.0.0.1:8000/assets/images/icon-pdf.png" alt=""
-                            @click="window.open(file.url, '_blank')" class="object-contain w-full h-full">
-                    </template>
-                    <template x-if="file.type.includes('text')">
-                        <a :href="file.url" download :title="file.name" target="_blank">
-                            <img src="http://127.0.0.1:8000/assets/images/icon-txt.png" alt="Text File"
+                <template x-for="(file, index) in filesListPreview" :key="index">
+                    <div class="w-24 h-24 flex flex-col relative border border-black rounded-md" x-data="{ showTooltip: false }"
+                        @mouseover="showTooltip = true" @mouseleave="showTooltip = !showTooltip">
+                        <template x-if="file.type.includes('image') || file.type.includes('svg')">
+                            <img @click="showImage(index)" :src="file.url" alt="image"
                                 class="object-contain w-full h-full">
-                        </a>
-                    </template>
-                    <template x-if="file.type.includes('spreadsheet')">
-                        <a :href="file.url" download :title="file.name" target="_blank">
-                            <img src="http://127.0.0.1:8000/assets/images/icon-excel.png" alt="Excel File"
-                                class="object-contain w-full h-full">
-                        </a>
-                    </template>
-                    <template x-if="file.type.includes('word')">
-                        <a :href="file.url" download :title="file.name" target="_blank">
-                            <img src="http://127.0.0.1:8000/assets/images/icon-word.png" alt="Word Document"
-                                class="object-contain w-full h-full">
-                        </a>
-                    </template>
-                    <template x-if="file.type.includes('presentation')">
-                        <a :href="file.url" download :title="file.name" target="_blank">
-                            <img src="http://127.0.0.1:8000/assets/images/icon-ppt.png" alt="PowerPoint Presentation"
-                                class="object-contain w-full h-full">
-                        </a>
-                    </template>
-                    <template
-                        x-if="!(file.type.includes('image') || file.type.includes('pdf') || file.type.includes('text') || file.type.includes('spreadsheet') || file.type.includes('word') || file.type.includes('presentation'))">
-                        <a :href="file.url" download :title="file.name" target="_blank">
-                            <img src="http://127.0.0.1:8000/assets/images/icon-file.png" alt="File"
-                                class="object-contain w-full h-full">
-                        </a>
-                    </template>
-                    <p class="text-sm truncate overflow-ellipsis px-2" x-text="file.name"></p>
-                    <div :class="{ 'hidden': !showTooltip }"
-                        class="absolute -top-6 bg-gray-700 text-[.7rem] font-thin text-white rounded-full px-2 line-clamp-1 max-w-80 w-max">
-                        <span x-text="file.name"></span>
+                        </template>
+                        <template x-if="file.type.includes('pdf')">
+                            <img src="http://127.0.0.1:8000/assets/images/icon-pdf.png" alt=""
+                                @click="window.open(file.url, '_blank')" class="object-contain w-full h-full">
+                        </template>
+                        <template x-if="file.type.includes('text')">
+                            <a :href="file.url" download :title="file.name" target="_blank">
+                                <img src="http://127.0.0.1:8000/assets/images/icon-txt.png" alt="Text File"
+                                    class="object-contain w-full h-full">
+                            </a>
+                        </template>
+                        <template x-if="file.type.includes('spreadsheet')">
+                            <a :href="file.url" download :title="file.name" target="_blank">
+                                <img src="http://127.0.0.1:8000/assets/images/icon-excel.png" alt="Excel File"
+                                    class="object-contain w-full h-full">
+                            </a>
+                        </template>
+                        <template x-if="file.type.includes('word')">
+                            <a :href="file.url" download :title="file.name" target="_blank">
+                                <img src="http://127.0.0.1:8000/assets/images/icon-word.png" alt="Word Document"
+                                    class="object-contain w-full h-full">
+                            </a>
+                        </template>
+                        <template x-if="file.type.includes('presentation')">
+                            <a :href="file.url" download :title="file.name" target="_blank">
+                                <img src="http://127.0.0.1:8000/assets/images/icon-ppt.png"
+                                    alt="PowerPoint Presentation" class="object-contain w-full h-full">
+                            </a>
+                        </template>
+                        <template
+                            x-if="!(file.type.includes('image') || file.type.includes('pdf') || file.type.includes('text') || file.type.includes('spreadsheet') || file.type.includes('word') || file.type.includes('presentation'))">
+                            <a :href="file.url" download :title="file.name" target="_blank">
+                                <img src="http://127.0.0.1:8000/assets/images/icon-file.png" alt="File"
+                                    class="object-contain w-full h-full">
+                            </a>
+                        </template>
+                        <div :class="{ 'hidden': !showTooltip }"
+                            class="absolute -top-6 bg-gray-700 text-[.7rem] font-thin text-white rounded-full px-2 line-clamp-1 max-w-80 w-max">
+                            <span x-text="file.name"></span>
+                        </div>
+                        <button class="absolute -top-2 -right-2 z-[997]" @click.prevent="removeFile()">
+                            <x-heroicon-c-x-circle class="w-6 h-6 text-gray-700 hover:text-gray-500" />
+                        </button>
                     </div>
-                    <button class="absolute -top-2 -right-2 z-[997]" @click="removeFile(index)">
-                        <x-heroicon-c-x-circle class="w-6 h-6 text-gray-700 hover:text-gray-500" />
-                    </button>
-                </div>
                 </template>
             </div>
         @endif
@@ -202,6 +201,11 @@
             previewImage: null,
             openImage: false,
             filesList: @if ($multiple)
+                []
+            @else
+                null
+            @endif ,
+            filesListPreview: @if ($multiple)
                 []
             @else
                 null
@@ -253,13 +257,14 @@
                 }
             },
 
-            showImage(index) {
+            showImage(index = 0) {
+                console.log(this.filesListPreview.target)
                 this.openImage = true;
                 this.previewImage.src =
                     @if ($multiple)
-                        this.filesList[index].url
+                        this.filesListPreview[index].url
                     @else
-                        this.filesList.url
+                        this.filesListPreview.url
                     @endif ;
             },
 
@@ -286,17 +291,17 @@
             removeFile(index) {
                 @if ($multiple)
                     this.filesList.splice(index, 1);
+                    this.filesListPreview.splice(index, 1);
                     const dataTransfer = new DataTransfer();
 
                     this.filesList.forEach(file => {
-                        dataTransfer.items.add(new File([file], file.name, {
-                            type: file.type
-                        }));
+                        dataTransfer.items.add(file);
                     });
 
                     this.$refs.fileInput.files = dataTransfer.files;
                 @else
                     this.filesList = null;
+                    this.filesListPreview = null;
                     this.$refs.fileInput.value = null;
                 @endif
             },
@@ -311,24 +316,6 @@
                 @else
                     this.handleSingleFileUpload(event);
                 @endif
-            },
-
-            handleMultipleFileUpload(event) {
-                const newFiles = Array.from(event.target.files);
-                const dataTransfer = new DataTransfer();
-
-                this.filesList.forEach(file => {
-                    dataTransfer.items.add(new File([file], file.name, {
-                        type: file.type
-                    }));
-                });
-
-                newFiles.forEach(file => {
-                    this._processFile(file);
-                    dataTransfer.items.add(file);
-                });
-
-                event.target.files = dataTransfer.files;
             },
 
             handleSingleFileUpload(event) {
@@ -357,20 +344,21 @@
 
                     if (!existingFile) {
                         @if ($multiple)
-                            this.filesList.push({
+                            this.filesListPreview.push({
                                 name: file.name,
                                 size: file.size,
                                 type: file.type,
                                 url: URL.createObjectURL(file),
                             });
                         @else
-                            this.filesList = {
+                            this.filesListPreview = {
                                 name: file.name,
                                 size: file.size,
                                 type: file.type,
                                 url: URL.createObjectURL(file),
                             };
                         @endif
+                        return true;
                     } else {
                         pushNotification('error', 'File ' + file.name + ' already exists.');
                     }
@@ -382,7 +370,29 @@
                             ' size is too large. Maximum file size is {{ $fileSize }} MB.');
                     }
                 }
+                return false;
             },
+
+            handleMultipleFileUpload(event) {
+                const newFiles = Array.from(event.target.files);
+                const dataTransfer = new DataTransfer();
+
+                // Add existing files to the DataTransfer object
+                this.filesList.forEach(file => {
+                    dataTransfer.items.add(file);
+                });
+
+                // Process and add new files to the DataTransfer object
+                newFiles.forEach(file => {
+                    if (this._processFile(file)) {
+                        dataTransfer.items.add(file);
+                    }
+                });
+
+                event.target.files = dataTransfer.files;
+                this.filesList = Array.from(dataTransfer.files);
+            },
+
 
             _isExtensionValid(extension) {
                 for (let key in this.allowedExtension) {
