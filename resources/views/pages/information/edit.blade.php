@@ -56,8 +56,14 @@
 
                         {{-- Field File Upload --}}
                         <div class="flex flex-col mt-5" :class="selected === 'Pilih Jenis Informasi' ? 'hidden' : ''">
-                            <label for="image_url" class="block font-semibold text-navy-night"
-                                x-html="selected != 'Pengumuman' ? '<p>Thumbnail <span class=\'text-xs font-medium\'>(jpg, jpeg, png, svg, gif)</span></p>' : '<p>Lampiran</p>'"></label>
+                            <div x-show="selected !== 'Pengumuman' && selected !== 'Dokumentasi Rapat'">
+                                <p>Thumbnail <span
+                                        class="text-xs font-medium after:content-['*'] after:ml-0.5 after:text-base after:text-red-500">(jpg,
+                                        jpeg, png)</span></p>
+                            </div>
+                            <div x-show="selected === 'Pengumuman' || selected === 'Dokumentasi Rapat'">
+                                <p>Lampiran</p>
+                            </div>
                             @error('images')
                                 <small class="text-red-500 text-xs py-3">{{ $message }}</small>
                             @enderror

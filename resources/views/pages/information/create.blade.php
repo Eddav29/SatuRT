@@ -75,8 +75,16 @@
 
                         {{-- Field File Upload --}}
                         <div class="flex flex-col mt-5">
-                            <label for="image_url" class="block font-semibold text-navy-night" id="file-label"
-                                x-html="(selected == 'Pengumuman' || selected == 'Dokumentasi Rapat') ? '<p>Lampiran</p>' : '<p>Thumbnail <span class=\'text-xs font-medium\'>(jpg, jpeg, png, svg, gif)</span></p>'"></label>
+                            <label for="image_url" class="block font-semibold text-navy-night" id="file-label">
+                                <div x-show="selected !== 'Pengumuman' && selected !== 'Dokumentasi Rapat'">
+                                    <p>Thumbnail <span
+                                            class="text-xs font-medium after:content-['*'] after:ml-0.5 after:text-base after:text-red-500">(jpg,
+                                            jpeg, png)</span></p>
+                                </div>
+                                <div x-show="selected === 'Pengumuman' || selected === 'Dokumentasi Rapat'">
+                                    <p>Lampiran</p>
+                                </div>
+                            </label>
                             @error('images')
                                 <small class="text-red-500 text-xs py-3">{{ $message }}</small>
                             @enderror
@@ -277,17 +285,6 @@
                     'CaseChange'
                 ]
             });
-
-            function handleChange(value) {
-                const label = document.querySelector('#file-label');
-                if (value && (value === 'Pengumuman' || value === 'Dokumentasi Rapat')) {
-                    label.innerHTML =
-                        '<div class="flex items-center gap-x-1"><p>Lampiran</p><p class="text-xs font-light text-red-500 inline after:content-[\'*\'] after:ml-0.5 after:text-red-500 after:text-base after:font-medium">max. 2MB</p></div>';
-                } else {
-                    label.innerHTML =
-                        '<div class="flex items-center gap-x-1 "><p class="after:ml-0.5">Thumbnail</p><p class="text-xs font-light inline">(jpg, jpeg, png,) <span class="text-red-500 after:content-[\'*\'] after:ml-0.5 after:text-red-500 after:text-base after:font-medium">max. 2MB</span></p></div>'
-                }
-            }
 
             const previewImage = () => {
                 const fileInput = document.querySelector('#file_input');
