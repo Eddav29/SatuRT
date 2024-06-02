@@ -38,7 +38,6 @@
                 <form action="{{ route('informasi.store') }}" method="POST" enctype="multipart/form-data"
                     class="px-5">
                     @csrf
-                    <input type="text" hidden name="penduduk_id" value="{{ Auth::user()->penduduk->penduduk_id }}">
                     {{-- Field Judul Informasi --}}
                     <div class="flex flex-col mt-5">
                         <label for="judul"
