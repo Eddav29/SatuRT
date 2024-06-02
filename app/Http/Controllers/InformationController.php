@@ -76,7 +76,6 @@ class InformationController extends Controller
 
         
         $rules = [
-            'penduduk_id' => ['required', 'exists:penduduk,penduduk_id'],
             'jenis_informasi' => ['required'],
             'judul_informasi' => ['required', 'string', 'min:3', 'max:255'],
             'isi_informasi' => ['required', 'string', 'min:3'],
@@ -121,6 +120,8 @@ class InformationController extends Controller
                     $request->merge(['thumbnail_url' => ImageService::uploadFile('public', $request)]);
                 }
             }
+
+            $request['penduduk_id'] = Auth::user()->penduduk->penduduk_id;
 
             Informasi::create($request->all());
 
