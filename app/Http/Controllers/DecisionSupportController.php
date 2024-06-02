@@ -9,6 +9,7 @@ use App\Services\DecisionMakerGenerator\Support\MooraService;
 use App\Services\DecisionMakerGenerator\Support\ArasService;
 use App\Services\DecisionMakerGenerator\Support\ElectreService;
 use App\Services\DecisionMakerGenerator\Support\SAWService;
+use App\Services\DecisionMakerGenerator\Support\SmartService;
 use App\Services\Notification\NotificationPusher;
 use Illuminate\Http\JsonResponse;
 
@@ -21,6 +22,7 @@ class DecisionSupportController extends Controller
     private $electreService;
     private $sawService;
     private $arasService;
+    private $smartService;
 
 
     public function __construct()
@@ -32,6 +34,7 @@ class DecisionSupportController extends Controller
         $this->arasService = new ArasService();
         $this->sawService = new SAWService();
         $this->electreService = new ElectreService();
+        $this->smartService = new SmartService();
     }
 
     public function index()
@@ -164,6 +167,24 @@ class DecisionSupportController extends Controller
                     NotificationPusher::error($e->getMessage());
                     return response()->redirectToRoute('spk.index');
                 }
+            case 'smart':
+                $breadcrumb = [
+                    'list' => ['Home', 'Pendukung Keputusan', 'Detail', 'SMART'],
+                    'url' => ['home', 'spk.index', 'spk.index', 'spk.index', 'spk.index'],
+                ];
+                try {
+                    $smart = $this->getSmartData();
+                    return response()->view('pages.spk.smart.show', [
+                        'data' => $smart,
+                        'criterias' => $criterias,
+                        'weights' => $weights,
+                        'alternatives' => $alternatives,
+                        'breadcrumb' => $breadcrumb
+                    ]);
+                } catch (\Exception $e) {
+                    NotificationPusher::error($e->getMessage());
+                    return response()->redirectToRoute('spk.index');
+                }
             default:
                 # code...
                 break;
@@ -173,7 +194,6 @@ class DecisionSupportController extends Controller
     // API
     public function ranking(string $metode): JsonResponse
     {
-        $alternatives = $this->decisionMakerService->getAlternatifs();
         switch ($metode) {
             case 'edas':
                 try {
@@ -311,6 +331,28 @@ class DecisionSupportController extends Controller
                     );
                 }
 
+            case 'smart':
+                try {
+                    return response()->json([
+                        'status' => 201,
+                        'data' => [
+                            'ranking' => array_map(function ($item) {
+                                $item['Score'] = $item['S'];
+                                unset($item['S']);
+                                return $item;
+                            }, $this->getSmartData()['ranking'])
+                        ]
+                    ]);
+                } catch (\Exception $e) {
+                    return response()->json(
+                        [
+                            'status' => 500,
+                            'timestamp' => now(),
+                            'message' => $e->getMessage()
+                        ]
+                    );
+                }
+
 
             case 'all':
                 return response()->json([
@@ -363,6 +405,14 @@ class DecisionSupportController extends Controller
                                 unset($item['E']);
                                 return $item;
                             }, $this->getElectreData()['ranking'])
+                        ],
+                        [
+                            'metode' => "Simple Multi Attribute Rating Technique (SMART)",
+                            'ranking' => array_map(function ($item) {
+                                $item['Score'] = $item['S'];
+                                unset($item['S']);
+                                return $item;
+                            }, $this->getSmartData()['ranking'])
                         ]
                     ]
                 ]);
@@ -399,5 +449,10 @@ class DecisionSupportController extends Controller
     private function getSAWData(): array
     {
         return $this->sawService->getStepData();
+    }
+
+    private function getSmartData(): array
+    {
+        return $this->smartService->getStepData();
     }
 }
