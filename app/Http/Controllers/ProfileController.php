@@ -12,7 +12,6 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class ProfileController extends Controller
@@ -36,6 +35,7 @@ class ProfileController extends Controller
 
         return response()->view('pages.profile.complete-data', [
             'penduduk' => $penduduk,
+            'extension' => 'jpg,jpeg,png',
         ]);
     }
 
@@ -52,6 +52,7 @@ class ProfileController extends Controller
         $penduduk = Penduduk::find($id);
         return response()->view('pages.profile.account-edit', [
             'penduduk' => $penduduk,
+            'extension' => 'jpg,jpeg,png',
         ]);
     }
 
@@ -76,7 +77,7 @@ class ProfileController extends Controller
                 'status_penduduk' => 'required',
                 'tempat_lahir' => 'required',
                 'tanggal_lahir' => 'required',
-            ],[
+            ], [
                 'agama.required' => 'Agama harus diisi',
                 'desa.required' => 'Desa harus diisi',
                 'images.required' => 'Foto KTP harus diisi',
@@ -113,13 +114,15 @@ class ProfileController extends Controller
                 $penduduk->update($validated);
                 DB::commit();
                 NotificationPusher::success('Data Profile berhasil diubah');
-                return redirect()->route('profile')->with(['success' => 'Data Profile berhasil diubah']);
+                return redirect()->route('profile');
             } catch (\Throwable $th) {
                 NotificationPusher::error('Data Profile gagal diubah');
-                return redirect()->route('profile')->with(['error' => 'Data Profile gagal diubah']);
+                return redirect()->route('profile');
             }
         } catch (\Throwable $th) {
-            abort(404);
+            dd($th);
+            NotificationPusher::error('Data Profile gagal diubah');
+            return redirect()->route('profile');
         }
     }
 
@@ -168,18 +171,17 @@ class ProfileController extends Controller
             $validated = $request->validate([
                 'username' => 'required',
                 'email' => 'required|email',
-            ],[
+                'profile' => 'required|image',
+            ], [
                 'username.required' => 'Username harus diisi',
                 'email.required' => 'Email harus diisi',
                 'email.email' => 'Email tidak valid',
-
+                'profile.required' => 'Foto Profil harus diisi',
+                'profile.image' => 'Foto Profil harus berupa gambar',
             ]);
 
             if ($request->profile) {
-                Storage::delete('public/account_images/' . $user->profile);
-
-                $imageFileName = $request->file('profile')->store('account_images', 'public');
-                $user['profile'] = basename($imageFileName);
+                $user['profile'] = ImageService::uploadFile('public', $request, 'profile');
             }
 
             DB::beginTransaction();
@@ -194,14 +196,15 @@ class ProfileController extends Controller
                 DB::commit();
 
                 NotificationPusher::success('Data berhasil disimpan');
-                return redirect()->route('profile.account')->with(['success' => 'Data berhasil disimpan']);
+                return redirect()->route('profile.account');
             } catch (\Exception $e) {
                 DB::rollback();
-                NotificationPusher::error('Gagal menyimpan data: ' . $e->getMessage());
-                return redirect()->route('profile.account')->with(['error' => 'Gagal menyimpan data: ' . $e->getMessage()]);
+                NotificationPusher::error('Gagal menyimpan perubahan data akun: ' . $e->getMessage());
+                return redirect()->route('profile.account');
             }
         } catch (\Throwable $th) {
-            abort(404);
+            NotificationPusher::error('Gagal menyimpan perubahan data akun');
+            return redirect()->route('profile.account');
         }
     }
 }

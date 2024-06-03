@@ -6,6 +6,7 @@ use App\Http\Resources\ResidentReportResource;
 use App\Models\Pelaporan;
 use App\Models\Pengajuan;
 use App\Models\User;
+use App\Services\ImageManager\ImageService;
 use App\Services\Notification\NotificationPusher;
 use Carbon\Carbon;
 use Illuminate\Http\Exceptions\HttpResponseException;
@@ -162,10 +163,7 @@ class ResidentReportController extends Controller
                 ]);
 
                 if ($request->image_url) {
-                    Storage::delete('public/resident-report_images/' . $pelaporan->image_url);
-
-                    $imageFileName = $request->file('image_url')->store('resident-report_images', 'public');
-                    $pelaporan['image_url'] = basename($imageFileName);
+                    $pelaporan['image_url'] = ImageService::uploadFile('public', $request, 'image_url');
                 }
 
                 try {
@@ -273,6 +271,7 @@ class ResidentReportController extends Controller
                 'edit' => route('pelaporan.edit', ['pelaporan' => $id]),
                 'hapus' => route('pelaporan.destroy', ['pelaporan' => $id]),
             ],
+            'extension' => 'jpg,jpeg,png',
         ]);
     }
 
@@ -296,8 +295,7 @@ class ResidentReportController extends Controller
             ]);
 
             if ($request->image_url) {
-                $imageFileName = $request->file('image_url')->store('resident-report_images', 'public');
-                $pelaporan['image_url'] = basename($imageFileName);
+                $pelaporan['image_url'] = ImageService::uploadFile('public', $request, 'image_url');
             } else {
                 $pelaporan['image_url'] = null;
             }

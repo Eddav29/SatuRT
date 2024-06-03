@@ -79,7 +79,8 @@
 
                     {{-- Field File Upload --}}
                     <div class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold mt-5">Lampiran</div>
-                    <div>
+                    <x-input-file name="foto_inventaris" :accept="$extension"/>
+                    {{-- <div>
                         <img alt="" id="preview-image" class="hidden">
                     </div>
                     <div class="flex flex-col mt-5" :class="selected === 'Pilih Jenis Informasi' ? 'hidden' : ''">
@@ -95,7 +96,7 @@
                             type="file" id="file_input" name="foto_inventaris" onchange="previewImage()"
                             x-bind:accept="selected === 'Pengumuman' ? '' :
                                 'image/*'" />
-                    </div>
+                    </div> --}}
 
                     {{-- Keterangan --}}
                     <div class="mt-5">

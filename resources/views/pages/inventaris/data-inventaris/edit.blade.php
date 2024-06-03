@@ -97,37 +97,15 @@
                     {{-- Lampiran --}}
                     <div class="mx-3 my-3 font-bold">
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Lampiran</div>
-                        @if ($inventaris->foto_inventaris)
-                            <label for="lisence_image_url" class="relative cursor-pointer">
-                                <div class="w-full h-64 border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-bray-100 hover:border-gray-100 hover:bg-gray-200"
-                                    ondrop="dropFile(event, 'lisence_image_url')" ondragover="allowDrop(event)">
-                                    <img src="{{ asset('storage/images_storage/inventaris_images/' . $inventaris->foto_inventaris) }}"
-                                        for="lisence_image_url"
-                                        class="w-full h-full object-cover border-2 border-gray-300 rounded-lg cursor-pointer bg-white-50 hover:bg-bray-100 hover:border-gray-100 hover:bg-gray-200">
-                                    <div id="lisence_image_url-container" class="w-full h-full overflow-hidden hidden">
-                                    </div>
-                                </div>
-                            </label>
-                        @endif
 
-
-                        <div class="flex flex-col mt-5" :class="selected === 'Pilih Jenis Informasi' ? 'hidden' : ''">
-                            @error('foto_inventaris')
-                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
-                            @enderror
-
-                            <p id="preview-file" class="text-blue-500 py-3 hidden"></p>
-                            <img alt="" id="preview-image" class="hidden">
-
-                            <input
-                                class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-primary focus:text-gray-700 focus:shadow-inset focus:outline-none"
-                                type="file" id="file_input" name="foto_inventaris" onchange="previewImage()"
-                                x-bind:accept="selected === 'Pengumuman' ? '' :
-                                    'image/*'" />
-                        </div>
                         <div>
-                            <img alt="" id="preview-image" class="hidden">
+                            @isset($inventaris->foto_inventaris)
+                                <x-input-file name="foto_inventaris" :accept="$extension" :default="route('public', $inventaris->foto_inventaris)" />
+                            @else
+                                <x-input-file name="foto_inventaris" :accept="$extension" />
+                            @endisset
                         </div>
+                        
                     </div>
 
 

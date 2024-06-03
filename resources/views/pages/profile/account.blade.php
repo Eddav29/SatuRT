@@ -7,7 +7,7 @@
             <div class="lg:hidden" x-data="{ profile: false }">
                 <div class="h-14 w-14 rounded-full overflow-hidden" @click.stop="profile = !profile">
                     @if (Auth::user()->penduduk->user->profile)
-                        <img src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}"
+                        <img src="{{ asset('storage/images_storage/' . Auth::user()->penduduk->user->profile) }}"
                             class="h-full w-full object-cover">
                     @else
                         <img src="{{ asset('assets/images/default.png') }}" class="h-full w-full object-cover">
@@ -63,7 +63,9 @@
 
                     <div class="font-semibold mt-3  max-h-52">
                         <h5 class="font-semibold">Foto Profile</h5>
-                        <x-image-preview :file="is_null(Auth::user()->penduduk->user->profile) ? null : asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile)" />
+                        <x-image-preview :file="is_null(Auth::user()->penduduk->user->profile)
+                            ? asset('assets/images/default.png')
+                            : route('public', Auth::user()->penduduk->user->profile)" />
                     </div>
                 </div>
             </section>

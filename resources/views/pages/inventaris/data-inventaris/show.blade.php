@@ -56,16 +56,17 @@
                         </div>
                         <div class="max-lg:mt-5 lg:col-span-2">
                             <h5 class="font-semibold">Lampiran</h5>
+
                             <div x-data="{ openImage: false }">
                                 <img @click="openImage = !openImage"
-                                src="{{ asset('storage/images_storage/inventaris_images/' . $inventaris->foto_inventaris) }}"
-                                    alt="" class="border-2 mt-3 rounded-xl h-auto max-h-[17rem] w-full object-cover"
-                                    draggable="false">
+                                src="{{ route('public', $inventaris->foto_inventaris) }}"
+                                alt="" class="border-2 mt-3 rounded-xl h-auto max-h-[17rem] w-full object-cover"
+                                draggable="false">
                                 <div x-show="openImage"
-                                    class="fixed z-[999999999] top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
+                                class="fixed z-[999999999] top-0 left-0 py-10 lg:px-32 px-10 w-full min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
                                     <img @click="openImage = false" x-show="openImage"
                                         @click.outside="openImage = false"
-                                        src="{{ asset('storage/images_storage/inventaris_images/' . $inventaris->foto_inventaris) }}"
+                                        src="{{ route('public', $inventaris->foto_inventaris) }}"
                                         alt="" class="rounded-xl w-max h-max lg:max-w-full lg:max-h-full"
                                         draggable="false">
                                     <div class="absolute w-8 h-8 top-10 right-10 cursor-pointer"

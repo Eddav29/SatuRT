@@ -47,7 +47,7 @@
                         <div class="lg:hidden" x-data="{ profile: false }">
                             <div class="h-14 w-14 rounded-full overflow-hidden" @click.stop="profile = !profile">
                                 @if (Auth::user()->penduduk->user->profile)
-                                    <img src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}"
+                                    <img src="{{ route('public', Auth::user()->penduduk->user->profile) }}"
                                         class="h-full w-full object-cover">
                                 @else
                                     <img src="{{ asset('assets/images/default.png') }}"
@@ -74,7 +74,7 @@
                         <div x-data="{ profile: false }" class="cursor-pointer">
                             <div @click.stop="profile = !profile" class="h-14 w-14 rounded-full overflow-hidden">
                                 @if (Auth::user()->penduduk->user->profile)
-                                    <img src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}"
+                                    <img src="{{ route('public', Auth::user()->penduduk->user->profile) }}"
                                         class="h-full w-full object-cover">
                                 @else
                                     <img src="{{ asset('assets/images/default.png') }}"

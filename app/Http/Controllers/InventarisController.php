@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Inventaris;
 use App\Models\Inventaris_Detail;
+use App\Services\ImageManager\ImageService;
 use App\Services\Notification\NotificationPusher;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -82,11 +83,9 @@ class InventarisController extends Controller
                 'keterangan.required' => 'Keterangan inventaris wajib diisi',
             ]);
 
-            if ($request->foto_inventaris) {
-                Storage::delete('public/inventaris_images/' . $inventaris->foto_inventaris);
 
-                $imageFileName = $request->file('foto_inventaris')->store('inventaris_images', 'public');
-                $inventaris['foto_inventaris'] = basename($imageFileName);
+            if ($request->foto_inventaris) {
+                $inventaris['foto_inventaris'] = ImageService::uploadFile('public', $request, 'foto_inventaris');
             }
 
             try {
@@ -151,6 +150,7 @@ class InventarisController extends Controller
                 'edit' => route('inventaris.data-inventaris.edit', $id),
                 'hapus' => route('inventaris.data-inventaris.destroy', $id),
             ],
+            'extension' => 'jpg,jpeg,png',
         ]);
     }
 
@@ -165,6 +165,7 @@ class InventarisController extends Controller
         return response()->view('pages.inventaris.data-inventaris.create', [
             'breadcrumb' => $breadcrumb,
             'inventaris' => $inventaris,
+            'extension' => 'jpg,jpeg,png',
         ]);
     }
 
@@ -195,9 +196,8 @@ class InventarisController extends Controller
                 'keterangan.string' => 'Keterangan inventaris harus berupa string'
             ]);
 
-            $imageFileName = $request->file('foto_inventaris')->store('inventaris_images', 'public');
-            $inventaris['foto_inventaris'] = basename($imageFileName);
-
+            $inventaris['foto_inventaris'] = ImageService::uploadFile('public', $request, 'foto_inventaris');
+            
             DB::beginTransaction();
 
             try {

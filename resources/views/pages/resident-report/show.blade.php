@@ -58,7 +58,7 @@
                             @if ($pelaporan->image_url)
                                 <div x-data="{ openImage: false }">
                                     <img @click="openImage = !openImage"
-                                        src="{{ asset('storage/images_storage/resident-report_images/' . $pelaporan->image_url) }}"
+                                        src="{{ route('public', $pelaporan->image_url) }}"
                                         alt=""
                                         class="mt-3 rounded-xl h-auto max-h-[17rem] w-full object-cover border-2"
                                         draggable="false">
@@ -66,7 +66,7 @@
                                         class="fixed z-[999999999] top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
                                         <img @click="openImage = false" x-show="openImage"
                                             @click.outside="openImage = false"
-                                            src="{{ asset('storage/images_storage/resident-report_images/' . $pelaporan->image_url) }}"
+                                            src="{{ route('public', $pelaporan->image_url) }}"
                                             alt="" class="rounded-xl w-max h-max lg:max-w-full lg:max-h-full"
                                             draggable="false">
                                         <div class="absolute w-8 h-8 top-10 right-10 cursor-pointer"

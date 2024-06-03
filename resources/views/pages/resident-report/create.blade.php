@@ -69,11 +69,7 @@
 
                     <div class="mt-5">
                         <div>
-                            @isset($pelaporan->image_url)
-                            <x-input-file name="image_url"  :accept="$extension" :default="route('storage.lisence', $pelaporan->image_url)"/>
-                            @else
-                                <x-input-file name="image_url" :accept="$extension"/>
-                            @endisset
+                            <x-input-file name="image_url" :accept="$extension"/>
                         </div>
                     </div>
 
