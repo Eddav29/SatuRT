@@ -2,7 +2,7 @@
     'name',
     'multiple' => false,
     'accept' => 'png,jpg,jpeg,pdf,txt,doc,docx,xls,xlsx,csv,ppt,pptx',
-    'fileSize' => 2000,
+    'fileSize' => env('FILE_UPLOAD_SIZE', '2000'),
     'maxFiles',
     'default',
     'identifier',

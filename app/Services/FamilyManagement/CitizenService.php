@@ -33,7 +33,7 @@ class CitizenService implements RecordServiceInterface, DatatablesInterface
         // Penanganan upload gambar
         if ($request->hasFile('images')) {
             try {
-                $imageName = ImageService::uploadFile('storage_ktp', $request);
+                $imageName = ImageService::uploadFile('storage_ktp', $request, 'images', 'webp');
                 $request->merge(['foto_ktp' => $imageName]);
             } catch (\Exception $e) {
                 throw new \Exception('Error uploading image: ' . $e->getMessage());
@@ -72,7 +72,7 @@ class CitizenService implements RecordServiceInterface, DatatablesInterface
         if ($request->hasFile('images')) {
             $newImage = $request->file('images')->getClientOriginalName();
             if ($citizen->foto_ktp !== $newImage) {
-                $imageName = ImageService::uploadFile('storage_ktp', $request);
+                $imageName = ImageService::uploadFile('storage_ktp', $request, 'images', 'webp');
                 $request->merge(['foto_ktp' => $imageName]);
                 if ($citizen->foto_ktp) {
                     ImageService::deleteFile('storage_ktp', $citizen->foto_ktp);

@@ -112,7 +112,7 @@ class CitizenController extends Controller
             'golongan_darah' => Penduduk::getListGolonganDarah(),
             'status_penduduk' => Penduduk::getListStatusPenduduk(),
             'familyCard' => FamilyCardService::find($id),
-            'extension' => 'jpg,jpeg,png',
+            'extension' => 'jpg,jpeg,png,webp',
             'canCreateAccount' => Auth::user()->role->role_name === 'Ketua RT' ? true : false,
         ]);
     }
@@ -240,7 +240,7 @@ class CitizenController extends Controller
             'status_penduduk' => Penduduk::getListStatusPenduduk(),
             'status_kehidupan' => Penduduk::getListStatusKehidupan(),
             'citizen' => CitizenService::find($id),
-            'extension' => 'jpg,jpeg,png'
+            'extension' => 'jpg,jpeg,png,webp'
         ]);
     }
 

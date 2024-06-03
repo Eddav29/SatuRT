@@ -40,7 +40,7 @@ class FamilyCardController extends Controller
             'pendidikan_terakhir' => Penduduk::getListPendidikanTerakhir(),
             'golongan_darah' => Penduduk::getListGolonganDarah(),
             'status_penduduk' => Penduduk::getListStatusPenduduk(),
-            'extension' => 'jpg,jpeg,png',
+            'extension' => 'jpg,jpeg,png,webp',
             'canCreateAccount' => true,
         ]);
     }
