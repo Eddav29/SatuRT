@@ -119,9 +119,6 @@
                         type: 'GET',
                         datatype: 'json',
                         dataSrc: 'data',
-                        error: function(xhr, error, code) {
-                            pushNotification('error', 'Gagal mendapatkan data')
-                        }
                     },
                     columns: [
                         @foreach ($columns as $column)

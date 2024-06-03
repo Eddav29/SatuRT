@@ -24,8 +24,8 @@
                         'key' => 'status',
                         'style' => 'text-left',
                         'customStyle' => [
-                            'dipinjam' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-yellow-500/30 text-yellow-800',
-                            'dikembalikan' =>
+                            'Dipinjam' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-yellow-500/30 text-yellow-800',
+                            'Dikembalikan' =>
                                 'w-[10rem] py-2 px-3 text-center rounded-md bg-green-500/30 text-green-800',
                         ],
                     ],
