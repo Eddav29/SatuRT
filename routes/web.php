@@ -35,13 +35,13 @@ use App\Http\Controllers\FileController;
 */
 
 
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('onlyGuest');
 
-Route::get('berita', [NewsController::class, 'index'])->name('berita');
-Route::get('berita/{id}', [NewsController::class, 'show'])->name('berita-detail');
+Route::get('berita', [NewsController::class, 'index'])->name('berita')->middleware('onlyGuest');
+Route::get('berita/{id}', [NewsController::class, 'show'])->name('berita-detail')->middleware('onlyGuest');
 
-Route::get('usaha', [BusinessController::class, 'index'])->name('usaha');
-Route::get('usaha/{id}', [BusinessController::class, 'show'])->name('usaha-detail');
+Route::get('usaha', [BusinessController::class, 'index'])->name('usaha')->middleware('onlyGuest');
+Route::get('usaha/{id}', [BusinessController::class, 'show'])->name('usaha-detail')->middleware('onlyGuest');
 
 require __DIR__ . '/auth.php';
 
@@ -133,15 +133,15 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/inventaris/peminjaman/selesaikan/{id}', [InventarisPeminjamanController::class, 'selesaikan'])->name('inventaris.peminjaman.selesaikan');
 
         Route::resource('data-akun/penduduk', CitizenAccountController::class)
-        ->names([
-            'index' => 'data-akun.index',
-            'create' => 'data-akun.create',
-            'store' => 'data-akun.store',
-            'show' => 'data-akun.show',
-            'edit' => 'data-akun.edit',
-            'update' => 'data-akun.update',
-            'destroy' => 'data-akun.destroy'
-        ]);
+            ->names([
+                'index' => 'data-akun.index',
+                'create' => 'data-akun.create',
+                'store' => 'data-akun.store',
+                'show' => 'data-akun.show',
+                'edit' => 'data-akun.edit',
+                'update' => 'data-akun.update',
+                'destroy' => 'data-akun.destroy'
+            ]);
     });
 
     Route::middleware('checkRole:Ketua RT,Penduduk')->group(function () {
