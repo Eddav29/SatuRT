@@ -5,6 +5,7 @@ namespace App\Services\Implementation;
 use App\Models\Informasi;
 use App\Services\Interfaces\RepositoryService;
 use App\Services\NewsService;
+use App\Services\Notification\NotificationPusher;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -33,27 +34,42 @@ class NewsServiceImplementation implements RepositoryService, NewsService
 
     public function find(string $id): Model
     {
-        $information = Informasi::find($id);
+        try {
+            $information = Informasi::findOrFail($id);
+        } catch (\Exception $e) {
+            NotificationPusher::error($e->getMessage());
+            abort(500, $e->getMessage());
+        }
         return $information;
     }
 
     public function all(): Collection
     {
-        $informations = Informasi::all()
-            ->where('deleted_at', 0)
-            ->where('jenis_informasi', '!=', 'Pengumuman')
-            ->sortByDesc('created_at');
+        try {
+            $informations = Informasi::all()
+                ->where('deleted_at', 0)
+                ->where('jenis_informasi', '!=', 'Pengumuman')
+                ->sortByDesc('created_at');
+        } catch (\Exception $e) {
+            NotificationPusher::error($e->getMessage());
+            abort(500, $e->getMessage());
+        }
 
         return $informations;
     }
 
     public function getRandomNews(): Collection
     {
-        $informations = Informasi::whereNull('deleted_at')
-            ->where('jenis_informasi', '!=', 'Pengumuman')
-            ->inRandomOrder()
-            ->take(4)
-            ->get();
+        try {
+            $informations = Informasi::whereNull('deleted_at')
+                ->where('jenis_informasi', '!=', 'Pengumuman')
+                ->inRandomOrder()
+                ->take(4)
+                ->get();
+        } catch (\Exception $e) {
+            NotificationPusher::error($e->getMessage());
+            abort(500, $e->getMessage());
+        }
 
         return $informations;
     }
@@ -64,41 +80,61 @@ class NewsServiceImplementation implements RepositoryService, NewsService
             return null;
         }
 
-        $informations = Informasi::whereNull('deleted_at')
-            ->where('jenis_informasi', '!=', 'Pengumuman')
-            ->whereNot('informasi_id', $id)
-            ->orderBy('created_at', 'desc')
-            ->filter($filters)
-            ->paginate(10);
+        try {
+            $informations = Informasi::whereNull('deleted_at')
+                ->where('jenis_informasi', '!=', 'Pengumuman')
+                ->whereNot('informasi_id', $id)
+                ->orderBy('created_at', 'desc')
+                ->filter($filters)
+                ->paginate(10);
+        } catch (\Exception $e) {
+            NotificationPusher::error($e->getMessage());
+            abort(500, $e->getMessage());
+        }
+
 
         return $informations;
     }
 
     public function getLatestNews(): Model|null
     {
-        $information = Informasi::whereNull('deleted_at')
-            ->where('jenis_informasi', '!=', 'Pengumuman')
-            ->orderBy('created_at', 'desc')
-            ->first();
+        try {
+            $information = Informasi::whereNull('deleted_at')
+                ->where('jenis_informasi', '!=', 'Pengumuman')
+                ->orderBy('created_at', 'desc')
+                ->first();
+        } catch (\Exception $e) {
+            NotificationPusher::error($e->getMessage());
+            abort(500, $e->getMessage());
+        }
 
         return $information;
     }
 
     public function filter(string $search = '', string $filter = 'Semua'): LengthAwarePaginator
     {
-
-        $information = Informasi::whereNull('deleted_at')
-            ->where('jenis_informasi', '!=', 'Pengumuman')
-            ->where('jenis_informasi', $filter === 'Semua' ? '!=' : '=', $filter)
-            ->where('judul_informasi', 'LIKE', '%' . $search . '%')
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);
+        try {
+            $information = Informasi::whereNull('deleted_at')
+                ->where('jenis_informasi', '!=', 'Pengumuman')
+                ->where('jenis_informasi', $filter === 'Semua' ? '!=' : '=', $filter)
+                ->where('judul_informasi', 'LIKE', '%' . $search . '%')
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
+        } catch (\Exception $e) {
+            NotificationPusher::error($e->getMessage());
+            abort(500, $e->getMessage());
+        }
 
         return $information;
     }
 
     public function getAllTypes(): array
     {
-        return Informasi::getListJenisInformasi();
+        try {
+            return Informasi::getListJenisInformasi();
+        } catch (\Exception $e) {
+            NotificationPusher::error($e->getMessage());
+            abort(500, $e->getMessage());
+        }
     }
 }
