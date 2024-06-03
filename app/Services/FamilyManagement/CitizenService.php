@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class CitizenService implements RecordServiceInterface, DatatablesInterface
@@ -27,26 +28,12 @@ class CitizenService implements RecordServiceInterface, DatatablesInterface
     public static function create(Request $request): Collection | Model
     {
         $request->merge(['status_kehidupan' => $request->has('status_kehidupan') ? $request->status_kehidupan : 'Hidup']);
-        $existingPenduduk = Penduduk::withTrashed()->where('nik', $request->nik)->first();
 
-        if ($existingPenduduk) {
-            if ($existingPenduduk->trashed()) {
-                $existingPenduduk->restore();
-                $existingPenduduk->umkm()->withTrashed()->restore();
-                $existingPenduduk->informasi()->withTrashed()->restore();
-                $existingPenduduk->fill($request->all());
-                $existingPenduduk->save();
-                return $existingPenduduk;
-            } else {
-                // Jika penduduk ditemukan dan tidak dihapus, NIK sudah digunakan
-                throw new \Exception('NIK sudah digunakan oleh penduduk lain.');
-            }
-        }
 
         // Penanganan upload gambar
         if ($request->hasFile('images')) {
             try {
-                $imageName = ImageService::uploadFile('storage_ktp', $request);
+                $imageName = ImageService::uploadFile('storage_ktp', $request, 'images', 'webp');
                 $request->merge(['foto_ktp' => $imageName]);
             } catch (\Exception $e) {
                 throw new \Exception('Error uploading image: ' . $e->getMessage());
@@ -85,7 +72,7 @@ class CitizenService implements RecordServiceInterface, DatatablesInterface
         if ($request->hasFile('images')) {
             $newImage = $request->file('images')->getClientOriginalName();
             if ($citizen->foto_ktp !== $newImage) {
-                $imageName = ImageService::uploadFile('storage_ktp', $request);
+                $imageName = ImageService::uploadFile('storage_ktp', $request, 'images', 'webp');
                 $request->merge(['foto_ktp' => $imageName]);
                 if ($citizen->foto_ktp) {
                     ImageService::deleteFile('storage_ktp', $citizen->foto_ktp);
@@ -139,39 +126,28 @@ class CitizenService implements RecordServiceInterface, DatatablesInterface
 
     public static function delete(string $id): bool
     {
+        DB::beginTransaction();
+
         try {
-            $citizen = Penduduk::with(['kartuKeluarga', 'umkm', 'informasi'])->findOrFail($id);
+            $citizen = Penduduk::with(['kartuKeluarga', 'user'])->findOrFail($id);
+            $familyMembersCount = Penduduk::where('kartu_keluarga_id', $citizen->kartu_keluarga_id)->count();
 
-            // Memeriksa jika status hubungan dalam keluarga adalah 'Kepala Keluarga'
-            if ($citizen->status_hubungan_dalam_keluarga === 'Kepala Keluarga' && Penduduk::where('kartu_keluarga_id', $citizen->kartuKeluarga->kartu_keluarga_id)->count() > 1) {
+            if ($citizen->status_hubungan_dalam_keluarga === 'Kepala Keluarga' && $familyMembersCount > 1) {
                 throw new \Exception('Hapus anggota keluarga terlebih dahulu');
-            } else if (Penduduk::where('kartu_keluarga_id', $citizen->kartuKeluarga->kartu_keluarga_id)->count() === 1) {
+            }
+            if ($citizen->user && $citizen->user->role && $citizen->user->role->role_name === 'Ketua RT') {
+                throw new \Exception('Ketua RT tidak dapat dihapus');
+            }
+            if ($citizen->status_hubungan_dalam_keluarga !== 'Kepala Keluarga' && $familyMembersCount === 1) {
                 $citizen->kartuKeluarga->delete();
+            } else {
+                $citizen->delete();
             }
+            DB::commit();
 
-            // Memeriksa dan menghapus user terkait jika ada
-            if ($citizen->user_id !== null) {
-                $citizen->user->delete();
-            }
-
-            // Menghapus relasi UMKM terkait jika ada
-            if ($citizen->umkm) {
-                foreach ($citizen->umkm as $umkm) {
-                    $umkm->delete();
-                }
-            }
-
-            // Menghapus relasi Informasi terkait jika ada
-            if ($citizen->informasi) {
-                foreach ($citizen->informasi as $informasi) {
-                    $informasi->delete();
-                }
-            }
-
-            // Menghapus data penduduk
-            $citizen->delete();
             return true;
         } catch (\Exception $e) {
+            DB::rollBack();
             throw $e;
         }
     }

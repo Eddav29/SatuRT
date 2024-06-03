@@ -40,7 +40,7 @@ class FamilyCardController extends Controller
             'pendidikan_terakhir' => Penduduk::getListPendidikanTerakhir(),
             'golongan_darah' => Penduduk::getListGolonganDarah(),
             'status_penduduk' => Penduduk::getListStatusPenduduk(),
-            'extension' => 'jpg,jpeg,png',
+            'extension' => 'jpg,jpeg,png,webp',
             'canCreateAccount' => true,
         ]);
     }
@@ -253,7 +253,8 @@ class FamilyCardController extends Controller
             return response()->json([
                 'code' => 200,
                 'message' => 'Data berhasil dihapus',
-                'timestamp' => now()
+                'timestamp' => now(),
+                'redirect' => route('data-keluarga.index')
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

@@ -20,17 +20,12 @@
         </section>
         {{-- End Search Section --}}
 
-        @push('styles')
-        <link rel="preload" href="{{ !strpos($newInformation->thumbnail_url, 'http') ? $newInformation->thumbnail_url : asset('storage/images_storage/' . $newInformation->thumbnail_url) }}" as="image">
-
-        @endpush
-
         @if ($newInformation)
             {{-- New News --}}
             <section>
                 <a href="{{ route('berita-detail', $newInformation->informasi_id) }}" class="group">
                     <div class="relative h-72 lg:h-[85vh]">
-                        <img src="{{ !strpos($newInformation->thumbnail_url, 'http') ? $newInformation->thumbnail_url : asset('storage/images_storage/' . $newInformation->thumbnail_url) }}"
+                        <img src="{{ strpos($newInformation->thumbnail_url, 'http') === 0 ? $newInformation->thumbnail_url : asset('storage/images_storage/' . $newInformation->thumbnail_url) }}"
                             alt="" class="rounded-xl w-full h-full object-cover">
                         <div
                             class="absolute top-3 right-3 z-10 rounded-full text-[1rem]/[1.618rem] text-soft-snow px-6 py-3 bg-green-light/70 backdrop-blur-3xl flex gap-3">
@@ -271,12 +266,14 @@
                 `;
             }
 
+            window.assetBaseUrl = "{{ asset('storage/images_storage') }}";
+
             const smallCard = (informasi) => {
                 return `
                 <a href="berita/${informasi.informasi_id}"
                                     class="lg:h-[30.5rem] group">
                                     <div class="relative h-72 lg:h-52">
-                                        <img src="${urlCheck(informasi.thumbnail_url) ? informasi.thumbnail_url : asset('storage/images_storage/' . informasi.thumbnail_url)}" loading="lazy"
+                                        <img src="${urlCheck(informasi.thumbnail_url) ? informasi.thumbnail_url : `${window.assetBaseUrl}/${informasi.thumbnail_url}`}" loading="lazy"
                                             alt="" class="rounded-xl w-full h-full object-cover">
                                         <div
                                             class="absolute bottom-3 left-3 z-10 rounded-full text-[1rem]/[1.618rem] text-soft-snow px-6 py-3 bg-navy-night/50 backdrop-blur-3xl flex gap-3">

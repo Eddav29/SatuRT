@@ -106,7 +106,7 @@ class BusinessUserController extends Controller
         ]);
 
         $umkm = $request->all();
-        
+
         if ($validator->fails()) {
             if ($request->is('api/*') || $request->wantsJson()) {
                 return response()->json([
@@ -126,9 +126,9 @@ class BusinessUserController extends Controller
             $umkm['alamat'] = Str::title($request['alamat']);
             $umkm['nama_umkm'] = Str::title($request['nama_umkm']);
 
-            
+
             if ($request->hasFile('lisence_image_url')) {
-                $imageName = ImageService::uploadFile('storage_lisence', $request, 'lisence_image_url');
+                $imageName = ImageService::uploadFile('storage_lisence', $request, 'lisence_image_url', 'webp');
                 // dd($imageName);
                 $umkm['lisence_image_url'] = $imageName;
                 // dd($umkm['lisence_image_url']);
@@ -136,7 +136,7 @@ class BusinessUserController extends Controller
                 $umkm['lisence_image_url'] = null;
             }
             if($request->hasFile('thumbnail_url')){
-                $umkm['thumbnail_url'] = ImageService::uploadFile('public', $request, 'thumbnail_url');
+                $umkm['thumbnail_url'] = ImageService::uploadFile('public', $request, 'thumbnail_url', 'webp');
             }else{
                 $umkm['thumbnail_url'] = null;
             }
@@ -260,14 +260,14 @@ class BusinessUserController extends Controller
                 if (!empty($umkm->lisence_image_url)) {
                     ImageService::deleteFile('storage_lisence',$umkm->lisence_image_url);
                 }
-                $imageName = ImageService::uploadFile('storage_lisence', $request, 'lisence_image_url');
+                $imageName = ImageService::uploadFile('storage_lisence', $request, 'lisence_image_url', 'webp');
                 $umkmUpdate['lisence_image_url'] = $imageName;
             }
             if ($request->file('thumbnail_url')) {
                 if (!empty($umkm->thumbnail_url)) {
                     ImageService::deleteFile('public', $umkm->thumbnail_url);
                 }
-                $umkmUpdate['thumbnail_url'] = ImageService::uploadFile('public', $request, 'thumbnail_url');
+                $umkmUpdate['thumbnail_url'] = ImageService::uploadFile('public', $request, 'thumbnail_url', 'webp');
             }
 
 

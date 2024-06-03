@@ -1,8 +1,4 @@
 <x-guest-layout>
-    @push('styles')
-    <link rel="preload" href="{{ !strpos($information->thumbnail_url, 'http') ? $information->thumbnail_url : asset('storage/images_storage/' . $information->thumbnail_url) }}" as="image">
-
-    @endpush
     <div class="flex flex-col gap-y-10 w-full max-w-7xl mx-auto">
         <section>
             <div class="flex flex-col gap-y-10">
@@ -16,7 +12,7 @@
                             class="text-[1rem]/[1.618rem] w-fit py-2 px-3 text-center rounded-md bg-blue-500/30 text-blue-800">
                             {{ $information->jenis_informasi }}</p>
                     @endif
-                    @if ($information->jenis_informasi === 'Dokumentasi')
+                    @if ($information->jenis_informasi === 'Dokumentasi Kegiatan')
                         <p
                             class="text-[1rem]/[1.618rem] w-fit py-2 px-3 text-center rounded-md bg-green-500/30 text-green-500">
                             {{ $information->jenis_informasi }}</p>
@@ -29,7 +25,7 @@
                 </div>
                 <div>
                     <div class="h-[20rem] lg:h-[80vh] overflow-hidden">
-                        <img src="{{ !strpos($information->thumbnail_url, 'http') ? $information->thumbnail_url : asset('storage/images_storage/' . $information->thumbnail_url) }}"
+                        <img src="{{ strpos($information->thumbnail_url, 'http') === 0 ? $information->thumbnail_url : asset('storage/images_storage/' . $information->thumbnail_url) }}"
                             alt="" class="w-full h-full object-cover rounded-xl">
                     </div>
                 </div>
@@ -48,9 +44,9 @@
                                         <a href="{{ route('berita-detail', $otherInformation->informasi_id) }}"
                                             class="lg:max-h-[29rem] group">
                                             <div class="relative h-72 lg:h-[15rem]">
-                                                <img src="{{ !strpos($otherInformation->thumbnail_url, 'http') ? $otherInformation->thumbnail_url : asset('storage/images_storage/' . $otherInformation->thumbnail_url) }}"
-                                                    alt="" class="rounded-xl w-full h-full object-cover" loading="lazy"
-                                                    >
+                                                <img src="{{ strpos($otherInformation->thumbnail_url, 'http') === 0 ? $otherInformation->thumbnail_url : asset('storage/images_storage/' . $otherInformation->thumbnail_url) }}"
+                                                    alt="" class="rounded-xl w-full h-full object-cover"
+                                                    loading="lazy">
                                             </div>
                                             <div class="py-3">
                                                 <h1 class="group-hover:underline font-bold text-[1rem]/[1.618rem]">

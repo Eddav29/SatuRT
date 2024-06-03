@@ -30,7 +30,7 @@ return new class extends Migration {
             $table->string('lisence_image_url')->nullable();
             $table->timestamps();
 
-            $table->foreign('penduduk_id')->references('penduduk_id')->on('penduduk');
+            $table->foreign('penduduk_id')->references('penduduk_id')->on('penduduk')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

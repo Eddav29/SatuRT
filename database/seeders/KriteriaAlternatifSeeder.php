@@ -58,6 +58,7 @@ class KriteriaAlternatifSeeder extends Seeder
             ['nama_alternatif' => 'Pagelaran Seni & Budaya'],
             ['nama_alternatif' => 'Persiapan Hari Besar Islam'],
             ['nama_alternatif' => 'Rekreasi Bersama'],
+            ['nama_alternatif' => 'Bazar'],
         ];
         foreach ($alternatif as $alternatif) {
             Alternatif::factory()
@@ -73,7 +74,8 @@ class KriteriaAlternatifSeeder extends Seeder
             [4, 5, 5, 3, 2],
             [3, 3, 4, 3, 2],
             [3, 4, 5, 3, 3],
-            [3, 2, 5, 1, 3]
+            [3, 2, 5, 1, 3],
+            [3, 2, 5, 1, 5]
         ];
         foreach (Kriteria::all() as $kriteria) {
             foreach (Alternatif::all() as $alternatif) {

@@ -9,7 +9,7 @@ use Ramsey\Uuid\Rfc4122\UuidV4;
 
 class Informasi extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $table = 'informasi';
     protected $primaryKey = 'informasi_id';
@@ -33,14 +33,9 @@ class Informasi extends Model
         'excerpt'
     ];
 
-    protected $hidden = [
-        'deleted_at'
-    ];
-
     protected $casts = [
         'created_at' => 'datetime',
-        'updated_at' => 'datetime',
-        'deleted_at' => 'datetime'
+        'updated_at' => 'datetime'
     ];
 
     public function penduduk()
