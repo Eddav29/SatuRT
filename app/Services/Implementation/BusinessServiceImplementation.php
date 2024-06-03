@@ -5,6 +5,7 @@ namespace App\Services\Implementation;
 use App\Models\UMKM;
 use App\Services\BusinessService;
 use App\Services\Interfaces\RepositoryService;
+use App\Services\Notification\NotificationPusher;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -32,29 +33,54 @@ class BusinessServiceImplementation implements RepositoryService, BusinessServic
 
     public function find(string $id): Model
     {
-        $business = UMKM::with('penduduk')->find($id);
+        try {
+            $business = UMKM::findOrFail($id);
+        } catch (\Exception $e) {
+            NotificationPusher::error($e->getMessage());
+            abort(500, $e->getMessage());
+        }
         return $business;
     }
 
     public function all(): Collection
     {
-        $businesses = UMKM::all();
+        try {
+            $businesses = UMKM::all();
+        } catch (\Exception $e) {
+            NotificationPusher::error($e->getMessage());
+            abort(500, $e->getMessage());
+        }
         return $businesses;
     }
 
     public function getBusinessesWithPagination(array $filters): LengthAwarePaginator
     {
-        $businesses = UMKM::filter($filters)->paginate(10);
+        try {
+            $businesses = UMKM::filter($filters)->paginate(10);
+        } catch (\Exception $e) {
+            NotificationPusher::error($e->getMessage());
+            abort(500, $e->getMessage());
+        }
         return $businesses;
     }
 
     public function getAllStatuses(): array
     {
-        return UMKM::getListStatusUMKM();
+        try {
+            return UMKM::getListStatusUMKM();
+        } catch (\Exception $e) {
+            NotificationPusher::error($e->getMessage());
+            abort(500, $e->getMessage());
+        }   
     }
 
     public function getAllTypes(): array
     {
-        return UMKM::getListJenisUMKM();
+        try {
+            return UMKM::getListJenisUMKM();
+        } catch (\Exception $e) {
+            NotificationPusher::error($e->getMessage());
+            abort(500, $e->getMessage());
+        }
     }
 }
