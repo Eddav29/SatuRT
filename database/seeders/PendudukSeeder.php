@@ -27,6 +27,13 @@ class PendudukSeeder extends Seeder
                 'kartu_keluarga_id' => $kk->kartu_keluarga_id,
                 'user_id' => $user->user_id,
                 'status_hubungan_dalam_keluarga' => 'Kepala Keluarga',
+                'foto_ktp' => function () {
+                    $imagePath = public_path('assets/images/ktp.png');
+                    $imageContent = file_get_contents($imagePath);
+                    $hashedName = md5($imageContent) . '.png';
+                    Storage::disk('storage_ktp')->put($hashedName, $imageContent);
+                    return $hashedName;
+                },
             ]);
         });
 
