@@ -35,13 +35,13 @@ use App\Http\Controllers\FileController;
 */
 
 
-Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('onlyGuest');
+Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('guest');
 
-Route::get('berita', [NewsController::class, 'index'])->name('berita')->middleware('onlyGuest');
-Route::get('berita/{id}', [NewsController::class, 'show'])->name('berita-detail')->middleware('onlyGuest');
+Route::get('berita', [NewsController::class, 'index'])->name('berita')->middleware('guest');
+Route::get('berita/{id}', [NewsController::class, 'show'])->name('berita-detail')->middleware('guest');
 
-Route::get('usaha', [BusinessController::class, 'index'])->name('usaha')->middleware('onlyGuest');
-Route::get('usaha/{id}', [BusinessController::class, 'show'])->name('usaha-detail')->middleware('onlyGuest');
+Route::get('usaha', [BusinessController::class, 'index'])->name('usaha')->middleware('guest');
+Route::get('usaha/{id}', [BusinessController::class, 'show'])->name('usaha-detail')->middleware('guest');
 
 require __DIR__ . '/auth.php';
 
