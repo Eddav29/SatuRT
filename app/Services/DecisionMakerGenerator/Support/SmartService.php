@@ -21,9 +21,15 @@ class SmartService extends DecisionMakerService
 
     private function calculate(): void
     {
+        $this->decisionMatrix();
         $this->normalizeMatrix();
         $this->unityMatrix();
         $this->getRanking();
+    }
+
+    private function decisionMatrix()
+    {
+        $this->stepData['decisionMatrix'] = parent::getData();
     }
 
     private function normalizeMatrix()

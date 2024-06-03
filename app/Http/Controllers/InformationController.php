@@ -73,8 +73,6 @@ class InformationController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
-
-
         $rules = [
             'jenis_informasi' => ['required'],
             'judul_informasi' => ['required', 'string', 'min:3', 'max:255'],
@@ -96,7 +94,9 @@ class InformationController extends Controller
             $messages['images.mimes'] = 'File harus berupa gambar.';
             $messages['images.max'] = 'File maksimal 2048kb.';
         } elseif ($request->hasFile('images') && $request->jenis_informasi == 'Pengumuman' || $request->jenis_informasi == 'Dokumentasi Rapat') {
-            $rules['images'] = ['file', 'mimes:jpeg,png,jpg,pdf,doc,docx,xls,xlsx', 'max:2048'];
+            $rules['files'] = ['file', 'mimes:jpeg,png,jpg,pdf,doc,docx,xls,xlsx', 'max:2048'];
+            $messages['files.mimes'] = 'File harus berupa gambar.';
+            $messages['files.max'] = 'File maksimal 2048kb.';
         }
 
         $validator = Validator::make($request->all(), $rules, $messages);
@@ -113,7 +113,7 @@ class InformationController extends Controller
             $request->merge(['excerpt' => Str::substr($cleaned_string, 0, 300)]);
             $request->merge(['judul_informasi' => Str::title($request['judul_informasi'])]);
 
-            if ($request->file('images')) {
+            if ($request->file('images') || $request->file('files')) {
                 if ($request['jenis_informasi'] == 'Pengumuman' || $request['jenis_informasi'] == 'Dokumentasi Rapat') {
                     $request->merge(['thumbnail_url' => $this->checkFile($request)]);
                 } else {
@@ -229,29 +229,32 @@ class InformationController extends Controller
         $information = Informasi::findOrFail($id);
         $request['penduduk_id'] = Auth::user()->penduduk->penduduk_id;
         $rules = [
-            'penduduk_id' => ['required', 'exists:penduduk,penduduk_id'],
             'jenis_informasi' => ['required'],
             'judul_informasi' => ['required', 'string', 'min:3', 'max:255'],
             'isi_informasi' => ['required', 'string', 'min:3'],
         ];
 
-        if ($request->hasFile('images') && $request->jenis_informasi == 'Pengumuman') {
-            $rules['images'] = ['required', 'file', 'mimes:jpeg,png,jpg,pdf,doc,docx,xls,xlsx', 'max:2048'];
-        } elseif ($request->hasFile('images') && $request->jenis_informasi != 'Pengumuman') {
-            $rules['images'] = ['required', 'file', 'mimes:jpeg,png,jpg', 'max:2048'];
-        }
-
-        $validator = Validator::make($request->all(), $rules, [
+        $messages = [
             'jenis_informasi.required' => 'Jenis informasi harus diisi.',
             'judul_informasi.required' => 'Judul informasi harus diisi.',
             'judul_informasi.min' => 'Judul informasi minimal memiliki panjang :min karakter.',
             'judul_informasi.max' => 'Judul informasi maksimal memiliki panjang :max karakter.',
             'isi_informasi.required' => 'Isi informasi harus diisi.',
             'isi_informasi.min' => 'Isi informasi minimal memiliki panjang :min karakter.',
-            'images.required' => 'Thumbnail harus diisi.',
-            'images.mimes' => $request['jenis_informasi'] == 'Pengumuman' ? 'File tidak valid.' : 'File harus berupa gambar.',
-            'images.max' => 'File maksimal 2048kb.',
-        ]);
+        ];
+
+        if ($request->hasFile('images') && $request->jenis_informasi !== 'Pengumuman' && $request->jenis_informasi !== 'Dokumentasi Rapat') {
+            $rules['images'] = ['required', 'file', 'mimes:jpeg,png,jpg', 'max:2048'];
+            $messages['images.required'] = 'Thumbnail harus diisi.';
+            $messages['images.mimes'] = 'File harus berupa gambar.';
+            $messages['images.max'] = 'File maksimal 2048kb.';
+        } elseif ($request->hasFile('images') && $request->jenis_informasi == 'Pengumuman' || $request->jenis_informasi == 'Dokumentasi Rapat') {
+            $rules['files'] = ['file', 'mimes:jpeg,png,jpg,pdf,doc,docx,xls,xlsx', 'max:2048'];
+            $messages['files.mimes'] = 'File harus berupa gambar.';
+            $messages['files.max'] = 'File maksimal 2048kb.';
+        }
+
+        $validator = Validator::make($request->all(), $rules, $messages);
 
         if ($validator->fails()) {
             return redirect()->back()->withErrors($validator)->withInput();
@@ -264,13 +267,17 @@ class InformationController extends Controller
             $request->merge(['excerpt' => Str::substr($cleaned_string, 0, 300)]);
             $request->merge(['judul_informasi' => Str::title($request['judul_informasi'])]);
 
-            if ($request->file('images')) {
-                if ($request['jenis_informasi'] == 'Pengumuman' && $request['jenis_informasi'] != 'Dokumentasi Rapat') {
+            if ($request->file('images') || $request->file('files')) {
+                if ($request['jenis_informasi'] == 'Pengumuman' || $request['jenis_informasi'] == 'Dokumentasi Rapat') {
                     $request->merge(['thumbnail_url' => $this->checkFile($request)]);
-                    FileService::deleteFile('public', $information->thumbnail_url);
+                    if ($information->thumbnail_url != null) {
+                        FileService::deleteFile('storage_announcement', $information->thumbnail_url);
+                    }
                 } else {
                     $request->merge(['thumbnail_url' => ImageService::uploadFile('public', $request)]);
-                    ImageService::deleteFile('public', $information->thumbnail_url);
+                    if ($information->thumbnail_url != null) {
+                        FileService::deleteFile('public', $information->thumbnail_url);
+                    }
                 }
             } else {
                 $request->merge(['thumbnail_url' => $information->thumbnail_url]);
@@ -306,7 +313,7 @@ class InformationController extends Controller
                     } else {
                         $status = ImageService::deleteFile('public', $information->thumbnail_url);
                     }
-                } 
+                }
 
                 if ($status || $information->thumbnail_url == null) {
                     $information->delete();
@@ -362,13 +369,13 @@ class InformationController extends Controller
         $imageExtensions = ['jpg', 'jpeg', 'png'];
         $fileExtensions = ['pdf', 'doc', 'docx', 'xls', 'xlsx'];
         $fileName = '';
-        $extension = $request->file('images')->getClientOriginalExtension();
+        $extension = $request->file('files')->getClientOriginalExtension();
 
         if (in_array($extension, $imageExtensions)) {
-            $fileName = ImageService::uploadFile('storage_announcement', $request);
+            $fileName = ImageService::uploadFile('storage_announcement', $request, 'files', 'jpg');
             return $fileName;
         } elseif (in_array($extension, $fileExtensions)) {
-            $fileName = FileService::uploadFile('/storage_announcement', $request, 'images');
+            $fileName = FileService::uploadFile('/storage_announcement', $request, 'files');
             return $fileName;
         }
 

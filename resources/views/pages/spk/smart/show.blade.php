@@ -12,7 +12,14 @@
             </div>
 
             <section>
-                <x-decision-support-table stepTitle="Matriks Keputusan (X)" setColumnAs="Custom" :columns="['Kode', 'Kriteria', 'Bobot', 'Hasil Normalisasi']"
+                <x-decision-support-table :emptyColumn="true" stepTitle="Matriks Keputusan (X)" :columns="$criterias" :withGuide=false
+                    :withAlternative="true" :alternatives="$alternatives" :data="$data['decisionMatrix']" >
+
+                </x-decision-support-table>
+            </section>
+
+            <section>
+                <x-decision-support-table stepTitle="Normalisasi Matrix" setColumnAs="Custom" :columns="['Kode', 'Kriteria', 'Bobot', 'Hasil Normalisasi']"
                     :data="$data['normalizeMatrix']">
                     <p class="break-words">Pada Langkah pertama dilakukan evaluasi alternatif “m” dengan “n” kriteria.
                     </p>
@@ -38,8 +45,8 @@
             </section>
 
             <section>
-                <x-decision-support-table :emptyColumn="true" stepTitle="Unity Matrix" :columns="$criterias" :withAlternative="true"
-                    :alternatives="$alternatives" :data="$data['unityMatrix']">
+                <x-decision-support-table :emptyColumn="true" stepTitle="Unity Matrix" :columns="$criterias"
+                    :withAlternative="true" :alternatives="$alternatives" :data="$data['unityMatrix']">
                     <p class="break-words">Normalisasi diperoleh dengan menggunakan rumus:</p>
                     <div class="flex flex-col gap-y-2">
                         <p class="border border-black p-2 w-full">Jenis Kriteria Benefit: $$u_{i}(a_{i}) = {C_{cout} -

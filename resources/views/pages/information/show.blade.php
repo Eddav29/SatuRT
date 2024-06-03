@@ -15,7 +15,6 @@
                         $pos = strpos($information->thumbnail_url, '-');
                         $fileName = '';
                         if ($pos !== false) {
-                            // Mengambil bagian dari string setelah tanda '-'
                             $fileName = substr($information->thumbnail_url, $pos + 1);
                         }
                     @endphp
@@ -49,43 +48,54 @@
                         </div>
                         <p class="text-xs md:text-sm break-words">Dibuat oleh {{ $information->penduduk->nama }}</p>
                         <h1 class="font-bold text-3xl md:text-4xl break-words">{{ $information->judul_informasi }}</h1>
-                        <div
-                            class="{{ (($information->jenis_informasi == 'Dokumentasi' ? 'bg-green-500/30 text-green-500' : $information->jenis_informasi == 'Pengumuman') ? 'bg-yellow-500/30 text-yellow-500' : $information->jenis_informasi == 'Artikel') ? 'bg-blue-500/30 text-blue-500' : 'bg-red-500/30 text-red-500' }} w-fit px-4 py-2 rounded-md">
-                            <p class="text-sm">{{ $information->jenis_informasi }}</p>
-                        </div>
-                    </div>
-                    @if ($information->jenis_informasi != 'Pengumuman' && $information->jenis_informasi != 'Dokumentasi Rapat')
-                        @if (strpos($information->thumbnail_url, 'http') === 0)
-                            <div>
-                                <img src="{{ $information->thumbnail_url }}" alt=""
-                                    class="w-full object-cover rounded-lg">
+                        <div @if ($information->jenis_informasi === 'Artikel') <p
+                                    class="text-[1rem]/[1.618rem] w-fit py-2 px-3 text-center rounded-md bg-blue-500/30 text-blue-800">
+                                    {{ $information->jenis_informasi }}</p> @endif
+                            @if ($information->jenis_informasi === 'Dokumentasi Kegiatan') <p
+                                    class="text-[1rem]/[1.618rem] w-fit py-2 px-3 text-center rounded-md bg-green-500/30 text-green-500">
+                                    {{ $information->jenis_informasi }}</p> @endif
+                            @if ($information->jenis_informasi === 'Berita') <p
+                                    class="text-[1rem]/[1.618rem] w-fit py-2 px-3 text-center rounded-md bg-orange-500/30 text-orange-800">
+                                    {{ $information->jenis_informasi }}</p> @endif
+                            @if ($information->jenis_informasi === 'Pengumuman') <p
+                                    class="text-[1rem]/[1.618rem] w-fit py-2 px-3 text-center rounded-md bg-yellow-500/30 text-yellow-800">
+                                    {{ $information->jenis_informasi }}</p> @endif
+                            @if ($information->jenis_informasi === 'Dokumentasi Rapat') <p
+                                    class="text-[1rem]/[1.618rem] w-fit py-2 px-3 text-center rounded-md bg-red-500/30 text-red-800">
+                                    {{ $information->jenis_informasi }}</p> @endif
                             </div>
-                        @else
+                        </div>
+                        @if ($information->jenis_informasi != 'Pengumuman' && $information->jenis_informasi != 'Dokumentasi Rapat')
+                            @if (strpos($information->thumbnail_url, 'https://') === 0)
+                                <div>
+                                    <img src="{{ $information->thumbnail_url }}" alt=""
+                                        class="w-full object-cover rounded-lg">
+                                </div>
+                            @else
+                                <div>
+                                    <img src="{{ asset('storage/images_storage/' . $information->thumbnail_url) }}"
+                                        alt="" class="w-full object-cover rounded-lg">
+                                </div>
+                            @endif
+                        @elseif (
+                            ($information->jenis_informasi == 'Pengumuman' || $information->jenis_informasi == 'Dokumentasi Rapat') &&
+                                $fileType == 'image')
                             <div>
-                                <img src="{{ asset('storage/images_storage/' . $information->thumbnail_url) }}"
+                                <img src="{{ route('storage.announcement', ['filename' => $information->thumbnail_url]) }}"
                                     alt="" class="w-full object-cover rounded-lg">
                             </div>
                         @endif
-                    @elseif (
-                        ($information->jenis_informasi == 'Pengumuman' || $information->jenis_informasi == 'Dokumentasi Rapat') &&
-                            $fileType == 'image')
-                        <div>
-                            <img src="{{ route('storage.announcement', ['filename' => $information->thumbnail_url]) }}"
-                                alt="" class="w-full object-cover rounded-lg">
+                        <div id="content">
+                            {!! $information->isi_informasi !!}
                         </div>
-                    @endif
-                    <div id="content">
-                        {!! $information->isi_informasi !!}
                     </div>
-                </div>
 
-                {{-- Back Button --}}
-                <div class="mt-10 flex gap-x-5">
-                    <button onclick="window.history.back()" class="text-black border-2 py-3 px-5 rounded-lg mt-4">
-                        {{-- <p class="max-lg:hidden"><</p> --}}
-                        <p">Kembali</p>
-                    </button>
-                </div>
+                    {{-- Back Button --}}
+                    <div class="mt-10 flex gap-x-5">
+                        <button onclick="window.history.back()" class="text-black border-2 py-3 px-5 rounded-lg mt-4">
+                            <p">Kembali</p>
+                        </button>
+                    </div>
             </section>
             {{-- End Information Details --}}
         </div>

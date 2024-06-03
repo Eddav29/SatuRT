@@ -42,7 +42,8 @@
                                 <small class="text-red-500 text-xs py-3">{{ $message }}</small>
                             @enderror
                             <select id="jenis_informasi" name="jenis_informasi" required
-                                class="placeholder:font-light invalid:ring-1 invalid:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-navy-night focus:text-navy-night">
+                                class="placeholder:font-light invalid:ring-1 invalid:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-navy-night focus:text-navy-night"
+                                x-on:change="document.querySelector('input[name=files]').value = ''; document.querySelector('input[name=images]').value = '';">
                                 <option value="Pilih Jenis Informasi" @click="selected = 'Pilih Jenis Informasi'"
                                     x-bind:selected="selected === 'Pilih Jenis Informasi'">Pilih Jenis Informasi
                                 </option>
@@ -57,9 +58,7 @@
                         {{-- Field File Upload --}}
                         <div class="flex flex-col mt-5" :class="selected === 'Pilih Jenis Informasi' ? 'hidden' : ''">
                             <div x-show="selected !== 'Pengumuman' && selected !== 'Dokumentasi Rapat'">
-                                <p>Thumbnail <span
-                                        class="text-xs font-medium after:content-['*'] after:ml-0.5 after:text-base after:text-red-500">(jpg,
-                                        jpeg, png)</span></p>
+                                <p class="after:content-['*'] after:ml-0.5 after:text-red-500">Thumbnail</p>
                             </div>
                             <div x-show="selected === 'Pengumuman' || selected === 'Dokumentasi Rapat'">
                                 <p>Lampiran</p>
@@ -68,63 +67,39 @@
                                 <small class="text-red-500 text-xs py-3">{{ $message }}</small>
                             @enderror
 
-                            <div id="old-preview-container">
-                                @if ($information->thumbnail_url)
-                                    @if ($fileType === 'file')
-                                        @php
-                                            $pos = strpos($information->thumbnail_url, '-');
-                                            $fileName = '';
-                                            if ($pos !== false) {
-                                                // Mengambil bagian dari string setelah tanda '-'
-                                                $fileName = substr($information->thumbnail_url, $pos + 1);
-                                            }
-                                        @endphp
-                                        <div class="flex gap-x-2 items-center">
-                                            <div id="file-icon"></div>
-                                            <div class="flex flex-col" id="preview-file-container">
-                                                @if ($file_extension == 'pdf')
-                                                    <a href="{{ route('file.show', ['path' => 'pengumuman', 'identifier' => $information->informasi_id]) }}"
-                                                        class="text-blue-500 py-3 text-sm font-light"
-                                                        target="_blank">{{ $fileName }}</a>
-                                                @else
-                                                    <a href="{{ route('file.download', ['path' => 'pengumuman', 'identifier' => $information->informasi_id]) }}"
-                                                        class="text-blue-500 py-3 text-sm font-light"
-                                                        target="_blank">{{ $fileName }}</a>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    @else
-                                        @if ($information->jenis_informasi != 'Pengumuman' && $information->jenis_informasi != 'Dokumentasi Rapat')
-                                            @if (strpos($information->thumbnail_url, 'http') === 0)
-                                                <div>
-                                                    <img src="{{ $information->thumbnail_url }}" alt=""
-                                                        class="w-full object-cover rounded-lg">
-                                                </div>
-                                            @else
-                                                <div>
-                                                    <img src="{{ asset('storage/images_storage/' . $information->thumbnail_url) }}"
-                                                        alt="" class="w-full object-cover rounded-lg">
-                                                </div>
-                                            @endif
-                                        @else
-                                            <div class="py-3">
-                                                <img class="rounded-lg w-auto h-auto"
-                                                    src="{{ route('storage.announcement', ['filename' => $information->thumbnail_url]) }}">
-                                            </div>
-                                        @endif
-                                    @endif
+                            @if ($information->thumbnail_url !== null)
+                                @if ($information->jenis_informasi !== 'Pengumuman' && $information->jenis_informasi !== 'Dokumentasi Rapat')
+                                    <div x-show="selected !== 'Pengumuman' && selected !== 'Dokumentasi Rapat'">
+                                        <x-input-file name="images" accept="png, jpg, jpeg" :default="strpos($information->thumbnail_url, 'http') === false
+                                            ? route('public', $information->thumbnail_url)
+                                            : $information->thumbnail_url"
+                                            x-ref="images" />
+                                    </div>
+
+                                    <div x-show="selected === 'Pengumuman' || selected === 'Dokumentasi Rapat'">
+                                        <x-input-file name="files" />
+                                    </div>
+                                @else
+                                    <div x-show="selected === 'Pengumuman' || selected === 'Dokumentasi Rapat'">
+                                        <x-input-file name="files" :default="strpos($information->thumbnail_url, 'http') === false
+                                            ? route('storage.announcement', $information->thumbnail_url)
+                                            : $information->thumbnail_url" x-ref="files" />
+                                    </div>
+
+                                    <div x-show="selected !== 'Pengumuman' && selected !== 'Dokumentasi Rapat'">
+                                        <x-input-file name="images" accept="png, jpg, jpeg" />
+                                    </div>
                                 @endif
-                            </div>
+                            @else
+                                <div x-show="selected !== 'Pengumuman' && selected !== 'Dokumentasi Rapat'">
+                                    <x-input-file name="images" accept="png, jpg, jpeg" />
+                                </div>
 
-                            <div id="preview-container">
-                                <div id="preview-file" class="my-3 text-blue-500 hidden"></div>
-                                <img alt="" id="preview-image" class="hidden rounded-lg my-3">
-                            </div>
+                                <div x-show="selected === 'Pengumuman' || selected === 'Dokumentasi Rapat'">
+                                    <x-input-file name="files" />
+                                </div>
+                            @endif
 
-                            <input
-                                class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-primary focus:text-gray-700 focus:shadow-inset focus:outline-none"
-                                type="file" id="file_input" name="images" onchange="previewFile()"
-                                x-bind:accept="selected === 'Pengumuman' ? '' : 'image/*'" />
                         </div>
                     </div>
 
