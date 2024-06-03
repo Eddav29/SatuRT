@@ -12,10 +12,10 @@
                     <div class="grid grid-cols-8 w-max gap-5 py-5">
                         <button class="p-5" @click.prevent="method = 'all'; getData(method)"
                             :class="method == 'all' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">Semua</button>
-                        <button class="p-5" @click.prevent="method = 'edas'; getData(method)"
-                            :class="method == 'edas' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">EDAS</button>
-                        <button class="p-5" @click.prevent="method = 'mabac'; getData(method)"
-                            :class="method == 'mabac' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">MABAC</button>
+                        {{-- <button class="p-5" @click.prevent="method = 'edas'; getData(method)"
+                            :class="method == 'edas' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">EDAS</button> --}}
+                        {{-- <button class="p-5" @click.prevent="method = 'mabac'; getData(method)"
+                            :class="method == 'mabac' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">MABAC</button> --}}
                         <button class="p-5" @click.prevent="method = 'moora'; getData(method)"
                             :class="method == 'moora' ? 'border-b-2 font-bold text-azure-blue border-azure-blue' : ''">MOORA</button>
                         <button class="p-5" @click.prevent="method = 'aras'; getData(method)"
@@ -157,23 +157,18 @@
                             if (!a[alternatif]) {
                                 a[alternatif] = {
                                     alternatif: alternatif,
-                                    edas: null,
-                                    mabac: null,
+                                    // edas: null,
                                     moora: null,
                                     aras: null,
                                     saw: null,
-                                    electre: null,
-                                    smart: null
+                                    electre: null
                                 };
                             }
 
                             switch (metode.metode) {
-                                case 'Evaluation Based on Distance From Average Solution (EDAS)':
-                                    a[alternatif].edas = ranks;
-                                    break;
-                                case 'Multi-Attribute Border Approximation Area Comparison (MABAC)':
-                                    a[alternatif].mabac = ranks;
-                                    break;
+                                // case 'Evaluation Based on Distance From Average Solution (EDAS)':
+                                //     a[alternatif].edas = ranks;
+                                //     break;
                                 case 'Multi-Objective Optimization by Ratio Analysis (MOORA)':
                                     a[alternatif].moora = ranks;
                                     break;
@@ -196,8 +191,6 @@
                     allRows = Object.values(a).map(item => `
                     <tr>
                         <td class="p-5">${item.alternatif}</td>
-                        <td class="p-5">${item.edas !== null ? item.edas : ''}</td>
-                        <td class="p-5">${item.mabac !== null ? item.mabac : ''}</td>
                         <td class="p-5">${item.moora !== null ? item.moora : ''}</td>
                         <td class="p-5">${item.aras !== null ? item.aras : ''}</td>
                         <td class="p-5">${item.saw !== null ? item.saw : ''}</td>
@@ -224,8 +217,6 @@
                             <thead>
                                 <tr class="text-left bg-blue-gray ">
                                     <th class="p-5 truncate">Alternatif</th>
-                                    <th class="p-5 truncate">EDAS</th>
-                                    <th class="p-5 truncate">MABAC</th>
                                     <th class="p-5 truncate">MOORA</th>
                                     <th class="p-5 truncate">ARAS</th>
                                     <th class="p-5 truncate">SAW</th>
