@@ -46,10 +46,10 @@ class NewsController extends Controller
     public function paginate()
     {
         $informasi = Informasi::where('jenis_informasi', '!=', 'Pengumuman')
-            ->orWhere('jenis_informasi', '!=', 'Dokumentasi Rapat')
+            ->where('jenis_informasi', '!=', 'Dokumentasi Rapat')
+            ->where('informasi_id', '!=', $this->latestInformation->informasi_id)
             ->filter(request(['search', 'jfsi']))
             ->orderBy('created_at', 'desc')
-            ->where('informasi_id', '!=', $this->latestInformation->informasi_id)
             ->paginate(10);
 
         return response()->json([
