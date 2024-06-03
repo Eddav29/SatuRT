@@ -250,7 +250,6 @@
                                 this.fileInput.files = dataTransfer.files;
                             }
                         });
-
                     @endif
                 @endisset
 
@@ -262,6 +261,14 @@
                             'Access-Control-Allow-Origin': '*'
                         }
                     });
+                    // Check if the response status is 404
+                    if (response.status === 404) {
+                        pushNotification('error', 'Failed to load file. Status: 404 Not Found');
+                        return;
+                    } else if (!response.ok) {
+                        pushNotification('error', 'Failed to load file.');
+                        return;
+                    }
                     const blob = await response.blob();
                     return new File([blob], url.split('/').pop(), {
                         type: blob.type,

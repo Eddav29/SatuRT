@@ -61,8 +61,7 @@ class NewsServiceImplementation implements RepositoryService, NewsService
     public function getRandomNews(): Collection
     {
         try {
-            $informations = Informasi::whereNull('deleted_at')
-                ->where('jenis_informasi', '!=', 'Pengumuman')
+            $informations = Informasi::where('jenis_informasi', '!=', 'Pengumuman')
                 ->inRandomOrder()
                 ->take(4)
                 ->get();
@@ -99,8 +98,7 @@ class NewsServiceImplementation implements RepositoryService, NewsService
     public function getLatestNews(): Model|null
     {
         try {
-            $information = Informasi::whereNull('deleted_at')
-                ->where('jenis_informasi', '!=', 'Pengumuman')
+            $information = Informasi::where('jenis_informasi', '!=', 'Pengumuman')
                 ->orWhere('jenis_informasi', '!=', 'Dokumentasi Rapat')
                 ->orderBy('created_at', 'desc')
                 ->first();
