@@ -74,13 +74,13 @@ class InformationController extends Controller
     public function store(Request $request): RedirectResponse
     {
 
-        
+
         $rules = [
             'jenis_informasi' => ['required'],
             'judul_informasi' => ['required', 'string', 'min:3', 'max:255'],
             'isi_informasi' => ['required', 'string', 'min:3'],
         ];
-        
+
         $messages = [
             'jenis_informasi.required' => 'Jenis informasi harus diisi.',
             'judul_informasi.required' => 'Judul informasi harus diisi.',
@@ -89,7 +89,7 @@ class InformationController extends Controller
             'isi_informasi.required' => 'Isi informasi harus diisi.',
             'isi_informasi.min' => 'Isi informasi minimal memiliki panjang :min karakter.',
         ];
-        
+
         if ($request->hasFile('images') && $request->jenis_informasi !== 'Pengumuman' && $request->jenis_informasi !== 'Dokumentasi Rapat') {
             $rules['images'] = ['required', 'file', 'mimes:jpeg,png,jpg', 'max:2048'];
             $messages['images.required'] = 'Thumbnail harus diisi.';
@@ -98,21 +98,21 @@ class InformationController extends Controller
         } elseif ($request->hasFile('images') && $request->jenis_informasi == 'Pengumuman' || $request->jenis_informasi == 'Dokumentasi Rapat') {
             $rules['images'] = ['file', 'mimes:jpeg,png,jpg,pdf,doc,docx,xls,xlsx', 'max:2048'];
         }
-        
+
         $validator = Validator::make($request->all(), $rules, $messages);
-        
+
         if ($validator->fails()) {
             NotificationPusher::error('Gagal menambahkan informasi.');
             return redirect()->back()->withErrors($validator)->withInput();
         }
-        
+
         try {
             $model = Purify::clean($request['isi_informasi']);
             $cleaned_string = strip_tags(preg_replace('/(<\/p>)/', '$1 ', $model));
             $cleaned_string = preg_replace('/[^\x20-\x7E]/u', ' ', $cleaned_string);
             $request->merge(['excerpt' => Str::substr($cleaned_string, 0, 300)]);
             $request->merge(['judul_informasi' => Str::title($request['judul_informasi'])]);
-            
+
             if ($request->file('images')) {
                 if ($request['jenis_informasi'] == 'Pengumuman' || $request['jenis_informasi'] == 'Dokumentasi Rapat') {
                     $request->merge(['thumbnail_url' => $this->checkFile($request)]);
@@ -189,7 +189,7 @@ class InformationController extends Controller
 
             $information = Informasi::find($id);
             $informationTypes = Informasi::getListJenisInformasi();
-            $file_extension = pathinfo($information->thumbnail_url, PATHINFO_EXTENSION);
+            $file_extension = $information->thumbnail_url ? pathinfo($information->thumbnail_url, PATHINFO_EXTENSION) : '';
             $fileType = '';
 
             if (count($informationTypes) == 0) {
@@ -293,20 +293,22 @@ class InformationController extends Controller
     public function destroy(string $id): JsonResponse
     {
         try {
-            $user = Auth::user();
+            $user = Auth::user()->penduduk->penduduk_id;
             $information = Informasi::find($id);
 
-            if ($information && $information->user_id === $user->id) {
+            if ($information && $information->penduduk_id === $user) {
                 $status = '';
                 DB::beginTransaction();
 
-                if ($information->jenis_informasi == 'Pengumuman' || $information->jenis_informasi == 'Dokumentasi Rapat') {
-                    $status = FileService::deleteFile('storage_announcement', $information->thumbnail_url);
-                } else {
-                    $status = ImageService::deleteFile('public', $information->thumbnail_url);
-                }
+                if ($information->thumbnail_url) {
+                    if ($information->jenis_informasi == 'Pengumuman' || $information->jenis_informasi == 'Dokumentasi Rapat') {
+                        $status = FileService::deleteFile('storage_announcement', $information->thumbnail_url);
+                    } else {
+                        $status = ImageService::deleteFile('public', $information->thumbnail_url);
+                    }
+                } 
 
-                if ($status) {
+                if ($status || $information->thumbnail_url == null) {
                     $information->delete();
                 }
 
