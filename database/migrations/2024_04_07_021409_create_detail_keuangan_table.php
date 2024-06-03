@@ -20,7 +20,7 @@ return new class extends Migration
             $table->integer('nominal');
             $table->string('keterangan');
             $table->timestamps();
-            $table->foreign('keuangan_id')->references('keuangan_id')->on('keuangan');
+            $table->foreign('keuangan_id')->references('keuangan_id')->on('keuangan')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

@@ -21,9 +21,9 @@ return new class extends Migration
             $table->date('accepted_at')->nullable();
             $table->timestamps();
 
-            $table->foreign('penduduk_id')->references('penduduk_id')->on('penduduk');
-            $table->foreign('status_id')->references('status_id')->on('status');
-            $table->foreign('accepted_by')->references('penduduk_id')->on('penduduk');
+            $table->foreign('penduduk_id')->references('penduduk_id')->on('penduduk')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('status_id')->references('status_id')->on('status')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('accepted_by')->references('penduduk_id')->on('penduduk')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

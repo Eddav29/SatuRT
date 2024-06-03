@@ -24,7 +24,7 @@ return new class extends Migration
             'Lainnya',
             ]);
             $table->string('pemohon')->nullable(false);
-            $table->foreign('pengajuan_id')->references('pengajuan_id')->on('pengajuan');
+            $table->foreign('pengajuan_id')->references('pengajuan_id')->on('pengajuan')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

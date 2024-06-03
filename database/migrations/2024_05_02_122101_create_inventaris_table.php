@@ -37,7 +37,7 @@ return new class extends Migration
             $table->string('foto_inventaris');
             $table->timestamps();
 
-            $table->foreign('penduduk_id')->references('penduduk_id')->on('penduduk');
+            $table->foreign('penduduk_id')->references('penduduk_id')->on('penduduk')->onDelete('cascade')->onUpdate('cascade');
 
         });
     }

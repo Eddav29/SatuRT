@@ -4,12 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Ramsey\Uuid\Rfc4122\UuidV4;
 
 class Penduduk extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $table = 'penduduk';
     protected $primaryKey = 'penduduk_id';
@@ -50,14 +49,12 @@ class Penduduk extends Model
 
     protected $hidden = [
         'created_at',
-        'updated_at',
-        'deleted_at'
+        'updated_at'
     ];
 
     protected $casts = [
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
-        'deleted_at' => 'datetime',
         'tanggal_lahir' => 'date'
     ];
 
@@ -79,6 +76,11 @@ class Penduduk extends Model
     public function informasi()
     {
         return $this->hasMany(Informasi::class, 'penduduk_id', 'penduduk_id');
+    }
+
+    public function pengajuan()
+    {
+        return $this->hasMany(Pengajuan::class, 'penduduk_id', 'penduduk_id');
     }
 
     public static function getListGolonganDarah()

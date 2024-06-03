@@ -18,8 +18,8 @@ return new class extends Migration
             $table->float('nilai');
             $table->timestamps();
 
-            $table->foreign('kriteria_id')->references('kriteria_id')->on('kriteria');
-            $table->foreign('alternatif_id')->references('alternatif_id')->on('alternatif');
+            $table->foreign('kriteria_id')->references('kriteria_id')->on('kriteria')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('alternatif_id')->references('alternatif_id')->on('alternatif')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

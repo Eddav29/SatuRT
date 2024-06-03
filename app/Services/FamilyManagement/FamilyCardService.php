@@ -9,6 +9,7 @@ use App\Services\Interfaces\RecordServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class FamilyCardService implements RecordServiceInterface, DatatablesInterface
@@ -26,19 +27,6 @@ class FamilyCardService implements RecordServiceInterface, DatatablesInterface
 
     public static function create(Request $request): Collection | Model
     {
-
-        $existingKartuKeluarga = KartuKeluarga::withTrashed()->where('nomor_kartu_keluarga', $request->nomor_kartu_keluarga)->first();
-
-        if ($existingKartuKeluarga) {
-            if ($existingKartuKeluarga->trashed()) {
-                $existingKartuKeluarga->restore();
-                $existingKartuKeluarga->fill($request->all());
-                $existingKartuKeluarga->save();
-                return $existingKartuKeluarga;
-            } else {
-                throw new \Exception('Nomor Kartu Keluarga sudah digunakan oleh data lain.');
-            }
-        }
 
         return KartuKeluarga::create([
             'nomor_kartu_keluarga' => $request->nomor_kartu_keluarga,
@@ -71,8 +59,14 @@ class FamilyCardService implements RecordServiceInterface, DatatablesInterface
     public static function delete(string $id): bool
     {
         try {
+
             $familyCard = KartuKeluarga::findOrFail($id);
-            if ($familyCard->penduduk()->count() > 0) {
+            if ($familyCard->penduduk()->whereHas('user.role', function ($query) {
+                $query->where('role_name', 'Ketua RT');
+            })->exists()) {
+                throw new \Exception('Kartu Keluarga ini memiliki Ketua RT');
+            }
+            if ($familyCard->penduduk()->count() > 1) {
                 throw new \Exception('Kartu Keluarga ini memiliki anggota keluarga');
             }
             $familyCard->delete();
