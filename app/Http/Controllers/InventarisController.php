@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventaris;
+use App\Models\Inventaris_Detail;
 use App\Services\Notification\NotificationPusher;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -44,9 +45,9 @@ class InventarisController extends Controller
             'toolbar_id' => $id,
             'active' => 'detail',
             'toolbar_route' => [
-                'detail' => route('inventaris.data-inventaris.show',  $id),
-                'edit' => route('inventaris.data-inventaris.edit',  $id),
-                'hapus' => route('inventaris.data-inventaris.destroy',  $id),
+                'detail' => route('inventaris.data-inventaris.show', $id),
+                'edit' => route('inventaris.data-inventaris.edit', $id),
+                'hapus' => route('inventaris.data-inventaris.destroy', $id),
             ],
         ]);
 
@@ -68,6 +69,17 @@ class InventarisController extends Controller
                 'jenis' => 'required',
                 'sumber' => 'required',
                 'keterangan' => 'required|string|max:255',
+            ],[
+                'nama_inventaris.required' => 'Nama inventaris wajib diisi',
+                'merk.required' => 'Merk inventaris wajib diisi',
+                'warna.required' => 'Warna inventaris wajib diisi',
+                'jumlah.required' => 'Jumlah inventaris wajib diisi',
+                'jumlah.integer' => 'Jumlah inventaris harus berupa angka',
+                'jenis.required' => 'Jenis inventaris wajib diisi',
+                'sumber.required' => 'Sumber inventaris wajib diisi',
+                'keterangan.max' => 'Keterangan inventaris maksimal 255 karakter',
+                'keterangan.string' => 'Keterangan inventaris harus berupa string',
+                'keterangan.required' => 'Keterangan inventaris wajib diisi',
             ]);
 
             if ($request->foto_inventaris) {
@@ -169,8 +181,18 @@ class InventarisController extends Controller
                 'jumlah' => 'required|integer',
                 'jenis' => 'required',
                 'sumber' => 'required',
-                'foto_inventaris' => 'required|file',
+                'foto_inventaris' => 'required|image',
                 'keterangan' => 'required|string|max:255',
+            ],[
+                'foto_inventaris.required' => 'Foto inventaris wajib diisi',
+                'foto_inventaris.image' => 'Foto inventaris harus berupa gambar',
+                'nama_inventaris.required' => 'Nama inventaris wajib diisi',
+                'jumlah.required' => 'Jumlah inventaris wajib diisi',
+                'jumlah.integer' => 'Jumlah inventaris harus berupa angka',
+                'jenis.required' => 'Jenis inventaris wajib diisi',
+                'sumber.required' => 'Sumber inventaris wajib diisi',
+                'keterangan.max' => 'Keterangan inventaris maksimal 255 karakter',
+                'keterangan.string' => 'Keterangan inventaris harus berupa string'
             ]);
 
             $imageFileName = $request->file('foto_inventaris')->store('inventaris_images', 'public');
@@ -220,13 +242,14 @@ class InventarisController extends Controller
                     'code' => 200,
                     'message' => 'Data berhasil dihapus',
                     'timestamp' => now(),
-                    'redirect' => route('inventaris.index')
+                    'redirect' => route('inventaris.index'),
                 ], 200);
             } catch (\Exception $e) {
                 DB::rollback();
+
                 return response()->json([
                     'code' => 500,
-                    'message' => $e->getMessage(),
+                    'message' => 'Data Inventaris masih ada didalam data Peminjaman',
                     'timestamp' => now(),
                 ], 500);
             }

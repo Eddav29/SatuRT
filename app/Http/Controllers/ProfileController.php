@@ -76,6 +76,24 @@ class ProfileController extends Controller
                 'status_penduduk' => 'required',
                 'tempat_lahir' => 'required',
                 'tanggal_lahir' => 'required',
+            ],[
+                'agama.required' => 'Agama harus diisi',
+                'desa.required' => 'Desa harus diisi',
+                'images.required' => 'Foto KTP harus diisi',
+                'golongan_darah.required' => 'Golongan Darah harus diisi',
+                'jenis_kelamin.required' => 'Jenis Kelamin harus diisi',
+                'kecamatan.required' => 'Kecamatan harus diisi',
+                'kota.required' => 'Kota harus diisi',
+                'nama.required' => 'Nama harus diisi',
+                'nomor_rt.required' => 'Nomor RT harus diisi',
+                'nomor_rw.required' => 'Nomor RW harus diisi',
+                'pekerjaan.required' => 'Pekerjaan harus diisi',
+                'pendidikan_terakhir.required' => 'Pendidikan Terakhir harus diisi',
+                'status_hubungan_dalam_keluarga.required' => 'Status Hubungan dalam Keluarga harus diisi',
+                'status_perkawinan.required' => 'Status Perkawinan harus diisi',
+                'status_penduduk.required' => 'Status Penduduk harus diisi',
+                'tempat_lahir.required' => 'Tempat Lahir harus diisi',
+                'tanggal_lahir.required' => 'Tanggal Lahir harus diisi',
             ]);
 
             $validated['desa'] = Str::title($validated['desa']);
@@ -150,6 +168,11 @@ class ProfileController extends Controller
             $validated = $request->validate([
                 'username' => 'required',
                 'email' => 'required|email',
+            ],[
+                'username.required' => 'Username harus diisi',
+                'email.required' => 'Email harus diisi',
+                'email.email' => 'Email tidak valid',
+
             ]);
 
             if ($request->profile) {

@@ -111,6 +111,8 @@ class ResidentReportController extends Controller
 
                 $validated = $request->validate([
                     'status_id' => 'required',
+                ], [
+                    'status_id.required' => "Status Tidak Boleh Kosong",
                 ]);
 
                 try {
