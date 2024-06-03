@@ -69,47 +69,49 @@
                             @enderror
 
                             <div id="old-preview-container">
-                                @if ($fileType === 'file')
-                                    @php
-                                        $pos = strpos($information->thumbnail_url, '-');
-                                        $fileName = '';
-                                        if ($pos !== false) {
-                                            // Mengambil bagian dari string setelah tanda '-'
-                                            $fileName = substr($information->thumbnail_url, $pos + 1);
-                                        }
-                                    @endphp
-                                    <div class="flex gap-x-2 items-center">
-                                        <div id="file-icon"></div>
-                                        <div class="flex flex-col" id="preview-file-container">
-                                            @if ($file_extension == 'pdf')
-                                                <a href="{{ route('file.show', ['path' => 'pengumuman', 'identifier' => $information->informasi_id]) }}"
-                                                    class="text-blue-500 py-3 text-sm font-light"
-                                                    target="_blank">{{ $fileName }}</a>
-                                            @else
-                                                <a href="{{ route('file.download', ['path' => 'pengumuman', 'identifier' => $information->informasi_id]) }}"
-                                                    class="text-blue-500 py-3 text-sm font-light"
-                                                    target="_blank">{{ $fileName }}</a>
-                                            @endif
-                                        </div>
-                                    </div>
-                                @else
-                                    @if ($information->jenis_informasi != 'Pengumuman' && $information->jenis_informasi != 'Dokumentasi Rapat')
-                                        @if (strpos($information->thumbnail_url, 'http') === 0)
-                                            <div>
-                                                <img src="{{ $information->thumbnail_url }}" alt=""
-                                                    class="w-full object-cover rounded-lg">
+                                @if ($information->thumbnail_url)
+                                    @if ($fileType === 'file')
+                                        @php
+                                            $pos = strpos($information->thumbnail_url, '-');
+                                            $fileName = '';
+                                            if ($pos !== false) {
+                                                // Mengambil bagian dari string setelah tanda '-'
+                                                $fileName = substr($information->thumbnail_url, $pos + 1);
+                                            }
+                                        @endphp
+                                        <div class="flex gap-x-2 items-center">
+                                            <div id="file-icon"></div>
+                                            <div class="flex flex-col" id="preview-file-container">
+                                                @if ($file_extension == 'pdf')
+                                                    <a href="{{ route('file.show', ['path' => 'pengumuman', 'identifier' => $information->informasi_id]) }}"
+                                                        class="text-blue-500 py-3 text-sm font-light"
+                                                        target="_blank">{{ $fileName }}</a>
+                                                @else
+                                                    <a href="{{ route('file.download', ['path' => 'pengumuman', 'identifier' => $information->informasi_id]) }}"
+                                                        class="text-blue-500 py-3 text-sm font-light"
+                                                        target="_blank">{{ $fileName }}</a>
+                                                @endif
                                             </div>
+                                        </div>
+                                    @else
+                                        @if ($information->jenis_informasi != 'Pengumuman' && $information->jenis_informasi != 'Dokumentasi Rapat')
+                                            @if (strpos($information->thumbnail_url, 'http') === 0)
+                                                <div>
+                                                    <img src="{{ $information->thumbnail_url }}" alt=""
+                                                        class="w-full object-cover rounded-lg">
+                                                </div>
+                                            @else
+                                                <div>
+                                                    <img src="{{ asset('storage/images_storage/' . $information->thumbnail_url) }}"
+                                                        alt="" class="w-full object-cover rounded-lg">
+                                                </div>
+                                            @endif
                                         @else
-                                            <div>
-                                                <img src="{{ asset('storage/images_storage/' . $information->thumbnail_url) }}"
-                                                    alt="" class="w-full object-cover rounded-lg">
+                                            <div class="py-3">
+                                                <img class="rounded-lg w-auto h-auto"
+                                                    src="{{ route('storage.announcement', ['filename' => $information->thumbnail_url]) }}">
                                             </div>
                                         @endif
-                                    @else
-                                        <div class="py-3">
-                                            <img class="rounded-lg w-auto h-auto"
-                                                src="{{ route('storage.announcement', ['filename' => $information->thumbnail_url]) }}">
-                                        </div>
                                     @endif
                                 @endif
                             </div>
