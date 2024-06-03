@@ -21,7 +21,6 @@ return new class extends Migration
             $table->string('kecamatan');
             $table->string('kota');
             $table->string('kode_pos');
-            $table->softDeletes();
             $table->timestamps();
         });
     }

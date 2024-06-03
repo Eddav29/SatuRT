@@ -33,11 +33,10 @@ return new class extends Migration
             $table->string('desa');
             $table->string('kecamatan');
             $table->string('kota');
-            $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('kartu_keluarga_id')->references('kartu_keluarga_id')->on('kartu_keluarga');
-            $table->foreign('user_id')->references('user_id')->on('users');
+            $table->foreign('kartu_keluarga_id')->references('kartu_keluarga_id')->on('kartu_keluarga')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

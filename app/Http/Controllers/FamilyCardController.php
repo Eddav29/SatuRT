@@ -253,7 +253,8 @@ class FamilyCardController extends Controller
             return response()->json([
                 'code' => 200,
                 'message' => 'Data berhasil dihapus',
-                'timestamp' => now()
+                'timestamp' => now(),
+                'redirect' => route('data-keluarga.index')
             ], 200);
         } catch (\Exception $e) {
             return response()->json([

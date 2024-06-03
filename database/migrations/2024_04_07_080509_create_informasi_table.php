@@ -23,10 +23,9 @@ return new class extends Migration {
             ]);
             $table->text('isi_informasi');
             $table->string('thumbnail_url')->nullable();
-            $table->softDeletes();
             $table->timestamps();
 
-            $table->foreign('penduduk_id')->references('penduduk_id')->on('penduduk');
+            $table->foreign('penduduk_id')->references('penduduk_id')->on('penduduk')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
