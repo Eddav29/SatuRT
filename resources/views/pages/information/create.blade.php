@@ -83,9 +83,6 @@
                                     <p>Lampiran</p>
                                 </div>
                             </label>
-                            @error('images')
-                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
-                            @enderror
 
                             <div id="preview-file" class="text-blue-500 py-3 hidden"></div>
                             <img alt="" id="preview-image" class="hidden">
