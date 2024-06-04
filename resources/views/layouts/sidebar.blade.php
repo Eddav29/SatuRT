@@ -146,12 +146,12 @@
                         </div>
                         <div :class="isInventaris ? 'block' : 'hidden'">
                             <div class="pl-11 py-1">
-                                <x-nav-menu :href="route('inventaris.data-inventaris.index')" :active="request()->is('inventaris/data-inventaris')">
+                                <x-nav-menu :href="route('inventaris.data-inventaris.index')" :active="request()->is('inventaris/data-inventaris*')">
                                     Data Inventaris
                                 </x-nav-menu>
                             </div>
                             <div class="pl-11 py-1">
-                                <x-nav-menu :href="route('inventaris.peminjaman.index')" :active="request()->is('inventaris/peminjaman')">
+                                <x-nav-menu :href="route('inventaris.peminjaman.index')" :active="request()->is('inventaris/peminjaman*')">
                                     Peminjaman Inventaris
                                 </x-nav-menu>
                             </div>
