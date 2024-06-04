@@ -136,7 +136,7 @@ class UMKMSeeder extends Seeder
                 'alamat' => '3J9M+XQP, Jl. Ikan Piranha Atas, Tunjungsekar, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142',
                 'nomor_telepon' => '',
                 'status' => 'Aktif',
-                'thumbnail_url' => 'https://lh3.googleusercontent.com/gps-proxy/ALd4DhEd9GT6OwGvgpLi5Q7EANK9icvpCN91gRVUncSbn8L_g4lWGnQZGFSIwIXYVT-WWvoMhe_FdTvCp9Srcm3dF07jpD723JtQUnb4MZILFlyL5npCJmThymg59wURia_8KOzDQRfF2qVs_6wmjfCr8By542twxXkAso_CsMUcp9U4Cd4gQwh7w3h3NzfT59qgXVXKbhk=w408-h306-k-no',
+                'thumbnail_url' => $this->saveImage('TokoHS.jpg', $imageMappings),
                 'lisence_image_url' => $this->saveImage('Lisence.jpg', $imageMappings),
                 'lokasi_url' => 'https://maps.app.goo.gl/vasfK753b9BhE18bA'
             ],
@@ -184,7 +184,7 @@ class UMKMSeeder extends Seeder
                 'alamat' => 'Jl. Terusan Ikan Piranha Atas No.60, Tunjungsekar, Kec. Lowokwaru, Kota Malang, Jawa Timur 65142',
                 'nomor_telepon' => '03417729570',
                 'status' => 'Aktif',
-                'thumbnail_url' => 'https://lh3.googleusercontent.com/gps-proxy/ALd4DhGSBdU7XVRppqzTC5Lm92I2Q3FQpcKtfANw6LmZ6W0gRNtHfxMcNaWIDqkWnxic3OfDZNG1ohlSidDr9AE4o1hJz5OOnkp1VGMFBijsFa6RVHABgIeK5VRZfZhMds3oo9syhFCBLkHOIUdzu2DKt2kZbUCZhv_pB8Bca_ac80o-tsyT2Znn2MDPgMa8UI0-TqokU50=w408-h306-k-no',
+                'thumbnail_url' => $this->saveImage('TokoPuji.jpg', $imageMappings),
                 'lisence_image_url' => $this->saveImage('Lisence.jpg', $imageMappings),
                 'lokasi_url' => 'https://maps.app.goo.gl/DJdoqQynRNcYeLpk7'
             ],
@@ -210,7 +210,7 @@ class UMKMSeeder extends Seeder
             $hashedName = Str::random(40) . '.jpg';
             Storage::disk('storage_lisence')->put($hashedName, $imageContent);
         }else{
-            $imagePath = public_path("assets/images/usaha/{$imageName}");
+            $imagePath = public_path("assets/images/Usaha/{$imageName}");
             $imageContent = file_get_contents($imagePath);
             $hashedName = Str::random(40) . '.png';
             Storage::disk('public')->put($hashedName, $imageContent);

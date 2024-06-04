@@ -50,6 +50,6 @@ class StorageController extends Controller
 
     public function storagePublic(string $filename)
     {
-        return $this->serveFile('storage_public', $filename);
+        return $this->serveFile('public', $filename);
     }
 }
