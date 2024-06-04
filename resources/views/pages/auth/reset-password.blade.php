@@ -2,6 +2,17 @@
     <form method="POST" action="{{ route('password.store') }}">
         @csrf
 
+        <div class="flex items-center justify-start">
+            <div class="w-20 md:w-24 flex">
+                <x-application-logo class="w-auto h-auto text-gray-800 " />
+            </div>
+        </div>
+
+        <div class="mt-6">
+            <h1 class="font-bold text-2xl">Reset Password</h1>
+            <p class="font-nomral text-md text-gray-400">Silahkan masukkan password baru anda</p>
+        </div>
+
         <!-- Password Reset Token -->
         <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
