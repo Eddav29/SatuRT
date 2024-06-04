@@ -37,8 +37,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::prefix('v1')->group(function () {
     Route::get('berita', [NewsController::class, 'paginate']);
     Route::get('usaha', [BusinessController::class, 'paginate']);
-    Route::get('/pengumuman/{id}', [AnnouncementController::class, 'getAnnouncement']);
-    Route::get('/pelaporan/{id}', [ResidentReportController::class, 'getResidentReport']);
 });
 
 Route::middleware('auth:sanctum')->group(function () {
@@ -56,7 +54,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
             Route::get('keuangan/{year}', [FinanceReportController::class, 'listByYear']);
 
-
+            Route::get('/pengumuman/{id}', [AnnouncementController::class, 'getAnnouncement']);
+            Route::get('/pelaporan/{id}', [ResidentReportController::class, 'getResidentReport']);
             Route::get('/laporan-keuangan/{id}', [FinanceReportController::class, 'financeReport']);
         });
 
