@@ -39,7 +39,7 @@ class ResidentReportController extends Controller
     {
         if (Auth::user()->role->role_name == 'Ketua RT') {
             $breadcrumb = [
-                'list' => ['Home', 'Pelaporan Warga'],
+                'list' => ['Home', 'Laporan Warga'],
                 'url' => ['home', 'pelaporan.index'],
             ];
             return response()->view('pages.resident-report.index', [
@@ -67,7 +67,7 @@ class ResidentReportController extends Controller
             $pelaporan = Pelaporan::with('pengajuan')->find($id);
 
             $breadcrumb = [
-                'list' => ['Home', 'Pelaporan', 'Detail Pelaporan'],
+                'list' => ['Home', 'Laporan Warga', 'Detail Laporan'],
                 'url' => ['home', 'pelaporan.index', ['pelaporan.show', $id]],
             ];
 
@@ -79,7 +79,7 @@ class ResidentReportController extends Controller
             $pelaporan = Pelaporan::with('pengajuan')->find($id);
 
             $breadcrumb = [
-                'list' => ['Home', 'LAPOR!', 'Detail Pelaporan'],
+                'list' => ['Home', 'LAPOR!', 'Detail Laporan'],
                 'url' => ['home', 'pelaporan.index', ['pelaporan.show', $id]],
             ];
 
@@ -118,10 +118,10 @@ class ResidentReportController extends Controller
                 $pengajuan->update($validated);
 
                 NotificationPusher::success('Status Pelaporan Berhasil diperbarui');
-                return redirect()->route('pelaporan.index')->with(['success' => 'Status Pelaporan Berhasil diperbarui']);
+                return redirect()->route('pelaporan.index');
             } catch (\Throwable $th) {
-                NotificationPusher::error('Status Pelaporan Gagal Berhasil diperbarui');
-                return redirect()->route('pelaporan.index')->with(['error' => 'Status Pelaporan Gagal Berhasil diperbarui']);
+                NotificationPusher::error('Status Pelaporan Gagal diperbarui');
+                return redirect()->route('pelaporan.index');
             }
 
         } else {
@@ -312,11 +312,11 @@ class ResidentReportController extends Controller
 
             DB::commit();
 
-            NotificationPusher::success('Perubahan berhasil disimpan');
+            NotificationPusher::success('Data berhasil ditambahkan');
             return redirect()->route('pelaporan.index');
         } catch (\Exception $e) {
             DB::rollback();
-            NotificationPusher::error('Gagal menyimpan perubahan: ' . $e->getMessage());
+            NotificationPusher::error('Gagal menyimpan data: ' . $e->getMessage());
             return redirect()->route('pelaporan.index');
         }
 

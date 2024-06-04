@@ -210,7 +210,7 @@ class InventarisController extends Controller
 
             DB::commit();
 
-            NotificationPusher::success('Data berhasil disimpan');
+            NotificationPusher::success('Data berhasil ditambahkan');
             return redirect()->route('inventaris.data-inventaris.index')->with(['success' => 'Data berhasil disimpan']);
         } catch (\Exception $e) {
             DB::rollback();
