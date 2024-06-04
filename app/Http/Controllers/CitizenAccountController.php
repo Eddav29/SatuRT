@@ -195,9 +195,9 @@ class CitizenAccountController extends Controller
         }
         try {
             DB::beginTransaction();
-            UserService::update($id, $request);
+            UserService::update($id, $request, true);
             DB::commit();
-            if ($request->role_id === UserService::getRoleId('Ketua RT')) {
+            if ($request->role_id === UserService::getRoleId('Ketua RT') && Auth::user()->user_id !== $id){
                 UserService::changeRole(Auth::user()->user_id, 'Penduduk');
                 $response = AuthService::logout($request);
 

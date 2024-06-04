@@ -3,7 +3,7 @@
     <x-slot name="breadcrumb">
         <x-breadcrumb :list="$breadcrumb['list']" :url="$breadcrumb['url']" />
     </x-slot>
-    <section class="bg-white mx-6 md:mx-14 my-10 p-6">
+    <section class="bg-white p-6 lg:px-14 gap-y-5 mx-auto max-w-screen-2xl md:p-6 2xl:p-10">
         <form action="{{ route('data-anggota.store', [
             'keluargaid' => $id,
         ]) }}" method="POST"
@@ -11,7 +11,7 @@
             @csrf
             <div class="space-y-6">
                 <div>
-                    <x-heading text="Tambah Data Anggota Keluarga"" />
+                    <x-heading text="Tambah Data Anggota Keluarga" />
                     @include('pages.data-penduduk.partials.data-anggota-keluarga-form')
                 </div>
             </div>
