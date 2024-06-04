@@ -184,7 +184,7 @@
                                         <div class="mt-2">
                                             <h6 class="text-xs font-medium">{{ $information->penduduk->nama }}</h6>
                                             <h1 class="text-xl font-bold text-navy-night/80 ">
-                                                {{ $information->judul_informasi }} | {{ $information->informasi_id }}
+                                                {{ $information->judul_informasi }}
                                             </h1>
                                             <p class="text-xs/6">Klik Untuk Detail</p>
                                         </div>
@@ -203,9 +203,6 @@
                                                 {{ $information->pengajuan->penduduk->nama }}</h6>
                                             <h1 class="text-xl font-bold text-navy-night/80 ">
                                                 {{ $information->pengajuan->keperluan }}
-                                            </h1>
-                                            <h1>
-                                                {{ $information->pelaporan_id }}
                                             </h1>
                                             <p class="text-xs/6">Klik Untuk Detail</p>
                                         </div>
