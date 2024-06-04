@@ -19,7 +19,11 @@
                     <div class="mt-5 gap-5">
                         <div>
                             <label for="keperluan"
-                                class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Judul Laporan</label>
+                                class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Judul
+                                Laporan</label>
+                            @error('keperluan')
+                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                            @enderror
                             <input type="text" placeholder="Masukkan Judul Laporan" name="keperluan"
                                 class="placeholder:font-normal required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
                         </div>
@@ -29,6 +33,9 @@
                         <div>
                             <label for="nik"
                                 class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">NIK</label>
+                            @error('nik')
+                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                            @enderror
                             <input type="text" placeholder="Masukkan NIK"
                                 value="{{ Auth::user()->penduduk->nik ?? '' }}" disabled
                                 class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
@@ -36,6 +43,9 @@
                         <div>
                             <label for="nama"
                                 class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Nama</label>
+                            @error('nama')
+                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                            @enderror
                             <input type="text" placeholder="Masukkan Nama"
                                 value="{{ Auth::user()->penduduk->nama ?? '' }}" disabled
                                 class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
@@ -46,13 +56,20 @@
                         <div>
                             <label for="tanggal"
                                 class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Tanggal</label>
-                            <input type="date" name="accepted_at" id="accepted_at" value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"
+                            @error('tanggal')
+                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                            @enderror
+                            <input type="date" name="accepted_at" id="accepted_at"
+                                value="{{ \Carbon\Carbon::now()->format('Y-m-d') }}"
                                 class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
                         </div>
                         <div>
                             <label for="jenis_laporan"
                                 class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Jenis
                                 Laporan</label>
+                            @error('jenis_pelaporan')
+                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                            @enderror
                             <select id="jenis_pelaporan" name="jenis_pelaporan"
                                 class="font-normal  mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
                                 <option value="" selected disabled>Pilih Jenis Laporan</option>
@@ -69,7 +86,10 @@
 
                     <div class="mt-5">
                         <div>
-                            <x-input-file name="image_url" :accept="$extension"/>
+                            @error('image_url')
+                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                            @enderror
+                            <x-input-file name="image_url" :accept="$extension" />
                         </div>
                     </div>
 

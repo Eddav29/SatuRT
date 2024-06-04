@@ -13,13 +13,18 @@
                     <h1 class="font-bold md:text-2xl text-xl">Tambahkan Inventaris</h1>
                 </div>
 
-                <form method="POST" action="{{ route('inventaris.data-inventaris.store') }}" enctype="multipart/form-data" class="px-5">
+                <form method="POST" action="{{ route('inventaris.data-inventaris.store') }}" enctype="multipart/form-data"
+                    class="px-5">
                     @csrf
 
                     <div class="mt-5 gap-5">
                         <div>
                             <label for="nama"
-                                class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Nama Inventaris</label>
+                                class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Nama
+                                Inventaris</label>
+                            @error('nama_inventaris')
+                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                            @enderror
                             <input type="text" placeholder="Masukkan Nama" name="nama_inventaris"
                                 class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
                         </div>
@@ -28,11 +33,17 @@
                     <div class="mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
                         <div>
                             <label for="merk" class="font-semibold">Merk</label>
+                            @error('merk')
+                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                            @enderror
                             <input type="text" placeholder="Masukkan Merk" name="merk"
                                 class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
                         </div>
                         <div>
                             <label for="warna" class="font-semibold">Warna</label>
+                            @error('warna')
+                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                            @enderror
                             <input type="text" placeholder="Masukkan Warna" name="warna"
                                 class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
                         </div>
@@ -42,12 +53,18 @@
                         <div>
                             <label for="jumlah"
                                 class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Jumlah</label>
+                            @error('jumlah')
+                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                            @enderror
                             <input type="text" placeholder="Masukkan Jumlah" name="jumlah"
                                 class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
                         </div>
                         <div>
                             <label for="jenis"
                                 class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Jenis</label>
+                            @error('jenis')
+                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                            @enderror
                             <select name="jenis"
                                 class="font-normal  mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
                                 <option value="" selected disabled>Pilih Jenis Inventaris</option>
@@ -65,6 +82,9 @@
                         <div>
                             <label for="sumber"
                                 class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Sumber</label>
+                            @error('sumber')
+                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                            @enderror
                             <select name="sumber"
                                 class="font-normal  mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
                                 <option value="" selected disabled>Pilih Sumber Inventaris</option>
@@ -79,24 +99,11 @@
 
                     {{-- Field File Upload --}}
                     <div class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold mt-5">Lampiran</div>
-                    <x-input-file name="foto_inventaris" :accept="$extension"/>
-                    {{-- <div>
-                        <img alt="" id="preview-image" class="hidden">
-                    </div>
-                    <div class="flex flex-col mt-5" :class="selected === 'Pilih Jenis Informasi' ? 'hidden' : ''">
-                        @error('image_url')
-                            <small class="text-red-500 text-xs py-3">{{ $message }}</small>
-                        @enderror
+                    @error('foto_inventaris')
+                        <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                    @enderror
+                    <x-input-file name="foto_inventaris" :accept="$extension" />
 
-                        <p id="preview-file" class="text-blue-500 py-3 hidden"></p>
-                        <img alt="" id="preview-image" class="hidden">
-
-                        <input
-                            class="relative m-0 block w-full min-w-0 flex-auto cursor-pointer rounded border border-solid border-secondary-500 bg-transparent bg-clip-padding px-3 py-[0.32rem] text-base font-normal text-surface transition duration-300 ease-in-out file:-mx-3 file:-my-[0.32rem] file:me-3 file:cursor-pointer file:overflow-hidden file:rounded-none file:border-0 file:border-e file:border-solid file:border-inherit file:bg-transparent file:px-3  file:py-[0.32rem] file:text-surface focus:border-primary focus:text-gray-700 focus:shadow-inset focus:outline-none"
-                            type="file" id="file_input" name="foto_inventaris" onchange="previewImage()"
-                            x-bind:accept="selected === 'Pengumuman' ? '' :
-                                'image/*'" />
-                    </div> --}}
 
                     {{-- Keterangan --}}
                     <div class="mt-5">

@@ -143,6 +143,7 @@ class ResidentReportController extends Controller
 
             }
 
+
             $validated = $request->validate([
                 'keperluan' => 'required',
                 'accepted_at' => 'required|date',
@@ -278,7 +279,7 @@ class ResidentReportController extends Controller
             'jenis_pelaporan' => 'required',
             'image_url' => 'max:2048|image',
             'keterangan' => 'required',
-        ], [
+        ],[
             'keperluan.required' => "Judul Tidak Boleh Kosong",
             'jenis_pelaporan.required' => "Jenis Pelaporan Tidak Boleh Kosong",
             'keterangan.required' => "Keterangan Tidak Boleh Kosong",

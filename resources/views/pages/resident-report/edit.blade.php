@@ -24,6 +24,9 @@
                         {{-- Judul --}}
                         <div>
                             <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Judul Laporan</div>
+                            @error('keperluan')
+                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                            @enderror
                             <input type="text" value="{{ $pelaporan->pengajuan->keperluan }}"
                                 placeholder="Masukkan Nama" name="keperluan" id="keperluan"
                                 class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
@@ -36,6 +39,9 @@
                             {{-- NIK --}}
                             <div>
                                 <div class="after:content-['*'] after:ml-0.5 after:text-red-500">NIK</div>
+                                @error('nik')
+                                    <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                                @enderror
                                 <input type="text" disabled value="{{ $pelaporan->pengajuan->penduduk->nik }}"
                                     placeholder="Masukkan NIK" name="nik" id="nik"
                                     class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
@@ -44,6 +50,9 @@
                             {{-- Nama --}}
                             <div>
                                 <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Nama</div>
+                                @error('nama')
+                                    <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                                @enderror
                                 <input type="text" disabled value="{{ $pelaporan->pengajuan->penduduk->nama }}"
                                     placeholder="Masukkan Nama" name="nama" id="nama"
                                     class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
@@ -52,6 +61,9 @@
                             {{-- Tanggal --}}
                             <div>
                                 <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Tanggal</div>
+                                @error('tanggal')
+                                    <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                                @enderror
                                 <input type="date" name="accepted_at" id="accepted_at"
                                     value="{{ $pelaporan->pengajuan->accepted_at ? \Carbon\Carbon::parse($pelaporan->pengajuan->accepted_at)->format('Y-m-d') : \Carbon\Carbon::now()->format('Y-m-d') }}"
                                     class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
@@ -60,6 +72,9 @@
                             {{-- Jenis Laporan --}}
                             <div>
                                 <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Jenis Laporan</div>
+                                @error('jenis_pelaporan')
+                                    <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                                @enderror
                                 <select id="jenis_pelaporan" name="jenis_pelaporan"
                                     class="font-normal  mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
                                     <option disabled>Pilih Jenis Laporan</option>
@@ -84,6 +99,9 @@
                             <div>Lampiran</div>
 
                             <div>
+                                @error('image_url')
+                                    <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                                @enderror
                                 @isset($pelaporan->image_url)
                                     <x-input-file name="image_url" :accept="$extension" :default="route('public', $pelaporan->image_url)" />
                                 @else
@@ -107,7 +125,8 @@
 
                 {{-- Button --}}
                 <div class="mx-3 my-3">
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-800 text-white border-2 py-3 px-5 rounded-lg mt-4 mr-2">
+                    <button type="submit"
+                        class="bg-blue-500 hover:bg-blue-800 text-white border-2 py-3 px-5 rounded-lg mt-4 mr-2">
                         <p>Simpan</p>
                     </button>
                     <button href="#" onclick="window.history.back()"

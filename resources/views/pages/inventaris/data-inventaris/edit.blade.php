@@ -24,12 +24,18 @@
                             <label for="nama"
                                 class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Nama
                                 Inventaris</label>
+                            @error('nama_inventaris')
+                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                            @enderror
                             <input type="text" placeholder="Masukkan Nama" name="nama_inventaris"
                                 value="{{ $inventaris->nama_inventaris }}"
                                 class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
                         </div>
                         <div class="ml-3">
                             <label for="merk" class="font-semibold">Merk</label>
+                            @error('merk')
+                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                            @enderror
                             <input type="text" placeholder="Masukkan Merk" name="merk"
                                 value="{{ $inventaris->merk }}"
                                 class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
@@ -39,6 +45,9 @@
                     <div class="mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
                         <div class="ml-3">
                             <label for="warna" class="font-semibold">Warna</label>
+                            @error('warna')
+                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                            @enderror
                             <input type="text" placeholder="Masukkan Warna" name="warna"
                                 value="{{ $inventaris->warna }}"
                                 class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
@@ -46,6 +55,9 @@
                         <div class="ml-3">
                             <label for="jumlah"
                                 class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Jumlah</label>
+                            @error('jumlah')
+                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                            @enderror
                             <input type="text" placeholder="Masukkan Jumlah" name="jumlah"
                                 value="{{ $inventaris->jumlah }}"
                                 class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
@@ -56,6 +68,9 @@
                         <div class="ml-3">
                             <label for="jenis"
                                 class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Jenis</label>
+                            @error('jenis')
+                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                            @enderror
                             <select name="jenis"
                                 class="font-normal  mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
                                 <option value="" disabled>Pilih Jenis Inventaris</option>
@@ -77,6 +92,9 @@
                         <div class="ml-3">
                             <label for="sumber"
                                 class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Sumber</label>
+                            @error('sumber')
+                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                            @enderror
                             <select name="sumber"
                                 class="font-normal  mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
                                 <option value="" disabled>Pilih Sumber Inventaris</option>
@@ -99,13 +117,16 @@
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Lampiran</div>
 
                         <div>
+                            @error('foto_inventaris')
+                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                            @enderror
                             @isset($inventaris->foto_inventaris)
                                 <x-input-file name="foto_inventaris" :accept="$extension" :default="route('public', $inventaris->foto_inventaris)" />
                             @else
                                 <x-input-file name="foto_inventaris" :accept="$extension" />
                             @endisset
                         </div>
-                        
+
                     </div>
 
 

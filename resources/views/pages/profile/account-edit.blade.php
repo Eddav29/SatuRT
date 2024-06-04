@@ -39,29 +39,37 @@
                     <div class="mx-3 my-4 gap-5 flex flex-col font-bold">
                         <div>
                             <div class="after:content-['*'] after:ml-0.5 after:text-red-500">NIK</div>
+                            @error('nik')
+                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                            @enderror
                             <input disabled type="text" value="{{ $penduduk->nik }}" placeholder="Masukkan NIK"
                                 disabled
                                 class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                            <x-input-error :messages="$errors->get('nik')" class="mt-2" />
                         </div>
                         <div>
                             <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Nama</div>
+                            @error('nama')
+                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                            @enderror
                             <input type="text" value="{{ $penduduk->nama }}" placeholder="Masukkan Nama" disabled
                                 class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                            <x-input-error :messages="$errors->get('nama')" class="mt-2" />
                         </div>
                         <div>
                             <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Username</div>
+                            @error('username')
+                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                            @enderror
                             <input type="text" value="{{ $penduduk->user->username }}" name="username" id="username"
                                 class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                            <x-input-error :messages="$errors->get('username')" class="mt-2" />
                         </div>
                         <div>
                             <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Email</div>
+                            @error('email')
+                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                            @enderror
                             <input type="text" value="{{ $penduduk->user->email }}" placeholder="Masukkan Email"
                                 name="email" id="email"
                                 class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
                         </div>
                     </div>
 
@@ -69,6 +77,9 @@
                     <div class="mx-3 my-3 font-bold">
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Foto Profile</div>
                         <div>
+                            @error('profile')
+                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                            @enderror
                             @isset($penduduk->user->profile)
                                 <x-input-file name="profile" :accept="$extension" :default="route('public', $penduduk->user->profile)" />
                             @else
