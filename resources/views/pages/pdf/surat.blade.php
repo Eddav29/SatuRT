@@ -197,7 +197,7 @@
             <td style="padding: 0.3rem 0;">4.</td>
             <td style="width: 180px; padding: 0.3rem 0;">Agama</td>
             <td style="padding: 0.3rem 0; width: 20px">:</td>
-            <td style="padding: 0.3rem 0;">{{ $persuratan->pengajuan->penduduk->agama }}</td>
+            <td style="padding: 0.3rem 0;">{{ $persuratan->pengajuan->penduduk->agama ?? "" }}</td>
         </tr>
         <tr>
             <td style="padding: 0.3rem 0;">5.</td>
@@ -205,16 +205,16 @@
             <td style="padding: 0.3rem 0; width: 20px">:</td>
             <td style="padding: 0.3rem 0;">
                 <p style="display: inline-block; width: 80px; padding-top: 0.3rem"><span
-                        style="{{ $persuratan->pemohon()->penduduk->status_perkawinan == 'Kawin' ? 'border: 2px solid black; border-radius: 100%; padding: 2px' : '' }}">a.</span>
+                        style="{{ $persuratan->pemohon()->status_perkawinan == 'Kawin' ? 'border: 2px solid black; border-radius: 100%; padding: 2px' : ''}}">a.</span>
                     Kawin</p>
                 <p style="display: inline-block; width: 110px; padding-top: 0.3rem"><span
-                        style="{{ $persuratan->pemohon()->penduduk->status_perkawinan == 'Belum Kawin' ? 'border: 2px solid black; border-radius: 100%; padding: 2px' : '' }}">b.</span>
+                        style="{{ $persuratan->pemohon()->status_perkawinan == 'Belum Kawin' ? 'border: 2px solid black; border-radius: 100%; padding: 2px' : '' }}">b.</span>
                     Belum Kawin</p>
                 <p style="display: inline-block; width: 110px; padding-top: 0.3rem"><span
-                        style="{{ $persuratan->pemohon()->penduduk->status_perkawinan == 'Cerai Hidup' ? 'border: 2px solid black; border-radius: 100%; padding: 2px' : '' }}">c.</span>
+                        style="{{ $persuratan->pemohon()->status_perkawinan == 'Cerai Hidup' ? 'border: 2px solid black; border-radius: 100%; padding: 2px' : '' }}">c.</span>
                     Cerai Hidup</p>
                 <p style="display: inline-block; width: 110px; padding-top: 0.3rem"><span
-                        style="{{ $persuratan->pemohon()->penduduk->status_perkawinan == 'Cerai Mati' ? 'border: 2px solid black; border-radius: 100%; padding: 2px' : '' }}">d.</span>
+                        style="{{ $persuratan->pemohon()->status_perkawinan == 'Cerai Mati' ? 'border: 2px solid black; border-radius: 100%; padding: 2px' : '' }}">d.</span>
                     Cerai Mati * )</p>
             </td>
         </tr>
@@ -222,19 +222,19 @@
             <td style="padding: 0.3rem 0;">6.</td>
             <td style="width: 180px; padding: 0.3rem 0;">Pekerjaan</td>
             <td style="padding: 0.3rem 0; width: 20px">:</td>
-            <td style="padding: 0.3rem 0;">{{ $persuratan->pengajuan->penduduk->pekerjaan }}</td>
+            <td style="padding: 0.3rem 0;">{{ $persuratan->pengajuan->penduduk->pekerjaan ??  "" }}</td>
         </tr>
         <tr>
             <td style="padding: 0.3rem 0;">7.</td>
             <td style="width: 180px; padding: 0.3rem 0;">Nomor KTP / KK</td>
             <td style="padding: 0.3rem 0; width: 20px">:</td>
-            <td style="padding: 0.3rem 0;">{{ $persuratan->pengajuan->penduduk->nik }}</td>
+            <td style="padding: 0.3rem 0;">{{ $persuratan->pengajuan->penduduk->nik ?? ""}}</td>
         </tr>
         <tr>
             <td style="padding: 0.3rem 0;">8.</td>
             <td style="width: 180px; padding: 0.3rem 0;">Alamat</td>
             <td style="padding: 0.3rem 0; width: 20px">:</td>
-            <td style="padding: 0.3rem 0;">{{ $persuratan->pengajuan->penduduk->kartuKeluarga->alamat }}</td>
+            <td style="padding: 0.3rem 0;">{{ $persuratan->pengajuan->penduduk->kartuKeluarga->alamat ?? "" }}</td>
         </tr>
         <tr style="border: 1px solid black">
             <td style="padding: 0.3rem 0;">9.</td>
