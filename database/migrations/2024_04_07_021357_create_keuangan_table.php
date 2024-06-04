@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id('keuangan_id');
             $table->uuid('penduduk_id')->index();
             $table->integer('total_keuangan');
-            $table->string('tanggal');
+            $table->date('tanggal');
             $table->timestamps();
 
             $table->foreign('penduduk_id')->references('penduduk_id')->on('penduduk')->onDelete('cascade')->onUpdate('cascade');
