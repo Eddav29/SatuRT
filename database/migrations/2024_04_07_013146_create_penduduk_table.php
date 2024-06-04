@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      */
@@ -26,6 +25,7 @@ return new class extends Migration
             $table->enum('status_hubungan_dalam_keluarga', ['Kepala Keluarga', 'Istri', 'Anak', 'Cucu', 'Ayah', 'Ibu', 'Saudara', 'Mertua', 'Menantu', 'Cucu Menantu', 'Cicit', 'Keluarga Lain'])->nullable();
             $table->enum('status_perkawinan', ['Kawin', 'Belum Kawin', 'Cerai Hidup', 'Cerai Mati']);
             $table->enum('pendidikan_terakhir', ['SD', 'SMP', 'SMA', 'D3', 'S1', 'S2', 'S3']);
+            $table->enum('status_kehidupan', ['Hidup', 'Meninggal'])->default('Hidup');
             $table->string('foto_ktp')->nullable();
             $table->enum('status_penduduk', ['Domisili', 'Non Domisili']);
             $table->integer('nomor_rt');

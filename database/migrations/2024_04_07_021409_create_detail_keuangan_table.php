@@ -18,7 +18,7 @@ return new class extends Migration
             $table->enum('jenis_keuangan', ['Pemasukan', 'Pengeluaran']);
             $table->enum('asal_keuangan', ['Donasi', 'Iuran Warga', 'Kas Umum', 'Dana Darurat',  'Lainnya']);
             $table->integer('nominal');
-            $table->string('keterangan');
+            $table->text('keterangan');
             $table->timestamps();
             $table->foreign('keuangan_id')->references('keuangan_id')->on('keuangan')->onDelete('cascade')->onUpdate('cascade');
         });
