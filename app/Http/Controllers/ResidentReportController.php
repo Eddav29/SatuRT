@@ -6,6 +6,7 @@ use App\Http\Resources\ResidentReportResource;
 use App\Models\Pelaporan;
 use App\Models\Pengajuan;
 use App\Models\User;
+use App\Services\FileManager\FileService;
 use App\Services\ImageManager\ImageService;
 use App\Services\Notification\NotificationPusher;
 use Carbon\Carbon;
@@ -277,22 +278,22 @@ class ResidentReportController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        $validated = $request->validate([
+            'keperluan' => 'required',
+            'accepted_at' => 'required|date',
+            'jenis_pelaporan' => 'required',
+            'image_url' => 'max:2048|image',
+            'keterangan' => 'required',
+        ], [
+            'keperluan.required' => "Judul Tidak Boleh Kosong",
+            'jenis_pelaporan.required' => "Jenis Pelaporan Tidak Boleh Kosong",
+            'keterangan.required' => "Keterangan Tidak Boleh Kosong",
+            'image_url.max' => "Lampiran Tidak Boleh Lebih Besar dari 2MB",
+            'image_url.image' => "Lampiran Harus Berbentuk Gambar",
+        ]);
+
         try {
             $pendudukId = Auth::user()->penduduk->penduduk_id;
-
-            $validated = $request->validate([
-                'keperluan' => 'required',
-                'accepted_at' => 'required|date',
-                'jenis_pelaporan' => 'required',
-                'image_url' => 'max:2048|image',
-                'keterangan' => 'required',
-            ], [
-                'keperluan.required' => "Judul Tidak Boleh Kosong",
-                'jenis_pelaporan.required' => "Jenis Pelaporan Tidak Boleh Kosong",
-                'keterangan.required' => "Keterangan Tidak Boleh Kosong",
-                'image_url.max' => "Lampiran Tidak Boleh Lebih Besar dari 2MB",
-                'image_url.image' => "Lampiran Harus Berbentuk Gambar",
-            ]);
 
             if ($request->image_url) {
                 $pelaporan['image_url'] = ImageService::uploadFile('public', $request, 'image_url');
@@ -302,32 +303,29 @@ class ResidentReportController extends Controller
 
             DB::beginTransaction();
 
-            try {
-                $pengajuan = Pengajuan::create([
-                    'keperluan' => $validated['keperluan'],
-                    'accepted_at' => $validated['accepted_at'],
-                    'keterangan' => $validated['keterangan'],
-                    'penduduk_id' => $pendudukId,
-                ]);
+            $pengajuan = Pengajuan::create([
+                'keperluan' => $validated['keperluan'],
+                'accepted_at' => $validated['accepted_at'],
+                'keterangan' => $validated['keterangan'],
+                'penduduk_id' => $pendudukId,
+            ]);
 
-                Pelaporan::create([
-                    'jenis_pelaporan' => $validated['jenis_pelaporan'],
-                    'pengajuan_id' => $pengajuan->pengajuan_id,
-                    'image_url' => $pelaporan['image_url'],
-                ]);
+            Pelaporan::create([
+                'jenis_pelaporan' => $validated['jenis_pelaporan'],
+                'pengajuan_id' => $pengajuan->pengajuan_id,
+                'image_url' => $pelaporan['image_url'],
+            ]);
 
-                DB::commit();
+            DB::commit();
 
-                NotificationPusher::success('Perubahan berhasil disimpan');
-                return redirect()->route('pelaporan.index');
-            } catch (\Exception $e) {
-                DB::rollback();
-                NotificationPusher::error('Gagal menyimpan perubahan: ' . $e->getMessage());
-                return redirect()->route('pelaporan.index');
-            }
-        } catch (\Throwable $th) {
-            abort(404);
+            NotificationPusher::success('Perubahan berhasil disimpan');
+            return redirect()->route('pelaporan.index');
+        } catch (\Exception $e) {
+            DB::rollback();
+            NotificationPusher::error('Gagal menyimpan perubahan: ' . $e->getMessage());
+            return redirect()->route('pelaporan.index');
         }
+
     }
 
     public function destroy(string $id): JsonResponse | RedirectResponse
@@ -336,30 +334,33 @@ class ResidentReportController extends Controller
             $pelaporan = Pelaporan::find($id);
             $pengajuan = Pengajuan::find($pelaporan->pengajuan_id);
 
-            try {
-                DB::beginTransaction();
+            DB::beginTransaction();
 
+            $status = '';
+            if ($pelaporan->image_url) {
+                $status = ImageService::deleteFile('public', $pelaporan->image_url);
+            }
+
+            if ($status) {
                 $pelaporan->delete();
                 $pengajuan->delete();
-
-                DB::commit();
-                return response()->json([
-                    'code' => 200,
-                    'message' => 'Data berhasil dihapus',
-                    'timestamp' => now(),
-                    'redirect' => route('pelaporan.index')
-                ], 200);
-
-            } catch (\Exception $e) {
-                DB::rollback();
-                return response()->json([
-                    'code' => 500,
-                    'message' => $e->getMessage(),
-                    'timestamp' => now(),
-                ], 500);
             }
-        } catch (\Throwable $th) {
-            abort(404);
+
+            DB::commit();
+            return response()->json([
+                'code' => 200,
+                'message' => 'Data berhasil dihapus',
+                'timestamp' => now(),
+                'redirect' => route('pelaporan.index'),
+            ], 200);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'code' => 500,
+                'message' => $e->getMessage(),
+                'timestamp' => now(),
+            ], 500);
         }
     }
 

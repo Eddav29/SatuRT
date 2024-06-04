@@ -30,7 +30,7 @@
         <div class="p-6 rounded-xl bg-white-snow">
 
             <div class="bg-blue-gray p-5 max-lg:mt-5 rounded-md">
-                <h1 class="text-2xl font-semibold">Ganti Kata Sandi</h1>
+                <h1 class="text-2xl font-semibold">Ubah Kata Sandi</h1>
             </div>
 
             {{-- Form --}}

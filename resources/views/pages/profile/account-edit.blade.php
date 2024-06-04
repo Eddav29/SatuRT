@@ -1,25 +1,29 @@
 <x-profile-layout>
-    {{-- Header --}}
-    <section>
-        <div class="p-6 lg:px-14 lg:py-8 sticky top-0 z-[999] flex w-full bg-soft-snow max-lg:drop-shadow lg:hidden">
-            <div class="mx-auto flex items-center justify-between w-full">
-                <button @click.stop="sidebar = !sidebar" class="z-50 w-10 h-10">
-                    <x-heroicon-c-bars-3-center-left />
-                </button>
-                <div class="lg:hidden" x-data="{ profile: false }">
-                    <div class="h-14 w-14 rounded-full overflow-hidden" @click.stop="profile = !profile">
-                        @if (Auth::user()->penduduk->user->profile)
-                            <img src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}"
-                                class="h-full w-full object-cover">
-                        @else
-                            <img src="{{ asset('assets/images/default.png') }}" class="h-full w-full object-cover">
-                        @endif
+    <header class="p-6 lg:px-14 lg:py-8 sticky top-0 z-[999] flex w-full bg-soft-snow max-lg:drop-shadow">
+        <div class="mx-auto flex items-center justify-between lg:hidden w-full">
+            <button @click.stop="sidebar = !sidebar" class="z-50 w-10 h-10">
+                <x-heroicon-c-bars-3-center-left />
+            </button>
+            <div class="lg:hidden" x-data="{ profile: false }">
+                <div class="h-14 w-14 rounded-full overflow-hidden" @click.stop="profile = !profile">
+                    @if (Auth::user()->penduduk->user->profile)
+                        <img src="{{ asset('storage/images_storage/account_images/' . Auth::user()->penduduk->user->profile) }}"
+                            class="h-full w-full object-cover">
+                    @else
+                        <img src="{{ asset('assets/images/default.png') }}" class="h-full w-full object-cover">
+                    @endif
+                </div>
+                <div class="absolute right-11 p-2" :class="profile ? 'block' : 'hidden'">
+                    <div class="flex flex-col overflow-hidden rounded-lg ">
+                        <x-nav-button :class="'text-red-500'" :href="route('logout')">
+                            {{ __('Logout') }}
+                        </x-nav-button>
                     </div>
                 </div>
             </div>
         </div>
+    </header>
 
-    </section>
     {{-- End Header --}}
     <div class="p-6 lg:px-12 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col gap-y-5">
         <div class="p-6 rounded-xl bg-white-snow">
@@ -63,6 +67,7 @@
 
                     {{-- Foto Profile --}}
                     <div class="mx-3 my-3 font-bold">
+                        <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Foto Profile</div>
                         <div>
                             @isset($penduduk->user->profile)
                                 <x-input-file name="profile" :accept="$extension" :default="route('public', $penduduk->user->profile)" />

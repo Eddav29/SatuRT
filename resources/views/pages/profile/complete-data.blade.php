@@ -1,6 +1,6 @@
 <x-profile-layout>
-    <div class="p-6 lg:px-14 lg:py-8 sticky top-0 z-[999] flex w-full bg-soft-snow max-lg:drop-shadow lg:hidden">
-        <div class="mx-auto flex items-center justify-between w-full">
+    <header class="p-6 lg:px-14 lg:py-8 sticky top-0 z-[999] flex w-full bg-soft-snow max-lg:drop-shadow">
+        <div class="mx-auto flex items-center justify-between lg:hidden w-full">
             <button @click.stop="sidebar = !sidebar" class="z-50 w-10 h-10">
                 <x-heroicon-c-bars-3-center-left />
             </button>
@@ -13,9 +13,16 @@
                         <img src="{{ asset('assets/images/default.png') }}" class="h-full w-full object-cover">
                     @endif
                 </div>
+                <div class="absolute right-11 p-2" :class="profile ? 'block' : 'hidden'">
+                    <div class="flex flex-col overflow-hidden rounded-lg ">
+                        <x-nav-button :class="'text-red-500'" :href="route('logout')">
+                            {{ __('Logout') }}
+                        </x-nav-button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
+    </header>
 
     <div class="p-6 lg:px-12 mx-auto max-w-screen-2xl md:p-6 2xl:p-6 flex flex-col gap-y-5">
         <div class="p-6 rounded-xl bg-white-snow">
