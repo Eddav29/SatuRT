@@ -20,20 +20,13 @@
                     @method('PUT')
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div class="mt-5">
-                            <label for="penduduk_id"
-                                class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">
-                                Pemilik</label>
-                            <select
-                                class="form-control w-full rounded-md border-gray-200 placeholder:text-xs p-3 text-sm"
-                                id="penduduk_id" name="penduduk_id" required>
-                                <option class="hidden" value="{{ old('pemilik', $umkm->penduduk->penduduk_id) }}">
-                                    {{ $umkm->penduduk->nama }}</option>
-                                @foreach ($penduduk as $item)
-                                    <option value="{{ $item->penduduk_id }}">{{ $item->nama }}</option>
-                                @endforeach
-                            </select>
-                            @error('penduduk_id')
-                                <small class="form-text text-danger">{{ $message }}</small>
+                            <label for="nik"
+                                class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">NIK Pemilik Usaha</label>
+                            <input
+                                class="placeholder-gray-300 w-full rounded-md placeholder:text-xs border-gray-200 p-3 text-sm"
+                                placeholder="35************" type="text" id="nik" name="nik" value="{{ $umkm->penduduk->nik }}" />
+                            @error('nik')
+                                <small class="form-text text-red-500">{{ $message }}</small>
                             @enderror
                         </div>
                         <div class="mt-5">

@@ -39,7 +39,7 @@ class ResidentReportController extends Controller
     {
         if (Auth::user()->role->role_name == 'Ketua RT') {
             $breadcrumb = [
-                'list' => ['Home', 'Pelaporan Warga'],
+                'list' => ['Home', 'Laporan Warga'],
                 'url' => ['home', 'pelaporan.index'],
             ];
             return response()->view('pages.resident-report.index', [
@@ -67,7 +67,7 @@ class ResidentReportController extends Controller
             $pelaporan = Pelaporan::with('pengajuan')->find($id);
 
             $breadcrumb = [
-                'list' => ['Home', 'Pelaporan', 'Detail Pelaporan'],
+                'list' => ['Home', 'Laporan Warga', 'Detail Laporan'],
                 'url' => ['home', 'pelaporan.index', ['pelaporan.show', $id]],
             ];
 
@@ -79,7 +79,7 @@ class ResidentReportController extends Controller
             $pelaporan = Pelaporan::with('pengajuan')->find($id);
 
             $breadcrumb = [
-                'list' => ['Home', 'LAPOR!', 'Detail Pelaporan'],
+                'list' => ['Home', 'LAPOR!', 'Detail Laporan'],
                 'url' => ['home', 'pelaporan.index', ['pelaporan.show', $id]],
             ];
 
@@ -103,88 +103,85 @@ class ResidentReportController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        try {
-            if (Auth::user()->role->role_name == 'Ketua RT') {
+        if (Auth::user()->role->role_name == 'Ketua RT') {
+
+            $validated = $request->validate([
+                'status_id' => 'required',
+            ], [
+                'status_id.required' => "Status Tidak Boleh Kosong",
+            ]);
+
+            try {
                 $pelaporan = Pelaporan::find($id);
                 $pengajuan = Pengajuan::find($pelaporan->pengajuan_id);
 
-                $validated = $request->validate([
-                    'status_id' => 'required',
-                ], [
-                    'status_id.required' => "Status Tidak Boleh Kosong",
-                ]);
+                $pengajuan->update($validated);
+
+                NotificationPusher::success('Status Pelaporan Berhasil diperbarui');
+                return redirect()->route('pelaporan.index');
+            } catch (\Throwable $th) {
+                NotificationPusher::error('Status Pelaporan Gagal diperbarui');
+                return redirect()->route('pelaporan.index');
+            }
+
+        } else {
+            if ($request['status_id'] === "4") {
+                $pelaporan = Pelaporan::find($id);
+                $pengajuan = Pengajuan::find($pelaporan->pengajuan_id);
 
                 try {
-                    $pengajuan->update($validated);
+                    $pengajuan->update([
+                        'status_id' => $request['status_id'],
+                    ]);
 
-                    NotificationPusher::success('Status Pelaporan Berhasil diperbarui');
-                    return redirect()->route('pelaporan.index')->with(['success' => 'Status Pelaporan Berhasil diperbarui']);
+                    NotificationPusher::success('Perubahan berhasil disimpan');
+                    return redirect()->route('pelaporan.index')->with(['success' => 'Perubahan berhasil disimpan']);
                 } catch (\Throwable $th) {
-                    NotificationPusher::error('Status Pelaporan Gagal Berhasil diperbarui');
-                    return redirect()->route('pelaporan.index')->with(['error' => 'Status Pelaporan Gagal Berhasil diperbarui']);
+                    NotificationPusher::error('Gagal menyimpan perubahan');
+                    return redirect()->route('pelaporan.index')->with(['error' => 'Gagal menyimpan perubahan']);
                 }
 
-            } else {
-                if ($request['status_id'] === "4") {
-                    $pelaporan = Pelaporan::find($id);
-                    $pengajuan = Pengajuan::find($pelaporan->pengajuan_id);
+            }
 
-                    try {
-                        $pengajuan->update([
-                            'status_id' => $request['status_id'],
-                        ]);
+            $validated = $request->validate([
+                'keperluan' => 'required',
+                'accepted_at' => 'required|date',
+                'jenis_pelaporan' => 'required',
+                'image_url' => 'max:2048|image',
+                'keterangan' => 'required',
+            ], [
+                'keperluan.required' => "Judul Tidak Boleh Kosong",
+                'jenis_pelaporan.required' => "Jenis Pelaporan Tidak Boleh Kosong",
+                'keterangan.required' => "Keterangan Tidak Boleh Kosong",
+                'image_url.max' => "Lampiran Tidak Boleh Lebih Besar dari 2MB",
+                'image_url.image' => "Lampiran Harus Berbentuk Gambar",
+            ]);
 
-                        NotificationPusher::success('Perubahan berhasil disimpan');
-                        return redirect()->route('pelaporan.index')->with(['success' => 'Perubahan berhasil disimpan']);
-                    } catch (\Throwable $th) {
-                        NotificationPusher::error('Gagal menyimpan perubahan');
-                        return redirect()->route('pelaporan.index')->with(['error' => 'Gagal menyimpan perubahan']);
-                    }
-
-                }
-
+            try {
                 $pelaporan = Pelaporan::find($id);
                 $pengajuan = Pengajuan::find($pelaporan->pengajuan_id);
-
-                $validated = $request->validate([
-                    'keperluan' => 'required',
-                    'accepted_at' => 'required|date',
-                    'jenis_pelaporan' => 'required',
-                    'image_url' => 'max:2048|image',
-                    'keterangan' => 'required',
-                ], [
-                    'keperluan.required' => "Judul Tidak Boleh Kosong",
-                    'jenis_pelaporan.required' => "Jenis Pelaporan Tidak Boleh Kosong",
-                    'keterangan.required' => "Keterangan Tidak Boleh Kosong",
-                    'image_url.max' => "Lampiran Tidak Boleh Lebih Besar dari 2MB",
-                    'image_url.image' => "Lampiran Harus Berbentuk Gambar",
-                ]);
 
                 if ($request->image_url) {
                     $pelaporan['image_url'] = ImageService::uploadFile('public', $request, 'image_url');
                 }
 
-                try {
-                    $pelaporan->update([
-                        'image_url' => $pelaporan['image_url'],
-                        'jenis_pelaporan' => $validated['jenis_pelaporan'],
-                    ]);
+                $pelaporan->update([
+                    'image_url' => $pelaporan['image_url'],
+                    'jenis_pelaporan' => $validated['jenis_pelaporan'],
+                ]);
 
-                    $pengajuan->update([
-                        'keperluan' => $validated['keperluan'],
-                        'accepted_at' => $validated['accepted_at'],
-                        'keterangan' => $validated['keterangan'],
-                    ]);
+                $pengajuan->update([
+                    'keperluan' => $validated['keperluan'],
+                    'accepted_at' => $validated['accepted_at'],
+                    'keterangan' => $validated['keterangan'],
+                ]);
 
-                    NotificationPusher::success('Perubahan berhasil disimpan');
-                    return redirect()->route('pelaporan.show', ['pelaporan' => $id])->with(['success' => 'Perubahan berhasil disimpan']);
-                } catch (\Throwable $th) {
-                    NotificationPusher::error('Gagal menyimpan perubahan');
-                    return redirect()->route('pelaporan.show', ['pelaporan' => $id])->with(['error' => 'Gagal menyimpan perubahan']);
-                }
+                NotificationPusher::success('Perubahan berhasil disimpan');
+                return redirect()->route('pelaporan.show', ['pelaporan' => $id]);
+            } catch (\Throwable $th) {
+                NotificationPusher::error('Gagal menyimpan perubahan');
+                return redirect()->route('pelaporan.show', ['pelaporan' => $id]);
             }
-        } catch (\Throwable $th) {
-            abort(404);
         }
     }
 
@@ -275,22 +272,22 @@ class ResidentReportController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        $validated = $request->validate([
+            'keperluan' => 'required',
+            'accepted_at' => 'required|date',
+            'jenis_pelaporan' => 'required',
+            'image_url' => 'max:2048|image',
+            'keterangan' => 'required',
+        ], [
+            'keperluan.required' => "Judul Tidak Boleh Kosong",
+            'jenis_pelaporan.required' => "Jenis Pelaporan Tidak Boleh Kosong",
+            'keterangan.required' => "Keterangan Tidak Boleh Kosong",
+            'image_url.max' => "Lampiran Tidak Boleh Lebih Besar dari 2MB",
+            'image_url.image' => "Lampiran Harus Berbentuk Gambar",
+        ]);
+
         try {
             $pendudukId = Auth::user()->penduduk->penduduk_id;
-
-            $validated = $request->validate([
-                'keperluan' => 'required',
-                'accepted_at' => 'required|date',
-                'jenis_pelaporan' => 'required',
-                'image_url' => 'max:2048|image',
-                'keterangan' => 'required',
-            ], [
-                'keperluan.required' => "Judul Tidak Boleh Kosong",
-                'jenis_pelaporan.required' => "Jenis Pelaporan Tidak Boleh Kosong",
-                'keterangan.required' => "Keterangan Tidak Boleh Kosong",
-                'image_url.max' => "Lampiran Tidak Boleh Lebih Besar dari 2MB",
-                'image_url.image' => "Lampiran Harus Berbentuk Gambar",
-            ]);
 
             if ($request->image_url) {
                 $pelaporan['image_url'] = ImageService::uploadFile('public', $request, 'image_url');
@@ -300,32 +297,29 @@ class ResidentReportController extends Controller
 
             DB::beginTransaction();
 
-            try {
-                $pengajuan = Pengajuan::create([
-                    'keperluan' => $validated['keperluan'],
-                    'accepted_at' => $validated['accepted_at'],
-                    'keterangan' => $validated['keterangan'],
-                    'penduduk_id' => $pendudukId,
-                ]);
+            $pengajuan = Pengajuan::create([
+                'keperluan' => $validated['keperluan'],
+                'accepted_at' => $validated['accepted_at'],
+                'keterangan' => $validated['keterangan'],
+                'penduduk_id' => $pendudukId,
+            ]);
 
-                Pelaporan::create([
-                    'jenis_pelaporan' => $validated['jenis_pelaporan'],
-                    'pengajuan_id' => $pengajuan->pengajuan_id,
-                    'image_url' => $pelaporan['image_url'],
-                ]);
+            Pelaporan::create([
+                'jenis_pelaporan' => $validated['jenis_pelaporan'],
+                'pengajuan_id' => $pengajuan->pengajuan_id,
+                'image_url' => $pelaporan['image_url'],
+            ]);
 
-                DB::commit();
+            DB::commit();
 
-                NotificationPusher::success('Perubahan berhasil disimpan');
-                return redirect()->route('pelaporan.index');
-            } catch (\Exception $e) {
-                DB::rollback();
-                NotificationPusher::error('Gagal menyimpan perubahan: ' . $e->getMessage());
-                return redirect()->route('pelaporan.index');
-            }
-        } catch (\Throwable $th) {
-            abort(404);
+            NotificationPusher::success('Data berhasil ditambahkan');
+            return redirect()->route('pelaporan.index');
+        } catch (\Exception $e) {
+            DB::rollback();
+            NotificationPusher::error('Gagal menyimpan data: ' . $e->getMessage());
+            return redirect()->route('pelaporan.index');
         }
+
     }
 
     public function destroy(string $id): JsonResponse | RedirectResponse
@@ -334,30 +328,33 @@ class ResidentReportController extends Controller
             $pelaporan = Pelaporan::find($id);
             $pengajuan = Pengajuan::find($pelaporan->pengajuan_id);
 
-            try {
-                DB::beginTransaction();
+            DB::beginTransaction();
 
+            $status = '';
+            if ($pelaporan->image_url) {
+                $status = ImageService::deleteFile('public', $pelaporan->image_url);
+            }
+
+            if ($status) {
                 $pelaporan->delete();
                 $pengajuan->delete();
-
-                DB::commit();
-                return response()->json([
-                    'code' => 200,
-                    'message' => 'Data berhasil dihapus',
-                    'timestamp' => now(),
-                    'redirect' => route('pelaporan.index')
-                ], 200);
-
-            } catch (\Exception $e) {
-                DB::rollback();
-                return response()->json([
-                    'code' => 500,
-                    'message' => $e->getMessage(),
-                    'timestamp' => now(),
-                ], 500);
             }
-        } catch (\Throwable $th) {
-            abort(404);
+
+            DB::commit();
+            return response()->json([
+                'code' => 200,
+                'message' => 'Data berhasil dihapus',
+                'timestamp' => now(),
+                'redirect' => route('pelaporan.index'),
+            ], 200);
+
+        } catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'code' => 500,
+                'message' => $e->getMessage(),
+                'timestamp' => now(),
+            ], 500);
         }
     }
 

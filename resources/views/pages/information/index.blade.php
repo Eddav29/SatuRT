@@ -45,7 +45,8 @@
                             ['label' => 'Artikel', 'key' => 'Artikel', 'columnIndex' => 1],
                             ['label' => 'Pengumuman', 'key' => 'Pengumuman', 'columnIndex' => 1],
                             ['label' => 'Berita', 'key' => 'Berita', 'columnIndex' => 1],
-                            ['label' => 'Dokumentasi', 'key' => 'Dokumentasi', 'columnIndex' => 1],
+                            ['label' => 'Dokumentasi Kegiatan', 'key' => 'Dokumentasi', 'columnIndex' => 1],
+                            ['label' => 'Dokumentasi Rapat', 'key' => 'Dokumentasi', 'columnIndex' => 1],
                         ],
                     ],
                 ]"
