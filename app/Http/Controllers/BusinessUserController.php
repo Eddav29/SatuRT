@@ -84,7 +84,7 @@ class BusinessUserController extends Controller
         return response()->view('pages.umkm.create', [
             'breadcrumb' => $breadcrumb,
             'penduduk' => $penduduk,
-            'extension' => 'jpg,jpeg,png',
+            'extension' => 'jpg,jpeg,png,webp',
         ]);
     }
 
@@ -213,7 +213,7 @@ class BusinessUserController extends Controller
                 'edit' => route('umkm.edit', ['umkm' => $id]),
                 'hapus' => route('umkm.destroy', ['umkm' => $id]),
             ],
-            'extension' => 'jpg,jpeg,png',
+            'extension' => 'jpg,jpeg,png,webp',
         ]);
     }
 
