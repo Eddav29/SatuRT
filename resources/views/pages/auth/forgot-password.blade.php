@@ -6,8 +6,9 @@
         </div>
     </div>
 
-    <div class="mb-4 text-sm text-gray-600 dark:text-gray-400">
-        {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+    <div class="mt-6">
+        <h1 class="font-bold text-2xl">Lupa Kata Sandi</h1>
+        <p class="font-nomral text-md text-gray-400">Masukkan alamat email Anda dan kami akan mengirimkan tautan reset kata sandi yang akan memungkinkan Anda untuk memilih kata sandi baru.</p>
     </div>
 
     <!-- Session Status -->
@@ -17,7 +18,7 @@
         @csrf
 
         <!-- Email Address -->
-        <div>
+        <div class="mt-4">
             <x-input-label for="email" :value="__('Email')" />
             <x-input-text id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />

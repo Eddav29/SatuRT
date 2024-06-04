@@ -138,7 +138,7 @@ class AlternativeController extends Controller
             }
 
             $breadcrumb = [
-                'list' => ['Home', 'SPK', 'Edit Data UMKM'],
+                'list' => ['Home', 'SPK', 'Edit Data Kegiatan'],
                 'url' => ['home', 'spk.index', ['spk.edit', $id]],
             ];
 
@@ -146,7 +146,7 @@ class AlternativeController extends Controller
                 'breadcrumb' => $breadcrumb,
                 'alternatif' => $alternatif,
                 'id' => $id,
-                'active' => 'detail',
+                'active' => 'edit',
                 'toolbar_id' => $id,
                 'toolbar_route' => [
                     'detail' => route('spk.show', ['alternatif' => $id]),

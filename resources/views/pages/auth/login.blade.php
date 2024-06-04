@@ -1,16 +1,4 @@
 <x-auth-layout>
-    @if (session('error'))
-        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-            <h1 class="font-bold">Terjadi Kesalahan!</h1>
-            <p class="block sm:inline">{{ session('error') }}</p>
-        </div>
-
-    @elseif (session('success'))
-        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-            <h1 class="font-bold">Berhasil!</h1>
-            <p class="block sm:inline">{{ session('success') }}</p>
-        </div>
-    @endif
     <form method="POST" action="{{ route('login') }}" >
         @csrf
 

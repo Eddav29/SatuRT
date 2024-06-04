@@ -88,12 +88,12 @@ class InformationController extends Controller
             'isi_informasi.min' => 'Isi informasi minimal memiliki panjang :min karakter.',
         ];
 
-        if ($request->hasFile('images') && $request->jenis_informasi !== 'Pengumuman' && $request->jenis_informasi !== 'Dokumentasi Rapat') {
+        if ($request->jenis_informasi !== 'Pengumuman' && $request->jenis_informasi !== 'Dokumentasi Rapat') {
             $rules['images'] = ['required', 'file', 'mimes:jpeg,png,jpg', 'max:2048'];
             $messages['images.required'] = 'Thumbnail harus diisi.';
             $messages['images.mimes'] = 'File harus berupa gambar.';
             $messages['images.max'] = 'File maksimal 2048kb.';
-        } elseif ($request->hasFile('images') && $request->jenis_informasi == 'Pengumuman' || $request->jenis_informasi == 'Dokumentasi Rapat') {
+        } elseif ($request->jenis_informasi == 'Pengumuman' || $request->jenis_informasi == 'Dokumentasi Rapat') {
             $rules['files'] = ['file', 'mimes:jpeg,png,jpg,pdf,doc,docx,xls,xlsx', 'max:2048'];
             $messages['files.mimes'] = 'File harus berupa gambar.';
             $messages['files.max'] = 'File maksimal 2048kb.';
@@ -243,12 +243,12 @@ class InformationController extends Controller
             'isi_informasi.min' => 'Isi informasi minimal memiliki panjang :min karakter.',
         ];
 
-        if ($request->hasFile('images') && $request->jenis_informasi !== 'Pengumuman' && $request->jenis_informasi !== 'Dokumentasi Rapat') {
+        if ($request->jenis_informasi !== 'Pengumuman' && $request->jenis_informasi !== 'Dokumentasi Rapat') {
             $rules['images'] = ['required', 'file', 'mimes:jpeg,png,jpg', 'max:2048'];
             $messages['images.required'] = 'Thumbnail harus diisi.';
             $messages['images.mimes'] = 'File harus berupa gambar.';
             $messages['images.max'] = 'File maksimal 2048kb.';
-        } elseif ($request->hasFile('images') && $request->jenis_informasi == 'Pengumuman' || $request->jenis_informasi == 'Dokumentasi Rapat') {
+        } elseif ($request->jenis_informasi == 'Pengumuman' || $request->jenis_informasi == 'Dokumentasi Rapat') {
             $rules['files'] = ['file', 'mimes:jpeg,png,jpg,pdf,doc,docx,xls,xlsx', 'max:2048'];
             $messages['files.mimes'] = 'File harus berupa gambar.';
             $messages['files.max'] = 'File maksimal 2048kb.';

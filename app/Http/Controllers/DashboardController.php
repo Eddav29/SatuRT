@@ -117,6 +117,7 @@ class DashboardController extends Controller
                 ->with(['pengajuan', 'pengajuan.penduduk'])
                 ->whereDate('pengajuan.updated_at', Carbon::today())
                 ->orderBy('pengajuan.updated_at', 'desc')
+                ->where('pengajuan.status_id', 1)
                 ->get();
         } catch (\Exception $e) {
             return collect();
@@ -180,7 +181,9 @@ class DashboardController extends Controller
                 ->orWhere('jenis_informasi', 'Dokumentasi Rapat')
                 ->whereMonth('updated_at', '>=', (date('m') - 1))->get();
 
-            $reports = Pelaporan::with(['pengajuan', 'pengajuan.penduduk'])->where('jenis_pelaporan', 'Pengaduan')->get();
+            $reports = Pelaporan::with(['pengajuan', 'pengajuan.penduduk', 'pengajuan.status'])->where('jenis_pelaporan', 'Pengaduan')->whereHas('pengajuan.status', function ($query) {
+                $query->where('nama', 'Diterima');
+            })->get();
 
             $informations = $informations->merge($reports);
 

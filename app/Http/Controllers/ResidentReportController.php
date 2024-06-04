@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Resources\ResidentReportResource;
 use App\Models\Pelaporan;
 use App\Models\Pengajuan;
-use App\Models\User;
-use App\Services\FileManager\FileService;
 use App\Services\ImageManager\ImageService;
 use App\Services\Notification\NotificationPusher;
 use Carbon\Carbon;
@@ -17,7 +15,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 class ResidentReportController extends Controller
 {

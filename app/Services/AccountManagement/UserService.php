@@ -43,9 +43,9 @@ class UserService implements RecordServiceInterface, DatatablesInterface
         }
     }
 
-    public static function update(string $id, Request $request): Collection | Model
+    public static function update(string $id, Request $request, bool $reset = false): Collection | Model
     {
-        $user =  User::findOrFail($id);
+        $user = User::findOrFail($id);
         $request->merge([
             'phone' => $request->phone ?? null,
         ]);
@@ -54,11 +54,17 @@ class UserService implements RecordServiceInterface, DatatablesInterface
             'username',
             'email',
         ]));
+
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
+            if ($reset) {
+                $user->password_changed_at = null;
+            }
         }
 
         $user->save();
+
+        return $user;
 
         return $user;
     }

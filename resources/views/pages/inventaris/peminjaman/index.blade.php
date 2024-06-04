@@ -25,8 +25,7 @@
                         'style' => 'text-left',
                         'customStyle' => [
                             'Dipinjam' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-yellow-500/30 text-yellow-800',
-                            'Dikembalikan' =>
-                                'w-[10rem] py-2 px-3 text-center rounded-md bg-green-500/30 text-green-800',
+                            'Dikembalikan' => 'w-[10rem] py-2 px-3 text-center rounded-md bg-green-500/30 text-green-800',
                         ],
                     ],
                 ]" :aksi="[

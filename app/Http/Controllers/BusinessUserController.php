@@ -84,7 +84,7 @@ class BusinessUserController extends Controller
         return response()->view('pages.umkm.create', [
             'breadcrumb' => $breadcrumb,
             'penduduk' => $penduduk,
-            'extension' => 'jpg,jpeg,png',
+            'extension' => 'jpg,jpeg,png,webp',
         ]);
     }
 
@@ -213,7 +213,7 @@ class BusinessUserController extends Controller
                 'edit' => route('umkm.edit', ['umkm' => $id]),
                 'hapus' => route('umkm.destroy', ['umkm' => $id]),
             ],
-            'extension' => 'jpg,jpeg,png',
+            'extension' => 'jpg,jpeg,png,webp',
         ]);
     }
 
@@ -311,8 +311,10 @@ class BusinessUserController extends Controller
         }
 
         try {
+            
             UMKM::destroy($id);
-
+            ImageService::deleteFile('public', $check->thumbnail_url);
+            ImageService::deleteFile('storage_lisence', $check->lisence_image_url);
             return response()->json([
                 'code' => 200,
                 'message' => 'Data Berhasil Dihapus',
