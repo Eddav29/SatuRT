@@ -85,7 +85,7 @@ class FinanceReportController extends Controller
             });
 
             // Hitung total keseluruhan dari data terakhir di 'Keuangan'
-            $totalKeseluruhan = Keuangan::orderBy('keuangan_id','DESC')->first()->total_keuangan ?? 0;
+            $totalKeseluruhan = Keuangan::orderBy('keuangan_id', 'DESC')->first()->total_keuangan ?? 0;
 
             return response()->json([
                 'data' => $dataSemuaTahun,
@@ -448,6 +448,14 @@ class FinanceReportController extends Controller
 
     private function getTotalFinanceFiveYearAgo(): array
     {
+        $currentYear = date('Y');
+        $startYear = $currentYear - 4;
+
+        $yearly = [
+            'expenses' => array_fill_keys(range($startYear, $currentYear), 0),
+            'incomes' => array_fill_keys(range($startYear, $currentYear), 0)
+        ];
+
         $results = DB::select("
         SELECT
             jenis_keuangan as 'Jenis_Keuangan',
@@ -458,8 +466,6 @@ class FinanceReportController extends Controller
             YEAR(created_at) >= YEAR(NOW()) - 4
         GROUP BY YEAR(created_at), jenis_keuangan
         ORDER BY YEAR(created_at)");
-
-        $yearly = [];
 
         foreach ($results as $result) {
             if ($result->Jenis_Keuangan == 'Pengeluaran') {

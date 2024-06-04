@@ -12,8 +12,6 @@ class AnnouncementController extends Controller
     {
         try {
             $announcement = Informasi::with(['penduduk'])
-                ->where('jenis_informasi', 'Pengumuman')
-                ->orWhere('jenis_informasi', 'Dokumentasi Rapat')
                 ->where('informasi_id', $id)
                 ->first();
             $announcement['file_extension'] = $announcement->thumbnail_url ? pathinfo($announcement->thumbnail_url, PATHINFO_EXTENSION) : '';
