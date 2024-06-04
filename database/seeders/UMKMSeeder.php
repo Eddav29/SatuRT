@@ -16,6 +16,8 @@ class UMKMSeeder extends Seeder
      */
     public function run(): void
     {
+        Storage::disk('public')->delete(Storage::disk('public')->allFiles());
+
         $imageMappings = [];
         $data = [
             [

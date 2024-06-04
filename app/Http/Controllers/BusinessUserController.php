@@ -311,8 +311,10 @@ class BusinessUserController extends Controller
         }
 
         try {
+            
             UMKM::destroy($id);
-
+            ImageService::deleteFile('public', $check->thumbnail_url);
+            ImageService::deleteFile('public', $check->lisence_image_url);
             return response()->json([
                 'code' => 200,
                 'message' => 'Data Berhasil Dihapus',
