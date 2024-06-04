@@ -92,7 +92,7 @@ class BusinessUserController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        $validator =  Validator::make($request->all(), [
+        $validator = Validator::make($request->all(), [
             'nama_umkm' => 'required|string|max:255',
             'jenis_umkm' => 'required|in:Makanan dan Minuman,Pakaian,Peralatan,Jasa,Lainnya',
             'keterangan' => 'required|string|max:255',
@@ -102,7 +102,7 @@ class BusinessUserController extends Controller
             'thumbnail_url' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'status' => 'required|in:Aktif,Nonaktif',
             'lisence_image_url' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'penduduk_id' => ['required', 'exists:penduduk,penduduk_id']
+            'nik' => ['required', 'exists:penduduk,nik']
         ]);
 
         $umkm = $request->all();
@@ -120,6 +120,8 @@ class BusinessUserController extends Controller
             return redirect()->back()->withErrors($validator)->withInput();
         }
 
+        $request->merge(['penduduk_id' => Penduduk::where('nik', $request['nik'])->first()->penduduk_id]);
+
         try {
             $umkm['nama_umkm'] = Str::title($request['nama_umkm']);
             $umkm['keterangan'] = Str::title($request['keterangan']);
@@ -129,20 +131,17 @@ class BusinessUserController extends Controller
 
             if ($request->hasFile('lisence_image_url')) {
                 $imageName = ImageService::uploadFile('storage_lisence', $request, 'lisence_image_url', 'webp');
-                // dd($imageName);
                 $umkm['lisence_image_url'] = $imageName;
-                // dd($umkm['lisence_image_url']);
-            }else{
+            } else {
                 $umkm['lisence_image_url'] = null;
             }
-            if($request->hasFile('thumbnail_url')){
+            if ($request->hasFile('thumbnail_url')) {
                 $umkm['thumbnail_url'] = ImageService::uploadFile('public', $request, 'thumbnail_url', 'webp');
-            }else{
+            } else {
                 $umkm['thumbnail_url'] = null;
             }
 
             DB::beginTransaction();
-            // dd($umkm);
             $umkm = UMKM::create($umkm);
             if ($request->is('api/*') || $request->wantsJson()) {
                 return response()->json([
@@ -163,7 +162,6 @@ class BusinessUserController extends Controller
                     'timestamp' => now()
                 ]);
             }
-            // dd($e);
             DB::rollBack();
             NotificationPusher::error($e->getMessage());
             return redirect()->back()->withInput();
@@ -229,10 +227,10 @@ class BusinessUserController extends Controller
             'thumbnail_url' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'status' => 'required|in:Aktif,Nonaktif',
             'lisence_image_url' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'penduduk_id' => ['required', 'exists:penduduk,penduduk_id']
+            'nik' => ['required', 'exists:penduduk,nik']
         ]);
 
-        // dd($validator);
+
         if ($validator->fails()) {
             if ($request->is('api/*') || $request->wantsJson()) {
                 return response()->json([
@@ -246,6 +244,9 @@ class BusinessUserController extends Controller
 
             return redirect()->back()->withErrors($validator)->withInput();
         }
+
+        $request->merge(['penduduk_id' => Penduduk::where('nik', $request->nik)->first()->penduduk_id]);
+
         $umkmUpdate = $request->all();
         try {
 
@@ -258,7 +259,7 @@ class BusinessUserController extends Controller
 
             if ($request->file('lisence_image_url')) {
                 if (!empty($umkm->lisence_image_url)) {
-                    ImageService::deleteFile('storage_lisence',$umkm->lisence_image_url);
+                    ImageService::deleteFile('storage_lisence', $umkm->lisence_image_url);
                 }
                 $imageName = ImageService::uploadFile('storage_lisence', $request, 'lisence_image_url', 'webp');
                 $umkmUpdate['lisence_image_url'] = $imageName;
@@ -311,7 +312,7 @@ class BusinessUserController extends Controller
         }
 
         try {
-            
+
             UMKM::destroy($id);
             ImageService::deleteFile('public', $check->thumbnail_url);
             ImageService::deleteFile('storage_lisence', $check->lisence_image_url);

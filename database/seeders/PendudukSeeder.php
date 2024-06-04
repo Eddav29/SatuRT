@@ -54,5 +54,38 @@ class PendudukSeeder extends Seeder
                 'kartu_keluarga_id' => $kk->kartu_keluarga_id,
             ]);
         });
+
+        $kk = KartuKeluarga::create([
+            'nomor_kartu_keluarga' => '1234567890111909',
+            'kota' => 'TESTING KOTA',
+            'kecamatan' => 'TESTING KECAMATAN',
+            'desa' => 'TESTING KELURAHAN',
+            'alamat' => 'TESTING ALAMAT',
+            'nomor_rt' => 1,
+            'nomor_rw' => 1,
+            'kode_pos' => 12345,
+        ]);
+
+        Penduduk::create([
+            'kartu_keluarga_id' => $kk->kartu_keluarga_id,
+            'nik' => '1234567890111303',
+            'nama' => 'TESTING NAMA',
+            'jenis_kelamin' => 'Laki-laki',
+            'pekerjaan' => 'PEKERJAAN',
+            'golongan_darah' => 'A',
+            'agama' => 'Islam',
+            'tempat_lahir' => 'TESTING TEMPAT LAHIR',
+            'tanggal_lahir' => '2022-01-01',
+            'status_hubungan_dalam_keluarga' => 'Kepala Keluarga',
+            'status_perkawinan' => 'Belum Kawin',
+            'pendidikan_terakhir' => 'SMA',
+            'status_penduduk' => 'Domisili',
+            'nomor_rt' => 1,
+            'nomor_rw' => 1,
+            'desa' => 'TESTING KELURAHAN',
+            'kecamatan' => 'TESTING KECAMATAN',
+            'kota' => 'TESTING KOTA',
+            'status_kehidupan' => 'Hidup',
+        ]);
     }
 }

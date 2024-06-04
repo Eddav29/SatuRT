@@ -22,7 +22,7 @@
                 </div>
             @endif
 
-    {{-- Content Start --}}
+            {{-- Content Start --}}
 
             {{-- Header --}}
             <section>
@@ -32,41 +32,37 @@
             </section>
             {{-- End Header --}}
 
-                        {{-- Alert --}}
-                        @if (session('error'))
-                        <div role="alert" class="rounded border-s-4 border-red-500 bg-red-50 p-4 my-8">
-                            <div class="flex items-center gap-2 text-red-800">
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
-                                    <path fill-rule="evenodd"
-                                        d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
-                                        clip-rule="evenodd" />
-                                </svg>
-        
-                                <strong class="block font-medium"> Terjadi Kesalahan </strong>
-                            </div>
-        
-                            <p class="mt-2 text-sm text-red-700">
-                                {{ session('error') }}
-                            </p>
-                        </div>
-                    @endif
-                    {{-- End Alert --}}
+            {{-- Alert --}}
+            @if (session('error'))
+                <div role="alert" class="rounded border-s-4 border-red-500 bg-red-50 p-4 my-8">
+                    <div class="flex items-center gap-2 text-red-800">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="h-5 w-5">
+                            <path fill-rule="evenodd"
+                                d="M9.401 3.003c1.155-2 4.043-2 5.197 0l7.355 12.748c1.154 2-.29 4.5-2.599 4.5H4.645c-2.309 0-3.752-2.5-2.598-4.5L9.4 3.003zM12 8.25a.75.75 0 01.75.75v3.75a.75.75 0 01-1.5 0V9a.75.75 0 01.75-.75zm0 8.25a.75.75 0 100-1.5.75.75 0 000 1.5z"
+                                clip-rule="evenodd" />
+                        </svg>
+
+                        <strong class="block font-medium"> Terjadi Kesalahan </strong>
+                    </div>
+
+                    <p class="mt-2 text-sm text-red-700">
+                        {{ session('error') }}
+                    </p>
+                </div>
+            @endif
+            {{-- End Alert --}}
 
             <section>
                 <form method="POST" action="{{ route('umkm.store') }}" class="px-5" enctype="multipart/form-data">
                     @csrf
                     <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
                         <div class="mt-5">
-                            <label for="penduduk_id"
-                                class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">Pemilik</label>
-                            <select class="form-control w-full rounded-md placeholder:text-xs border-gray-200 p-3 text-sm" id="penduduk_id"
-                                name="penduduk_id" required>
-                                <option value="" disabled selected>Pemilik</option>
-                                @foreach ($penduduk as $item)
-                                    <option value="{{ $item->penduduk_id }}">{{ $item->nama }}</option>
-                                @endforeach
-                            </select>
-                            @error('penduduk_id')
+                            <label for="nik"
+                                class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">NIK Pemilik Usaha</label>
+                            <input
+                                class="placeholder-gray-300 w-full rounded-md placeholder:text-xs border-gray-200 p-3 text-sm"
+                                placeholder="35************" type="text" id="nik" name="nik" />
+                            @error('nik')
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
@@ -74,15 +70,19 @@
                             <label for="nama_umkm"
                                 class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">
                                 Nama UMKM</label>
-                            <input class="placeholder-gray-300 w-full rounded-md placeholder:text-xs border-gray-200 p-3 text-sm"
+                            <input
+                                class="placeholder-gray-300 w-full rounded-md placeholder:text-xs border-gray-200 p-3 text-sm"
                                 placeholder="Nama UMKM" type="text" id="nama_umkm" name="nama_umkm" />
                         </div>
                     </div>
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-5">
                         <div>
-                            <label for="jenis_umkm" class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">Jenis UMKM</label>
-                            <select class="form-control w-full rounded-md placeholder:text-xs border-gray-200 p-3 text-sm" id="jenis_umkm"
-                                name="jenis_umkm" required>
+                            <label for="jenis_umkm"
+                                class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">Jenis
+                                UMKM</label>
+                            <select
+                                class="form-control w-full rounded-md placeholder:text-xs border-gray-200 p-3 text-sm"
+                                id="jenis_umkm" name="jenis_umkm" required>
                                 <option value="" disabled selected>Jenis UMKM</option>
                                 <option value="Makanan dan Minuman">Makanan & Minuman</option>
                                 <option value="Pakaian">Pakaian</option>
@@ -95,8 +95,9 @@
                             <label for="alamat"
                                 class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">
                                 Alamat</label>
-                            <input class="placeholder-gray-300 w-full rounded-md placeholder:text-xs border-gray-200 p-3 text-sm"
-                                placeholder="Alamat" type="text" id="alamat" name="alamat"/>
+                            <input
+                                class="placeholder-gray-300 w-full rounded-md placeholder:text-xs border-gray-200 p-3 text-sm"
+                                placeholder="Alamat" type="text" id="alamat" name="alamat" />
                         </div>
                     </div>
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-5">
@@ -104,16 +105,18 @@
                             <label for="nomor_telepon"
                                 class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">
                                 Nomor Telepon</label>
-                            <input class="placeholder-gray-300 w-full rounded-md placeholder:text-xs border-gray-200 p-3 text-sm"
-                                placeholder="Nomor Telepon" type="text" id="nomor_telepon" name="nomor_telepon"/>
+                            <input
+                                class="placeholder-gray-300 w-full rounded-md placeholder:text-xs border-gray-200 p-3 text-sm"
+                                placeholder="Nomor Telepon" type="text" id="nomor_telepon" name="nomor_telepon" />
                         </div>
 
                         <div>
                             <label for="lokasi_url"
                                 class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">
                                 Lokasi URL</label>
-                            <input class="placeholder-gray-300 w-full rounded-md placeholder:text-xs border-gray-200 p-3 text-sm"
-                                placeholder="Lokasi URL" type="text" id="lokasi_url" name="lokasi_url"/>
+                            <input
+                                class="placeholder-gray-300 w-full rounded-md placeholder:text-xs border-gray-200 p-3 text-sm"
+                                placeholder="Lokasi URL" type="text" id="lokasi_url" name="lokasi_url" />
                         </div>
                     </div>
                     <div class="mt-5">
@@ -121,19 +124,20 @@
                             class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">Status
                             UMKM</label>
                         <select id="status"
-                            class="placeholder-gray-300 w-full rounded-md placeholder:text-xs border-gray-200 p-3 text-sm" name="status">
+                            class="placeholder-gray-300 w-full rounded-md placeholder:text-xs border-gray-200 p-3 text-sm"
+                            name="status">
                             <option value="Aktif">Aktif</option>
                             <option value="Nonaktif">Nonaktif</option>
                         </select>
                     </div>
-                    
+
                     <div class="mt-5">
                         <div>
                             <x-input-label for="lisence_image_url" :value="__('Foto Surat Izin Usaha')" />
                             @isset($umkm->lisence_image_url)
-                            <x-input-file name="lisence_image_url"  :accept="$extension" :default="$umkm->lisence_image_url"/>
+                                <x-input-file name="lisence_image_url" :accept="$extension" :default="$umkm->lisence_image_url" />
                             @else
-                                <x-input-file name="lisence_image_url" :accept="$extension"/>
+                                <x-input-file name="lisence_image_url" :accept="$extension" />
                             @endisset
                         </div>
                     </div>
@@ -142,15 +146,16 @@
                         <div>
                             <x-input-label for="thumbnail_url" :value="__('Thumbnail')" />
                             @isset($umkm->thumbnail_url)
-                            <x-input-file name="thumbnail_url" :accept="$extension" :default="$umkm->thumbnail_url"/>
+                                <x-input-file name="thumbnail_url" :accept="$extension" :default="$umkm->thumbnail_url" />
                             @else
-                                <x-input-file name="thumbnail_url" :accept="$extension"/>
+                                <x-input-file name="thumbnail_url" :accept="$extension" />
                             @endisset
                         </div>
                     </div>
 
                     <div class="mt-5">
-                        <label for="text-editor" class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">Keterangan</label>
+                        <label for="text-editor"
+                            class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">Keterangan</label>
                         @error('keterangan')
                             <small class="text-red-500 text-xs py-3">{{ $message }}</small>
                         @enderror
@@ -210,7 +215,7 @@
                 // Show the preview container
                 filePreviewContainer.classList.remove('hidden');
             }
-        </script> 
+        </script>
     @endpush
     @push('styles')
         <style>
@@ -399,5 +404,5 @@
             }
         </script>
     @endpush
-    {{-- Content End--}}
+    {{-- Content End --}}
 </x-app-layout>
