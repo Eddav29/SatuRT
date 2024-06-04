@@ -124,7 +124,7 @@
                             </div>
                         </div>
                         <div class="relative h-[40rem] overflow-x-auto no-scrollbar">
-                            <div id="loading"
+                            <div id="loading-chart"
                                 class="absolute top-0 left-0 flex justify-center items-center backdrop-blur-sm w-full h-full rounded-xl">
                                 <div role="status">
                                     <div class="flex items-center justify-center gap-x-5">
@@ -184,7 +184,7 @@
                                         <div class="mt-2">
                                             <h6 class="text-xs font-medium">{{ $information->penduduk->nama }}</h6>
                                             <h1 class="text-xl font-bold text-navy-night/80 ">
-                                                {{ $information->judul_informasi }}
+                                                {{ $information->judul_informasi }} | {{ $information->informasi_id }}
                                             </h1>
                                             <p class="text-xs/6">Klik Untuk Detail</p>
                                         </div>
@@ -203,6 +203,9 @@
                                                 {{ $information->pengajuan->penduduk->nama }}</h6>
                                             <h1 class="text-xl font-bold text-navy-night/80 ">
                                                 {{ $information->pengajuan->keperluan }}
+                                            </h1>
+                                            <h1>
+                                                {{ $information->pelaporan_id }}
                                             </h1>
                                             <p class="text-xs/6">Klik Untuk Detail</p>
                                         </div>
@@ -237,7 +240,7 @@
                 yearFilter.value = new Date().getFullYear();
 
                 let monthlyFinanceReport = await fetchFinanceReportChartData(yearFilter.value);
-                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('loading-chart').classList.add('hidden');
                 let minValue = Math.min(...Object.values(monthlyFinanceReport.incomes), ...Object.values(
                     monthlyFinanceReport.expenses));
                 let maxValue = Math.max(...Object.values(monthlyFinanceReport.incomes), ...Object.values(
@@ -455,22 +458,22 @@
                                 </div>
                                 <div>
                                     ${data.data.file === null ? '' : `
-                                    <h1 class="font-semibold">Lampiran</h1>
-                                    ${data.data.file_type === 'file' ? `
+                                                    <h1 class="font-semibold">Lampiran</h1>
+                                                    ${data.data.file_type === 'file' ? `
                                                                                                                                                                                     <div class="flex gap-x-2 items-center">
                                                                                                                                                                                         <div id="file-icon">
                                                                                                                                                                                             ${generateIcon(data.data.file_extension)}
                                                                                                                                                                                         </div>
                                                                                                                                                                                         ${data.data.file_extension === 'pdf' ? `
-                                        <div class="flex flex-col" id="preview-file-container">
-                                            <a id="preview-file" href="file/pengumuman/${data.data.id}" class="text-blue-500 py-3 text-sm font-light">${fileName}</a>
-                                        </div>` 
+                                                        <div class="flex flex-col" id="preview-file-container">
+                                                            <a id="preview-file" href="file/pengumuman/${data.data.id}" class="text-blue-500 py-3 text-sm font-light">${fileName}</a>
+                                                        </div>` 
                                                                                                                                                                         : `
-                                        <div class="flex flex-col" id="preview-file-container">
-                                            <a id="preview-file" href="file/pengumuman/${data.data.id}/download" class="text-blue-500 py-3 text-sm font-light" target="_blank">${fileName}</a>
-                                        </div>`}
+                                                        <div class="flex flex-col" id="preview-file-container">
+                                                            <a id="preview-file" href="file/pengumuman/${data.data.id}/download" class="text-blue-500 py-3 text-sm font-light" target="_blank">${fileName}</a>
+                                                        </div>`}
                                                                                                                                                                         </div>` : 
-                                        `
+                                                        `
                                                                                                                                                                                     <div x-data="{ openImage: false }">
                                                                                                                                                                                         <img @click="openImage = !openImage" src="storage/announcement/${data.data.file}" alt="" class="rounded-xl max-h-[30rem] w-full object-cover" draggable="false">
                                                                                                                                                                                         <div x-show="openImage" class="absolute top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
