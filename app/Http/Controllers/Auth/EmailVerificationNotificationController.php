@@ -18,8 +18,12 @@ class EmailVerificationNotificationController extends Controller
             return redirect()->intended(route('dashboard', absolute: false));
         }
 
+
         $request->user()->sendEmailVerificationNotification();
 
-        return back()->with(NotificationPusher::success('Email verifikasi telah dikirim'));
+        NotificationPusher::success('Verifikasi email telah dikirimkan ke alamat email Anda.');
+
+        return back()->with('status', 'verification-link-sent');
+
     }
 }

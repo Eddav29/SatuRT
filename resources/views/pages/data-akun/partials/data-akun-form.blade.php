@@ -54,9 +54,17 @@
 </div>
 <div class="mt-5 grid sm:grid-cols-2 grid-cols-1 gap-5 px-5">
     <div>
-        <x-input-password name="password" label="Password" :required="true" />
+        @isset($user)
+            <x-input-password name="password" label="Password" :required="false" />
+        @else
+            <x-input-password name="password" label="Password" :required="true" />
+        @endisset
     </div>
     <div>
-        <x-input-password name="password_confirmation" label="Konfirmasi Password" :required="true" />
+        @isset($user)
+            <x-input-password name="password_confirmation" label="Konfirmasi Password" :required="false" />
+        @else
+            <x-input-password name="password_confirmation" label="Konfirmasi Password" :required="true" />
+        @endisset
     </div>
 </div>

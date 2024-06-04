@@ -102,8 +102,11 @@
                 <div class="w-full bg-yellow-50 px-14 py-4 flex items-center space-x-5">
                     <x-heroicon-o-information-circle class="w-6 h-6 text-yellow-500" />
                     <p class="text-yellow-500">{{ __('Alamat email Anda belum terverifikasi.') }}</p>
-                    <a href="{{ route('verification.send') }}"
-                        class="text-blue-500 hover:text-yellow-600">{{ __('Klik di sini untuk meminta email verifikasi baru.') }}</a>
+                    <form method="POST" action="{{ route('verification.send') }}">
+                        @csrf
+                        <button type="submit"
+                            class="text-white bg-yellow-500 px-4 py-2 rounded-md hover:bg-yellow-600">{{ __('Kirim ulang email verifikasi') }}</button>
+                    </form>
                 </div>
             @endif
 
