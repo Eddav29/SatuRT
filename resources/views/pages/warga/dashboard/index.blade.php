@@ -495,8 +495,8 @@
             }
 
             const residentReportModal = (data) => {
-                const image_url = data.data.attachment.includes('http') || data.data.includes('https') ? data.data
-                    .attachment : `storage/images_storage/resident-report_images/${data.data.attachment}`
+                const image_url = data.data.attachment.includes('http') || data.data.attachment.includes('https') ? data.data
+                    .attachment : `storage/images_storage/${data.data.attachment}`
                 return `
                 <div
                     class="bg-white-snow w-full sm:max-w-3xl 2xl:max-w-7xl text-navy-night h-[80%] lg:h-[95%] overflow-hidden rounded-xl p-8 flex flex-col gap-y-5">
@@ -527,14 +527,14 @@
                                 <h1 class="font-medium">Lampiran</h1>
                                 <div x-data="{ openImage: false }">
                                     <img @click="openImage = !openImage"
-                                        src="${data.data.attachment.includes('http') || data.data.attachment.includes('https') ? data.data.attachment : `{{ asset('storage/images_storage/resident-report_images/${data.data.attachment}') }}`}"
-                                        alt="" class="rounded-xl max-h-[30rem] w-full object-cover"
+                                        src="${image_url}"
+                                        alt="" class="rounded-xl w-full object-cover"
                                         draggable="false">
                                     <div x-show="openImage"
                                         class="absolute top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
                                         <img @click="openImage = false" x-show="openImage"
                                             @click.outside="openImage = false"
-                                            src="${data.data.attachment.includes('http') || data.data.attachment.includes('https') ? data.data.attachment : `{{ asset('storage/images_storage/resident-report_images/${data.data.attachment}') }}`}"
+                                            src="${image_url}"
                                             alt="" class="rounded-xl w-max h-max lg:max-w-full lg:max-h-full"
                                             draggable="false">
                                         <div class="absolute w-8 h-8 top-10 right-10 cursor-pointer"
