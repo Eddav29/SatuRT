@@ -383,14 +383,14 @@
                                 <h1 class="font-medium">Lampiran</h1>
                                 <div x-data="{ openImage: false }">
                                     <img @click="openImage = !openImage"
-                                        src="${data.data.attachment.includes('http') || data.data.attachment.includes('https') ? data.data.attachment : `{{ asset('storage/images_storage/resident-report_images/${data.data.attachment}') }}`}"
-                                        alt="" class="rounded-xl max-h-[30rem] w-full object-cover"
+                                        src="${data.data.attachment.includes('http') || data.data.attachment.includes('https') ? data.data.attachment : `{{ asset('storage/images_storage/${data.data.attachment}') }}`}"
+                                        alt="" class="rounded-xl w-full max-h-[40rem] object-cover"
                                         draggable="false" loading="lazy">
                                     <div x-show="openImage"
                                         class="absolute top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
                                         <img @click="openImage = false" x-show="openImage"
                                             @click.outside="openImage = false"
-                                            src="${data.data.attachment.includes('http') || data.data.attachment.includes('https') ? data.data.attachment : `{{ asset('storage/images_storage/resident-report_images/${data.data.attachment}') }}`}"
+                                            src="${data.data.attachment.includes('http') || data.data.attachment.includes('https') ? data.data.attachment : `{{ asset('storage/images_storage/${data.data.attachment}') }}`}"
                                             alt="" class="rounded-xl w-max h-max lg:max-w-full lg:max-h-full"
                                             draggable="false">
                                         <div class="absolute w-8 h-8 top-10 right-10 cursor-pointer"

@@ -117,6 +117,7 @@ class DashboardController extends Controller
                 ->with(['pengajuan', 'pengajuan.penduduk'])
                 ->whereDate('pengajuan.updated_at', Carbon::today())
                 ->orderBy('pengajuan.updated_at', 'desc')
+                ->where('pengajuan.status_id', 1)
                 ->get();
         } catch (\Exception $e) {
             return collect();
