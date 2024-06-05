@@ -21,7 +21,7 @@ return new class extends Migration {
                 'Jasa',
                 'Lainnya'
             ]);
-            $table->string('keterangan');
+            $table->text('keterangan');
             $table->string('alamat');
             $table->string('nomor_telepon');
             $table->string('lokasi_url');

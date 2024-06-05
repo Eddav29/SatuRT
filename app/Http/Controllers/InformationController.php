@@ -86,12 +86,12 @@ class InformationController extends Controller
         ];
 
         if ($request->jenis_informasi !== 'Pengumuman' && $request->jenis_informasi !== 'Dokumentasi Rapat') {
-            $rules['images'] = ['required', 'file', 'mimes:jpeg,png,jpg', 'max:2048'];
+            $rules['images'] = ['required', 'file', 'mimes:jpeg,png,jpg,webp', 'max:2048'];
             $messages['images.required'] = 'Thumbnail harus diisi.';
             $messages['images.mimes'] = 'File harus berupa gambar.';
             $messages['images.max'] = 'File maksimal 2048kb.';
         } elseif ($request->jenis_informasi == 'Pengumuman' || $request->jenis_informasi == 'Dokumentasi Rapat') {
-            $rules['files'] = ['file', 'mimes:jpeg,png,jpg,pdf,doc,docx,xls,xlsx', 'max:2048'];
+            $rules['files'] = ['file', 'mimes:jpeg,png,jpg,webp,pdf,doc,docx,xls,xlsx', 'max:2048'];
             $messages['files.mimes'] = 'File harus berupa gambar.';
             $messages['files.max'] = 'File maksimal 2048kb.';
         }
@@ -136,7 +136,7 @@ class InformationController extends Controller
     public function show(string $id): Response
     {
         try {
-            $imageExtensions = ['jpg', 'jpeg', 'png'];
+            $imageExtensions = ['jpg', 'jpeg', 'png', 'webp'];
             $fileExtensions = ['pdf', 'doc', 'docx', 'xls', 'xlsx'];
             $information = Informasi::with('penduduk')->findOrFail($id);
             $file_extension = pathinfo($information->thumbnail_url, PATHINFO_EXTENSION);
@@ -177,7 +177,7 @@ class InformationController extends Controller
     public function edit(string $id): Response
     {
         try {
-            $imageExtensions = ['jpg', 'jpeg', 'png'];
+            $imageExtensions = ['jpg', 'jpeg', 'png', 'webp'];
             $fileExtensions = ['pdf', 'doc', 'docx', 'xls', 'xlsx'];
             $breadcrumb = [
                 'list' => ['Home', 'Informasi', 'Edit Informasi'],
@@ -241,12 +241,12 @@ class InformationController extends Controller
         ];
 
         if ($request->jenis_informasi !== 'Pengumuman' && $request->jenis_informasi !== 'Dokumentasi Rapat') {
-            $rules['images'] = ['required', 'file', 'mimes:jpeg,png,jpg', 'max:2048'];
+            $rules['images'] = ['required', 'file', 'mimes:jpeg,png,jpg,webp', 'max:2048'];
             $messages['images.required'] = 'Thumbnail harus diisi.';
             $messages['images.mimes'] = 'File harus berupa gambar.';
             $messages['images.max'] = 'File maksimal 2048kb.';
         } elseif ($request->jenis_informasi == 'Pengumuman' || $request->jenis_informasi == 'Dokumentasi Rapat') {
-            $rules['files'] = ['file', 'mimes:jpeg,png,jpg,pdf,doc,docx,xls,xlsx', 'max:2048'];
+            $rules['files'] = ['file', 'mimes:jpeg,png,jpg,webp,pdf,doc,docx,xls,xlsx', 'max:2048'];
             $messages['files.mimes'] = 'File harus berupa gambar.';
             $messages['files.max'] = 'File maksimal 2048kb.';
         }
@@ -363,7 +363,7 @@ class InformationController extends Controller
 
     private function checkFile(Request $request): string
     {
-        $imageExtensions = ['jpg', 'jpeg', 'png'];
+        $imageExtensions = ['jpg', 'jpeg', 'png', 'webp'];
         $fileExtensions = ['pdf', 'doc', 'docx', 'xls', 'xlsx'];
         $fileName = '';
         $extension = $request->file('files')->getClientOriginalExtension();

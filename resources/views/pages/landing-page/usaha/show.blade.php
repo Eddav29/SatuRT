@@ -85,17 +85,20 @@
                                     <td>{{ $business->alamat }}</td>
                                 </tr>
                                 <tr>
-                                    <td class="w-max truncate">Keterangan</td>
-                                    <td class=" mx-5 p-3 inline-flex">:</td>
-                                    <td class="break-words">{!! $business->keterangan !!}</td>
-                                </tr>
-                                <tr>
                                     <td class="w-max truncate">Maps</td>
                                     <td class=" mx-5 p-3 inline-flex">:</td>
                                     <td><a class="text-blue-500 hover:underline"
                                             href="{{ $business->lokasi_url }}">{{ $business->nama_umkm }}</a></td>
                                 </tr>
+                                <tr>
+                                    <td class="w-max truncate">Keterangan</td>
+                                    <td class="mx-5 p-3 inline-flex">:</td>
+                                    <td></td>
+                                </tr>
                             </table>
+                            <div>
+                                {!! $business->keterangan !!}
+                            </div>
                         </div>
                     </div>
                 </div>
