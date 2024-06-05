@@ -58,6 +58,7 @@ class ProfileController extends Controller
 
     public function completeData(Request $request, string $id): RedirectResponse
     {
+        // dd($request->all());
         $validated = $request->validate([
             'agama' => 'required',
             'desa' => 'required',
@@ -169,8 +170,8 @@ class ProfileController extends Controller
             'username.required' => 'Username harus diisi',
             'email.required' => 'Email harus diisi',
             'email.email' => 'Email tidak valid',
-            'profile.required' => 'Foto Profil harus diisi',
-            'profile.image' => 'Foto Profil harus berupa gambar',
+            'profile.required' => 'Foto Profile harus diisi',
+            'profile.image' => 'Foto Profile harus berupa gambar',
         ]);
 
         if ($request->profile) {
