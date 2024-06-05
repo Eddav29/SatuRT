@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Files;
-use App\Models\FileStorage;
 use App\Models\Informasi;
 use App\Services\FileManager\FileService;
 use App\Services\ImageManager\ImageService;
@@ -14,7 +12,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;

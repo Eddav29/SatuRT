@@ -6,6 +6,8 @@ use App\Models\UMKM;
 use App\Services\BusinessService;
 use App\Services\Interfaces\RepositoryService;
 use Illuminate\Http\Response;
+use Stevebauman\Purify\Facades\Purify;
+use Illuminate\Support\Str;
 
 class BusinessController extends Controller
 {
@@ -39,7 +41,14 @@ class BusinessController extends Controller
 
     public function paginate()
     {
-        $umkm = UMKM::filter(request(['jenis_umkm', 'status']))->paginate(5);
+        $umkm = UMKM::filter(request(['jenis_umkm', 'status']))->orderBy('updated_at', 'desc')->paginate(5);
+
+        foreach ($umkm as $item) {
+            $model = Purify::clean($item->keterangan);
+            $cleaned_string = strip_tags(preg_replace('/(<\/p>)/', '$1 ', $model));
+            $cleaned_string = preg_replace('/[^\x20-\x7E]/u', ' ', $cleaned_string);
+            $item->keterangan = Str::substr($cleaned_string, 0, 300);
+        }
 
         return response()->json([
             'status' => 201,
