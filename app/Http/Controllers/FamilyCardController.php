@@ -97,7 +97,7 @@ class FamilyCardController extends Controller
             'kk_nomor_rw' => 'required|integer',
             'kk_alamat' => 'required|string',
             'kk_kode_pos' => 'required|integer|digits:5',
-            'nik' => 'required|numeric|digits:16|unique:penduduk,nik,null,penduduk_id,deleted_at,null',
+            'nik' => 'required|numeric|digits:16|unique:penduduk,nik,null,penduduk_id',
             'nama' => 'required|string',
             'tempat_lahir' => 'required|string',
             'tanggal_lahir' => 'required|date',
