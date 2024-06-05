@@ -114,7 +114,7 @@ class InformationController extends Controller
                 if ($request['jenis_informasi'] == 'Pengumuman' || $request['jenis_informasi'] == 'Dokumentasi Rapat') {
                     $request->merge(['thumbnail_url' => $this->checkFile($request)]);
                 } else {
-                    $request->merge(['thumbnail_url' => ImageService::uploadFile('public', $request)]);
+                    $request->merge(['thumbnail_url' => ImageService::uploadFile('public', $request, 'images', 'webp')]);
                 }
             }
 
@@ -369,7 +369,7 @@ class InformationController extends Controller
         $extension = $request->file('files')->getClientOriginalExtension();
 
         if (in_array($extension, $imageExtensions)) {
-            $fileName = ImageService::uploadFile('storage_announcement', $request, 'files', 'jpg');
+            $fileName = ImageService::uploadFile('storage_announcement', $request, 'files', 'webp');
             return $fileName;
         } elseif (in_array($extension, $fileExtensions)) {
             $fileName = FileService::uploadFile('/storage_announcement', $request, 'files');
