@@ -1,10 +1,9 @@
 <x-guest-layout>
     @push('styles')
-    <link rel="preload" href="{{ asset('assets/images/isometric-research-of-statistical-data-and-analytics.webp') }}"
-        as="image">
-    <link rel="preload" href="{{ asset('assets/images/3d-buddy-boy-offering-handshake.webp') }}" as="image">
-    <link rel="preload" href="{{ asset('assets/images/undraw_join_re_w1lh.svg') }}" as="image">
-
+        <link rel="preload" href="{{ asset('assets/images/isometric-research-of-statistical-data-and-analytics.webp') }}"
+            as="image">
+        <link rel="preload" href="{{ asset('assets/images/3d-buddy-boy-offering-handshake.webp') }}" as="image">
+        <link rel="preload" href="{{ asset('assets/images/undraw_join_re_w1lh.svg') }}" as="image">
     @endpush
     <div class="flex flex-col gap-y-14 lg:gap-y-40">
         {{-- Hero Section Start --}}
@@ -98,8 +97,8 @@
                                 <a href="{{ url('usaha/' . $business->umkm_id) }}" class="flex flex-col">
                                     <div>
                                         <img src="{{ strpos($business->thumbnail_url, 'http') === 0 ? $business->thumbnail_url : asset('storage/images_storage/' . $business->thumbnail_url) }}"
-                                            loading="lazy"
-                                            alt="" class="h-[15rem] w-full object-cover rounded-lg">
+                                            loading="lazy" alt=""
+                                            class="h-[15rem] w-full object-cover rounded-lg">
                                     </div>
                                     <div>
                                         <div class="flex flex-col justify-between mt-3">
@@ -116,7 +115,7 @@
                                     </div>
                                     <div class="py-3">
                                         <p class="font-light text-justify text-[1rem]/[1.618rem]">
-                                            {{ $business->keterangan }}</p>
+                                            {!! Str::limit($business->keterangan, 100, '...') !!}</p>
                                     </div>
                                 </a>
                             </div>
@@ -295,7 +294,8 @@
                         </div>
                     </div>
                     <div class="flex justify-end">
-                        <img src="{{ asset('assets/images/undraw_join_re_w1lh.svg') }}" alt="" class="h-60">
+                        <img src="{{ asset('assets/images/undraw_join_re_w1lh.svg') }}" alt=""
+                            class="h-60">
                     </div>
                 </div>
             </div>
@@ -319,8 +319,7 @@
                             <a href="{{ url('berita/' . $information->informasi_id) }}" class="lg:row-span-2 group">
                                 <div class="relative h-72 lg:h-[44.5rem]">
                                     <img src="{{ strpos($information->thumbnail_url, 'http') === 0 ? $information->thumbnail_url : asset('storage/images_storage/' . $information->thumbnail_url) }}"
-                                        loading="lazy"
-                                        alt="" class="rounded-xl w-full h-full object-cover">
+                                        loading="lazy" alt="" class="rounded-xl w-full h-full object-cover">
                                     <div
                                         class="absolute bottom-3 left-3 z-10 rounded-full text-[1rem]/[1.618rem] text-soft-snow px-6 py-3 bg-navy-night/50 backdrop-blur-3xl flex gap-3">
                                         <x-heroicon-o-calendar-days class="w-6 h-6" />
@@ -349,8 +348,7 @@
                                 class="lg:max-h-[27rem] group">
                                 <div class="relative h-72 lg:h-[15rem]">
                                     <img src="{{ !strpos($information->thumbnail_url, 'http') ? $information->thumbnail_url : asset('storage/images_storage/' . $information->thumbnail_url) }}"
-                                        loading="lazy"
-                                        alt="" class="rounded-xl w-full h-full object-cover">
+                                        loading="lazy" alt="" class="rounded-xl w-full h-full object-cover">
                                     <div
                                         class="absolute bottom-3 left-3 z-10 rounded-full text-[1rem]/[1.618rem] text-soft-snow px-6 py-3 bg-navy-night/50 backdrop-blur-3xl flex gap-3">
                                         <x-heroicon-o-calendar-days class="w-6 h-6" />
