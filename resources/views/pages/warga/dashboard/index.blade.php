@@ -455,22 +455,22 @@
                                 </div>
                                 <div>
                                     ${data.data.file === null ? '' : `
-                                                    <h1 class="font-semibold">Lampiran</h1>
-                                                    ${data.data.file_type === 'file' ? `
+                                                            <h1 class="font-semibold">Lampiran</h1>
+                                                            ${data.data.file_type === 'file' ? `
                                                                                                                                                                                     <div class="flex gap-x-2 items-center">
                                                                                                                                                                                         <div id="file-icon">
                                                                                                                                                                                             ${generateIcon(data.data.file_extension)}
                                                                                                                                                                                         </div>
                                                                                                                                                                                         ${data.data.file_extension === 'pdf' ? `
-                                                        <div class="flex flex-col" id="preview-file-container">
-                                                            <a id="preview-file" href="file/pengumuman/${data.data.id}" class="text-blue-500 py-3 text-sm font-light">${fileName}</a>
-                                                        </div>` 
+                                                                <div class="flex flex-col" id="preview-file-container">
+                                                                    <a id="preview-file" href="file/pengumuman/${data.data.id}" class="text-blue-500 py-3 text-sm font-light">${fileName}</a>
+                                                                </div>` 
                                                                                                                                                                         : `
-                                                        <div class="flex flex-col" id="preview-file-container">
-                                                            <a id="preview-file" href="file/pengumuman/${data.data.id}/download" class="text-blue-500 py-3 text-sm font-light" target="_blank">${fileName}</a>
-                                                        </div>`}
+                                                                <div class="flex flex-col" id="preview-file-container">
+                                                                    <a id="preview-file" href="file/pengumuman/${data.data.id}/download" class="text-blue-500 py-3 text-sm font-light" target="_blank">${fileName}</a>
+                                                                </div>`}
                                                                                                                                                                         </div>` : 
-                                                        `
+                                                                `
                                                                                                                                                                                     <div x-data="{ openImage: false }">
                                                                                                                                                                                         <img @click="openImage = !openImage" src="storage/announcement/${data.data.file}" alt="" class="rounded-xl max-h-[30rem] w-full object-cover" draggable="false">
                                                                                                                                                                                         <div x-show="openImage" class="absolute top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
@@ -495,8 +495,11 @@
             }
 
             const residentReportModal = (data) => {
-                const image_url = data.data.attachment.includes('http') || data.data.attachment.includes('https') ? data.data
-                    .attachment : `storage/images_storage/${data.data.attachment}`
+                if (data.data.attachment) {
+                    const image_url = data.data.attachment.includes('http') || data.data.attachment.includes('https') ? data
+                        .data
+                        .attachment : `storage/images_storage/${data.data.attachment}`
+                }
                 return `
                 <div
                     class="bg-white-snow w-full sm:max-w-3xl 2xl:max-w-7xl text-navy-night h-[80%] lg:h-[95%] overflow-hidden rounded-xl p-8 flex flex-col gap-y-5">
@@ -523,27 +526,29 @@
                             </div>
                         </div>
                         <div class="text-sm/5">
-                            <div>
-                                <h1 class="font-medium">Lampiran</h1>
-                                <div x-data="{ openImage: false }">
-                                    <img @click="openImage = !openImage"
-                                        src="${image_url}"
-                                        alt="" class="rounded-xl w-full object-cover"
-                                        draggable="false">
-                                    <div x-show="openImage"
-                                        class="absolute top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
-                                        <img @click="openImage = false" x-show="openImage"
-                                            @click.outside="openImage = false"
-                                            src="${image_url}"
-                                            alt="" class="rounded-xl w-max h-max lg:max-w-full lg:max-h-full"
-                                            draggable="false">
-                                        <div class="absolute w-8 h-8 top-10 right-10 cursor-pointer"
-                                            @click="openImage = false">
-                                            <x-heroicon-o-x-mark class="w-8 h-8" class="text-white-snow absolute" />
+                            ${data.data.attachment === null ? '' : `
+                                    <div>
+                                        <h1 class="font-medium">Lampiran</h1>
+                                        <div x-data="{ openImage: false }">
+                                            <img @click="openImage = !openImage"
+                                                src="${image_url}"
+                                                alt="" class="rounded-xl w-full object-cover"
+                                                draggable="false">
+                                            <div x-show="openImage"
+                                                class="absolute top-0 left-0 py-10 lg:px-32 px-10 min-w-screen min-h-screen lg:w-screen lg:h-screen bg-navy-night/70 flex justify-center items-center">
+                                                <img @click="openImage = false" x-show="openImage"
+                                                    @click.outside="openImage = false"
+                                                    src="${image_url}"
+                                                    alt="" class="rounded-xl w-max h-max lg:max-w-full lg:max-h-full"
+                                                    draggable="false">
+                                                <div class="absolute w-8 h-8 top-10 right-10 cursor-pointer"
+                                                    @click="openImage = false">
+                                                    <x-heroicon-o-x-mark class="w-8 h-8" class="text-white-snow absolute" />
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
+                                    `}
                         </div>
                         <div class="mt-2">
                             <h1 class="font-medium text-sm/7 ">Keperluan</h1>

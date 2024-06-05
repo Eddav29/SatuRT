@@ -379,6 +379,7 @@
                             </div>
                         </div>
                         <div class="text-sm/5">
+                            ${data.data.attachment === null ? '' : `
                             <div>
                                 <h1 class="font-medium">Lampiran</h1>
                                 <div x-data="{ openImage: false }">
@@ -400,6 +401,7 @@
                                     </div>
                                 </div>
                             </div>
+                            `}
                         </div>
                         <div class="mt-2">
                             <h1 class="font-medium text-sm/7 ">Keperluan</h1>

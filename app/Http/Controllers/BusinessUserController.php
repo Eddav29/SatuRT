@@ -105,7 +105,6 @@ class BusinessUserController extends Controller
             'nik' => ['required', 'exists:penduduk,nik']
         ]);
 
-        $umkm = $request->all();
 
         if ($validator->fails()) {
             if ($request->is('api/*') || $request->wantsJson()) {
@@ -121,6 +120,7 @@ class BusinessUserController extends Controller
         }
 
         $request->merge(['penduduk_id' => Penduduk::where('nik', $request['nik'])->first()->penduduk_id]);
+        $umkm = $request->all();
 
         try {
             $umkm['nama_umkm'] = Str::title($request['nama_umkm']);
