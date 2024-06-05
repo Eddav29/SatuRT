@@ -19,13 +19,13 @@ class Inventaris_DetailFactory extends Factory
     public function definition(): array
     {
         return [
-            // 'inventaris_id' => Inventaris::pluck('inventaris_id')->random(),
-            // 'penduduk_id' => Penduduk::pluck('penduduk_id')->random(),
-            // 'jumlah' => $this->faker->numberBetween(1, 10),
-            // 'kondisi' => $this->faker->randomElement(['Normal', 'Rusak', 'Hilang']),
-            // 'status' => $this->faker->randomElement(['Dipinjam', 'Dikembalikan']),
-            // 'tanggal_pinjam' => $this->faker->date(),
-            // 'tanggal_kembali' => $this->faker->date(),
+            'inventaris_id' => Inventaris::pluck('inventaris_id')->random(),
+            'penduduk_id' => Penduduk::pluck('penduduk_id')->random(),
+            'jumlah' => $this->faker->numberBetween(1, 10),
+            'kondisi' => $this->faker->randomElement(['Normal', 'Rusak', 'Hilang']),
+            'status' => $this->faker->randomElement(['Dipinjam', 'Dikembalikan']),
+            'tanggal_pinjam' => $this->faker->date(),
+            'tanggal_kembali' => $this->faker->date(),
         ];
     }
 }

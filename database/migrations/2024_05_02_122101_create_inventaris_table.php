@@ -34,7 +34,7 @@ return new class extends Migration
                 'Pinjaman'
             ]);
             $table->string('keterangan');
-            $table->string('foto_inventaris');
+            $table->string('foto_inventaris')->nullable();
             $table->timestamps();
 
             $table->foreign('penduduk_id')->references('penduduk_id')->on('penduduk')->onDelete('cascade')->onUpdate('cascade');

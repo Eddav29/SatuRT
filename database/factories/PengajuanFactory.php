@@ -19,12 +19,12 @@ class PengajuanFactory extends Factory
     public function definition(): array
     {
         return [
-            'penduduk_id' => Penduduk::pluck('penduduk_id')->random(),
-            'status_id' => Status::pluck('status_id')->random(),
-            'accepted_by' => Penduduk::pluck('penduduk_id')->random(),
-            'keperluan' => $this->faker->sentence(),
-            'keterangan' => $this->faker->paragraph(),
-            'accepted_at' => $this->faker->date(),
+            // 'penduduk_id' => Penduduk::pluck('penduduk_id')->random(),
+            // 'status_id' => Status::pluck('status_id')->random(),
+            // 'accepted_by' => Penduduk::pluck('penduduk_id')->random(),
+            // 'keperluan' => $this->faker->sentence(),
+            // 'keterangan' => $this->faker->paragraph(),
+            // 'accepted_at' => $this->faker->date(),
         ];
     }
 }
