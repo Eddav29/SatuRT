@@ -16,15 +16,17 @@ class InventarisFactory extends Factory
     public function definition()
     {
         return [
-            'penduduk_id' => Penduduk::pluck('penduduk_id')->random(),
-            'nama_inventaris' => $this->faker->name(),
-            'merk' => $this->faker->company,
-            'warna' => $this->faker->colorName,
-            'jumlah' => $this->faker->numberBetween(1, 10),
-            'jenis' => $this->faker->randomElement(['Furnitur', 'Elektronik', 'ATK', 'Kendaraan', 'Perlengkapan']),
-            'sumber' => $this->faker->randomElement(['Hibah', 'Beli', 'Donasi', 'Bantuan', 'Pinjaman']),
-            'keterangan' => $this->faker->text,
-            'foto_inventaris' => $this->faker->imageUrl(),
+            // 'penduduk_id' => Penduduk::pluck('penduduk_id')->random(),
+            // 'nama_inventaris' => $this->faker->randomElement([
+            //     'table', 'chair', 'laptop', 'book', 'phone', 'pen', 'notebook', 'printer', 'monitor', 'keyboard'
+            // ]),
+            // 'merk' => $this->faker->company,
+            // 'warna' => $this->faker->colorName,
+            // 'jumlah' => $this->faker->numberBetween(1, 10),
+            // 'jenis' => $this->faker->randomElement(['Furnitur', 'Elektronik', 'ATK', 'Kendaraan', 'Perlengkapan']),
+            // 'sumber' => $this->faker->randomElement(['Hibah', 'Beli', 'Donasi', 'Bantuan', 'Pinjaman']),
+            // 'keterangan' => $this->faker->text,
+            // 'foto_inventaris' => $this->faker->imageUrl(),
         ];
     }
 }
