@@ -38,10 +38,27 @@ return [
 
         'public' => [
             'driver' => 'local',
-            'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'root' => storage_path('app/public/images_storage'),
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
-            'throw' => false,
+        ],
+        'storage_ktp' => [
+            'driver' => 'local',
+            'root' => storage_path('app/storage_ktp'),
+            'url' => env('APP_URL') . '/storage/ktp',
+            'visibility' => 'public',
+        ],
+        'storage_announcement' => [
+            'driver' => 'local',
+            'root' => storage_path('app/storage_announcement'),
+            'url' => env('APP_URL') . '/storage/announcement',
+            'visibility' => 'public',
+        ],
+        'storage_lisence' => [
+            'driver' => 'local',
+            'root' => storage_path('app/storage_lisence'),
+            'url' => env('APP_URL') . '/storage/lisence',
+            'visibility' => 'public',
         ],
 
         's3' => [
