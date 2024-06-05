@@ -105,12 +105,12 @@
                         <div class="mt-10 flex max-lg:flex-col gap-x-5">
                             <button type="submit" name="status_id" id="status_id" value="2"
                                 class="bg-green-500 text-white-snow border-2 py-3 px-5 rounded-lg mt-4"
-                                @if ($pelaporan->pengajuan->status_id === 2 || $pelaporan->pengajuan->status_id === 3) disabled @endif>
+                                @if ($pelaporan->pengajuan->status_id === 2 || $pelaporan->pengajuan->status_id === 3) hidden @endif>
                                 <p>Setujui</p>
                             </button>
                             <button type="submit" name="status_id" id="status_id" value="3"
                                 class="bg-red-500 text-white-snow border-2 py-3 px-5 rounded-lg mt-4"
-                                @if ($pelaporan->pengajuan->status_id === 2 || $pelaporan->pengajuan->status_id === 3) disabled @endif>
+                                @if ($pelaporan->pengajuan->status_id === 2 || $pelaporan->pengajuan->status_id === 3) hidden @endif>
                                 <p>Tolak</p>
                             </button>
                             <button onclick="window.history.back()"
@@ -127,7 +127,7 @@
                                 @if (
                                     $pelaporan->pengajuan->status_id === 2 ||
                                         $pelaporan->pengajuan->status_id === 3 ||
-                                        $pelaporan->pengajuan->status_id === 4) disabled @endif>
+                                        $pelaporan->pengajuan->status_id === 4) hidden @endif>
                                 <p>Batalkan</p>
                             </button>
                             <button onclick="window.history.back()"
