@@ -33,7 +33,7 @@ class PendudukFactory extends Factory
             'status_hubungan_dalam_keluarga' => $this->faker->randomElement(['Istri', 'Anak', 'Cucu', 'Ayah', 'Ibu', 'Saudara', 'Mertua', 'Menantu', 'Cucu Menantu', 'Cicit', 'Keluarga Lain']),
             'status_perkawinan' => $this->faker->randomElement(['Kawin', 'Belum Kawin', 'Cerai Hidup', 'Cerai Mati']),
             'pendidikan_terakhir' => $this->faker->randomElement(['SD', 'SMP', 'SMA', 'D3', 'S1', 'S2', 'S3']),
-            'foto_ktp' => null,
+            // 'foto_ktp' => null,
             'status_penduduk' => $this->faker->randomElement(['Domisili', 'Non Domisili']),
             'nomor_rt' => $this->faker->numberBetween(1, 99),
             'nomor_rw' => $this->faker->numberBetween(1, 99),

@@ -46,12 +46,6 @@
                                 Dashboard
                             </x-nav-menu>
                         </div>
-                        <div>
-                            <x-nav-menu svgIcon="heroicon-o-banknotes" :href="route('keuangan.index')" :active="request()->is('keuangan*')"
-                                iconStyle="w-6 h-6 md:h-8 md:w-8">
-                                Keuangan
-                            </x-nav-menu>
-                        </div>
                         <div @click.prevent="isDataPenduduk = !isDataPenduduk">
                             <x-nav-menu svgIcon="heroicon-o-user-group" iconStyle="w-6 h-6 md:h-8 md:w-8">
                                 <div class="inline-flex w-full justify-between items-center">
@@ -77,9 +71,9 @@
                             </div>
                         </div>
                         <div>
-                            <x-nav-menu :href="route('umkm.index')" :active="request()->is('umkm*')" svgIcon="heroicon-o-building-storefront"
+                            <x-nav-menu svgIcon="heroicon-o-banknotes" :href="route('keuangan.index')" :active="request()->is('keuangan*')"
                                 iconStyle="w-6 h-6 md:h-8 md:w-8">
-                                UMKM
+                                Keuangan
                             </x-nav-menu>
                         </div>
                         <div>
@@ -88,11 +82,23 @@
                                 Permohonan Surat
                             </x-nav-menu>
                         </div>
+                        <div>
+                            <x-nav-menu svgIcon="heroicon-o-megaphone" iconStyle="w-6 h-6 md:h-8 md:w-8"
+                                :href="route('pelaporan.index')" :active="request()->is('pelaporan*')">
+                                Laporan Warga
+                            </x-nav-menu>
+                        </div>
+                        <div>
+                            <x-nav-menu :href="route('umkm.index')" :active="request()->is('umkm*')" svgIcon="heroicon-o-building-storefront"
+                                iconStyle="w-6 h-6 md:h-8 md:w-8">
+                                UMKM
+                            </x-nav-menu>
+                        </div>
                         <div @click.prevent="isPendukungKeputusan = !isPendukungKeputusan">
                             <x-nav-menu svgIcon="heroicon-o-scale" iconStyle="w-6 h-6 md:h-8 md:w-8">
                                 <div class="w-full inline-flex justify-between items-center">
                                     <p class="px-1">
-                                        Pendukung Keputusan
+                                        Prioritas Kegiatan
                                     </p>
                                     <div class="w-5 h-5"
                                         :class="isPendukungKeputusan ?
@@ -124,12 +130,6 @@
                             <x-nav-menu svgIcon="heroicon-o-microphone" :href="route('informasi.index')" :active="request()->is('informasi*')"
                                 iconStyle="w-6 h-6 md:h-8 md:w-8">
                                 Informasi
-                            </x-nav-menu>
-                        </div>
-                        <div>
-                            <x-nav-menu svgIcon="heroicon-o-megaphone" iconStyle="w-6 h-6 md:h-8 md:w-8"
-                                :href="route('pelaporan.index')" :active="request()->is('pelaporan*')">
-                                Laporan Warga
                             </x-nav-menu>
                         </div>
                         <div @click.prevent="isInventaris = !isInventaris">
@@ -181,22 +181,21 @@
                             </x-nav-menu>
                         </div>
                         <div>
-                            <x-nav-menu :href="route('umkm.index')" :active="request()->is('umkm*')" svgIcon="heroicon-o-building-storefront"
-                                iconStyle="w-6 h-6 md:h-8 md:w-8">
-                                UMKM
-                            </x-nav-menu>
-                        </div>
-                        <div>
                             <x-nav-menu :href="route('persuratan.index')" :active="request()->is('persuratan*')" svgIcon="heroicon-o-document-text"
                                 iconStyle="w-6 h-6 md:h-8 md:w-8">
                                 Permohonan Surat
                             </x-nav-menu>
-
                         </div>
                         <div>
                             <x-nav-menu svgIcon="heroicon-o-megaphone" iconStyle="w-6 h-6 md:h-8 md:w-8"
                                 :href="route('pelaporan.index')" :active="request()->is('pelaporan*')">
                                 LAPOR!
+                            </x-nav-menu>
+                        </div>
+                        <div>
+                            <x-nav-menu :href="route('umkm.index')" :active="request()->is('umkm*')" svgIcon="heroicon-o-building-storefront"
+                                iconStyle="w-6 h-6 md:h-8 md:w-8">
+                                UMKM
                             </x-nav-menu>
                         </div>
 

@@ -296,6 +296,7 @@
                         @else
                             <x-input-file name="images" :accept="$extension" />
                         @endisset
+                        <x-input-error :messages="$errors->get('images')" class="mt-2" />
                     </div>
                 </div>
 
