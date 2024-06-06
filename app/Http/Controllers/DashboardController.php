@@ -115,7 +115,6 @@ class DashboardController extends Controller
         try {
             return Pelaporan::join('pengajuan', 'pelaporan.pengajuan_id', '=', 'pengajuan.pengajuan_id')
                 ->with(['pengajuan', 'pengajuan.penduduk'])
-                ->whereDate('pengajuan.updated_at', Carbon::today())
                 ->orderBy('pengajuan.updated_at', 'desc')
                 ->where('pengajuan.status_id', 1)
                 ->get();
