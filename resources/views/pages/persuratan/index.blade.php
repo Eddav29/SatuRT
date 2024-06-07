@@ -13,11 +13,6 @@
                     $layoutTop2Start = Auth::user()->role->role_name === 'Ketua RT' ? false : true;
                 @endphp
                 <x-datatables id="persuratan_id" url="/persuratan" :columns="[
-                    // [
-                    //     'label' => 'NIK',
-                    //     'key' => 'nik',
-                    //     'style' => 'text-left',
-                    // ],
                     [
                         'label' => 'Pemohon',
                         'key' => 'nama',
@@ -48,7 +43,7 @@
                 ]" :aksi="[
                     'detail' => true,
                     'edit' => false,
-                    'hapus' => false,
+                    'hapus' => Auth::user()->role->role_name === 'Penduduk' ? true : false,
                 ]" :filter="[
                     [
                         'title' => 'Status',
