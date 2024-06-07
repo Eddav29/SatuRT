@@ -33,7 +33,7 @@
                     <div class="md:grid md:grid-cols-4">
                         <h5 class="font-semibold">Disetujui Tanggal</h5>
                         <p class="md:col-span-3">
-                            {{ \Carbon\Carbon::parse($persuratan->pengajuan->accepted_at)->format('d-m-Y | H:i:s') }}
+                            {{ $persuratan->pengajuan->accepted_at ? \Carbon\Carbon::parse($persuratan->pengajuan->accepted_at)->format('d-m-Y') : '-' }}
                         </p>
                     </div>
                     @if ($persuratan->jenis_surat === 'Lainnya')
@@ -44,11 +44,10 @@
                     @endif
                     <div class="md:flex md:flex-col">
                         <h5 class="font-semibold">Keterangan</h5>
-                        <div class="w-full h-48 p-2.5 rounded border border-neutral-900 border-opacity-30 justify-start items-start gap-2.5 inline-flex font-normal">
+                        <div
+                            class="w-full h-48 p-2.5 rounded border border-neutral-900 border-opacity-30 justify-start items-start gap-2.5 inline-flex font-normal">
                             {!! $persuratan->pengajuan->keterangan !!}
                         </div>
-                        {{-- <textarea id="textarea" readonly
-                            class="w-full h-48 p-2.5 rounded border border-neutral-900 border-opacity-30 justify-start items-start gap-2.5 inline-flex font-normal"></textarea> --}}
                     </div>
                     @if ($persuratan->pengajuan->status->nama === 'Diterima')
                         <a href="{{ route('persuratan.pdf', $persuratan->persuratan_id) }}"
