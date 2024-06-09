@@ -322,7 +322,6 @@ class DocumentRequestController extends Controller
 
 
         if (!$persuratan) {
-            NotificationPusher::error('Permohonan tidak ditemukan');
             return redirect()->route('persuratan.index')->with('error', 'Permohonan tidak ditemukan');
         }
 

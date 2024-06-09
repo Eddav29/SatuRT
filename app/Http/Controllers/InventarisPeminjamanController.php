@@ -239,7 +239,7 @@ public function selesaikan(Request $request, String $id)
 
     // Pastikan status peminjaman adalah 'Dipinjam'
     DB::beginTransaction();
-    if ($peminjaman->status !== 'dipinjam') {
+    if ($peminjaman->status != 'Dipinjam') {
         return redirect()->back()->with(['error' => 'Status peminjaman tidak valid']);
     }
     try {

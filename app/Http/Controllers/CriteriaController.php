@@ -33,7 +33,7 @@ class CriteriaController extends Controller
     {
         $kriteria = Kriteria::all();
         $breadcrumb = [
-            'list' => ['Home', 'SPK', 'Kriteria'],
+            'list' => ['Home', 'Prioritas Kegiatan', 'Kriteria'],
             'url' => ['home', 'spk.kriteria.index', 'spk.kriteria.index'],
         ];
         return response()->view('pages.kriteria.index', [

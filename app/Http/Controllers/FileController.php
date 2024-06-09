@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Intervention\Image\Drivers\Gd\Driver;
+use Intervention\Image\Drivers\Gd\Encoders\WebpEncoder;
 use Intervention\Image\ImageManager;
 
 class FileController extends Controller
@@ -74,15 +75,16 @@ class FileController extends Controller
         try {
             if ($request->file('upload')) {
                 $manager = new ImageManager(new Driver());
+                $extension = $request->file('upload')->extension();
                 $image = $manager->read($request->file('upload'));
-                $image->toJpeg(80);
-                $fileName = time() . '.' . $request->file('upload')->getClientOriginalName();
-                $image->save(storage_path('app/' . $fileName));
-                Storage::disk('public')->put($fileName, file_get_contents(storage_path('app/' . $fileName)));
-                unlink(storage_path('app/' . $fileName));
-
-                $url = asset('storage/images_storage/' . $fileName);
-                return response()->json(['fileName' => $fileName, 'uploaded' => 1, 'url' => $url], 200);
+                $image->encode(new WebpEncoder(75));
+                $extension = 'webp';
+                $imageName = time() . '-' . pathinfo($request->file('upload')->hashName(), PATHINFO_FILENAME) . "." . $extension;
+                $image->save(storage_path('app/' . $imageName));
+                Storage::disk('public')->put($imageName, file_get_contents(storage_path('app/' . $imageName)));
+                unlink(storage_path('app/' . $imageName));
+                $url = asset('storage/images_storage/' . $imageName);
+                return response()->json(['fileName' => $imageName, 'uploaded' => 1, 'url' => $url], 200);
             }
 
             return response()->json(['uploaded' => 0], 400);

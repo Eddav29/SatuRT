@@ -17,14 +17,16 @@ class InventarisFactory extends Factory
     {
         return [
             'penduduk_id' => Penduduk::pluck('penduduk_id')->random(),
-            'nama_inventaris' => $this->faker->name(),
+            'nama_inventaris' => $this->faker->randomElement([
+                'Table', 'Chair', 'Laptop', 'Book', 'Phone', 'Pen', 'Notebook', 'Printer', 'Monitor', 'Keyboard'
+            ]),
             'merk' => $this->faker->company,
             'warna' => $this->faker->colorName,
             'jumlah' => $this->faker->numberBetween(1, 10),
             'jenis' => $this->faker->randomElement(['Furnitur', 'Elektronik', 'ATK', 'Kendaraan', 'Perlengkapan']),
             'sumber' => $this->faker->randomElement(['Hibah', 'Beli', 'Donasi', 'Bantuan', 'Pinjaman']),
             'keterangan' => $this->faker->text,
-            'foto_inventaris' => $this->faker->imageUrl(),
+            // 'foto_inventaris' => $this->faker->image(),
         ];
     }
 }

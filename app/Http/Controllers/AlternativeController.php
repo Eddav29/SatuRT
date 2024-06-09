@@ -42,7 +42,7 @@ class AlternativeController extends Controller
     {
         try {
             $breadcrumb = [
-                'list' => ['Home', 'SPK', 'Kegiatan'],
+                'list' => ['Home', 'Prioritas Kegiatan', 'Kegiatan'],
                 'url' => ['home', 'spk.index', 'spk.index'],
             ];
 
@@ -65,7 +65,7 @@ class AlternativeController extends Controller
             }
 
             $breadcrumb = [
-                'list' => ['Home', 'SPK', 'Tambah Kegiatan'],
+                'list' => ['Home', 'Prioritas Kegiatan', 'Tambah Kegiatan'],
                 'url' => ['home', 'spk.index', 'spk.create'],
             ];
 
@@ -138,7 +138,7 @@ class AlternativeController extends Controller
             }
 
             $breadcrumb = [
-                'list' => ['Home', 'SPK', 'Edit Data Kegiatan'],
+                'list' => ['Home', 'Prioritas Kegiatan', 'Edit Data Kegiatan'],
                 'url' => ['home', 'spk.index', ['spk.edit', $id]],
             ];
 
@@ -215,7 +215,7 @@ class AlternativeController extends Controller
             }
 
             $breadcrumb = [
-                'list' => ['Home', 'SPK', 'Detail Kegiatan'],
+                'list' => ['Home', 'Prioritas Kegiatan', 'Detail Kegiatan'],
                 'url' => ['home', 'spk.index', ['spk.show', $id]],
             ];
 

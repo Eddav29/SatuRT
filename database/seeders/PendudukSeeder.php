@@ -12,14 +12,9 @@ use Illuminate\Support\Facades\Storage;
 
 class PendudukSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-
         Storage::disk('storage_ktp')->delete(Storage::disk('storage_ktp')->allFiles());
-
 
         User::all()->each(function ($user) {
             $kk = KartuKeluarga::factory()->create();

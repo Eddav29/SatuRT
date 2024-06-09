@@ -40,7 +40,7 @@ class DecisionSupportController extends Controller
     public function index()
     {
         $breadcrumb = [
-            'list' => ['Home', 'SPK', 'Kegiatan'],
+            'list' => ['Home', 'Prioritas Kegiatan', 'Kegiatan'],
             'url' => ['home', 'spk.index', 'spk.index'],
         ];
 
