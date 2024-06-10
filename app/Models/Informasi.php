@@ -62,6 +62,7 @@ class Informasi extends Model
 
         $query->when($filters['jfsi'] ?? false, function ($query, $jfsi) {
             $query->where('jenis_informasi', '!=', 'Pengumuman')
+                ->where('jenis_informasi', '!=', 'Dokumentasi Rapat')
                 ->where('jenis_informasi', $jfsi == 'Semua' ? '!=' : '=', $jfsi);
         });
     }
