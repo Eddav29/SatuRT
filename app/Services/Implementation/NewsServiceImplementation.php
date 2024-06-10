@@ -99,7 +99,7 @@ class NewsServiceImplementation implements RepositoryService, NewsService
     {
         try {
             $information = Informasi::where('jenis_informasi', '!=', 'Pengumuman')
-                ->orWhere('jenis_informasi', '!=', 'Dokumentasi Rapat')
+                ->where('jenis_informasi', '!=', 'Dokumentasi Rapat')
                 ->orderBy('created_at', 'desc')
                 ->first();
         } catch (\Exception $e) {
