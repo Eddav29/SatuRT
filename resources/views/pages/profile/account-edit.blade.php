@@ -75,7 +75,7 @@
 
                     {{-- Foto Profile --}}
                     <div class="mx-3 my-3 font-bold">
-                        <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Foto Profile</div>
+                        <div>Foto Profile</div>
                         <div>
                             @error('profile')
                                 <small class="text-red-500 text-xs py-3">{{ $message }}</small>

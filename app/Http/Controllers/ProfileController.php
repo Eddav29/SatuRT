@@ -165,12 +165,11 @@ class ProfileController extends Controller
         $validated = $request->validate([
             'username' => 'required',
             'email' => 'required|email',
-            'profile' => 'required|image',
+            'profile' => 'image',
         ], [
             'username.required' => 'Username harus diisi',
             'email.required' => 'Email harus diisi',
             'email.email' => 'Email tidak valid',
-            'profile.required' => 'Foto Profile harus diisi',
             'profile.image' => 'Foto Profile harus berupa gambar',
         ]);
 

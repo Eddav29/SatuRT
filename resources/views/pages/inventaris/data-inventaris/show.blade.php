@@ -23,27 +23,31 @@
                             <h5 class="font-semibold max-lg:w-2/5">Nama</h5>
                             <p class="md:col-span-3">: {{ $inventaris->nama_inventaris }}</p>
                         </div>
-                    </div>
-
-                    <div class="lg:mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
                         <div class="md:grid md:grid-cols-4 flex max-lg:flex-auto gap-3">
                             <h5 class="font-semibold max-lg:w-2/5">Merk</h5>
                             <p class="md:col-span-3">: {{ $inventaris->merk }}</p>
                         </div>
+                    </div>
+
+                    <div class="lg:mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
                         <div class="md:grid md:grid-cols-4 flex max-lg:flex-auto gap-3">
                             <h5 class="font-semibold max-lg:w-2/5">Warna</h5>
                             <p class="md:col-span-3">: {{ $inventaris->warna }}</p>
+                        </div>
+                        <div class="md:grid md:grid-cols-4 flex max-lg:flex-auto gap-3">
+                            <h5 class="font-semibold max-lg:w-2/5">Jumlah</h5>
+                            <p class="md:col-span-3">: {{ $inventaris->jumlah }}</p>
                         </div>
                     </div>
 
                     <div class="lg:mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
                         <div class="md:grid md:grid-cols-4 flex max-lg:flex-auto gap-3">
-                            <h5 class="font-semibold max-lg:w-2/5">Jumlah</h5>
-                            <p class="md:col-span-3">: {{ $inventaris->jumlah }}</p>
-                        </div>
-                        <div class="md:grid md:grid-cols-4 flex max-lg:flex-auto gap-3">
                             <h5 class="font-semibold max-lg:w-2/5">Jenis</h5>
                             <p class="md:col-span-3">: {{ $inventaris->jenis }}</p>
+                        </div>
+                        <div class="md:grid md:grid-cols-4 flex max-lg:flex-auto gap-3">
+                            <h5 class="font-semibold max-lg:w-2/5">Sumber</h5>
+                            <p class="md:col-span-3">: {{ $inventaris->sumber }}</p>
                         </div>
                     </div>
 
