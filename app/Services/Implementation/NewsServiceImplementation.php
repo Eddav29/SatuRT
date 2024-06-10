@@ -49,6 +49,7 @@ class NewsServiceImplementation implements RepositoryService, NewsService
             $informations = Informasi::all()
                 ->where('deleted_at', 0)
                 ->where('jenis_informasi', '!=', 'Pengumuman')
+                ->where('jenis_informasi', '!=', 'Dokumentasi Rapat')
                 ->sortByDesc('created_at');
         } catch (\Exception $e) {
             NotificationPusher::error($e->getMessage());
@@ -62,6 +63,7 @@ class NewsServiceImplementation implements RepositoryService, NewsService
     {
         try {
             $informations = Informasi::where('jenis_informasi', '!=', 'Pengumuman')
+                ->where('jenis_informasi', '!=', 'Dokumentasi Rapat')
                 ->inRandomOrder()
                 ->take(4)
                 ->get();
@@ -116,6 +118,7 @@ class NewsServiceImplementation implements RepositoryService, NewsService
         try {
             $information = Informasi::whereNull('deleted_at')
                 ->where('jenis_informasi', '!=', 'Pengumuman')
+                ->where('jenis_informasi', '!=', 'Dokumentasi Rapat')
                 ->where('jenis_informasi', $filter === 'Semua' ? '!=' : '=', $filter)
                 ->where('judul_informasi', 'LIKE', '%' . $search . '%')
                 ->orderBy('created_at', 'desc')
