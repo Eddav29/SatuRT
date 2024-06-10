@@ -244,7 +244,7 @@ class ResidentReportController extends Controller
         return response()->view('pages.resident-report.create', [
             'breadcrumb' => $breadcrumb,
             'pelaporan' => $pelaporan,
-            'extension' => 'jpg,jpeg,png',
+            'extension' => 'jpg,jpeg,png,webp',
         ]);
     }
 
@@ -267,7 +267,7 @@ class ResidentReportController extends Controller
                 'edit' => route('pelaporan.edit', ['pelaporan' => $id]),
                 'hapus' => route('pelaporan.destroy', ['pelaporan' => $id]),
             ],
-            'extension' => 'jpg,jpeg,png',
+            'extension' => 'jpg,jpeg,png,webp',
         ]);
     }
 
