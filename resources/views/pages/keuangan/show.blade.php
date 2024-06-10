@@ -40,7 +40,7 @@
                         </div>
                         <div>
                             <h5 class="font-semibold">Saldo Sesudah</h5>
-                            <p>{{ $detailKeuangan->keuangan->total_keuangan ?? 'Tidak Ada Data' }}</p>
+                            <p>{{ $saldoSesudah ?? 'Tidak Ada Data' }}</p>
                         </div>
                         <div>
                             <h5 class="font-semibold">Dibuat Pada</h5>

@@ -61,8 +61,12 @@ class PendudukSeeder extends Seeder
             'kode_pos' => 12345,
         ]);
 
+        $user = User::where('username','testingnama')->first();
+        
+
         Penduduk::create([
             'kartu_keluarga_id' => $kk->kartu_keluarga_id,
+            'user_id' => $user->user_id,
             'nik' => '1234567890111303',
             'nama' => 'TESTING NAMA',
             'jenis_kelamin' => 'Laki-laki',
