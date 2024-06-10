@@ -63,9 +63,6 @@
                             <div x-show="selected === 'Pengumuman' || selected === 'Dokumentasi Rapat'">
                                 <p>Lampiran</p>
                             </div>
-                            @error('images')
-                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
-                            @enderror
 
                             @if ($information->thumbnail_url !== null)
                                 @if ($information->jenis_informasi !== 'Pengumuman' && $information->jenis_informasi !== 'Dokumentasi Rapat')
