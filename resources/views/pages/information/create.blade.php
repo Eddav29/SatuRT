@@ -88,7 +88,7 @@
                             <img alt="" id="preview-image" class="hidden">
 
                             <div x-show="selected !== 'Pengumuman' && selected !== 'Dokumentasi Rapat'">
-                                <x-input-file name="images" accept="png,jpg,jpeg" />
+                                <x-input-file name="images" accept="png,jpg,jpeg,webp" />
                             </div>
 
                             <div x-show="selected === 'Pengumuman' || selected === 'Dokumentasi Rapat'">
