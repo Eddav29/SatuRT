@@ -127,14 +127,15 @@ class InventarisPeminjamanController extends Controller
             'inventaris_id' => 'required|exists:inventaris,inventaris_id',
             'penduduk_id' => 'required|exists:penduduk,penduduk_id',
             'jumlah' => 'required|integer|min:1', // pastikan jumlah yang dipinjam valid
-            'kondisi' => 'required|string|max:255',
+            
             'tanggal_pinjam' => 'required|date',
         ]);
     
         // Cek ketersediaan inventaris
         $inventaris = Inventaris::findOrFail($validated['inventaris_id']);
         if ($validated['jumlah'] > $inventaris->jumlah) {
-            return redirect()->back()->with(['error' => 'Jumlah yang dipinjam melebihi jumlah inventaris yang tersedia']);
+            NotificationPusher::error('jumlah yang dipinjam melebihi batas');
+            return redirect()->route('inventaris.peminjaman.create');
         }
     
         // Mengurangi jumlah inventaris yang tersedia
@@ -181,7 +182,8 @@ class InventarisPeminjamanController extends Controller
         // Cek ketersediaan inventaris baru (jika ada)
         $inventarisBaru = Inventaris::findOrFail($validated['inventaris_id']);
         if ($validated['jumlah'] > $inventarisBaru->jumlah) {
-            return redirect()->back()->with(['error' => 'Jumlah yang dikembalikan melebihi jumlah inventaris yang tersedia']);
+            NotificationPusher::error('jumlah yang dipinjam melebihi batas');
+            return redirect()->route('inventaris.peminjaman.edit');
         }
     
         // Mengurangi jumlah inventaris yang tersedia
@@ -222,6 +224,7 @@ class InventarisPeminjamanController extends Controller
                 'code' => 200,
                 'message' => 'Data berhasil dihapus',
                 'timestamp' => now(),
+                'redirect' => route('inventaris.peminjaman.index'),
             ], 200);
         } catch (\Exception $e) {
             DB::rollback();
@@ -239,10 +242,12 @@ public function selesaikan(Request $request, String $id)
 
     // Pastikan status peminjaman adalah 'Dipinjam'
     DB::beginTransaction();
-    if ($peminjaman->status != 'Dipinjam') {
-        return redirect()->back()->with(['error' => 'Status peminjaman tidak valid']);
-    }
+    
     try {
+        if ($peminjaman->status != 'Dipinjam') {
+            NotificationPusher::error('status peminjaman tidak valid');
+            return redirect()->route('inventaris.peminjaman.create');
+        }
         // Mengatur status menjadi 'Dikembalikan'
         $peminjaman->update(['status' => 'Dikembalikan']);
 
