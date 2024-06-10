@@ -249,7 +249,7 @@
             </section>
 
             <section>
-                <x-decision-support-table :emptyColumn="true" stepTitle="Matriks Dominan Agregate (E)" :columns="$alternatives"
+                <x-decision-support-table :emptyColumn="true" stepTitle="Matriks Dominan Agregate (E)" :columns="array_keys($data['aggregateMatrix']['E'][0])"
                     startIndex="0" :withAlternative="true" :alternatives="$alternatives" :data="$data['aggregateMatrix']['E']">
                     <p class="break-words"> Matriks E didapatkan dari perkalian antara elemen matriks
                         F dengan elemen matriks G:</p>

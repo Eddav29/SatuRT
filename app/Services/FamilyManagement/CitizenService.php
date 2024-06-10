@@ -141,6 +141,9 @@ class CitizenService implements RecordServiceInterface, DatatablesInterface
             if ($citizen->status_hubungan_dalam_keluarga !== 'Kepala Keluarga' && $familyMembersCount === 1) {
                 $citizen->kartuKeluarga->delete();
             } else {
+                if ($citizen->user()) {
+                    $citizen->user()->delete();
+                }
                 $citizen->delete();
             }
             DB::commit();
