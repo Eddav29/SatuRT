@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventaris;
+use App\Models\Inventaris_Detail;
 use App\Services\ImageManager\ImageService;
 use App\Services\Notification\NotificationPusher;
 use Illuminate\Http\JsonResponse;
