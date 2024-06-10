@@ -39,29 +39,32 @@
 
                 <div class="mx-3 my-6 flex flex-nowrap">
                     <div class="lg:w-1/2 max-lg:w-full">
-                        <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Kata Sandi Lama</div>
-                        <input type="text" placeholder="Kata Sandi Lama" name="sandi_lama" id="sandi_lama"
+                        {{-- <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Kata Sandi Lama</div>
+                        <input type="password" placeholder="Kata Sandi Lama" name="sandi_lama" id="sandi_lama"
                             class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                        <x-input-error :messages="$errors->get('sandi_lama')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('sandi_lama')" class="mt-2" /> --}}
+                        <x-input-password name="sandi_lama" label="Kata Sandi Lama" :required="true" />
                     </div>
                 </div>
 
                 <div class="mx-3 my-6 flex flex-nowrap">
                     <div class="lg:w-1/2 max-lg:w-full">
-                        <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Kata Sandi Baru</div>
-                        <input type="text" placeholder="Kata Sandi Baru" name="sandi_baru" id="sandi_baru"
+                        {{-- <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Kata Sandi Baru</div>
+                        <input type="password" placeholder="Kata Sandi Baru" name="sandi_baru" id="sandi_baru"
                             class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                        <x-input-error :messages="$errors->get('sandi_baru')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('sandi_baru')" class="mt-2" /> --}}
+                        <x-input-password name="sandi_baru" label="Kata Sandi Baru" :required="true" />
                     </div>
                 </div>
 
                 <div class="mx-3 my-6 flex flex-nowrap">
                     <div class="lg:w-1/2 max-lg:w-full">
-                        <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Ulangi Kata Sandi Baru</div>
-                        <input type="text" placeholder="Ulangi Kata Sandi Baru" name="ulang_sandi_baru"
+                        {{-- <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Ulangi Kata Sandi Baru</div>
+                        {{-- <input type="password" placeholder="Ulangi Kata Sandi Baru" name="ulang_sandi_baru"
                             id="ulang_sandi_baru"
                             class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                        <x-input-error :messages="$errors->get('ulang_sandi_baru')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('ulang_sandi_baru')" class="mt-2" /> --}}
+                        <x-input-password name="ulang_sandi_baru" label="Ulangi Kata Sandi Baru" :required="true" />
                     </div>
                 </div>
 
