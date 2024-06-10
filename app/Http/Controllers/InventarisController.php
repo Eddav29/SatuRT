@@ -146,7 +146,7 @@ class InventarisController extends Controller
                 'edit' => route('inventaris.data-inventaris.edit', $id),
                 'hapus' => route('inventaris.data-inventaris.destroy', $id),
             ],
-            'extension' => 'jpg,jpeg,png',
+            'extension' => 'jpg,jpeg,png,webp',
         ]);
     }
 
@@ -161,7 +161,7 @@ class InventarisController extends Controller
         return response()->view('pages.inventaris.data-inventaris.create', [
             'breadcrumb' => $breadcrumb,
             'inventaris' => $inventaris,
-            'extension' => 'jpg,jpeg,png',
+            'extension' => 'jpg,jpeg,png,webp',
         ]);
     }
 

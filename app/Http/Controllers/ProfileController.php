@@ -35,7 +35,7 @@ class ProfileController extends Controller
 
         return response()->view('pages.profile.complete-data', [
             'penduduk' => $penduduk,
-            'extension' => 'jpg,jpeg,png',
+            'extension' => 'jpg,jpeg,png,webp',
         ]);
     }
 
@@ -52,7 +52,7 @@ class ProfileController extends Controller
         $penduduk = Penduduk::find($id);
         return response()->view('pages.profile.account-edit', [
             'penduduk' => $penduduk,
-            'extension' => 'jpg,jpeg,png',
+            'extension' => 'jpg,jpeg,png,webp',
         ]);
     }
 
