@@ -82,6 +82,7 @@ class NewsServiceImplementation implements RepositoryService, NewsService
         try {
             $informations = Informasi::whereNull('deleted_at')
                 ->where('jenis_informasi', '!=', 'Pengumuman')
+                ->where('jenis_informasi', '!=', 'Dokumentasi Rapat')
                 ->whereNot('informasi_id', $id)
                 ->orderBy('created_at', 'desc')
                 ->filter($filters)

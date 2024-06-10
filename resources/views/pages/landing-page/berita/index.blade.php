@@ -12,7 +12,8 @@
                         <input type="text" name="search" id="searchFieldMobile" placeholder="Cari Berita"
                             class="w-full py-5 rounded-lg outline-none ring-0 border-0 focus:ring-1 focus:ring-green-light">
                         <button type="submit">
-                            <x-heroicon-o-magnifying-glass class="w-8 h-8 absolute bg-white top-1/2 right-3 -translate-y-1/2" />
+                            <x-heroicon-o-magnifying-glass
+                                class="w-8 h-8 absolute bg-white top-1/2 right-3 -translate-y-1/2" />
                         </button>
                     </div>
                 </form>
@@ -33,8 +34,7 @@
                                 Informasi Baru
                             </p>
                         </div>
-                        <div
-                            class="absolute bottom-3 text-navy-night left-3 z-10 text-[1.618rem]/[2.618rem]">
+                        <div class="absolute bottom-3 text-navy-night left-3 z-10 text-[1.618rem]/[2.618rem]">
                             @php
                                 $judul = Str::limit($newInformation->judul_informasi, 50, '...');
                             @endphp
@@ -69,7 +69,7 @@
                                 class="inline-block cursor-pointer font-medium text-[1rem]/[1.618rem] border border-green-light {{ request('jfsi') == 'Semua' || !request('jfsi') ? 'bg-green-light' : '' }} text-navy-night px-6 py-4 rounded-full">Semua</button>
                         </li>
                         @foreach ($types as $key => $type)
-                            @if ($type !== 'Pengumuman')
+                            @if ($type !== 'Pengumuman' && $type !== 'Dokumentasi Rapat')
                                 <li>
                                     <button type="submit" name="jfsi" value="{{ $type }}"
                                         class="inline-block cursor-pointer font-medium text-[1rem]/[1.618rem] text-navy-night border border-green-light {{ request('jfsi') == $type ? 'bg-green-light' : '' }} px-6 py-4 rounded-full">{{ $type }}</button>
