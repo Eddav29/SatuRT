@@ -347,7 +347,7 @@
                             <a href="{{ url('berita/' . $information->informasi_id) }}"
                                 class="lg:max-h-[27rem] group">
                                 <div class="relative h-72 lg:h-[15rem]">
-                                    <img src="{{ !strpos($information->thumbnail_url, 'http') ? $information->thumbnail_url : asset('storage/images_storage/' . $information->thumbnail_url) }}"
+                                    <img src="{{ strpos($information->thumbnail_url, 'http') === 0 ? $information->thumbnail_url : asset('storage/images_storage/' . $information->thumbnail_url) }}"
                                         loading="lazy" alt="" class="rounded-xl w-full h-full object-cover">
                                     <div
                                         class="absolute bottom-3 left-3 z-10 rounded-full text-[1rem]/[1.618rem] text-soft-snow px-6 py-3 bg-navy-night/50 backdrop-blur-3xl flex gap-3">

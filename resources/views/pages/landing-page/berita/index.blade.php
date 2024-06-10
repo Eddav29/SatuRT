@@ -244,7 +244,7 @@
                 <a href="berita/${informasi.informasi_id}"
                                     class="lg:row-span-2 lg:col-span-2 group">
                                     <div class="relative h-72 lg:h-[46rem]">
-                                        <img src="${urlCheck(informasi.thumbnail_url) ? informasi.thumbnail_url : asset('storage/images_storage/' + informasi.thumbnail_url)}" loading="lazy"
+                                        <img src="${urlCheck(informasi.thumbnail_url) ? informasi.thumbnail_url : `${window.assetBaseUrl}/${informasi.thumbnail_url}`}" loading="lazy"
                                             alt="" class="rounded-xl w-full h-full object-cover">
                                         <div
                                             class="absolute bottom-3 left-3 z-10 rounded-full text-[1rem]/[1.618rem] text-soft-snow px-6 py-3 bg-navy-night/50 backdrop-blur-3xl flex gap-3">
