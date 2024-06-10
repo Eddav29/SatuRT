@@ -32,5 +32,12 @@ class UserSeeder extends Seeder
             'role_id' => $rolePenduduk->role_id,
             'password' => Hash::make('12341234'),
         ]);
+
+        User::factory()->create([
+            'username' => 'testingnama',
+            'email' => null,
+            'role_id' => $rolePenduduk->role_id,
+            'password' => Hash::make('12345678'),
+        ]);
     }
 }
