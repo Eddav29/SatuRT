@@ -18,7 +18,7 @@
             </div>
             <div class="flex flex-col gap-2">
                 <h1 class="text-[1.618rem]/[2.618rem] font-bold">Kontak</h1>
-                <p class="text-[1rem]/[1.618rem]">Jl. Ikan Ayam NO 13 RT01 RW03, Jatimulyo, Lowokwaru, Kota Malang</p>
+                <p class="text-[1rem]/[1.618rem]">Jalan Terusan Piranha Atas no 14 gang 2 RT 01 RW 03, Tunjungsekar, Lowokwaru, Malang</p>
                 <div class="flex gap-3">
                     <x-heroicon-o-phone class="w-6 h-6" />
                     <p class="text-[1rem]/[1.618rem]">+62 812 3456 7890</p>

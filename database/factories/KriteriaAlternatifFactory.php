@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use App\Models\Alternatif;
 use App\Models\Kriteria;
-use App\Models\Penduduk;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**

@@ -2,7 +2,6 @@
 
 namespace App\Services\Authentication;
 
-use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

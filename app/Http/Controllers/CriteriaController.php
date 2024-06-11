@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kriteria;
-use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class CriteriaController extends Controller
 {

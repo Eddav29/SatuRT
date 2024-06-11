@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\Keuangan;
-use App\Models\Penduduk;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Carbon\Carbon;
