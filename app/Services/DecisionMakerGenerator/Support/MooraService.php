@@ -3,9 +3,6 @@
 namespace App\Services\DecisionMakerGenerator\Support;
 
 use App\Services\DecisionMakerGenerator\DecisionMakerService;
-use Illuminate\Http\JsonResponse;
-
-use function Ramsey\Uuid\v1;
 
 class MooraService extends DecisionMakerService{
 

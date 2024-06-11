@@ -9,7 +9,6 @@ use App\Services\Interfaces\RecordServiceInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
 class FamilyCardService implements RecordServiceInterface, DatatablesInterface
