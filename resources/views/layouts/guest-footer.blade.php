@@ -41,7 +41,7 @@
             <a href="https://www.freepik.com/" class="font-bold text-azure-blue underline">Freepik</a> |
             <a href="https://heroicons.com" class="font-bold text-purple-500 underline">Heroicons</a>
         </p>
-        <p class="text-[1rem]/[1.618rem]">&copy; 2024. All Rights Reserved</p>
+        <p class="text-[1rem]/[1.618rem]">&copy; {{ date('Y') }}. All Rights Reserved</p>
         <p class="text-[1rem]/[1.618rem]">Version 1.0.0</p>
     </div>
 </footer>
