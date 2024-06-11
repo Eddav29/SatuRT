@@ -227,6 +227,16 @@ class InventarisController extends Controller
         try {
             DB::beginTransaction();
 
+            $inventaris_detail = Inventaris_Detail::where('inventaris_id', $inventaris->inventaris_id)->first();
+
+            if ($inventaris_detail) {
+                return response()->json([
+                    'code' => 500,
+                    'message' => 'Data Inventaris masih ada didalam data Peminjaman',
+                    'timestamp' => now(),
+                ], 500);
+            }
+
             $status = '';
             if ($inventaris->foto_inventaris) {
                 $status = ImageService::deleteFile('public', $inventaris->foto_inventaris);
