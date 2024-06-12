@@ -36,6 +36,15 @@ class ProfileController extends Controller
         return response()->view('pages.profile.complete-data', [
             'penduduk' => $penduduk,
             'extension' => 'jpg,jpeg,png,webp',
+            'form' => [
+                'pendidikanTerakhir' => Penduduk::getListPendidikanTerakhir(),
+                'statusPerkawinan' => Penduduk::getListStatusPerkawinan(),
+                'statusHubunganDalamKeluarga' => Penduduk::getListStatusHubunganDalamKeluarga(),
+                'jenisKelamin' => Penduduk::getListJenisKelamin(),
+                'agama' => Penduduk::getListAgama(),
+                'golonganDarah' => Penduduk::getListGolonganDarah(),
+                'statusPenduduk' => Penduduk::getListStatusPenduduk(),
+            ]
         ]);
     }
 
