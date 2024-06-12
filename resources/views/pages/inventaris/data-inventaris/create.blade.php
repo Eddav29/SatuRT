@@ -68,12 +68,10 @@
                             <select name="jenis"
                                 class="font-normal  mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
                                 <option value="" selected disabled>Pilih Jenis Inventaris</option>
-                                <option value="ATK">ATK (Alat Tulis Kantor)</option>
-                                <option value="Elektronik">Elektronik</option>
-                                <option value="Furnitur">Furnitur</option>
-                                <option value="Kendaraan">Kendaraan</option>
-                                <option value="Perlengkapan">Perlengkapan</option>
-                                <option value="Lainnya">Lainnya</option>
+                                @foreach ($form['jenis'] as $jenis)
+                                    <option value="{{ $jenis }}">
+                                        {{ $jenis }}</option>
+                                @endforeach
                             </select>
                         </div>
                         <div>
@@ -85,11 +83,10 @@
                             <select name="sumber"
                                 class="font-normal  mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
                                 <option value="" selected disabled>Pilih Sumber Inventaris</option>
-                                <option value="Bantuan">Bantuan</option>
-                                <option value="Beli">Beli</option>
-                                <option value="Donasi">Donasi</option>
-                                <option value="Hibah">Hibah</option>
-                                <option value="Pinjaman">Pinjaman</option>
+                                @foreach ($form['sumber'] as $sumber)
+                                    <option value="{{ $sumber }}">
+                                        {{ $sumber }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>

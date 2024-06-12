@@ -245,6 +245,9 @@ class ResidentReportController extends Controller
             'breadcrumb' => $breadcrumb,
             'pelaporan' => $pelaporan,
             'extension' => 'jpg,jpeg,png,webp',
+            'form' => [
+                'jenis_pelaporan' => Pelaporan::getListJenisPelaporan(),
+            ],
         ]);
     }
 
@@ -268,6 +271,9 @@ class ResidentReportController extends Controller
                 'hapus' => route('pelaporan.destroy', ['pelaporan' => $id]),
             ],
             'extension' => 'jpg,jpeg,png,webp',
+            'form' => [
+                'jenis_pelaporan' => Pelaporan::getListJenisPelaporan(),
+            ],
         ]);
     }
 

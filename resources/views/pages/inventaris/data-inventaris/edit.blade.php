@@ -74,18 +74,11 @@
                             <select name="jenis"
                                 class="font-normal  mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
                                 <option value="" disabled>Pilih Jenis Inventaris</option>
-                                <option value="ATK" {{ $inventaris->jenis === 'ATK' ? 'selected' : '' }}>ATK (Alat
-                                    Tulis Kantor)</option>
-                                <option value="Elektronik" {{ $inventaris->jenis === 'Elektronik' ? 'selected' : '' }}>
-                                    Elektronik</option>
-                                <option value="Furnitur" {{ $inventaris->jenis === 'Furnitur' ? 'selected' : '' }}>
-                                    Furnitur</option>
-                                <option value="Kendaraan" {{ $inventaris->jenis === 'Kendaraan' ? 'selected' : '' }}>
-                                    Kendaraan</option>
-                                <option value="Perlengkapan"
-                                    {{ $inventaris->jenis === 'Perlengkapan' ? 'selected' : '' }}>Perlengkapan</option>
-                                <option value="Lainnya" {{ $inventaris->jenis === 'Lainnya' ? 'selected' : '' }}>
-                                    Lainnya</option>
+                                @foreach ($form['jenis'] as $jenis)
+                                    <option value="{{ $jenis }}"
+                                        {{ $inventaris->jenis === $jenis ? 'selected' : '' }}>
+                                        {{ $jenis }}</option>
+                                @endforeach
 
                             </select>
                         </div>
@@ -98,16 +91,11 @@
                             <select name="sumber"
                                 class="font-normal  mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
                                 <option value="" disabled>Pilih Sumber Inventaris</option>
-                                <option value="Bantuan" {{ $inventaris->sumber === 'Bantuan' ? 'selected' : '' }}>
-                                    Bantuan</option>
-                                <option value="Beli" {{ $inventaris->sumber === 'Beli' ? 'selected' : '' }}>Beli
-                                </option>
-                                <option value="Donasi" {{ $inventaris->sumber === 'Donasi' ? 'selected' : '' }}>Donasi
-                                </option>
-                                <option value="Hibah" {{ $inventaris->sumber === 'Hibah' ? 'selected' : '' }}>Hibah
-                                </option>
-                                <option value="Pinjaman" {{ $inventaris->sumber === 'Pinjaman' ? 'selected' : '' }}>
-                                    Pinjaman</option>
+                                @foreach ($form['sumber'] as $sumber)
+                                    <option value="{{ $sumber }}"
+                                        {{ $inventaris->sumber === $sumber ? 'selected' : '' }}>
+                                        {{ $sumber }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
