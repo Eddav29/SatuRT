@@ -77,11 +77,11 @@
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Jenis Kelamin</div>
                         <select id="jenis_kelamin" name="jenis_kelamin"
                             class="font-normal  mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                            <option value="Pilih Jenis Kelamin" disabled> Pilih Jenis Kelamin</option>
-                            <option value="Laki-laki" {{ $penduduk->jenis_kelamin === 'Laki-laki' ? 'selected' : '' }}>
-                                Laki-laki</option>
-                            <option value="Perempuan" {{ $penduduk->jenis_kelamin === 'Perempuan' ? 'selected' : '' }}>
-                                Perempuan</option>
+                            @foreach ($form['jenisKelamin'] as $jenis)
+                                <option value="{{ $jenis }}"
+                                    {{ $penduduk->jenis_kelamin === $jenis ? 'selected' : '' }}>
+                                    {{ $jenis }}</option>
+                            @endforeach
                         </select>
                         <x-input-error :messages="$errors->get('jenis_kelamin')" class="mt-2" />
                     </div>
@@ -100,48 +100,11 @@
                             Keluarga</div>
                         <select id="status_hubungan_dalam_keluarga" name="status_hubungan_dalam_keluarga"
                             class="font-normal mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                            <option
-                                {{ $penduduk->status_hubungan_dalam_keluarga === 'Pilih Status Hubungan' ? 'selected' : '' }}
-                                disabled>Pilih Status Hubungan</option>
-                            <option value="Kepala Keluarga"
-                                {{ $penduduk->status_hubungan_dalam_keluarga === 'Kepala Keluarga' ? 'selected' : '' }}>
-                                Kepala
-                                Keluarga</option>
-                            <option value="Istri"
-                                {{ $penduduk->status_hubungan_dalam_keluarga === 'Istri' ? 'selected' : '' }}>Istri
-                            </option>
-                            <option value="Anak"
-                                {{ $penduduk->status_hubungan_dalam_keluarga === 'Anak' ? 'selected' : '' }}>Anak
-                            </option>
-                            <option value="Cucu"
-                                {{ $penduduk->status_hubungan_dalam_keluarga === 'Cucu' ? 'selected' : '' }}>Cucu
-                            </option>
-                            <option value="Ayah"
-                                {{ $penduduk->status_hubungan_dalam_keluarga === 'Ayah' ? 'selected' : '' }}>Ayah
-                            </option>
-                            <option value="Ibu"
-                                {{ $penduduk->status_hubungan_dalam_keluarga === 'Ibu' ? 'selected' : '' }}>Ibu
-                            </option>
-                            <option value="Saudara"
-                                {{ $penduduk->status_hubungan_dalam_keluarga === 'Saudara' ? 'selected' : '' }}>
-                                Saudara</option>
-                            <option value="Mertua"
-                                {{ $penduduk->status_hubungan_dalam_keluarga === 'Mertua' ? 'selected' : '' }}>
-                                Mertua</option>
-                            <option value="Menantu"
-                                {{ $penduduk->status_hubungan_dalam_keluarga === 'Menantu' ? 'selected' : '' }}>
-                                Menantu</option>
-                            <option value="Cucu Menantu"
-                                {{ $penduduk->status_hubungan_dalam_keluarga === 'Cucu Menantu' ? 'selected' : '' }}>
-                                Cucu Menantu
-                            </option>
-                            <option value="Cicit"
-                                {{ $penduduk->status_hubungan_dalam_keluarga === 'Cicit' ? 'selected' : '' }}>Cicit
-                            </option>
-                            <option value="Keluarga Lain"
-                                {{ $penduduk->status_hubungan_dalam_keluarga === 'Keluarga Lain' ? 'selected' : '' }}>
-                                Keluarga Lain
-                            </option>
+                            @foreach ($form['statusHubunganDalamKeluarga'] as $status)
+                                <option value="{{ $status }}"
+                                    {{ $penduduk->status_hubungan_dalam_keluarga === $status ? 'selected' : '' }}>
+                                    {{ $status }}</option>
+                            @endforeach
                         </select>
                         <x-input-error :messages="$errors->get('status_hubungan_dalam_keluarga')" class="mt-2" />
                     </div>
@@ -149,15 +112,11 @@
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Status Perkawinan</div>
                         <select id="status_perkawinan" name="status_perkawinan"
                             class="font-normal mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                            <option {{ $penduduk->status_perkawinan === null ? 'selected' : '' }} disabled>Pilih Status
-                                Perkawinan</option>
-                            <option value="Belum Kawin"
-                                {{ $penduduk->status_perkawinan === 'Belum Kawin' ? 'selected' : '' }}>Belum Kawin
-                            </option>
-                            <option value="Kawin" {{ $penduduk->status_perkawinan === 'Kawin' ? 'selected' : '' }}>
-                                Kawin</option>
-                            <option value="Cerai" {{ $penduduk->status_perkawinan === 'Cerai' ? 'selected' : '' }}>
-                                Cerai</option>
+                            @foreach ($form['statusPerkawinan'] as $status)
+                                <option value="{{ $status }}"
+                                    {{ $penduduk->status_perkawinan === $status ? 'selected' : '' }}>
+                                    {{ $status }}</option>
+                            @endforeach
                         </select>
                         <x-input-error :messages="$errors->get('status_perkawinan')" class="mt-2" />
                     </div>
@@ -211,13 +170,11 @@
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Status Penduduk</div>
                         <select id="status_penduduk" name="status_penduduk"
                             class="font-normal mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                            <option value="{{ $penduduk->status_penduduk }}" selected disabled>
-                                Pilih Status Penduduk</option>
-                            <option value="Domisili"
-                                {{ $penduduk->status_penduduk === 'Domisili' ? 'selected' : '' }}>Domisili</option>
-                            <option
-                                value="Non Domisili"{{ $penduduk->status_penduduk === 'Non Domisili' ? 'selected' : '' }}>
-                                Non-Domisili</option>
+                            @foreach ($form['statusPenduduk'] as $status)
+                                <option value="{{ $status }}"
+                                    {{ $penduduk->status_penduduk === $status ? 'selected' : '' }}>
+                                    {{ $status }}</option>
+                            @endforeach
                         </select>
                         <x-input-error :messages="$errors->get('status_penduduk')" class="mt-2" />
                     </div>
@@ -225,25 +182,12 @@
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Pendidikan Terakhir</div>
                         <select id="pendidikan_terakhir" name="pendidikan_terakhir"
                             class="font-normal mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                            <option {{ $penduduk->pendidikan_terakhir === null ? 'selected' : '' }} disabled>Pilih
-                                Pendidikan Terakhir</option>
-                            <option value="Tidak Sekolah"
-                                {{ $penduduk->pendidikan_terakhir === 'Tidak Sekolah' ? 'selected' : '' }}>Tidak
-                                Sekolah</option>
-                            <option value="SD" {{ $penduduk->pendidikan_terakhir === 'SD' ? 'selected' : '' }}>SD
-                            </option>
-                            <option value="SMP" {{ $penduduk->pendidikan_terakhir === 'SMP' ? 'selected' : '' }}>
-                                SMP</option>
-                            <option value="SMA" {{ $penduduk->pendidikan_terakhir === 'SMA' ? 'selected' : '' }}>
-                                SMA</option>
-                            <option value="D3" {{ $penduduk->pendidikan_terakhir === 'D3' ? 'selected' : '' }}>D3
-                            </option>
-                            <option value="S1" {{ $penduduk->pendidikan_terakhir === 'S1' ? 'selected' : '' }}>S1
-                            </option>
-                            <option value="S2" {{ $penduduk->pendidikan_terakhir === 'S2' ? 'selected' : '' }}>S2
-                            </option>
-                            <option value="S3" {{ $penduduk->pendidikan_terakhir === 'S3' ? 'selected' : '' }}>S3
-                            </option>
+                            @foreach ($form['pendidikanTerakhir'] as $pendidikan)
+                                <option value="{{ $pendidikan }}"
+                                    {{ $penduduk->pendidikan_terakhir === $pendidikan ? 'selected' : '' }}>
+                                    {{ $pendidikan }}</option>
+                            @endforeach
+
                         </select>
                         <x-input-error :messages="$errors->get('pendidikan_terakhir')" class="mt-2" />
                     </div>
@@ -254,16 +198,11 @@
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Golongan Darah</div>
                         <select id="golongan_darah" name="golongan_darah"
                             class="font-normal mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                            <option {{ $penduduk->golongan_darah === null ? 'selected' : '' }} disabled>Pilih Golongan
-                                Darah</option>
-                            <option value="A" {{ $penduduk->golongan_darah === 'A' ? 'selected' : '' }}>A
-                            </option>
-                            <option value="AB" {{ $penduduk->golongan_darah === 'AB' ? 'selected' : '' }}>AB
-                            </option>
-                            <option value="B" {{ $penduduk->golongan_darah === 'B' ? 'selected' : '' }}>B
-                            </option>
-                            <option value="O" {{ $penduduk->golongan_darah === 'O' ? 'selected' : '' }}>O
-                            </option>
+                            @foreach ($form['golonganDarah'] as $golongan)
+                                <option value="{{ $golongan }}"
+                                    {{ $penduduk->golongan_darah === $golongan ? 'selected' : '' }}>
+                                    {{ $golongan }}</option>
+                            @endforeach
                         </select>
                         <x-input-error :messages="$errors->get('golongan_darah')" class="mt-2" />
                     </div>
@@ -271,17 +210,11 @@
                         <div class="after:content-['*'] after:ml-0.5 after:text-red-500">Agama</div>
                         <select id="agama" name="agama"
                             class="font-normal mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                            <option {{ $penduduk->agama === null ? 'selected' : '' }} disabled>Pilih Agama</option>
-                            <option value="Islam" {{ $penduduk->agama === 'Islam' ? 'selected' : '' }}>Islam</option>
-                            <option value="Kristen" {{ $penduduk->agama === 'Kristen' ? 'selected' : '' }}>Kristen
-                            </option>
-                            <option value="Katolik" {{ $penduduk->agama === 'Katolik' ? 'selected' : '' }}>Katolik
-                            </option>
-                            <option value="Hindu" {{ $penduduk->agama === 'Hindu' ? 'selected' : '' }}>Hindu</option>
-                            <option value="Buddha" {{ $penduduk->agama === 'Buddha' ? 'selected' : '' }}>Buddha
-                            </option>
-                            <option value="Konghucu"{{ $penduduk->agama === 'Konghucu' ? 'selected' : '' }}>Konghucu
-                            </option>
+                            @foreach ($form['agama'] as $agama)
+                                <option value="{{ $agama }}"
+                                    {{ $penduduk->agama === $agama ? 'selected' : '' }}>
+                                    {{ $agama }}</option>
+                            @endforeach
                         </select>
                         <x-input-error :messages="$errors->get('agama')" class="mt-2" />
                     </div>
