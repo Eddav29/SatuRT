@@ -4,7 +4,6 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Testing\Fluent\Concerns\Has;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\KartuKeluarga>

@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\Inventaris;
 use App\Models\Penduduk;
 use Illuminate\Database\Eloquent\Factories\Factory;
 

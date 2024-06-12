@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Ramsey\Uuid\Rfc4122\UuidV4;
 
 class Informasi extends Model
@@ -62,6 +61,7 @@ class Informasi extends Model
 
         $query->when($filters['jfsi'] ?? false, function ($query, $jfsi) {
             $query->where('jenis_informasi', '!=', 'Pengumuman')
+                ->where('jenis_informasi', '!=', 'Dokumentasi Rapat')
                 ->where('jenis_informasi', $jfsi == 'Semua' ? '!=' : '=', $jfsi);
         });
     }

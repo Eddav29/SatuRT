@@ -277,7 +277,13 @@ class InformationController extends Controller
                     }
                 }
             } else {
-                $request->merge(['thumbnail_url' => $information->thumbnail_url]);
+                if ($information->jenis_informasi == 'Pengumuman' || $information->jenis_informasi == 'Dokumentasi Rapat') {
+                    FileService::deleteFile('storage_announcement', $information->thumbnail_url);
+                    $information->thumbnail_url = null;
+                } else {
+                    FileService::deleteFile('public', $information->thumbnail_url);
+                    $information->thumbnail_url = null;
+                }
             }
 
 

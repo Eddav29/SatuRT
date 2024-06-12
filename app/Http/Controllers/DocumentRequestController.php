@@ -432,6 +432,7 @@ class DocumentRequestController extends Controller
                 'code' => 200,
                 'message' => 'Persuratan berhasil dihapus',
                 'timestamp' => now(),
+                'redirect' => route('persuratan.index')
             ], 200);
         } catch (\Exception $e) {
             DB::rollback(); // Batalkan transaksi jika ada kesalahan

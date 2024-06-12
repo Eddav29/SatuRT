@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventaris;
+use App\Models\Inventaris_Detail;
 use App\Services\ImageManager\ImageService;
 use App\Services\Notification\NotificationPusher;
 use Illuminate\Http\JsonResponse;
@@ -11,7 +12,6 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 
 class InventarisController extends Controller
 {
@@ -225,6 +225,16 @@ class InventarisController extends Controller
 
         try {
             DB::beginTransaction();
+
+            $inventaris_detail = Inventaris_Detail::where('inventaris_id', $inventaris->inventaris_id)->first();
+
+            if ($inventaris_detail) {
+                return response()->json([
+                    'code' => 500,
+                    'message' => 'Data Inventaris masih ada didalam data Peminjaman',
+                    'timestamp' => now(),
+                ], 500);
+            }
 
             $status = '';
             if ($inventaris->foto_inventaris) {

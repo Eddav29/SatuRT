@@ -16,7 +16,9 @@ class HomeServiceImplementation implements HomeService
     public function getFourLastInformation(): Collection
     {
         try {
-            $informations = Informasi::where('jenis_informasi', "!=", "Pengumuman")->orderBy('created_at', 'desc')->limit(4)->get();
+            $informations = Informasi::where('jenis_informasi', "!=", "Pengumuman")
+                ->where("jenis_informasi", "!=", "Dokumentasi Rapat")
+                ->orderBy('created_at', 'desc')->limit(4)->get();
         } catch (\Exception $e) {
             NotificationPusher::error($e->getMessage());
             abort(500, $e->getMessage());

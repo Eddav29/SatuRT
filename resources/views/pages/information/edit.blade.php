@@ -63,14 +63,11 @@
                             <div x-show="selected === 'Pengumuman' || selected === 'Dokumentasi Rapat'">
                                 <p>Lampiran</p>
                             </div>
-                            @error('images')
-                                <small class="text-red-500 text-xs py-3">{{ $message }}</small>
-                            @enderror
 
                             @if ($information->thumbnail_url !== null)
                                 @if ($information->jenis_informasi !== 'Pengumuman' && $information->jenis_informasi !== 'Dokumentasi Rapat')
                                     <div x-show="selected !== 'Pengumuman' && selected !== 'Dokumentasi Rapat'">
-                                        <x-input-file name="images" accept="png, jpg, jpeg" :default="strpos($information->thumbnail_url, 'http') === false
+                                        <x-input-file name="images" accept="png,jpg,jpeg,webp" :default="strpos($information->thumbnail_url, 'http') === false
                                             ? route('public', $information->thumbnail_url)
                                             : $information->thumbnail_url"
                                             x-ref="images" />
@@ -87,12 +84,12 @@
                                     </div>
 
                                     <div x-show="selected !== 'Pengumuman' && selected !== 'Dokumentasi Rapat'">
-                                        <x-input-file name="images" accept="png, jpg, jpeg" />
+                                        <x-input-file name="images" accept="png,jpg,jpeg,webp" />
                                     </div>
                                 @endif
                             @else
                                 <div x-show="selected !== 'Pengumuman' && selected !== 'Dokumentasi Rapat'">
-                                    <x-input-file name="images" accept="png, jpg, jpeg" />
+                                    <x-input-file name="images" accept="png,jpg,jpeg,webp" />
                                 </div>
 
                                 <div x-show="selected === 'Pengumuman' || selected === 'Dokumentasi Rapat'">

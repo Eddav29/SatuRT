@@ -3,9 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\KartuKeluarga;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Storage;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Penduduk>
