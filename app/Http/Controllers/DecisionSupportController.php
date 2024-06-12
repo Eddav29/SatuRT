@@ -315,8 +315,12 @@ class DecisionSupportController extends Controller
                         'status' => 201,
                         'data' => [
                             'ranking' => array_map(function ($item) {
-                                $item['Score'] = $item['E'];
-                                unset($item['E']);
+                                $item['Score'] = $item['E'] ?? $item['Total'];
+                                if (isset($item['E'])) {
+                                    unset($item['E']);
+                                } else {
+                                    unset($item['Total']);
+                                }
                                 return $item;
                             }, $this->getElectreData()['ranking'])
                         ]
@@ -401,8 +405,12 @@ class DecisionSupportController extends Controller
                         [
                             'metode' => "ELimination Et Choix TRaduisant la realitE (ELECTRE)",
                             'ranking' => array_map(function ($item) {
-                                $item['Score'] = $item['E'];
-                                unset($item['E']);
+                                $item['Score'] = $item['E'] ?? $item['Total'];
+                                if (isset($item['E'])) {
+                                    unset($item['E']);
+                                } else {
+                                    unset($item['Total']);
+                                }
                                 return $item;
                             }, $this->getElectreData()['ranking'])
                         ],
