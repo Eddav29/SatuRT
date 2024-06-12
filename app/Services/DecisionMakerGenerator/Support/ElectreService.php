@@ -34,6 +34,7 @@ class ElectreService extends DecisionMakerService
         $this->stepCalculatMatrixDominantConcordance();
         $this->stepCalculatMatrixDominantDiscordance();
         $this->stepDetermineAggregateMatrix();
+        $this->stepElimination();
         $this->stepRanking();
     }
 
@@ -316,37 +317,114 @@ class ElectreService extends DecisionMakerService
     }
 
 
-    public function stepRanking($precision = 3)
+    // public function stepRanking($precision = 3)
+    // {
+    //     try {
+    //         $matrixConcordance = $this->stepData['matrixConcordance']['C'];
+    //         $matrixDiscordance = $this->stepData['matrixDiscordance']['D'];
+
+    //         $ranking = [];
+
+    //         foreach ($matrixConcordance as $i => $rowI) {
+    //             $result = 0;
+    //             foreach ($rowI as $j => $value) {
+    //                 $result += ($i !== $j) ? $matrixConcordance[$i][$j] - $matrixDiscordance[$i][$j] : 0;
+    //             }
+    //             $ranking[$i] = [
+    //                 'Alternatif' => parent::getAlternatifNama($i),
+    //                 'E' => parent::trimTrailingZeros(number_format($result, $precision, '.', '')),
+    //             ];
+    //         }
+
+    //         usort($ranking, function ($a, $b) {
+    //             return $b['E'] <=> $a['E'];
+    //         });
+
+    //         foreach ($ranking as $key => $value) {
+    //             $value['Ranking'] = $key + 1;
+    //             $ranking[$key] = $value;
+    //         }
+
+    //         $this->stepData['ranking'] = $ranking;
+    //     } catch (\Exception $e) {
+    //         throw new Exception('Terjadi kesalahan saat melakukan perhitungan ranking');
+    //     }
+    // }
+
+
+    public function stepElimination($precision = 3)
     {
         try {
             $matrixConcordance = $this->stepData['matrixConcordance']['C'];
             $matrixDiscordance = $this->stepData['matrixDiscordance']['D'];
 
-            $ranking = [];
+            $elimination = [];
 
             foreach ($matrixConcordance as $i => $rowI) {
                 $result = 0;
                 foreach ($rowI as $j => $value) {
                     $result += ($i !== $j) ? $matrixConcordance[$i][$j] - $matrixDiscordance[$i][$j] : 0;
                 }
-                $ranking[$i] = [
+                $elimination[$i] = [
                     'Alternatif' => parent::getAlternatifNama($i),
                     'E' => parent::trimTrailingZeros(number_format($result, $precision, '.', '')),
                 ];
             }
 
-            usort($ranking, function ($a, $b) {
+            usort($elimination, function ($a, $b) {
                 return $b['E'] <=> $a['E'];
             });
 
-            foreach ($ranking as $key => $value) {
+            foreach ($elimination as $key => $value) {
                 $value['Ranking'] = $key + 1;
-                $ranking[$key] = $value;
+                $elimination[$key] = $value;
             }
 
-            $this->stepData['ranking'] = $ranking;
+            $this->stepData['elimination'] = $elimination;
         } catch (\Exception $e) {
-            throw new Exception('Terjadi kesalahan saat melakukan perhitungan ranking');
+            throw new Exception('Terjadi kesalahan saat melakukan perhitungan elimination');
         }
+    }
+
+    public function stepRanking()
+    {
+        // try {
+            $stepAgregateMatrix = $this->stepData['aggregateMatrix']['E'];
+            $isAgree = false;
+
+            foreach ($stepAgregateMatrix as $key => $value) {
+                if ($value['Total'] >= 1) {
+                    $isAgree = true;
+                    break;
+                }
+            }
+
+            if ($isAgree) {
+
+
+                foreach ($stepAgregateMatrix as $i => $rowI) {
+                    $ranking[$i] = [
+                        'Alternatif' => parent::getAlternatifNama($i),
+                        'Total' => $stepAgregateMatrix[$i]['Total'],
+                    ];
+                }
+
+                usort($ranking, function ($a, $b) {
+                    return $b['Total'] <=> $a['Total'];
+                });
+
+                foreach ($ranking as $key => $value) {
+                    $value['Ranking'] = $key + 1;
+                    $ranking[$key] = $value;
+                }
+
+                $this->stepData['ranking'] = $ranking;
+            // $this->stepData['ranking'] = $this->stepData['elimination'];
+            } else {
+                $this->stepData['ranking'] = $this->stepData['elimination'];
+            }
+        // } catch (\Exception $e) {
+        //     throw new Exception('Terjadi kesalahan saat melakukan perhitungan ranking Electre');
+        // }
     }
 }
