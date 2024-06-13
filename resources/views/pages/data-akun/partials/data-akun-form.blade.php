@@ -1,10 +1,6 @@
 <div class="mt-5 grid sm:grid-cols-2 grid-cols-1 gap-5 px-5">
     <div>
         <x-input-label for="nik" :value="__('Nomor Induk Kependudukan')" required="true" />
-
-        {{-- <x-input-text id="nik" class="block mt-1 w-full" type="text" name="nik"
-            value="{{ old('nik', isset($user) ? $user->penduduk->nik : '') }}" placeholder="350*************"
-            required /> --}}
         @isset($user)
             <x-input-text id="nik" class="block mt-1 w-full" type="text" name="nik"
                 disabled value="{{ old('nik', isset($user) ? $user->penduduk->nik : '') }}" placeholder="350*************"
