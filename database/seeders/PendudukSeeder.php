@@ -52,7 +52,32 @@ class PendudukSeeder extends Seeder
             'status_kehidupan' => 'Hidup',
         ]);
 
-        User::all()->where('username', '!=', 'testrt')->each(function ($user) {
+        $user = User::where('username', 'testpenduduk')->first();
+
+        Penduduk::create([
+            'kartu_keluarga_id' => $kk->kartu_keluarga_id,
+            'user_id' => $user->user_id,
+            'nik' => '1234567890111410',
+            'nama' => 'Mutra Zakaria Puzaki',
+            'jenis_kelamin' => 'Laki-laki',
+            'pekerjaan' => 'Pensiunan',
+            'golongan_darah' => 'A',
+            'agama' => 'Islam',
+            'tempat_lahir' => 'Malang',
+            'tanggal_lahir' => '1980-01-01',
+            'status_hubungan_dalam_keluarga' => 'Keluarga Lain',
+            'status_perkawinan' => 'Kawin',
+            'pendidikan_terakhir' => 'S1',
+            'status_penduduk' => 'Domisili',
+            'nomor_rt' => 1,
+            'nomor_rw' => 3,
+            'desa' => 'Tunjungsekar',
+            'kecamatan' => 'Lowokwaru',
+            'kota' => 'Malang',
+            'status_kehidupan' => 'Hidup',
+        ]);
+
+        User::all()->where('username', '!=', 'testrt')->where('username', '!=', 'testpenduduk')->each(function ($user) {
             $kk = KartuKeluarga::factory()->create();
             Penduduk::factory()->create([
                 'kartu_keluarga_id' => $kk->kartu_keluarga_id,

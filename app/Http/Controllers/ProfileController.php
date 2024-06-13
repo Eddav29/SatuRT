@@ -36,6 +36,15 @@ class ProfileController extends Controller
         return response()->view('pages.profile.complete-data', [
             'penduduk' => $penduduk,
             'extension' => 'jpg,jpeg,png,webp',
+            'form' => [
+                'pendidikanTerakhir' => Penduduk::getListPendidikanTerakhir(),
+                'statusPerkawinan' => Penduduk::getListStatusPerkawinan(),
+                'statusHubunganDalamKeluarga' => Penduduk::getListStatusHubunganDalamKeluarga(),
+                'jenisKelamin' => Penduduk::getListJenisKelamin(),
+                'agama' => Penduduk::getListAgama(),
+                'golonganDarah' => Penduduk::getListGolonganDarah(),
+                'statusPenduduk' => Penduduk::getListStatusPenduduk(),
+            ]
         ]);
     }
 
@@ -67,7 +76,7 @@ class ProfileController extends Controller
             'jenis_kelamin' => 'required',
             'kecamatan' => 'required',
             'kota' => 'required',
-            'nama' => 'required',
+            'nama' => 'required|unique',
             'nomor_rt' => 'required',
             'nomor_rw' => 'required',
             'pekerjaan' => 'required',
@@ -86,6 +95,7 @@ class ProfileController extends Controller
             'kecamatan.required' => 'Kecamatan harus diisi',
             'kota.required' => 'Kota harus diisi',
             'nama.required' => 'Nama harus diisi',
+            'nama.unique' => 'Nama sudah terdaftar',
             'nomor_rt.required' => 'Nomor RT harus diisi',
             'nomor_rw.required' => 'Nomor RW harus diisi',
             'pekerjaan.required' => 'Pekerjaan harus diisi',

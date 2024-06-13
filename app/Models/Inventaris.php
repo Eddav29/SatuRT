@@ -31,17 +31,31 @@ class Inventaris extends Model
         'jenis',
         'sumber',
         'keterangan',
-        'foto_inventaris'
+        'foto_inventaris',
     ];
+
+    public static function getListJenis()
+    {
+        return [
+            'Furnitur', 'Elektronik', 'ATK', 'Kendaraan', 'Perlengkapan', 'Lainnya',
+        ];
+    }
+
+    public static function getListSumber()
+    {
+        return [
+            'Hibah', 'Beli', 'Donasi', 'Bantuan', 'Pinjaman',
+        ];
+    }
 
     protected $hidden = [
         'created_at',
-        'updated_at'
+        'updated_at',
     ];
 
     protected $casts = [
         'created_at' => 'datetime',
-        'updated_at' => 'datetime'
+        'updated_at' => 'datetime',
     ];
 
     public function penduduk()

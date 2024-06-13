@@ -73,10 +73,10 @@
                             <select id="jenis_pelaporan" name="jenis_pelaporan"
                                 class="font-normal  mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
                                 <option value="" selected disabled>Pilih Jenis Laporan</option>
-                                <option value="pengaduan">Pengaduan</option>
-                                <option value="kritik">Kritik</option>
-                                <option value="saran">Saran</option>
-                                <option value="lainnya">Lainnya</option>
+                                @foreach ($form['jenis_pelaporan'] as $jenis_pelaporan)
+                                    <option value="{{ $jenis_pelaporan }}">
+                                        {{ $jenis_pelaporan }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>

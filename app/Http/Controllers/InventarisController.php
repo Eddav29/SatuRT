@@ -147,6 +147,10 @@ class InventarisController extends Controller
                 'hapus' => route('inventaris.data-inventaris.destroy', $id),
             ],
             'extension' => 'jpg,jpeg,png,webp',
+            'form' => [
+                'jenis' => Inventaris::getListJenis(),
+                'sumber' => Inventaris::getListSumber(),
+            ],
         ]);
     }
 
@@ -162,6 +166,10 @@ class InventarisController extends Controller
             'breadcrumb' => $breadcrumb,
             'inventaris' => $inventaris,
             'extension' => 'jpg,jpeg,png,webp',
+            'form' => [
+                'jenis' => Inventaris::getListJenis(),
+                'sumber' => Inventaris::getListSumber(),
+            ],
         ]);
     }
 

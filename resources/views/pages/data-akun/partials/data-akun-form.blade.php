@@ -2,9 +2,20 @@
     <div>
         <x-input-label for="nik" :value="__('Nomor Induk Kependudukan')" required="true" />
 
-        <x-input-text id="nik" class="block mt-1 w-full" type="text" name="nik"
+        {{-- <x-input-text id="nik" class="block mt-1 w-full" type="text" name="nik"
             value="{{ old('nik', isset($user) ? $user->penduduk->nik : '') }}" placeholder="350*************"
-            required />
+            required /> --}}
+        @isset($user)
+            <x-input-text id="nik" class="block mt-1 w-full" type="text" name="nik"
+                disabled value="{{ old('nik', isset($user) ? $user->penduduk->nik : '') }}" placeholder="350*************"
+
+                required />
+        @else
+            <x-input-text id="nik" class="block mt-1 w-full" type="text" name="nik"
+                value="{{ old('nik', isset($user) ? $user->penduduk->nik : '') }}" placeholder="350*************"
+                required />
+
+        @endisset
         <x-input-error :messages="$errors->get('nik')" class="mt-2" />
     </div>
     <div>

@@ -105,7 +105,7 @@ class Penduduk extends Model
 
     public static function getListPendidikanTerakhir()
     {
-        return ['SD', 'SMP', 'SMA', 'D3', 'S1', 'S2', 'S3'];
+        return ['Tidak Sekolah', 'TK', 'SD', 'SMP', 'SMA', 'SMK', 'MA',  'D3', 'S1', 'S2', 'S3'];
     }
 
     public static function getListStatusPenduduk()
