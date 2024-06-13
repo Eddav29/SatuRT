@@ -247,9 +247,8 @@
                     </div>
                 </x-decision-support-table>
             </section>
-
             <section>
-                <x-decision-support-table :emptyColumn="true" stepTitle="Matriks Dominan Agregate (E)" :columns="$alternatives"
+                <x-decision-support-table :emptyColumn="true" stepTitle="Matriks Dominan Agregate (E)" :columns="array_merge($alternatives, ['Total'])"
                     startIndex="0" :withAlternative="true" :alternatives="$alternatives" :data="$data['aggregateMatrix']['E']">
                     <p class="break-words"> Matriks E didapatkan dari perkalian antara elemen matriks
                         F dengan elemen matriks G:</p>
@@ -271,22 +270,28 @@
                         </p>
                         <p>Dengan demikian, alternatif terbaik adalah <span class="font-semibold">alternatif yang
                                 mendominasi alternatif lainnya</span></p>
-                        <p>Jika hasil dari Matriks Dominan Bernilai 0 kita dapat menggunakan rumus untuk perankingan:
+                        <p>Jika hasil dari Matriks Dominan Bernilai 0 kita dapat melanjutkan perhitungan dengan
+                            menggunakan rumus untuk perankingan:
                         </p>
                         <p class="border border-black p-2 w-full">$$
                             E_{k} = \sum_{k=1}^{m} \sum_{l=1}^{n} (C_{kl} - d_{kl})
                             $$</p>
-                            <p>Dimana \(E_{k}\) merupakan nilai alternatif untuk perankingan</p>
+                        <p>Dimana \(E_{k}\) merupakan nilai alternatif untuk perankingan. Alternatif dengan nilai
+                            \(E_{k}\) yang tinggi menunjukkan alternatif terbaik
+                            contoh perhitungan dapat dilihat pada tabel dibawah ini:
+                        </p>
                     </div>
                 </x-decision-support-table>
             </section>
-
             <section>
-                <x-decision-support-table stepTitle="Perankingan (Eliminasi alternatif yang less favourable)" setColumnAs="Custom"
-                    :columns="array_keys($data['ranking'][0])" :withAlternative="false" :data="$data['ranking']">
+                <x-decision-support-table stepTitle="Perankingan (Eliminasi alternatif yang less favourable)"
+                    setColumnAs="Custom" :columns="array_keys($data['elimination'][0])" :withAlternative="false" :data="$data['elimination']">
                     <p class="break-words">Perankingan dari nilai skor penilaian E dari nilai yang tertinggi hingga
                         yang terendah. Alternatif dengan <strong>nilai yang tinggi</strong> menunjukkan alternatif
                         terbaik.</p>
+                    <div>
+                        <p class="text-sm text-gray-500">*Tidak Wajib jika Matriks Dominan sudah bernilai 1</p>
+                    </div>
                 </x-decision-support-table>
             </section>
 

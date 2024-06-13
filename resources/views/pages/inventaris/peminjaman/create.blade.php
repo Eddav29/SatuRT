@@ -80,35 +80,22 @@
                                 <small class="form-text text-danger">{{ $message }}</small>
                             @enderror
                         </div>
-                        <div x-data="{ selected: '{{ old('kondisi') == null ? 'Pilih Kondisi' : old('kondisi') }}' }">
-                            <label for="kondisi" class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">Kondisi</label>
+                        <div class="flex flex-col">
+                            <label for="kondisi" class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night w-fit">Kondisi</label>
                             @error('kondisi')
                                 <small class="text-red-500 text-xs py-3">{{ $message }}</small>
                             @enderror
-                            <select id="kondisi" name="kondisi" required
-                                class="placeholder:font-light invalid:ring-1 invalid:ring-red-500 mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 text-gray-300 focus:text-navy-night"
-                                :class="selected === 'Pilih Kondisi' ? 'text-gray-300 text-xs' : 'text-navy-night text-sm'">
-                                <option value="Pilih Kondisi" @click="selected = 'Pilih Kondisi'"
-                                    x-bind:selected="selected === 'Pilih Kondisi'">Pilih Kondisi</option>
-                                <option value="Normal" @click="selected = 'Normal'"
-                                    x-bind:selected="selected === 'Normal'">Normal</option>
-                                <option value="Rusak" @click="selected = 'Rusak'"
-                                    x-bind:selected="selected === 'Rusak'">Rusak</option>
-                                <option value="Hilang" @click="selected = 'Hilang'"
-                                    x-bind:selected="selected === 'Hilang'">Hilang</option>
-                            </select>
+                            <input type="text" name="kondisi" id="kondisi" value="Normal" disabled class="placeholder-gray-300 w-full rounded-md placeholder:text-xs border-gray-200 p-3 text-sm">
                         </div>
                     </div>
-                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 mt-5">
-                        <div>
-                            <label for="tanggal_pinjam" class="py-2 after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night">Tanggal Pinjam</label>
-                            <input class="placeholder-gray-300 w-full rounded-md placeholder:text-xs border-gray-200 p-3 text-sm" placeholder="Tanggal Pinjam" type="date" id="tanggal_pinjam" name="tanggal_pinjam" required />
-                            @error('tanggal_pinjam')
-                                <small class="form-text text-danger">{{ $message }}</small>
-                            @enderror
-                        </div>
-                        
+                    <div class="flex flex-col">
+                        <label for="tanggal_pinjam" class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold text-navy-night w-fit">Tanggal Pinjam</label>
+                        @error('tanggal_pinjam')
+                            <small class="text-red-500 text-xs py-3">{{ $message }}</small>
+                        @enderror
+                        <input class="placeholder-gray-300 w-full rounded-md placeholder:text-xs border-gray-200 p-3 text-sm" placeholder="Tanggal Pinjam" type="date" id="tanggal_pinjam" name="tanggal_pinjam" value="{{ now()->format('Y-m-d') }}" />
                     </div>
+                    
 
                     <div class="mt-10 flex gap-x-5">
                         <button type="submit" class="bg-azure-blue text-white-snow text-sm px-4 py-2 rounded-md flex justify-center items-center gap-x-3">

@@ -1,7 +1,7 @@
 @props([
     'name',
     'multiple' => false,
-    'accept' => 'png,jpg,jpeg,pdf,txt,doc,docx,xls,xlsx,csv,ppt,pptx',
+    'accept' => 'png,jpg,jpeg,webp,pdf,txt,doc,docx,xls,xlsx,csv,ppt,pptx',
     'fileSize' => env('FILE_UPLOAD_SIZE', '2000'),
     'maxFiles',
     'default',
@@ -59,42 +59,42 @@
                                     class="object-contain w-full h-full">
                             </template>
                             <template x-if="filesListPreview.type.includes('pdf')">
-                                <img src="http://127.0.0.1:8000/assets/images/icon-pdf.png" alt=""
+                                <img src="{{env('APP_URL', 'http://127.0.0.1:8000') }}/assets/images/icon-pdf.png" alt=""
                                     @click="window.open(filesListPreview?.url, '_blank')"
                                     class="object-contain w-full h-full">
                             </template>
                             <template x-if="filesListPreview.type.includes('text')">
                                 <a class="w-full h-full" :href="filesListPreview?.url" download
                                     :title="filesListPreview.name" target="_blank">
-                                    <img src="http://127.0.0.1:8000/assets/images/icon-txt.png" alt="Text File"
+                                    <img src="{{env('APP_URL', 'http://127.0.0.1:8000') }}/assets/images/icon-txt.png" alt="Text File"
                                         class="object-contain w-full h-full">
                                 </a>
                             </template>
                             <template x-if="filesListPreview.type.includes('spreadsheet')">
                                 <a class="w-full h-full" :href="filesListPreview?.url" download
                                     :title="filesListPreview.name" target="_blank">
-                                    <img src="http://127.0.0.1:8000/assets/images/icon-excel.png" alt="Excel File"
+                                    <img src="{{env('APP_URL', 'http://127.0.0.1:8000') }}/assets/images/icon-excel.png" alt="Excel File"
                                         class="object-contain w-full h-full">
                                 </a>
                             </template>
                             <template x-if="filesListPreview.type.includes('word')">
                                 <a class="w-full h-full" :href="filesListPreview?.url" download
                                     :title="filesListPreview.name" target="_blank">
-                                    <img src="http://127.0.0.1:8000/assets/images/icon-word.png" alt="Word Document"
+                                    <img src="{{env('APP_URL', 'http://127.0.0.1:8000') }}/assets/images/icon-word.png" alt="Word Document"
                                         class="object-contain w-full h-full">
                                 </a>
                             </template>
                             <template x-if="filesListPreview.type.includes('presentation')">
                                 <a class="w-full h-full" :href="filesListPreview?.url" download
                                     :title="filesListPreview.name" target="_blank">
-                                    <img src="http://127.0.0.1:8000/assets/images/icon-ppt.png"
+                                    <img src="{{env('APP_URL', 'http://127.0.0.1:8000') }}/assets/images/icon-ppt.png"
                                         alt="PowerPoint Presentation" class="object-contain w-full h-full">
                                 </a>
                             </template>
                             <template x-else>
                                 <a class="w-full h-full" :href="filesListPreview?.url" download
                                     :title="filesListPreview.name" target="_blank">
-                                    <img src="http://127.0.0.1:8000/assets/images/icon-file.png" alt="File"
+                                    <img src="{{env('APP_URL', 'http://127.0.0.1:8000') }}/assets/images/icon-file.png" alt="File"
                                         class="object-contain w-full h-full">
                                 </a>
                             </template>
@@ -120,37 +120,37 @@
                                 class="object-contain w-full h-full">
                         </template>
                         <template x-if="file.type.includes('pdf')">
-                            <img src="http://127.0.0.1:8000/assets/images/icon-pdf.png" alt=""
+                            <img src="{{env('APP_URL', 'http://127.0.0.1:8000') }}/assets/images/icon-pdf.png" alt=""
                                 @click="window.open(file.url, '_blank')" class="object-contain w-full h-full">
                         </template>
                         <template x-if="file.type.includes('text')">
                             <a :href="file.url" download :title="file.name" target="_blank">
-                                <img src="http://127.0.0.1:8000/assets/images/icon-txt.png" alt="Text File"
+                                <img src="{{env('APP_URL', 'http://127.0.0.1:8000') }}/assets/images/icon-txt.png" alt="Text File"
                                     class="object-contain w-full h-full">
                             </a>
                         </template>
                         <template x-if="file.type.includes('spreadsheet')">
                             <a :href="file.url" download :title="file.name" target="_blank">
-                                <img src="http://127.0.0.1:8000/assets/images/icon-excel.png" alt="Excel File"
+                                <img src="{{env('APP_URL', 'http://127.0.0.1:8000') }}/assets/images/icon-excel.png" alt="Excel File"
                                     class="object-contain w-full h-full">
                             </a>
                         </template>
                         <template x-if="file.type.includes('word')">
                             <a :href="file.url" download :title="file.name" target="_blank">
-                                <img src="http://127.0.0.1:8000/assets/images/icon-word.png" alt="Word Document"
+                                <img src="{{env('APP_URL', 'http://127.0.0.1:8000') }}/assets/images/icon-word.png" alt="Word Document"
                                     class="object-contain w-full h-full">
                             </a>
                         </template>
                         <template x-if="file.type.includes('presentation')">
                             <a :href="file.url" download :title="file.name" target="_blank">
-                                <img src="http://127.0.0.1:8000/assets/images/icon-ppt.png"
+                                <img src="{{env('APP_URL', 'http://127.0.0.1:8000') }}/assets/images/icon-ppt.png"
                                     alt="PowerPoint Presentation" class="object-contain w-full h-full">
                             </a>
                         </template>
                         <template
                             x-if="!(file.type.includes('image') || file.type.includes('pdf') || file.type.includes('text') || file.type.includes('spreadsheet') || file.type.includes('word') || file.type.includes('presentation'))">
                             <a :href="file.url" download :title="file.name" target="_blank">
-                                <img src="http://127.0.0.1:8000/assets/images/icon-file.png" alt="File"
+                                <img src="{{env('APP_URL', 'http://127.0.0.1:8000') }}/assets/images/icon-file.png" alt="File"
                                     class="object-contain w-full h-full">
                             </a>
                         </template>

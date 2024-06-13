@@ -217,12 +217,14 @@ class FinanceReportController extends Controller
 
         $nominal = $detailKeuangan->nominal;
 
-        $saldoSesudah = $detailKeuangan->keuangan->total_keuangan;
-        $previousKeuangan = Keuangan::orderBy('updated_at', 'desc')->skip(1)->first();
+        
+        $previousKeuangan = Keuangan::orderBy('keuangan_id', 'desc')->skip(1)->first();
         $saldoSebelum = $previousKeuangan ? $previousKeuangan->total_keuangan : 0;
-
+        $saldoSesudah =   Keuangan::orderBy('keuangan_id', 'DESC')->first()->total_keuangan ?? 0;
+    
         return response()->view('pages.keuangan.show', [
             'saldoSebelum' => $saldoSebelum,
+            'saldoSesudah' => $saldoSesudah,
             'breadcrumb' => $breadcrumb,
             'keuangan' => $keuangan,
             'detailKeuangan' => $detailKeuangan,

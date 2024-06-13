@@ -60,7 +60,7 @@ class DecisionSupportController extends Controller
         switch ($metode) {
             case 'edas':
                 $breadcrumb = [
-                    'list' => ['Home', 'Pendukung Keputusan', 'Detail', 'EDAS'],
+                    'list' => ['Home', 'Prioritas Kegiatan', 'Detail', 'EDAS'],
                     'url' => ['home', 'spk.index', 'spk.index', 'spk.index', 'spk.index'],
                 ];
                 try {
@@ -78,7 +78,7 @@ class DecisionSupportController extends Controller
                 }
             case 'mabac':
                 $breadcrumb = [
-                    'list' => ['Home', 'Pendukung Keputusan', 'Detail', 'MABAC'],
+                    'list' => ['Home', 'Prioritas Kegiatan', 'Detail', 'MABAC'],
                     'url' => ['home', 'spk.index', 'spk.index', 'spk.index', 'spk.index'],
                 ];
                 try {
@@ -96,7 +96,7 @@ class DecisionSupportController extends Controller
                 }
             case 'moora':
                 $breadcrumb = [
-                    'list' => ['Home', 'Pendukung Keputusan', 'Detail', 'MOORA'],
+                    'list' => ['Home', 'Prioritas Kegiatan', 'Detail', 'MOORA'],
                     'url' => ['home', 'spk.index', 'spk.index', 'spk.index', 'spk.index'],
                 ];
                 try {
@@ -114,7 +114,7 @@ class DecisionSupportController extends Controller
                 }
             case 'aras':
                 $breadcrumb = [
-                    'list' => ['Home', 'Pendukung Keputusan', 'Detail', 'ARAS'],
+                    'list' => ['Home', 'Prioritas Kegiatan', 'Detail', 'ARAS'],
                     'url' => ['home', 'spk.index', 'spk.index', 'spk.index', 'spk.index'],
                 ];
                 try {
@@ -132,7 +132,7 @@ class DecisionSupportController extends Controller
                 }
             case 'saw':
                 $breadcrumb = [
-                    'list' => ['Home', 'Pendukung Keputusan', 'Detail', 'SAW'],
+                    'list' => ['Home', 'Prioritas Kegiatan', 'Detail', 'SAW'],
                     'url' => ['home', 'spk.index', 'spk.index', 'spk.index', 'spk.index'],
                 ];
                 try {
@@ -151,7 +151,7 @@ class DecisionSupportController extends Controller
 
             case 'electre':
                 $breadcrumb = [
-                    'list' => ['Home', 'Pendukung Keputusan', 'Detail', 'ELECTRE'],
+                    'list' => ['Home', 'Prioritas Kegiatan', 'Detail', 'ELECTRE'],
                     'url' => ['home', 'spk.index', 'spk.index', 'spk.index', 'spk.index'],
                 ];
                 try {
@@ -169,7 +169,7 @@ class DecisionSupportController extends Controller
                 }
             case 'smart':
                 $breadcrumb = [
-                    'list' => ['Home', 'Pendukung Keputusan', 'Detail', 'SMART'],
+                    'list' => ['Home', 'Prioritas Kegiatan', 'Detail', 'SMART'],
                     'url' => ['home', 'spk.index', 'spk.index', 'spk.index', 'spk.index'],
                 ];
                 try {
@@ -315,8 +315,12 @@ class DecisionSupportController extends Controller
                         'status' => 201,
                         'data' => [
                             'ranking' => array_map(function ($item) {
-                                $item['Score'] = $item['E'];
-                                unset($item['E']);
+                                $item['Score'] = $item['E'] ?? $item['Total'];
+                                if (isset($item['E'])) {
+                                    unset($item['E']);
+                                } else {
+                                    unset($item['Total']);
+                                }
                                 return $item;
                             }, $this->getElectreData()['ranking'])
                         ]
@@ -401,8 +405,12 @@ class DecisionSupportController extends Controller
                         [
                             'metode' => "ELimination Et Choix TRaduisant la realitE (ELECTRE)",
                             'ranking' => array_map(function ($item) {
-                                $item['Score'] = $item['E'];
-                                unset($item['E']);
+                                $item['Score'] = $item['E'] ?? $item['Total'];
+                                if (isset($item['E'])) {
+                                    unset($item['E']);
+                                } else {
+                                    unset($item['Total']);
+                                }
                                 return $item;
                             }, $this->getElectreData()['ranking'])
                         ],

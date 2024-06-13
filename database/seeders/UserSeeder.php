@@ -2,11 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Models\KartuKeluarga;
 use App\Models\Role;
 use App\Models\User;
-use Database\Factories\UserFactory;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -31,6 +28,13 @@ class UserSeeder extends Seeder
             'email' => 'testpenduduk@example.com',
             'role_id' => $rolePenduduk->role_id,
             'password' => Hash::make('12341234'),
+        ]);
+
+        User::factory()->create([
+            'username' => 'testingnama',
+            'email' => null,
+            'role_id' => $rolePenduduk->role_id,
+            'password' => Hash::make('12345678'),
         ]);
     }
 }

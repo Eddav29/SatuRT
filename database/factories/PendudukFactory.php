@@ -3,9 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\KartuKeluarga;
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Illuminate\Support\Facades\Storage;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Penduduk>
@@ -32,8 +30,8 @@ class PendudukFactory extends Factory
             'tanggal_lahir' => $this->faker->date(),
             'status_hubungan_dalam_keluarga' => $this->faker->randomElement(['Istri', 'Anak', 'Cucu', 'Ayah', 'Ibu', 'Saudara', 'Mertua', 'Menantu', 'Cucu Menantu', 'Cicit', 'Keluarga Lain']),
             'status_perkawinan' => $this->faker->randomElement(['Kawin', 'Belum Kawin', 'Cerai Hidup', 'Cerai Mati']),
-            'pendidikan_terakhir' => $this->faker->randomElement(['SD', 'SMP', 'SMA', 'D3', 'S1', 'S2', 'S3']),
-            // 'foto_ktp' => null,
+            'pendidikan_terakhir' => $this->faker->randomElement(['Tidak Sekolah', 'TK','SD', 'SMP', 'SMA', 'SMK', 'MA', 'D3', 'S1', 'S2', 'S3']),
+            'foto_ktp' => null,
             'status_penduduk' => $this->faker->randomElement(['Domisili', 'Non Domisili']),
             'nomor_rt' => $this->faker->numberBetween(1, 99),
             'nomor_rw' => $this->faker->numberBetween(1, 99),

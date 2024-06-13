@@ -77,19 +77,13 @@
                                 @enderror
                                 <select id="jenis_pelaporan" name="jenis_pelaporan"
                                     class="font-normal  mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                                    <option disabled>Pilih Jenis Laporan</option>
-                                    <option value="Pengaduan"
-                                        {{ $pelaporan->jenis_pelaporan === 'Pengaduan' ? 'selected' : '' }}>Pengaduan
-                                    </option>
-                                    <option value="Kritik"
-                                        {{ $pelaporan->jenis_pelaporan === 'Kritik' ? 'selected' : '' }}>
-                                        Kritik</option>
-                                    <option value="Saran"
-                                        {{ $pelaporan->jenis_pelaporan === 'Saran' ? 'selected' : '' }}>
-                                        Saran</option>
-                                    <option value="Lainnya"
-                                        {{ $pelaporan->jenis_pelaporan === 'Lainnya' ? 'selected' : '' }}>Lainnya
-                                    </option>
+                                    <option value="" selected disabled>Pilih Jenis Laporan</option>
+                                    @foreach ($form['jenis_pelaporan'] as $jenis_pelaporan)
+                                        <option value="{{ $jenis_pelaporan }}"
+                                            {{ $pelaporan->jenis_pelaporan === $jenis_pelaporan ? 'selected' : '' }}>
+                                            {{ $jenis_pelaporan }}</option>
+                                    @endforeach
+
                                 </select>
                             </div>
                         </div>

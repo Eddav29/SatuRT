@@ -17,7 +17,7 @@
                     class="px-5">
                     @csrf
 
-                    <div class="mt-5 gap-5">
+                    <div class="mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
                         <div>
                             <label for="nama"
                                 class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Nama
@@ -28,9 +28,6 @@
                             <input type="text" placeholder="Masukkan Nama" name="nama_inventaris"
                                 class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
                         </div>
-                    </div>
-
-                    <div class="mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
                         <div>
                             <label for="merk" class="font-semibold">Merk</label>
                             @error('merk')
@@ -39,6 +36,9 @@
                             <input type="text" placeholder="Masukkan Merk" name="merk"
                                 class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
                         </div>
+                    </div>
+
+                    <div class="mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
                         <div>
                             <label for="warna" class="font-semibold">Warna</label>
                             @error('warna')
@@ -47,9 +47,6 @@
                             <input type="text" placeholder="Masukkan Warna" name="warna"
                                 class="placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
                         </div>
-                    </div>
-
-                    <div class="mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
                         <div>
                             <label for="jumlah"
                                 class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Jumlah</label>
@@ -59,6 +56,9 @@
                             <input type="text" placeholder="Masukkan Jumlah" name="jumlah"
                                 class="font-normal placeholder:text-gray-300 placeholder:font-light required:ring-1 required:ring-red-500 mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full text-sm placeholder:text-xs">
                         </div>
+                    </div>
+
+                    <div class="mt-5 gap-5 flex max-lg:flex-col lg:grid lg:grid-cols-2">
                         <div>
                             <label for="jenis"
                                 class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Jenis</label>
@@ -68,17 +68,12 @@
                             <select name="jenis"
                                 class="font-normal  mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
                                 <option value="" selected disabled>Pilih Jenis Inventaris</option>
-                                <option value="ATK">ATK (Alat Tulis Kantor)</option>
-                                <option value="Elektronik">Elektronik</option>
-                                <option value="Furnitur">Furnitur</option>
-                                <option value="Kendaraan">Kendaraan</option>
-                                <option value="Perlengkapan">Perlengkapan</option>
-                                <option value="Lainnya">Lainnya</option>
+                                @foreach ($form['jenis'] as $jenis)
+                                    <option value="{{ $jenis }}">
+                                        {{ $jenis }}</option>
+                                @endforeach
                             </select>
                         </div>
-                    </div>
-
-                    <div class="mt-5 gap-5 flex max-lg:flex-col lg:grid">
                         <div>
                             <label for="sumber"
                                 class="after:content-['*'] after:ml-0.5 after:text-red-500 font-semibold">Sumber</label>
@@ -88,11 +83,10 @@
                             <select name="sumber"
                                 class="font-normal  mt-1 block rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
                                 <option value="" selected disabled>Pilih Sumber Inventaris</option>
-                                <option value="Bantuan">Bantuan</option>
-                                <option value="Beli">Beli</option>
-                                <option value="Donasi">Donasi</option>
-                                <option value="Hibah">Hibah</option>
-                                <option value="Pinjaman">Pinjaman</option>
+                                @foreach ($form['sumber'] as $sumber)
+                                    <option value="{{ $sumber }}">
+                                        {{ $sumber }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>

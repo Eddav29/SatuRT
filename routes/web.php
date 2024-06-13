@@ -62,7 +62,7 @@ Route::middleware('auth:sanctum')->group(function () {
         //Route untuk persetujuan permohonan  surat
         Route::get('/persuratan/{id}/approve', [DocumentRequestController::class, 'approve'])->name('persuratan.approve');
         // Rute untuk penolakan permohonan surat
-        Route::post('/persuratan/{id}/reject', [DocumentRequestController::class, 'reject'])->name('persuratan.reject');
+        Route::get('/persuratan/{id}/reject', [DocumentRequestController::class, 'reject'])->name('persuratan.reject');
 
         Route::resource('data-penduduk/keluarga', FamilyCardController::class)
             ->names([
